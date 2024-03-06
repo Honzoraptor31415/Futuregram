@@ -1,0 +1,32 @@
+:root {
+  --mainBG: rgb(20 20 20);
+  --secB: rgb(40 40 40);
+  --accent: 0, 255, 190;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: white;
+}
+
+header {
+  min-height: 100svh;
+}
+
+body {
+  background: var(--mainBG);
+}
+
+a {
+  text-decoration: none;
+  color: rgba(var(--accent) 0.7);
+  font-size: inherit;
+  transition: .3s;
+}
+
+a:hover {
+  color: rgb(var(--accent));
+}

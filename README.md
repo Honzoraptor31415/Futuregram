@@ -1,38 +1,16 @@
-# create-svelte
+# Futuregram
+<br/>
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+A Social media webapp similar to Instagram. Made because I kinda enjoy making full-stack webapps 👍.
+Btw, the last time I tried to make something more complicated with SvelteKit and a BaaS, it didn't end up well (with that I don't mean the URL Shortener, but CodeConnect).
 
-## Creating a project
+But I think, that it was because I was a beginner and I used <span color="#FFCB2E">Firebase</span>. And I didn't even use it the right way - the file structure was basicly ~~f*cked~~ **screwed** and I constantly had problems with user auth.
 
-If you're seeing this, you've probably already done this step. Congrats!
+__However__ I think, that this one will turn out to be good.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+And also, I'm making all of my projects myself, with no tutorials whatsoever, because watching someone code for 5 hours **isn't the right way** to learn programming.
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Technologies/languages this project uses:
+<br/>
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+[![Technologies used](https://skillicons.dev/icons?i=svelte,typescript,supabase)](/)
