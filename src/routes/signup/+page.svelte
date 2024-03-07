@@ -5,6 +5,7 @@
   let username = "";
   let displayedName = "";
   const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz";
+  const disallowedUsernames = ["feed", "login", "signup", "chat", "about"];
   function signUp() {
     console.log(
       `Sign up function\nEmail: ${email}\nPassword: ${password}\nUsername: ${username}\nDisplayed username: ${displayedName}`,
@@ -67,7 +68,7 @@
     <p class="less">
       Already have an account? <a href="/login">Login</a>.
     </p>
-    <button type="submit" class="user-input primary-button"
+    <button type="submit" class="user-input button-element primary-button"
       >Create account!</button
     >
   </form>

@@ -29,14 +29,14 @@
         >Continue with<img
           src="google-icon.svg"
           alt="Google icon"
-          class="other-login-icon"
+          class="other-login-icon no-select"
         /></button
       >
       <button type="button" on:click={githubSignIn} class="other-login"
         >Continue with<img
           src="github-icon.svg"
           alt="Github icon"
-          class="other-login-icon"
+          class="other-login-icon no-select"
         /></button
       >
     </div>
@@ -70,6 +70,8 @@
     <p class="less">
       Don't have an account yet? <a href="/signup">Sign up</a> for one.
     </p>
-    <button type="submit" class="user-input primary-button">Login</button>
+    <button type="submit" class="user-input button-element primary-button"
+      >Login</button
+    >
   </form>
 </header>
