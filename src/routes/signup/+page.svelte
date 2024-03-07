@@ -4,12 +4,17 @@
   let password = "";
   let username = "";
   let displayedName = "";
+  const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz";
   function signUp() {
     console.log(
       `Sign up function\nEmail: ${email}\nPassword: ${password}\nUsername: ${username}\nDisplayed username: ${displayedName}`,
     );
   }
 </script>
+
+<svelte:head>
+  <title>Sign up for an account</title>
+</svelte:head>
 
 <header class="flex-center-all">
   <form class="sec-bg-element form" on:submit={signUp}>
@@ -37,6 +42,7 @@
       />
     </div>
     <div class="form-element">
+      <!-- .form-error = error class -->
       <label for="email">Email</label>
       <input
         required
@@ -59,7 +65,7 @@
       />
     </div>
     <p class="less">
-      Already have an account? <a href="/login">login</a>.
+      Already have an account? <a href="/login">Login</a>.
     </p>
     <button type="submit" class="user-input primary-button"
       >Create account!</button

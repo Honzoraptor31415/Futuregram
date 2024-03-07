@@ -17,30 +17,22 @@
   }
 </script>
 
+<svelte:head>
+  <title>Login</title>
+</svelte:head>
+
 <header class="flex-center-all">
   <form class="sec-bg-element form" on:submit={emailPassworLogin}>
     <h2>Welcome back!</h2>
     <div class="other-login-wrp">
-      <button
-        type="button"
-        on:click={(e) => {
-          e.preventDefault();
-          googleSignIn();
-        }}
-        class="other-login"
+      <button type="button" on:click={googleSignIn} class="other-login"
         >Continue with<img
           src="google-icon.svg"
           alt="Google icon"
           class="other-login-icon"
         /></button
       >
-      <button
-        type="button"
-        on:click={(e) => {
-          e.preventDefault();
-          githubSignIn();
-        }}
-        class="other-login"
+      <button type="button" on:click={githubSignIn} class="other-login"
         >Continue with<img
           src="github-icon.svg"
           alt="Github icon"

@@ -43,6 +43,11 @@ a:hover {
   background: var(--secBG);
   border-radius: 27px;
   padding: 27px;
+  box-shadow: 0 5px 12px 3px rgba(0, 0, 0, 0.318);
+}
+
+.form h2 {
+  text-align: center;
 }
 
 .form {
@@ -50,7 +55,26 @@ a:hover {
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  width: 366px;
+}
+
+@media (min-width:431px) {
+  .form {
+    width: 366px;
+  }
+
+  .other-login {
+    font-size: .9rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .form {
+    width: 95%;
+  }
+
+  .other-login {
+    font-size: .8rem;
+  }
 }
 
 .form-element {
@@ -145,7 +169,6 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: .9rem;
   transition: .15s;
   background: transparent;
 }
@@ -175,4 +198,12 @@ button {
 
 .login-or {
   margin-inline: 10px;
+}
+
+.form-error {
+  color: red !important;
+  background: rgba(162, 0, 0, 0.233);
+  max-width: 100% !important;
+  padding: 4px;
+  border-radius: 7px;
 }
