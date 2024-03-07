@@ -17,5 +17,3 @@
   }
   getUser();
 </script>
-
-<h1>Futuregram</h1>

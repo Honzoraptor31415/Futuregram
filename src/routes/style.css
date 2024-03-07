@@ -315,7 +315,7 @@ button {
 }
 
 /* SMALLER - TABLET */
-@media (max-width:970px) {
+@media (max-width:970px) and (min-width:631px) {
   .form {
     width: 366px;
   }
@@ -408,7 +408,7 @@ button {
   .user-page {
     margin-block: 10px;
     width: 95%;
-    padding: 20px;
+    padding: 20px 10px;
   }
 
   .user-posts {
@@ -437,15 +437,14 @@ button {
   }
 
   .user-page-pfp {
-    max-width: 95%;
+    max-width: 40%;
     height: auto;
     border-radius: 50%;
   }
 
   .user-bio {
-    max-width: 95%;
+    width: 100%;
     text-align: center;
-    margin-inline: auto;
   }
 
   .user-text-info {
