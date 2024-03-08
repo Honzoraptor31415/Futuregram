@@ -29,7 +29,7 @@ body {
 }
 
 body:has(nav) {
-  margin-top: 97px;
+  margin-top: 85.5px;
 }
 
 body:has(form) nav,
@@ -265,7 +265,7 @@ button {
 
   .user-page {
     width: 900px;
-    margin-block: 10px;
+    margin-bottom: 10px;
   }
 
   .user-posts {
@@ -278,23 +278,23 @@ button {
   }
 
   .post-prew {
-    width: 240px;
-    height: 240px;
     border-radius: 14px;
     background-size: cover;
+    height: auto;
     transition: .3s;
     cursor: pointer;
   }
 
   .basic-user-info {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    margin-inline: auto;
     gap: 50px;
-    width: 100%;
+    width: 70%;
   }
 
   .user-page-pfp {
-    max-height: 220px;
+    max-height: 120px;
     width: auto;
     border-radius: 50%;
   }
@@ -312,13 +312,13 @@ button {
 
   .displayed-username {
     text-align: left;
-    font-size: 2rem;
+    font-size: 1.2rem;
   }
 
   .user-page-username {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 400;
-    margin-block: 7px;
+    margin-bottom: 7px;
   }
 
   .user-page-top {
@@ -351,6 +351,46 @@ button {
   .signup-full-width {
     width: 100%;
   }
+
+  .user-buttons-desktop {
+    display: flex;
+    gap: 10px;
+  }
+
+  .user-buttons-mobile {
+    display: none;
+  }
+
+  .post-prew-overlay-wrp {
+    transition: .3s;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: inherit;
+  }
+
+  .post-prew-text {
+    position: absolute;
+  }
+
+  .post-prew:hover::before {
+    content: '';
+    border-radius: inherit;
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    animation: post-prew-appear .15s forwards linear;
+  }
+
+  .post-prew:hover .prew-image {
+    filter: blur(2px);
+  }
 }
 
 /* SMALLER - TABLET */
@@ -365,7 +405,7 @@ button {
 
   .user-page {
     width: calc(100% - 60px);
-    margin-block: 10px;
+    margin-bottom: 10px;
   }
 
   .user-posts {
@@ -379,23 +419,23 @@ button {
   }
 
   .post-prew {
-    width: 240px;
-    height: 240px;
     border-radius: 14px;
     background-size: cover;
+    height: auto;
     transition: .3s;
     cursor: pointer;
   }
 
   .basic-user-info {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     gap: 50px;
-    width: 100%;
+    margin-inline: auto;
+    width: 85%;
   }
 
   .user-page-pfp {
-    max-height: 200px;
+    max-height: 100px;
     width: auto;
     border-radius: 50%;
   }
@@ -413,13 +453,13 @@ button {
 
   .displayed-username {
     text-align: left;
-    font-size: 2rem;
+    font-size: 1.2rem;
   }
 
   .user-page-username {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 400;
-    margin-block: 7px;
+    margin-bottom: 7px;
   }
 
   .user-page-top {
@@ -437,10 +477,10 @@ button {
 
   .user-posts-content {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto;
     justify-content: flex-start;
     width: 100%;
-    gap: 30px;
+    gap: 15px;
   }
 
   .signup-form-elements {
@@ -451,6 +491,46 @@ button {
 
   .signup-full-width {
     width: 100%;
+  }
+
+  .user-buttons-desktop {
+    display: flex;
+    gap: 10px;
+  }
+
+  .user-buttons-mobile {
+    display: none;
+  }
+
+  .post-prew-overlay-wrp {
+    transition: .3s;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: inherit;
+  }
+
+  .post-prew-text {
+    position: absolute;
+  }
+
+  .post-prew:hover::before {
+    content: '';
+    border-radius: inherit;
+    display: block;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    animation: post-prew-appear .15s forwards linear;
+  }
+
+  .post-prew:hover .prew-image {
+    filter: blur(1px);
   }
 }
 
@@ -467,7 +547,7 @@ button {
   }
 
   .user-page {
-    margin-block: 10px;
+    margin-bottom: 10px;
     width: 95%;
     padding: 20px;
   }
@@ -481,10 +561,9 @@ button {
   }
 
   .post-prew {
-    width: 100%;
     height: auto;
     aspect-ratio: 1;
-    border-radius: 14px;
+    border-radius: 7px;
     background-size: cover;
     transition: .3s;
     cursor: pointer;
@@ -492,14 +571,14 @@ button {
 
   .basic-user-info {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    flex-direction: column;
-    gap: 10px;
     width: 100%;
+    margin-top: 20px;
   }
 
   .user-page-pfp {
-    max-width: 40%;
+    max-width: 70px;
     height: auto;
     border-radius: 50%;
   }
@@ -512,18 +591,15 @@ button {
   .user-text-info {
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
 
   .displayed-username {
-    text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   }
 
   .user-page-username {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 400;
-    margin-block: 10px 20px;
   }
 
   .user-page-top {
@@ -540,10 +616,11 @@ button {
   }
 
   .user-posts-content {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: flex-start;
     width: 100%;
-    gap: 20px;
+    gap: 7px;
     flex-direction: column;
   }
 
@@ -553,11 +630,36 @@ button {
     flex-direction: column;
     width: 100%;
   }
-}
 
-.user-buttons {
-  display: flex;
-  gap: 10px;
+  .user-buttons-desktop {
+    display: none;
+  }
+
+  .user-buttons-mobile {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .user-buttons-mobile button,
+  .user-buttons-mobile a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .post-prew-overlay-wrp {
+    transition: .3s;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: inherit;
+  }
+
+  .post-prew-text {
+    display: none !important;
+  }
 }
 
 .no-select {
@@ -571,35 +673,30 @@ button {
 }
 
 .post-prew:hover {
-  transform: scale(1.02);
+  transform: scale(1.04);
 }
 
-.post-prew:hover .post-prew-overlay {
-  background-color: rgba(0, 0, 0, 0.517);
+@keyframes post-prew-appear {
+  100% {
+    background: rgba(0, 0, 0, 0.51);
+  }
 }
 
 .post-prew:hover .post-prew-text {
   display: block;
-}
-
-.post-prew-overlay {
-  transition: .3s;
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 14px;
+  opacity: 1;
 }
 
 .post-prew-text {
-  display: none;
   font-weight: 700;
+  z-index: 5;
+  opacity: 0;
+  transition: .15s;
 }
 
 nav {
   background: rgba(var(--mainBG), .8);
+  z-index: 999;
   width: 100%;
   position: fixed;
   padding: 20px 40px;
@@ -617,4 +714,16 @@ nav {
 
 .no-tp {
   padding-top: 0 !important;
+}
+
+.post-prew-overlay-wrp {
+  overflow: hidden;
+}
+
+.prew-image {
+  max-width: 100%;
+  height: auto;
+  transition: .15s;
+  aspect-ratio: 1;
+  border-radius: inherit;
 }

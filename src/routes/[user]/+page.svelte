@@ -15,12 +15,10 @@
       .from("users")
       .select("*")
       .eq("url_username", pageUser);
-    console.log(data, error);
     if (data?.length === 0) {
       pageError = `User ${pageUser} doesn't exist`;
     } else {
       user = data ? data[0] : "";
-      console.log(user);
     }
   }
 
@@ -32,15 +30,10 @@
     <main class="user-page sec-bg-element">
       <div class="user-page-top">
         <div class="basic-user-info">
-          <img
-            src={user.image_url}
-            class="user-page-pfp no-select"
-            alt="Profile pic"
-          />
           <div class="user-text-info">
             <h1 class="displayed-username">{user.displayed_username}</h1>
             <p class="user-page-username less">@{user.url_username}</p>
-            <div class="user-buttons">
+            <div class="user-buttons-desktop">
               <button
                 class="button-element user-page-input primary-button"
                 on:click={follow}>Follow</button
@@ -52,54 +45,60 @@
               >
             </div>
           </div>
+          <img
+            src={user.image_url}
+            class="user-page-pfp no-select"
+            alt="Profile pic"
+          />
         </div>
         <p class="user-bio">
           {user.bio}
         </p>
+        <div class="user-buttons-mobile">
+          <button
+            class="button-element user-page-input primary-button"
+            on:click={follow}>Follow</button
+          >
+          <a
+            href="/chat?id=blabla12342069"
+            class="button-element user-page-input secondary-button button-link"
+            >Message</a
+          >
+        </div>
       </div>
       <div class="user-posts-wrp">
         <!-- photos? nah man, these could also be like memes and stuff, so ima keep them posts -->
         <h2>Posts:</h2>
         <div class="user-posts">
           <div class="user-posts-content">
-            <a
-              href="/posts/blablarandompostid123"
-              class="post-prew"
-              style="background-image: url(example-image.jpg);"
-              ><div class="post-prew-overlay">
+            <a href="/posts/blablarandompostid123" class="post-prew">
+              <div class="post-prew-overlay-wrp">
+                <img src="example-image.jpg" alt="" class="prew-image" />
                 <p class="post-prew-text">View 👉</p>
               </div>
             </a>
-            <a
-              href="/posts/blablarandompostid123"
-              class="post-prew"
-              style="background-image: url(example-image2.jpg);"
-              ><div class="post-prew-overlay">
+            <a href="/posts/blablarandompostid123" class="post-prew">
+              <div class="post-prew-overlay-wrp">
+                <img src="example-image2.jpg" alt="" class="prew-image" />
                 <p class="post-prew-text">View 👉</p>
               </div>
             </a>
-            <a
-              href="/posts/blablarandompostid123"
-              class="post-prew"
-              style="background-image: url(example-image3.jpg);"
-              ><div class="post-prew-overlay">
+            <a href="/posts/blablarandompostid123" class="post-prew">
+              <div class="post-prew-overlay-wrp">
+                <img src="example-image3.jpg" alt="" class="prew-image" />
                 <p class="post-prew-text">View 👉</p>
               </div>
             </a>
 
-            <a
-              href="/posts/blablarandompostid123"
-              class="post-prew"
-              style="background-image: url(example-image4.jpg);"
-              ><div class="post-prew-overlay">
+            <a href="/posts/blablarandompostid123" class="post-prew">
+              <div class="post-prew-overlay-wrp">
+                <img src="example-image4.jpg" alt="" class="prew-image" />
                 <p class="post-prew-text">View 👉</p>
               </div>
             </a>
-            <a
-              href="/posts/blablarandompostid123"
-              class="post-prew"
-              style="background-image: url(example-image3.jpg);"
-              ><div class="post-prew-overlay">
+            <a href="/posts/blablarandompostid123" class="post-prew">
+              <div class="post-prew-overlay-wrp">
+                <img src="example-image2.jpg" alt="" class="prew-image" />
                 <p class="post-prew-text">View 👉</p>
               </div>
             </a>
