@@ -109,6 +109,6 @@
   </div>
 {:else if pageError}
   <header class="flex-center-all">
-    <h1>{pageError}</h1>
+    <h1 class="user-doesnt-exist-bro">{pageError}</h1>
   </header>
 {/if}

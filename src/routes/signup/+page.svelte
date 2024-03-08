@@ -200,7 +200,7 @@
         bind:value={bio}
         id="user-bio"
         placeholder="Your bio"
-        class="form-bio user-input user-input-text"
+        class="user-input user-input-text"
       ></textarea>
     </div>
     <p class="less">

@@ -5,7 +5,6 @@
 
   async function signOut() {
     const { error } = await supabase.auth.signOut();
-    console.log(error);
     if (browser) {
       window.location.href = "/login";
     }
@@ -20,7 +19,6 @@
     if (user !== null) {
       currentUser = user.user_metadata.name;
     }
-    console.log(user, error);
   }
   getUser();
 </script>
@@ -30,6 +28,13 @@
     <p class="user-nav-indicator">Logged in as {currentUser}</p>
     <button class="user-input button-element primary-button" on:click={signOut}
       >Sign out</button
+    >
+  </nav>
+{:else}
+  <nav>
+    <p class="user-nav-indicator">Not logged in</p>
+    <a href="login" class="button-link user-input button-element primary-button"
+      >Login</a
     >
   </nav>
 {/if}

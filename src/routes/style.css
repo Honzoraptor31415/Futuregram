@@ -32,6 +32,16 @@ body:has(nav) {
   margin-top: 85px;
 }
 
+body:has(form) nav,
+body:has(.user-doesnt-exist-bro) nav {
+  display: none;
+}
+
+body:has(form),
+body:has(.user-doesnt-exist-bro) {
+  margin-top: 0;
+}
+
 p {
   line-height: 1.4;
 }
@@ -341,10 +351,6 @@ button {
   .signup-full-width {
     width: 100%;
   }
-
-  .form-bio {
-    width: 100%;
-  }
 }
 
 /* SMALLER - TABLET */
@@ -436,13 +442,24 @@ button {
     width: 100%;
     gap: 30px;
   }
+
+  .signup-form-elements {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: auto auto;
+  }
+
+  .signup-full-width {
+    width: 100%;
+  }
 }
 
 /* SMALLEST - MOBILE */
 
 @media (max-width:630px) {
   .form {
-    width: 95%;
+    width: calc(100% - 12px);
+    margin-block: 6px;
   }
 
   .other-login {
@@ -529,6 +546,13 @@ button {
     gap: 20px;
     flex-direction: column;
   }
+
+  .signup-form-elements {
+    display: flex;
+    gap: 16px;
+    flex-direction: column;
+    width: 100%;
+  }
 }
 
 .user-buttons {
@@ -578,9 +602,12 @@ nav {
   background: rgba(var(--mainBG), .7);
   width: 100%;
   position: fixed;
-  padding: 20px;
-  top: 0;
-  left: 0;
+  padding: 20px 40px;
+  top: 10px;
+  border-radius: 1000vw;
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   justify-content: space-between;
   backdrop-filter: blur(8px);

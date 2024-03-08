@@ -3,6 +3,7 @@
   import { browser } from "$app/environment";
   let email = "";
   let password = "";
+  browser && console.log(location.search);
   function emailPassworLogin() {
     console.log(
       `Email/password login function\nEmail: ${email}\nPassword: ${password}`,
