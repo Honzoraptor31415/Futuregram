@@ -599,18 +599,15 @@ button {
 }
 
 nav {
-  background: rgba(var(--mainBG), .7);
+  background: rgba(var(--mainBG), .8);
   width: 100%;
   position: fixed;
   padding: 20px 40px;
-  top: 10px;
-  border-radius: 1000vw;
-  width: 80%;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0;
+  left: 0;
   display: flex;
   justify-content: space-between;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(12px);
   align-items: center;
 }
 

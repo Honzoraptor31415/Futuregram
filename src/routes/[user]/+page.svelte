@@ -58,7 +58,8 @@
         </p>
       </div>
       <div class="user-posts-wrp">
-        <h2>Photos:</h2>
+        <!-- photos? nah man, these could also be like memes and stuff, so ima keep them posts -->
+        <h2>Posts:</h2>
         <div class="user-posts">
           <div class="user-posts-content">
             <a
@@ -72,7 +73,7 @@
             <a
               href="/posts/blablarandompostid123"
               class="post-prew"
-              style="background-image: url(example-image.jpg);"
+              style="background-image: url(example-image2.jpg);"
               ><div class="post-prew-overlay">
                 <p class="post-prew-text">View 👉</p>
               </div>
@@ -80,7 +81,7 @@
             <a
               href="/posts/blablarandompostid123"
               class="post-prew"
-              style="background-image: url(example-image.jpg);"
+              style="background-image: url(example-image3.jpg);"
               ><div class="post-prew-overlay">
                 <p class="post-prew-text">View 👉</p>
               </div>
@@ -89,7 +90,7 @@
             <a
               href="/posts/blablarandompostid123"
               class="post-prew"
-              style="background-image: url(example-image.jpg);"
+              style="background-image: url(example-image4.jpg);"
               ><div class="post-prew-overlay">
                 <p class="post-prew-text">View 👉</p>
               </div>
@@ -97,7 +98,7 @@
             <a
               href="/posts/blablarandompostid123"
               class="post-prew"
-              style="background-image: url(example-image.jpg);"
+              style="background-image: url(example-image3.jpg);"
               ><div class="post-prew-overlay">
                 <p class="post-prew-text">View 👉</p>
               </div>
