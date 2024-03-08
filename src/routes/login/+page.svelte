@@ -3,7 +3,6 @@
   import { browser } from "$app/environment";
   let email = "";
   let password = "";
-  browser && console.log(location.search);
   function emailPassworLogin() {
     console.log(
       `Email/password login function\nEmail: ${email}\nPassword: ${password}`,
@@ -42,7 +41,7 @@
 
 <header class="flex-center-all">
   <form
-    class="sec-bg-element form-width-set form"
+    class="sec-bg-element form-width-set form login-form"
     on:submit={emailPassworLogin}
   >
     <h2>Welcome back!</h2>
@@ -68,7 +67,7 @@
       <div class="line"></div>
     </div>
     <div class="form-element">
-      <label for="email">Email</label>
+      <label for="email" class="no-tp">Email</label>
       <input
         required
         type="email"

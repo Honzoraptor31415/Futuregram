@@ -134,9 +134,16 @@
         /></button
       >
     </div>
+    <div class="login-line-wrp">
+      <div class="line"></div>
+      <p class="less login-or">or</p>
+      <div class="line"></div>
+    </div>
     <div class="signup-form-elements">
       <div class="form-element">
-        <label for="username" class={usernameLabel !== "" ? "form-error" : ""}
+        <label
+          for="username"
+          class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
           >{usernameLabel === "" ? "Username" : usernameLabel}</label
         >
         <input
@@ -151,7 +158,7 @@
       <div class="form-element">
         <label
           for="displayed-name"
-          class={displayedNameLabel !== "" ? "form-error" : ""}
+          class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
           >{displayedNameLabel === ""
             ? "Displayed username"
             : displayedNameLabel}</label
