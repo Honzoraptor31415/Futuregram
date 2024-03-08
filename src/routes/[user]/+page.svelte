@@ -61,8 +61,8 @@
       </div>
       <div class="user-posts-wrp">
         <h2>Photos:</h2>
-        <div class="user-posts-center">
-          <div class="user-posts">
+        <div class="user-posts">
+          <div class="user-posts-content">
             <a
               href="/posts/blablarandompostid123"
               class="post-prew"
@@ -87,6 +87,7 @@
                 <p class="post-prew-text">View 👉</p>
               </div>
             </a>
+
             <a
               href="/posts/blablarandompostid123"
               class="post-prew"

@@ -251,8 +251,10 @@ button {
 
   .user-posts {
     display: flex;
+    justify-content: center;
+    margin: 30px auto auto auto;
     flex-wrap: wrap;
-    width: 760px;
+    max-width: fit-content;
     gap: 20px;
   }
 
@@ -312,6 +314,14 @@ button {
   .user-posts-wrp {
     margin-top: 27px;
   }
+
+  .user-posts-content {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 30px;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -332,7 +342,9 @@ button {
   .user-posts {
     display: flex;
     flex-wrap: wrap;
-    width: 500px;
+    justify-content: center;
+    max-width: fit-content;
+    margin-inline: auto;
     gap: 20px;
   }
 
@@ -392,6 +404,14 @@ button {
   .user-posts-wrp {
     margin-top: 27px;
   }
+
+  .user-posts-content {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 30px;
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -408,13 +428,14 @@ button {
   .user-page {
     margin-block: 10px;
     width: 95%;
-    padding: 20px 10px;
+    padding: 20px;
   }
 
   .user-posts {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
+    margin-top: 30px;
     gap: 20px;
   }
 
@@ -476,6 +497,14 @@ button {
   .user-posts-wrp {
     margin-top: 20px;
   }
+
+  .user-posts-content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+    flex-direction: column;
+  }
 }
 
 .user-buttons {
@@ -521,9 +550,10 @@ button {
   font-weight: 700;
 }
 
+/* 
 .user-posts-center {
   display: flex;
   justify-content: center;
   margin-top: 20px;
   margin-inline: auto;
-}
+} */
