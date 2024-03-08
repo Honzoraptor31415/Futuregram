@@ -16,7 +16,7 @@
     user
       ? console.log(`Logged in\n${user}`)
       : console.log("You're not logged in");
-    user ? currentUser.set(user) : currentUser.set("no user");
+    user ? currentUser.set(user) : currentUser.set("");
   }
   getUser();
   setContext("currentUser", currentUser);
