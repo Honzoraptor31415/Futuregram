@@ -1,12 +1,10 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
-  import { getContext } from "svelte";
   export let data;
 
   let pageUser = data.user;
   let user: any;
   let pageError = "";
-  const currentUser: any = getContext("currentUser");
 
   function follow() {
     console.log("Follow function");

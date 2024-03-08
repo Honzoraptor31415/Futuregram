@@ -1,5 +1,6 @@
 <script>
   import { supabase } from "$lib/supabaseClient";
+  import { browser } from "$app/environment";
   let email = "";
   let password = "";
   function emailPassworLogin() {
@@ -8,13 +9,30 @@
     );
   }
 
-  function googleSignIn() {
-    console.log("Google sign in");
+  async function googleSignIn() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    console.log(data, error);
   }
 
-  function githubSignIn() {
-    console.log("Github sign in");
+  async function githubSignIn() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "github",
+    });
+    console.log(data, error);
   }
+
+  async function getUser() {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
+    if (user && browser) {
+      location.href = "/feed";
+    }
+  }
+  getUser();
 </script>
 
 <svelte:head>
@@ -22,7 +40,10 @@
 </svelte:head>
 
 <header class="flex-center-all">
-  <form class="sec-bg-element form" on:submit={emailPassworLogin}>
+  <form
+    class="sec-bg-element form-width-set form"
+    on:submit={emailPassworLogin}
+  >
     <h2>Welcome back!</h2>
     <div class="other-login-wrp">
       <button type="button" on:click={googleSignIn} class="other-login"
@@ -52,7 +73,7 @@
         type="email"
         id="email"
         bind:value={email}
-        class="user-input"
+        class="user-input user-input-text"
         placeholder="E-mail"
       />
     </div>
@@ -63,7 +84,7 @@
         type="password"
         id="password"
         bind:value={password}
-        class="user-input"
+        class="user-input user-input-text"
         placeholder="Password"
       />
     </div>
