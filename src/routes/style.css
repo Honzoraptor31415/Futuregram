@@ -219,14 +219,6 @@ button {
   margin-inline: 10px;
 }
 
-.form-error {
-  color: red !important;
-  background: rgba(162, 0, 0, 0.233);
-  max-width: 100% !important;
-  padding: 4px !important;
-  border-radius: 7px;
-}
-
 .error-wrp {
   text-align: center;
 }
@@ -451,7 +443,7 @@ button {
   }
 
   .nav-button:hover {
-    background: rgba(255, 255, 255, 0.127);
+    background: rgba(255, 255, 255, 0.04);
   }
 
   .nav-button:hover path {
@@ -677,7 +669,7 @@ button {
   }
 
   .nav-button:hover {
-    background: rgba(255, 255, 255, 0.127);
+    background: rgba(255, 255, 255, 0.04);
   }
 
   .nav-button:hover path {
@@ -940,4 +932,18 @@ nav {
 .button-element:active,
 .button-link:active {
   transform: scale(.9);
+}
+
+.form-error {
+  color: red !important;
+  background: rgba(162, 0, 0, 0.233);
+  max-width: 100% !important;
+  padding: 4px;
+  border-radius: 7px;
+}
+
+.form-error-input,
+.form-error-input:hover,
+.form-error-input:focus {
+  border-color: red;
 }

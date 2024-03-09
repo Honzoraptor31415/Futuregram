@@ -95,17 +95,6 @@
     }
   }
 
-  async function checkUserInDB() {
-    const { data, error } = await supabase
-      .from("users")
-      .select()
-      .eq("url_username", username);
-    console.log(data, error);
-    if (data) {
-      return data.length > 0;
-    }
-  }
-
   async function signUp() {
     username = username.trim();
     displayedName = displayedName.trim();
@@ -239,7 +228,7 @@
           type="text"
           id="username"
           bind:value={username}
-          class="user-input user-input-text"
+          class={`user-input user-input-text ${usernameLabel !== "" ? "form-error-input" : ""}`}
           placeholder="Username"
         />
       </div>
@@ -255,7 +244,7 @@
           type="text"
           id="displayed-name"
           bind:value={displayedName}
-          class="user-input user-input-text"
+          class={`user-input user-input-text ${displayedNameLabel !== "" ? "form-error-input" : ""}`}
           placeholder="Displayed name"
         />
       </div>
@@ -267,7 +256,7 @@
           type="text"
           id="email"
           bind:value={email}
-          class="user-input user-input-text"
+          class={`user-input user-input-text ${emailLabel !== "" ? "form-error-input" : ""}`}
           placeholder="Email"
         />
       </div>
@@ -279,7 +268,7 @@
           type="password"
           id="password"
           bind:value={password}
-          class="user-input user-input-text"
+          class={`user-input user-input-text ${passwordLabel !== "" ? "form-error-input" : ""}`}
           placeholder="Password"
         />
       </div>
@@ -292,7 +281,7 @@
         bind:value={bio}
         id="user-bio"
         placeholder="Your bio"
-        class="user-input user-input-text"
+        class={`user-input user-input-text ${bioLabel !== "" ? "form-error-input" : ""}`}
       ></textarea>
     </div>
     <p class="less">

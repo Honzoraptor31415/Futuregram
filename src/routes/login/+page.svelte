@@ -1,12 +1,65 @@
-<script>
+<script lang="ts">
   import { supabase } from "$lib/supabaseClient";
   import { browser } from "$app/environment";
   let email = "";
   let password = "";
-  function emailPassworLogin() {
-    console.log(
-      `Email/password login function\nEmail: ${email}\nPassword: ${password}`,
-    );
+  let emailLabel = "";
+  let passwordLabel = "";
+
+  function emailCheck(e: string) {
+    if (e.length < 1) {
+      emailLabel = "Email can't be empty";
+      passwordLabel = "";
+      return false;
+    } else if (
+      !e.match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      ) ||
+      e.length > 255
+    ) {
+      emailLabel = "Invalid email";
+      passwordLabel = "";
+      return false;
+    } else {
+      emailLabel = "";
+      passwordLabel = "";
+      return true;
+    }
+  }
+
+  function passwordCheck(p: string) {
+    if (p.length < 1) {
+      passwordLabel = "Password can't be empty";
+      emailLabel = "";
+      return false;
+    } else if (p.length < 6) {
+      passwordLabel = "Password is too short";
+      emailLabel = "";
+      return false;
+    } else {
+      passwordLabel = "";
+      emailLabel = "";
+      return true;
+    }
+  }
+
+  async function emailPassworLogin() {
+    email = email.trim().toLowerCase();
+    if (emailCheck(email) && passwordCheck(password)) {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+      switch (error?.status) {
+        case 400:
+          emailLabel = "Cridentials don't match";
+          passwordLabel = "";
+          break;
+
+        default:
+          break;
+      }
+    }
   }
 
   async function googleSignIn() {
@@ -67,24 +120,28 @@
       <div class="line"></div>
     </div>
     <div class="form-element">
-      <label for="email" class="no-tp">Email</label>
+      <label
+        for="email"
+        class={`no-tp ${emailLabel !== "" ? "form-error" : ""}`}
+        >{emailLabel === "" ? "Email" : emailLabel}</label
+      >
       <input
-        required
-        type="email"
+        type="text"
         id="email"
         bind:value={email}
-        class="user-input user-input-text"
+        class={`user-input user-input-text ${emailLabel !== "" ? "form-error-input" : ""}`}
         placeholder="E-mail"
       />
     </div>
     <div class="form-element">
-      <label for="password">Password</label>
+      <label for="password" class={passwordLabel !== "" ? "form-error" : ""}
+        >{passwordLabel === "" ? "Password" : passwordLabel}</label
+      >
       <input
-        required
         type="password"
         id="password"
         bind:value={password}
-        class="user-input user-input-text"
+        class={`user-input user-input-text ${passwordLabel !== "" ? "form-error-input" : ""}`}
         placeholder="Password"
       />
     </div>

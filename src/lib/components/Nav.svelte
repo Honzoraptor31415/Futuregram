@@ -72,7 +72,7 @@
 {:else}
   <!-- DESKTOP -->
   <nav class="desktop-nav">
-    <p class="user-nav-indicator">Not logged in</p>
+    <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>
     <div class="nav-btns">
       <a href="/" class="button-link nav-button">
         <HomeIcon iconClass="icon mobile-menu-icon" /></a
