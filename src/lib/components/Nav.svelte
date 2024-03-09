@@ -5,7 +5,10 @@
   import SearchIcon from "$lib/components/icons/SearchIcon.svelte";
   import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   import MenuIcon from "$lib/components/icons/MenuIcon.svelte";
+  let menuVisible = false;
   let currentUser: string;
+  // needs to be dynamic, just a placeholder rn
+  let urlUsername = "honzoraptor";
 
   async function signOut() {
     const { error } = await supabase.auth.signOut();
@@ -18,7 +21,6 @@
   async function getUser() {
     const {
       data: { user },
-      error,
     } = await supabase.auth.getUser();
     if (user !== null) {
       currentUser = user.user_metadata.name;
@@ -30,8 +32,15 @@
     console.log("Search function");
   }
 
+  browser &&
+    document.addEventListener("click", () => {
+      menuVisible = false;
+      console.log(menuVisible);
+    });
+
   function menu() {
-    console.log("Menu function");
+    menuVisible = !menuVisible;
+    console.log(menuVisible);
   }
 </script>
 
@@ -50,9 +59,24 @@
         <MessageIcon iconClass="icon mobile-menu-icon" /></a
       >
     </div>
-    <button on:click={menu} class="button-link nav-button no-bg-nav-btn">
-      <MenuIcon iconClass="icon mobile-menu-icon" /></button
-    >
+    <div class="menu-button-wrp">
+      <button
+        on:click={(e) => {
+          e.stopPropagation();
+          menu();
+        }}
+        class="button-link nav-button no-bg-nav-btn nav-will-stay"
+      >
+        <MenuIcon iconClass="icon mobile-menu-icon nav-will-stay" /></button
+      >
+      <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
+        <a href="/about" class="menu-link">About Futuregram</a>
+        <a href={`${urlUsername ? urlUsername : ""}`} class="menu-link"
+          >My profile</a
+        >
+        <button class="menu-link" on:click={signOut}>Sign out</button>
+      </div>
+    </div>
   </nav>
   <!-- MOBILE -->
   <nav class="mobile-nav">
@@ -65,9 +89,20 @@
     <a href="/chat" class="button-link nav-button">
       <MessageIcon iconClass="icon mobile-menu-icon" /></a
     >
-    <button on:click={menu} class="button-link nav-button">
-      <MenuIcon iconClass="icon mobile-menu-icon" /></button
-    >
+    <div class="menu-button-wrp">
+      <button
+        on:click={(e) => {
+          e.stopPropagation();
+          menu();
+        }}
+        class="button-link nav-button no-bg-nav-btn nav-will-stay"
+      >
+        <MenuIcon iconClass="icon mobile-menu-icon nav-will-stay" /></button
+      >
+      <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
+        <a href="/about" class="menu-link">About Futuregram</a>
+      </div>
+    </div>
   </nav>
 {:else}
   <!-- DESKTOP -->
@@ -81,9 +116,20 @@
         <SearchIcon iconClass="icon mobile-menu-icon" /></button
       >
     </div>
-    <button on:click={menu} class="button-link nav-button no-bg-nav-btn">
-      <MenuIcon iconClass="icon mobile-menu-icon" /></button
-    >
+    <div class="menu-button-wrp">
+      <button
+        on:click={(e) => {
+          e.stopPropagation();
+          menu();
+        }}
+        class="button-link nav-button no-bg-nav-btn nav-will-stay"
+      >
+        <MenuIcon iconClass="icon mobile-menu-icon nav-will-stay" /></button
+      >
+      <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
+        <a href="/about" class="menu-link">About Futuregram</a>
+      </div>
+    </div>
   </nav>
 
   <!-- MOBILE -->
@@ -94,8 +140,19 @@
     <button on:click={search} class="button-link nav-button">
       <SearchIcon iconClass="icon mobile-menu-icon" /></button
     >
-    <button on:click={menu} class="button-link nav-button">
-      <MenuIcon iconClass="icon mobile-menu-icon" /></button
-    >
+    <div class="menu-button-wrp">
+      <button
+        on:click={(e) => {
+          e.stopPropagation();
+          menu();
+        }}
+        class="button-link nav-button no-bg-nav-btn nav-will-stay"
+      >
+        <MenuIcon iconClass="icon mobile-menu-icon nav-will-stay" /></button
+      >
+      <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
+        <a href="/about" class="menu-link">About Futuregram</a>
+      </div>
+    </div>
   </nav>
 {/if}

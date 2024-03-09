@@ -1,8 +1,11 @@
-<script>
+<script lang="ts">
   import { browser } from "$app/environment";
   import { supabase } from "$lib/supabaseClient";
   export let data;
-  console.log(data.posts);
+
+  let currentUser;
+
+  console.log(data);
 
   async function getUser() {
     const {
@@ -10,10 +13,11 @@
     } = await supabase.auth.getUser();
     console.log(user);
     if (user && browser) {
-      location.href = "/feed";
+      // location.href = "/feed";
     } else if (browser) {
-      location.href = "/signup";
+      // location.href = "/signup";
     }
+    console.log(user);
   }
   getUser();
 </script>
