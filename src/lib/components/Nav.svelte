@@ -62,6 +62,9 @@
     <button on:click={search} class="button-link nav-button">
       <SearchIcon iconClass="icon mobile-menu-icon" /></button
     >
+    <a href="/chat" class="button-link nav-button">
+      <MessageIcon iconClass="icon mobile-menu-icon" /></a
+    >
     <button on:click={menu} class="button-link nav-button">
       <MenuIcon iconClass="icon mobile-menu-icon" /></button
     >
@@ -90,9 +93,6 @@
     >
     <button on:click={search} class="button-link nav-button">
       <SearchIcon iconClass="icon mobile-menu-icon" /></button
-    >
-    <a href="/chat" class="button-link nav-button">
-      <MessageIcon iconClass="icon mobile-menu-icon" /></a
     >
     <button on:click={menu} class="button-link nav-button">
       <MenuIcon iconClass="icon mobile-menu-icon" /></button

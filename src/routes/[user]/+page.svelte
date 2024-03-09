@@ -21,8 +21,13 @@
       user = data ? data[0] : "";
     }
   }
-
   getUser();
+
+  async function getAuthUser() {
+    const { data, error } = await supabase.auth.getUser();
+    console.log(data, error);
+  }
+  getAuthUser();
 </script>
 
 <svelte:head>

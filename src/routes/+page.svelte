@@ -12,7 +12,7 @@
     if (user && browser) {
       location.href = "/feed";
     } else if (browser) {
-      location.href = "/login";
+      location.href = "/signup";
     }
   }
   getUser();

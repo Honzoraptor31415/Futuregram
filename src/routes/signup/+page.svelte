@@ -1,6 +1,7 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import { supabase } from "$lib/supabaseClient";
+  export let data;
   let email = "";
   let password = "";
   let username = "";
@@ -12,7 +13,7 @@
   let emailLabel = "";
   let bioLabel = "";
 
-  function usernameCharsCheck(u: string) {
+  function usernameCheck(u: string) {
     const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
     const disallowedUsernames = ["feed", "login", "signup", "chat", "about"];
     const containsOnlyAllowedChars = u
@@ -22,52 +23,140 @@
       u.toLocaleLowerCase(),
     );
 
-    if (containsOnlyAllowedChars && !isDisallowedUsername) {
-      return true;
+    if (u.length < 1) {
+      setLabels("Username can't be empty", "", "", "", "");
     } else if (!containsOnlyAllowedChars || isDisallowedUsername) {
+      setLabels("Invalid username", "", "", "", "");
       return false;
+    } else if (u.length > 30) {
+      setLabels("Username is too long", "", "", "", "");
+      return false;
+    } else if (data.usernames.includes(username)) {
+      setLabels("Username already taken", "", "", "", "");
+    } else if (containsOnlyAllowedChars && !isDisallowedUsername) {
+      setLabels("", "", "", "", "");
+      return true;
     }
   }
 
-  usernameCharsCheck("");
-  async function signUp() {
-    if (!usernameCharsCheck(username)) {
-      setLabels("Invalid username", "", "", "", "");
-      console.log("Invalid username");
-    } else if (username.length > 30) {
-      setLabels("Username too long", "", "", "", "");
-    } else if (displayedName.length > 15) {
-      setLabels("", "Name too long", "", "", "");
-    } else if (!email.split("@")[1].split("").includes(".")) {
+  function displayedNameCheck(u: string) {
+    if (u.length < 1) {
+      setLabels("", "Name can't be empty", "", "", "");
+      return false;
+    } else if (u.length > 30) {
+      setLabels("", "Name is too long", "", "", "");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function emailCheck(e: string) {
+    if (e.length < 1) {
+      setLabels("", "", "Email can't be empty", "", "");
+      return false;
+    } else if (
+      !e.match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      ) ||
+      e.length > 255
+    ) {
       setLabels("", "", "Invalid email", "", "");
-    } else if (password.length < 7) {
-      setLabels("", "", "", "Password is too short", "");
-    } else if (bio.length > 200) {
-      setLabels("", "", "", "", "Bio is too long");
+      return false;
     } else {
       setLabels("", "", "", "", "");
-      createUserAuth();
+      return true;
+    }
+  }
+
+  function passwordCheck(p: string) {
+    if (p.length < 1) {
+      setLabels("", "", "", "Password can't be empty", "");
+      return false;
+    } else if (p.length < 6) {
+      setLabels("", "", "", "Password is too short", "");
+      return false;
+    } else {
+      setLabels("", "", "", "", "");
+      return true;
+    }
+  }
+
+  function bioCheck(b: string) {
+    if (b.length < 1) {
+      setLabels("", "", "", "", "Bio can't be empty");
+      return false;
+    } else if (b.length > 200) {
+      setLabels("", "", "", "", "Bio is too long");
+      return false;
+    } else {
+      setLabels("", "", "", "", "");
+      return true;
+    }
+  }
+
+  async function checkUserInDB() {
+    const { data, error } = await supabase
+      .from("users")
+      .select()
+      .eq("url_username", username);
+    console.log(data, error);
+    if (data) {
+      return data.length > 0;
+    }
+  }
+
+  async function signUp() {
+    username = username.trim();
+    displayedName = displayedName.trim();
+    email = email.trim().toLocaleLowerCase();
+    bio = bio.trim();
+    if (!usernameCheck(username)) {
+      console.log("Invalid username");
+    } else if (!displayedNameCheck(displayedName)) {
+      console.log("Displayed username invalid");
+    } else if (!emailCheck(email)) {
+      console.log("Email invalid");
+    } else if (!passwordCheck(password)) {
+      console.log("Email invalid");
+    } else if (!bioCheck(bio)) {
+      console.log("Invalid bio");
+    } else {
+      setLabels("", "", "", "", "");
       createUserInDB();
     }
   }
 
-  async function createUserAuth() {
+  async function createUserAuth(dbID: any) {
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
+      options: {
+        data: {
+          db_id: dbID,
+        },
+      },
     });
     console.log(error);
     return error;
   }
 
   async function createUserInDB() {
-    const { error } = await supabase.from("users").insert({
-      joined_at: new Date().getTime(),
-      url_username: username,
-      displayed_username: displayedName,
-      bio: bio,
-    });
-    console.log(error);
+    const { data, error } = await supabase
+      .from("users")
+      .insert({
+        joined_at: new Date().getTime(),
+        url_username: username,
+        displayed_username: displayedName,
+        bio: bio,
+      })
+      .select();
+    console.log(data, error);
+    if (data) {
+      createUserAuth(data[0].id);
+    } else {
+      console.log("Something went wrong");
+    }
     return error;
   }
 
@@ -147,7 +236,6 @@
           >{usernameLabel === "" ? "Username" : usernameLabel}</label
         >
         <input
-          required
           type="text"
           id="username"
           bind:value={username}
@@ -164,7 +252,6 @@
             : displayedNameLabel}</label
         >
         <input
-          required
           type="text"
           id="displayed-name"
           bind:value={displayedName}
@@ -177,8 +264,7 @@
           >{emailLabel === "" ? "Email" : emailLabel}</label
         >
         <input
-          required
-          type="email"
+          type="text"
           id="email"
           bind:value={email}
           class="user-input user-input-text"
@@ -190,7 +276,6 @@
           >{passwordLabel === "" ? "Password" : passwordLabel}</label
         >
         <input
-          required
           type="password"
           id="password"
           bind:value={password}
