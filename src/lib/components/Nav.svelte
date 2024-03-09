@@ -1,6 +1,10 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
   import { browser } from "$app/environment";
+  import HomeIcon from "$lib/components/icons/HomeIcon.svelte";
+  import SearchIcon from "$lib/components/icons/SearchIcon.svelte";
+  import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
+  import MenuIcon from "$lib/components/icons/MenuIcon.svelte";
   let currentUser: string;
 
   async function signOut() {
@@ -21,20 +25,77 @@
     }
   }
   getUser();
+
+  function search() {
+    console.log("Search function");
+  }
+
+  function menu() {
+    console.log("Menu function");
+  }
 </script>
 
 {#if currentUser}
-  <nav>
-    <p class="user-nav-indicator">Logged in as {currentUser}</p>
-    <button class="user-input button-element primary-button" on:click={signOut}
-      >Sign out</button
+  <!-- DESKTOP -->
+  <nav class="desktop-nav">
+    <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>
+    <div class="nav-btns">
+      <a href="/" class="button-link nav-button">
+        <HomeIcon iconClass="icon mobile-menu-icon" /></a
+      >
+      <button on:click={search} class="button-link nav-button">
+        <SearchIcon iconClass="icon mobile-menu-icon" /></button
+      >
+      <a href="/chat" class="button-link nav-button">
+        <MessageIcon iconClass="icon mobile-menu-icon" /></a
+      >
+    </div>
+    <button on:click={menu} class="button-link nav-button no-bg-nav-btn">
+      <MenuIcon iconClass="icon mobile-menu-icon" /></button
+    >
+  </nav>
+  <!-- MOBILE -->
+  <nav class="mobile-nav">
+    <a href="/" class="button-link nav-button">
+      <HomeIcon iconClass="icon mobile-menu-icon" /></a
+    >
+    <button on:click={search} class="button-link nav-button">
+      <SearchIcon iconClass="icon mobile-menu-icon" /></button
+    >
+    <button on:click={menu} class="button-link nav-button">
+      <MenuIcon iconClass="icon mobile-menu-icon" /></button
     >
   </nav>
 {:else}
-  <nav>
+  <!-- DESKTOP -->
+  <nav class="desktop-nav">
     <p class="user-nav-indicator">Not logged in</p>
-    <a href="login" class="button-link user-input button-element primary-button"
-      >Login</a
+    <div class="nav-btns">
+      <a href="/" class="button-link nav-button">
+        <HomeIcon iconClass="icon mobile-menu-icon" /></a
+      >
+      <button on:click={search} class="button-link nav-button">
+        <SearchIcon iconClass="icon mobile-menu-icon" /></button
+      >
+    </div>
+    <button on:click={menu} class="button-link nav-button no-bg-nav-btn">
+      <MenuIcon iconClass="icon mobile-menu-icon" /></button
+    >
+  </nav>
+
+  <!-- MOBILE -->
+  <nav class="mobile-nav">
+    <a href="/" class="button-link nav-button">
+      <HomeIcon iconClass="icon mobile-menu-icon" /></a
+    >
+    <button on:click={search} class="button-link nav-button">
+      <SearchIcon iconClass="icon mobile-menu-icon" /></button
+    >
+    <a href="/chat" class="button-link nav-button">
+      <MessageIcon iconClass="icon mobile-menu-icon" /></a
+    >
+    <button on:click={menu} class="button-link nav-button">
+      <MenuIcon iconClass="icon mobile-menu-icon" /></button
     >
   </nav>
 {/if}

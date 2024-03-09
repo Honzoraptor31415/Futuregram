@@ -25,6 +25,10 @@
   getUser();
 </script>
 
+<svelte:head>
+  <title>Futuregram - {data.user}</title>
+</svelte:head>
+
 {#if user && !pageError}
   <div class="user-page-wrp">
     <main class="user-page sec-bg-element">
