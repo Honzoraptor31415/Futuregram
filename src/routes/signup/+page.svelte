@@ -98,19 +98,15 @@
   async function signUp() {
     username = username.trim();
     displayedName = displayedName.trim();
-    email = email.trim().toLocaleLowerCase();
+    email = email.trim().toLowerCase();
     bio = bio.trim();
-    if (!usernameCheck()) {
-      console.log("Invalid username");
-    } else if (!displayedNameCheck()) {
-      console.log("Displayed username invalid");
-    } else if (!emailCheck()) {
-      console.log("Email invalid");
-    } else if (!passwordCheck()) {
-      console.log("Email invalid");
-    } else if (!bioCheck()) {
-      console.log("Invalid bio");
-    } else {
+    if (
+      usernameCheck() &&
+      displayedNameCheck() &&
+      emailCheck() &&
+      passwordCheck() &&
+      bioCheck()
+    ) {
       setLabels("", "", "", "", "");
       createUserInDB();
     }

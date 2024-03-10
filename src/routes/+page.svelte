@@ -90,26 +90,25 @@
   }
 
   async function finishSignup() {
-    usernameCheck() && displayedNameCheck() && bioCheck()
-      ? async () => {
-          const { data } = await supabase
-            .from("users")
-            .insert({
-              joined_at: new Date().getTime(),
-              url_username: username,
-              displayed_username: displayedName,
-              bio: bio,
-            })
-            .select();
-          if (data) {
-            const {
-              data: { user },
-              error,
-            } = await supabase.auth.updateUser({ data: { db_id: data[0].id } });
-            console.log(error);
-          }
-        }
-      : console.log("Smth went wronk");
+    if (usernameCheck() && displayedNameCheck() && bioCheck()) {
+      const { data } = await supabase
+        .from("users")
+        .insert({
+          joined_at: new Date().getTime(),
+          url_username: username,
+          displayed_username: displayedName,
+          bio: bio,
+        })
+        .select();
+      if (data && browser) {
+        location.href = "/feed";
+        const {
+          data: { user },
+          error,
+        } = await supabase.auth.updateUser({ data: { db_id: data[0].id } });
+        console.log(error);
+      }
+    }
   }
 
   function setLabels(username: string, displayedName: string, bio: string) {
