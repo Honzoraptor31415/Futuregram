@@ -3,21 +3,174 @@
   import { supabase } from "$lib/supabaseClient";
   export let data;
 
-  let currentUser;
+  let userInDB: boolean;
+  let username = "";
+  let displayedName = "";
+  let bio = "";
+  let usernameLabel = "";
+  let displayedNameLabel = "";
+  let bioLabel = "";
+  let currUser: any;
 
-  console.log(data);
+  async function getUserDBID(user: any) {
+    if (user) {
+      browser && !user.user_metadata.db_id
+        ? (userInDB = false)
+        : browser && user.user_metadata.db_id
+          ? (location.href = "/feed")
+          : null;
+    }
+  }
 
-  async function getUser() {
+  async function getAuthUser() {
     const {
       data: { user },
+      error,
     } = await supabase.auth.getUser();
-    console.log(user);
-    if (user && browser) {
-      // location.href = "/feed";
-    } else if (browser) {
-      // location.href = "/signup";
+    console.log(user, error);
+    currUser = user;
+    if (user) {
+      getUserDBID(user);
+    } else {
+      browser ? (location.href = "/login") : null;
     }
-    console.log(user);
   }
-  getUser();
+
+  getAuthUser();
+
+  function usernameCheck() {
+    const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
+    const disallowedUsernames = ["feed", "login", "signup", "chat", "about"];
+    const containsOnlyAllowedChars = username
+      .toLocaleLowerCase()
+      .match(`^[${allowedUsernameChars}]+$`);
+    const isDisallowedUsername = disallowedUsernames.includes(
+      username.toLocaleLowerCase(),
+    );
+
+    if (username.length < 1) {
+      setLabels("Username can't be empty", "", "");
+    } else if (!containsOnlyAllowedChars || isDisallowedUsername) {
+      setLabels("Invalid username", "", "");
+      return false;
+    } else if (username.length > 30) {
+      setLabels("Username is too long", "", "");
+      return false;
+    } else if (data.usernames.includes(username)) {
+      setLabels("Username already taken", "", "");
+    } else if (containsOnlyAllowedChars && !isDisallowedUsername) {
+      setLabels("", "", "");
+      return true;
+    }
+  }
+
+  function displayedNameCheck() {
+    if (displayedName.length < 1) {
+      setLabels("", "Name can't be empty", "");
+      return false;
+    } else if (displayedName.length > 30) {
+      setLabels("", "Name is too long", "");
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function bioCheck() {
+    if (bio.length < 1) {
+      setLabels("", "", "Bio can't be empty");
+      return false;
+    } else if (bio.length > 200) {
+      setLabels("", "", "Bio is too long");
+      return false;
+    } else {
+      setLabels("", "", "");
+      return true;
+    }
+  }
+
+  async function finishSignup() {
+    usernameCheck() && displayedNameCheck() && bioCheck()
+      ? async () => {
+          const { data } = await supabase
+            .from("users")
+            .insert({
+              joined_at: new Date().getTime(),
+              url_username: username,
+              displayed_username: displayedName,
+              bio: bio,
+            })
+            .select();
+          if (data) {
+            const {
+              data: { user },
+              error,
+            } = await supabase.auth.updateUser({ data: { db_id: data[0].id } });
+            console.log(error);
+          }
+        }
+      : console.log("Smth went wronk");
+  }
+
+  function setLabels(username: string, displayedName: string, bio: string) {
+    usernameLabel = username;
+    displayedNameLabel = displayedName;
+    bioLabel = bio;
+  }
 </script>
+
+{#if currUser && !userInDB}
+  <header class="flex-center-all finish-signup">
+    <form class="sec-bg-element form" on:submit={finishSignup}>
+      <h2>Let's finish signing up!</h2>
+      <div class="signup-form-elements">
+        <div class="form-element">
+          <label
+            for="username"
+            class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
+            >{usernameLabel === "" ? "Username" : usernameLabel}</label
+          >
+          <input
+            type="text"
+            id="username"
+            bind:value={username}
+            class={`user-input user-input-text ${usernameLabel !== "" ? "form-error-input" : ""}`}
+            placeholder="Username"
+          />
+        </div>
+        <div class="form-element">
+          <label
+            for="displayed-name"
+            class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
+            >{displayedNameLabel === ""
+              ? "Displayed username"
+              : displayedNameLabel}</label
+          >
+          <input
+            type="text"
+            id="displayed-name"
+            bind:value={displayedName}
+            class={`user-input user-input-text ${displayedNameLabel !== "" ? "form-error-input" : ""}`}
+            placeholder="Displayed name"
+          />
+        </div>
+      </div>
+      <div class="form-element signup-full-width">
+        <label
+          for="user-bio"
+          class={`no-tp ${bioLabel !== "" ? "form-error" : ""}`}
+          >{bioLabel === "" ? "Bio" : bioLabel}</label
+        >
+        <textarea
+          bind:value={bio}
+          id="user-bio"
+          placeholder="Your bio"
+          class={`user-input user-input-text ${bioLabel !== "" ? "form-error-input" : ""}`}
+        ></textarea>
+      </div>
+      <button type="submit" class="user-input button-element primary-button"
+        >Finish!</button
+      >
+    </form>
+  </header>
+{/if}

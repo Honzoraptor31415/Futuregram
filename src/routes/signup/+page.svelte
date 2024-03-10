@@ -13,22 +13,22 @@
   let emailLabel = "";
   let bioLabel = "";
 
-  function usernameCheck(u: string) {
+  function usernameCheck() {
     const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
     const disallowedUsernames = ["feed", "login", "signup", "chat", "about"];
-    const containsOnlyAllowedChars = u
+    const containsOnlyAllowedChars = username
       .toLocaleLowerCase()
       .match(`^[${allowedUsernameChars}]+$`);
     const isDisallowedUsername = disallowedUsernames.includes(
-      u.toLocaleLowerCase(),
+      username.toLocaleLowerCase(),
     );
 
-    if (u.length < 1) {
+    if (username.length < 1) {
       setLabels("Username can't be empty", "", "", "", "");
     } else if (!containsOnlyAllowedChars || isDisallowedUsername) {
       setLabels("Invalid username", "", "", "", "");
       return false;
-    } else if (u.length > 30) {
+    } else if (username.length > 30) {
       setLabels("Username is too long", "", "", "", "");
       return false;
     } else if (data.usernames.includes(username)) {
@@ -39,11 +39,11 @@
     }
   }
 
-  function displayedNameCheck(u: string) {
-    if (u.length < 1) {
+  function displayedNameCheck() {
+    if (displayedName.length < 1) {
       setLabels("", "Name can't be empty", "", "", "");
       return false;
-    } else if (u.length > 30) {
+    } else if (displayedName.length > 30) {
       setLabels("", "Name is too long", "", "", "");
       return false;
     } else {
@@ -51,15 +51,15 @@
     }
   }
 
-  function emailCheck(e: string) {
-    if (e.length < 1) {
+  function emailCheck() {
+    if (email.length < 1) {
       setLabels("", "", "Email can't be empty", "", "");
       return false;
     } else if (
-      !e.match(
+      !email.match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       ) ||
-      e.length > 255
+      email.length > 255
     ) {
       setLabels("", "", "Invalid email", "", "");
       return false;
@@ -69,11 +69,11 @@
     }
   }
 
-  function passwordCheck(p: string) {
-    if (p.length < 1) {
+  function passwordCheck() {
+    if (password.length < 1) {
       setLabels("", "", "", "Password can't be empty", "");
       return false;
-    } else if (p.length < 6) {
+    } else if (password.length < 6) {
       setLabels("", "", "", "Password is too short", "");
       return false;
     } else {
@@ -82,11 +82,11 @@
     }
   }
 
-  function bioCheck(b: string) {
-    if (b.length < 1) {
+  function bioCheck() {
+    if (bio.length < 1) {
       setLabels("", "", "", "", "Bio can't be empty");
       return false;
-    } else if (b.length > 200) {
+    } else if (bio.length > 200) {
       setLabels("", "", "", "", "Bio is too long");
       return false;
     } else {
@@ -100,15 +100,15 @@
     displayedName = displayedName.trim();
     email = email.trim().toLocaleLowerCase();
     bio = bio.trim();
-    if (!usernameCheck(username)) {
+    if (!usernameCheck()) {
       console.log("Invalid username");
-    } else if (!displayedNameCheck(displayedName)) {
+    } else if (!displayedNameCheck()) {
       console.log("Displayed username invalid");
-    } else if (!emailCheck(email)) {
+    } else if (!emailCheck()) {
       console.log("Email invalid");
-    } else if (!passwordCheck(password)) {
+    } else if (!passwordCheck()) {
       console.log("Email invalid");
-    } else if (!bioCheck(bio)) {
+    } else if (!bioCheck()) {
       console.log("Invalid bio");
     } else {
       setLabels("", "", "", "", "");
@@ -123,6 +123,7 @@
       options: {
         data: {
           db_id: dbID,
+          name: displayedName,
         },
       },
     });

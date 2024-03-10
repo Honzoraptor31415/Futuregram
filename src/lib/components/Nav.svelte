@@ -18,11 +18,33 @@
     currentUser = "";
   }
 
+  async function authListener() {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log(event);
+
+      if (event === "SIGNED_IN") {
+        checkUser();
+      } else if (event === "SIGNED_OUT") {
+        currentUser = "";
+      }
+    });
+  }
+
+  async function checkUser() {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
+    currentUser = user?.user_metadata.name;
+  }
+
+  authListener();
+
   async function getUser() {
     const {
       data: { user },
     } = await supabase.auth.getUser();
-    if (user !== null) {
+    if (user) {
       currentUser = user.user_metadata.name;
     }
   }
@@ -35,12 +57,10 @@
   browser &&
     document.addEventListener("click", () => {
       menuVisible = false;
-      console.log(menuVisible);
     });
 
   function menu() {
     menuVisible = !menuVisible;
-    console.log(menuVisible);
   }
 </script>
 
@@ -101,6 +121,7 @@
       >
       <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>
+        <button class="menu-link" on:click={signOut}>Sign out</button>
       </div>
     </div>
   </nav>
@@ -128,6 +149,7 @@
       >
       <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>
+        <a href="/login" class="menu-link">Login</a>
       </div>
     </div>
   </nav>
@@ -152,6 +174,7 @@
       >
       <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>
+        <a href="/login" class="menu-link">Login</a>
       </div>
     </div>
   </nav>

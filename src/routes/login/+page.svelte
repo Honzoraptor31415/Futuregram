@@ -6,16 +6,16 @@
   let emailLabel = "";
   let passwordLabel = "";
 
-  function emailCheck(e: string) {
-    if (e.length < 1) {
+  function emailCheck() {
+    if (email.length < 1) {
       emailLabel = "Email can't be empty";
       passwordLabel = "";
       return false;
     } else if (
-      !e.match(
+      !email.match(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       ) ||
-      e.length > 255
+      email.length > 255
     ) {
       emailLabel = "Invalid email";
       passwordLabel = "";
@@ -27,12 +27,12 @@
     }
   }
 
-  function passwordCheck(p: string) {
-    if (p.length < 1) {
+  function passwordCheck() {
+    if (password.length < 1) {
       passwordLabel = "Password can't be empty";
       emailLabel = "";
       return false;
-    } else if (p.length < 6) {
+    } else if (password.length < 6) {
       passwordLabel = "Password is too short";
       emailLabel = "";
       return false;
@@ -45,15 +45,15 @@
 
   async function emailPassworLogin() {
     email = email.trim().toLowerCase();
-    if (emailCheck(email) && passwordCheck(password)) {
+    if (emailCheck() && passwordCheck()) {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
       });
       switch (error?.status) {
         case 400:
-          emailLabel = "Cridentials don't match";
-          passwordLabel = "";
+          emailLabel = "No match";
+          passwordLabel = "No match";
           break;
 
         default:
