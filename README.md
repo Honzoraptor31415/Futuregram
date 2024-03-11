@@ -28,6 +28,8 @@ Btw I'm using supabase's database, which means it's Postgres.
 | displayed_username | `text` | A username that can ex. contain spaces and special characters |
 | bio | `text` | User's bio |
 | image_url | `int8`| User's profile pic URL |
+| follows | `json`| Array of users who the user follows |
+| followed_by | `json`| Array of users who follow this user |
 
 #### posts table
 
