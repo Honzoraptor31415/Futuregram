@@ -5,7 +5,7 @@
   let pageUser = data.user;
   let user: any;
   let pageError = "";
-  let posts: object[];
+  let posts: any;
 
   function follow() {
     console.log("Follow function");
@@ -35,8 +35,9 @@
       .from("posts")
       .select()
       .eq("user_id", id);
-
-    console.log(data, error);
+    if (data && data.length > 0) {
+      posts = data;
+    }
   }
 </script>
 
@@ -86,17 +87,24 @@
         </div>
       </div>
       <div class="user-posts-wrp">
-        <!-- photos? nah man, these could also be like memes and stuff, so ima keep them posts -->
-        <h2>Posts:</h2>
+        <h2 class="posts-heading">Posts:</h2>
         <div class="user-posts">
-          <div class="user-posts-content">
-            <a href="/posts/blablarandompostid123" class="post-prew">
-              <div class="post-prew-overlay-wrp">
-                <img src="example-image.jpg" alt="" class="prew-image" />
-                <p class="post-prew-text">View 👉</p>
-              </div>
-            </a>
-          </div>
+          {#if posts}
+            <div class="user-posts-content">
+              {#each posts as post}
+                <a href={`/posts/${post.id}`} class="post-prew">
+                  <div class="post-prew-overlay-wrp">
+                    <img src={post.image_url} alt="" class="prew-image" />
+                    <p class="post-prew-text">View 👉</p>
+                  </div>
+                </a>
+              {/each}
+            </div>
+          {:else}
+            <p class="no-posts less">
+              <b class="first-capital">{data.user}</b> didn't post yet.
+            </p>
+          {/if}
         </div>
       </div>
     </main>
