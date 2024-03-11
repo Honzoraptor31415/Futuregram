@@ -432,9 +432,24 @@ button {
     box-sizing: content-box;
     padding: 9px;
     border-radius: 9px;
+    position: relative;
     background: transparent;
     transition: .15s;
     padding: 20px 30px;
+  }
+
+  .nav-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transition: .15s;
+    height: 100%;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0.04);
+    opacity: 0;
+    transform: scale(.6);
+    top: 0;
+    left: 0;
   }
 
   .no-bg-nav-btn {
@@ -447,12 +462,17 @@ button {
     background: transparent !important;
   }
 
+  .no-bg-nav-btn::before {
+    display: none;
+  }
+
   .no-bg-nav-btn:hover path {
     background: rgba(255, 255, 255, 0.9);
   }
 
-  .nav-button:hover {
-    background: rgba(255, 255, 255, 0.04);
+  .nav-button:hover::before {
+    opacity: 1;
+    transform: scale(1);
   }
 
   .nav-button:hover path {
@@ -805,8 +825,23 @@ button {
     padding: 9px;
     border-radius: 9px;
     background: transparent;
+    position: relative;
     transition: .15s;
     padding: 20px 30px;
+  }
+
+  .nav-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transition: .15s;
+    height: 100%;
+    border-radius: inherit;
+    background: rgba(255, 255, 255, 0.04);
+    opacity: 0;
+    transform: scale(.6);
+    top: 0;
+    left: 0;
   }
 
   .no-bg-nav-btn {
@@ -818,12 +853,12 @@ button {
     background: transparent !important;
   }
 
-  .no-bg-nav-btn:hover path {
-    background: rgba(255, 255, 255, 0.9);
+  .no-bg-nav-btn::before {
+    display: none;
   }
 
-  .nav-button:hover {
-    background: rgba(255, 255, 255, 0.04);
+  .no-bg-nav-btn:hover path {
+    background: rgba(255, 255, 255, 0.9);
   }
 
   .nav-button:hover path {
