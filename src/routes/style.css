@@ -532,6 +532,11 @@ button {
       opacity: 1;
     }
   }
+
+  .email-sent {
+    max-width: 400px;
+    text-align: center;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -820,6 +825,11 @@ button {
       opacity: 1;
     }
   }
+
+  .email-sent {
+    max-width: 400px;
+    text-align: center;
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -1058,6 +1068,11 @@ button {
       transform: scale(1);
       opacity: 1;
     }
+  }
+
+  .email-sent {
+    width: calc(100% - 10px);
+    text-align: center;
   }
 }
 

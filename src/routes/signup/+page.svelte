@@ -12,6 +12,7 @@
   let displayedNameLabel = "";
   let emailLabel = "";
   let bioLabel = "";
+  let verifyEmail = false;
 
   function usernameCheck() {
     const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
@@ -109,6 +110,7 @@
     ) {
       setLabels("", "", "", "", "");
       createUserInDB();
+      verifyEmail = true;
     }
   }
 
@@ -191,101 +193,114 @@
 </svelte:head>
 
 <header class="flex-center-all">
-  <form class="sec-bg-element form" on:submit={signUp}>
-    <h2>Create an account 👇</h2>
-    <div class="other-login-wrp">
-      <button type="button" on:click={googleSignIn} class="other-login"
-        >Continue with<img
-          src="google-icon.svg"
-          alt="Google icon"
-          class="other-login-icon no-select"
-        /></button
+  {#if !verifyEmail}
+    <form class="sec-bg-element form" on:submit={signUp}>
+      <h2>Create an account 👇</h2>
+      <div class="other-login-wrp">
+        <button type="button" on:click={googleSignIn} class="other-login"
+          >Continue with<img
+            src="google-icon.svg"
+            alt="Google icon"
+            class="other-login-icon no-select"
+          /></button
+        >
+        <button type="button" on:click={githubSignIn} class="other-login"
+          >Continue with<img
+            src="github-icon.svg"
+            alt="Github icon"
+            class="other-login-icon no-select"
+          /></button
+        >
+      </div>
+      <div class="login-line-wrp">
+        <div class="line"></div>
+        <p class="less login-or">or</p>
+        <div class="line"></div>
+      </div>
+      <div class="signup-form-elements">
+        <div class="form-element">
+          <label
+            for="username"
+            class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
+            >{usernameLabel === "" ? "Username" : usernameLabel}</label
+          >
+          <input
+            type="text"
+            id="username"
+            bind:value={username}
+            class={`user-input user-input-text ${usernameLabel !== "" ? "form-error-input" : ""}`}
+            placeholder="Username"
+          />
+        </div>
+        <div class="form-element">
+          <label
+            for="displayed-name"
+            class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
+            >{displayedNameLabel === ""
+              ? "Displayed username"
+              : displayedNameLabel}</label
+          >
+          <input
+            type="text"
+            id="displayed-name"
+            bind:value={displayedName}
+            class={`user-input user-input-text ${displayedNameLabel !== "" ? "form-error-input" : ""}`}
+            placeholder="Displayed name"
+          />
+        </div>
+        <div class="form-element">
+          <label for="email" class={emailLabel !== "" ? "form-error" : ""}
+            >{emailLabel === "" ? "Email" : emailLabel}</label
+          >
+          <input
+            type="text"
+            id="email"
+            bind:value={email}
+            class={`user-input user-input-text ${emailLabel !== "" ? "form-error-input" : ""}`}
+            placeholder="Email"
+          />
+        </div>
+        <div class="form-element">
+          <label for="password" class={passwordLabel !== "" ? "form-error" : ""}
+            >{passwordLabel === "" ? "Password" : passwordLabel}</label
+          >
+          <input
+            type="password"
+            id="password"
+            bind:value={password}
+            class={`user-input user-input-text ${passwordLabel !== "" ? "form-error-input" : ""}`}
+            placeholder="Password"
+          />
+        </div>
+      </div>
+      <div class="form-element signup-full-width">
+        <label for="user-bio" class={bioLabel !== "" ? "form-error" : ""}
+          >{bioLabel === "" ? "Bio" : bioLabel}</label
+        >
+        <textarea
+          bind:value={bio}
+          id="user-bio"
+          placeholder="Your bio"
+          class={`user-input user-input-text ${bioLabel !== "" ? "form-error-input" : ""}`}
+        ></textarea>
+      </div>
+      <p class="less">
+        Already have an account? <a href="/login">Login</a>.
+      </p>
+      <button type="submit" class="user-input button-element primary-button"
+        >Create account!</button
       >
-      <button type="button" on:click={githubSignIn} class="other-login"
-        >Continue with<img
-          src="github-icon.svg"
-          alt="Github icon"
-          class="other-login-icon no-select"
-        /></button
-      >
-    </div>
-    <div class="login-line-wrp">
+    </form>
+  {:else}
+    <div class="sec-bg-element form email-sent">
+      <div class="flex-between">
+        <h2>Check your email!</h2>
+      </div>
       <div class="line"></div>
-      <p class="less login-or">or</p>
-      <div class="line"></div>
+      <p class="less">
+        We sent you an email at <b>email@fake.org</b>. All you have to do is
+        click the link in the email!
+      </p>
     </div>
-    <div class="signup-form-elements">
-      <div class="form-element">
-        <label
-          for="username"
-          class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
-          >{usernameLabel === "" ? "Username" : usernameLabel}</label
-        >
-        <input
-          type="text"
-          id="username"
-          bind:value={username}
-          class={`user-input user-input-text ${usernameLabel !== "" ? "form-error-input" : ""}`}
-          placeholder="Username"
-        />
-      </div>
-      <div class="form-element">
-        <label
-          for="displayed-name"
-          class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
-          >{displayedNameLabel === ""
-            ? "Displayed username"
-            : displayedNameLabel}</label
-        >
-        <input
-          type="text"
-          id="displayed-name"
-          bind:value={displayedName}
-          class={`user-input user-input-text ${displayedNameLabel !== "" ? "form-error-input" : ""}`}
-          placeholder="Displayed name"
-        />
-      </div>
-      <div class="form-element">
-        <label for="email" class={emailLabel !== "" ? "form-error" : ""}
-          >{emailLabel === "" ? "Email" : emailLabel}</label
-        >
-        <input
-          type="text"
-          id="email"
-          bind:value={email}
-          class={`user-input user-input-text ${emailLabel !== "" ? "form-error-input" : ""}`}
-          placeholder="Email"
-        />
-      </div>
-      <div class="form-element">
-        <label for="password" class={passwordLabel !== "" ? "form-error" : ""}
-          >{passwordLabel === "" ? "Password" : passwordLabel}</label
-        >
-        <input
-          type="password"
-          id="password"
-          bind:value={password}
-          class={`user-input user-input-text ${passwordLabel !== "" ? "form-error-input" : ""}`}
-          placeholder="Password"
-        />
-      </div>
-    </div>
-    <div class="form-element signup-full-width">
-      <label for="user-bio" class={bioLabel !== "" ? "form-error" : ""}
-        >{bioLabel === "" ? "Bio" : bioLabel}</label
-      >
-      <textarea
-        bind:value={bio}
-        id="user-bio"
-        placeholder="Your bio"
-        class={`user-input user-input-text ${bioLabel !== "" ? "form-error-input" : ""}`}
-      ></textarea>
-    </div>
-    <p class="less">
-      Already have an account? <a href="/login">Login</a>.
-    </p>
-    <button type="submit" class="user-input button-element primary-button"
-      >Create account!</button
-    >
-  </form>
+  {/if}
 </header>
