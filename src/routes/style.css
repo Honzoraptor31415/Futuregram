@@ -4,6 +4,8 @@
   --accent: 0, 255, 190;
   --accent2: 0, 208, 255;
   --main-border-color: rgba(128, 128, 128, 0.709);
+  --nav-height: 75.5px;
+  color-scheme: dark;
 }
 
 * {
@@ -394,7 +396,7 @@ button {
   }
 
   body:has(nav) {
-    margin-top: 85.5px;
+    margin-top: var(--nav-height);
   }
 
   .desktop-nav {
@@ -425,14 +427,14 @@ button {
   }
 
   .nav-button {
-    width: 30px;
-    height: 30px;
+    width: 27px;
+    height: 27px;
     box-sizing: content-box;
     padding: 9px;
     border-radius: 9px;
     background: transparent;
     transition: .15s;
-    padding: 20px;
+    padding: 20px 30px;
   }
 
   .no-bg-nav-btn {
@@ -470,7 +472,6 @@ button {
   .nav-btns {
     max-height: 100%;
     display: flex;
-    gap: 20px;
   }
 
   .nav-menu {
@@ -548,6 +549,147 @@ button {
   .posts-heading {
     font-size: 1.4rem;
   }
+
+  /* .feed-main {} */
+
+  .feed-posts-wrp {
+    width: 500px;
+    margin-inline: auto
+  }
+
+  .feed-post {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .feed-post-image {
+    max-width: 100%;
+    min-width: 100%;
+    border-radius: 14px;
+    height: auto;
+  }
+
+  .feed-post-bottom {
+    margin-bottom: 14px;
+  }
+
+  .feed-post-description {
+    line-height: 1.2;
+    margin-block: 5px 9px;
+  }
+
+  .feed-post-actions {
+    display: flex;
+    margin-block: 7px;
+    gap: 1px;
+  }
+
+  .feed-post-action {
+    cursor: pointer;
+    width: auto;
+    border: none;
+    background: transparent;
+    transition: .15s;
+    display: grid;
+    margin-inline: 4px;
+    position: relative;
+  }
+
+  .feed-post-action::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    transform: scale(.4);
+    transition: .1s;
+    opacity: 0;
+  }
+
+  .feed-post-action:hover::before {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+
+  .feed-post-action:active {
+    transform: scale(.85);
+  }
+
+  .feed-action-icon path {
+    transition: .1s;
+  }
+
+  .feed-post-action:hover .heart-icon path {
+    fill: rgb(255, 0, 144);
+  }
+
+  .feed-post-action:hover .comment-icon path {
+    fill: white;
+    stroke: white;
+  }
+
+  .feed-post-action:hover .share-icon path {
+    fill: white;
+  }
+
+  .feed-post-action:hover .report-icon path {
+    fill: rgb(212, 0, 0);
+  }
+
+  .feed-post-action:hover .report-icon {
+    animation: shake .3s linear;
+  }
+
+  @keyframes shake {
+    25% {
+      transform: rotate(-10deg);
+    }
+
+    70% {
+      transform: rotate(10deg);
+    }
+  }
+
+  .feed-action-icon {
+    height: 25px;
+    width: auto;
+  }
+
+  .feed-post-left {
+    padding-right: 12px;
+  }
+
+  .feed-post-user-image {
+    max-height: 40px;
+    width: auto;
+    border-radius: 50%;
+    margin-top: 4px;
+  }
+
+  .feed-post-top {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .feed-post-username {
+    line-height: 1.2;
+  }
+
+  .reactions-count {
+    color: grey;
+    margin-left: 5px;
+    font-size: .9rem;
+  }
+
+  .reactions-dot {
+    margin-inline: 3px;
+    color: inherit;
+  }
+
+  /* .feed-post-texts {} */
 }
 
 /* SMALLER - TABLET */
@@ -698,7 +840,7 @@ button {
   }
 
   body:has(nav) {
-    margin-top: 85.5px;
+    margin-top: var(--nav-height);
   }
 
   .desktop-nav {
@@ -729,14 +871,14 @@ button {
   }
 
   .nav-button {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     box-sizing: content-box;
     padding: 9px;
     border-radius: 9px;
     background: transparent;
     transition: .15s;
-    padding: 20px;
+    padding: 20px 30px;
   }
 
   .no-bg-nav-btn {
@@ -773,7 +915,6 @@ button {
   .nav-btns {
     max-height: 100%;
     display: flex;
-    gap: 10px;
     align-items: center;
   }
 
@@ -1147,7 +1288,7 @@ nav {
   width: 100%;
   backdrop-filter: blur(12px);
   position: fixed;
-  height: 85.5px;
+  height: var(--nav-height);
 }
 
 .user-nav-indicator {
