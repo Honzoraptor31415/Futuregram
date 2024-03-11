@@ -5,6 +5,7 @@
   let pageUser = data.user;
   let user: any;
   let pageError = "";
+  let posts: object[];
 
   function follow() {
     console.log("Follow function");
@@ -17,14 +18,24 @@
       .eq("url_username", pageUser);
     if (data?.length === 0) {
       pageError = `User ${pageUser} doesn't exist`;
-    } else {
+    } else if (data) {
       user = data ? data[0] : "";
+      getPosts(data[0].id);
     }
   }
   getUser();
 
   async function getAuthUser() {
     const { data, error } = await supabase.auth.getUser();
+    console.log(data, error);
+  }
+
+  async function getPosts(id: string) {
+    const { data, error } = await supabase
+      .from("posts")
+      .select()
+      .eq("user_id", id);
+
     console.log(data, error);
   }
 </script>
@@ -82,31 +93,6 @@
             <a href="/posts/blablarandompostid123" class="post-prew">
               <div class="post-prew-overlay-wrp">
                 <img src="example-image.jpg" alt="" class="prew-image" />
-                <p class="post-prew-text">View 👉</p>
-              </div>
-            </a>
-            <a href="/posts/blablarandompostid123" class="post-prew">
-              <div class="post-prew-overlay-wrp">
-                <img src="example-image2.jpg" alt="" class="prew-image" />
-                <p class="post-prew-text">View 👉</p>
-              </div>
-            </a>
-            <a href="/posts/blablarandompostid123" class="post-prew">
-              <div class="post-prew-overlay-wrp">
-                <img src="example-image3.jpg" alt="" class="prew-image" />
-                <p class="post-prew-text">View 👉</p>
-              </div>
-            </a>
-
-            <a href="/posts/blablarandompostid123" class="post-prew">
-              <div class="post-prew-overlay-wrp">
-                <img src="example-image4.jpg" alt="" class="prew-image" />
-                <p class="post-prew-text">View 👉</p>
-              </div>
-            </a>
-            <a href="/posts/blablarandompostid123" class="post-prew">
-              <div class="post-prew-overlay-wrp">
-                <img src="example-image2.jpg" alt="" class="prew-image" />
                 <p class="post-prew-text">View 👉</p>
               </div>
             </a>

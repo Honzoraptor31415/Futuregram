@@ -275,6 +275,8 @@ button {
     border-radius: 14px;
     background-size: cover;
     height: auto;
+    margin: 7px;
+    aspect-ratio: 1;
     transition: .3s;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.26);
     cursor: pointer;
@@ -336,10 +338,9 @@ button {
 
   .user-posts-content {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     justify-content: flex-start;
     width: 100%;
-    gap: 30px;
   }
 
   .signup-form-elements {
@@ -568,6 +569,8 @@ button {
     border-radius: 14px;
     background-size: cover;
     height: auto;
+    margin: 5px;
+    aspect-ratio: 1;
     transition: .3s;
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.068);
     cursor: pointer;
@@ -624,10 +627,9 @@ button {
 
   .user-posts-content {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     justify-content: flex-start;
     width: 100%;
-    gap: 15px;
   }
 
   .signup-form-elements {
@@ -847,6 +849,7 @@ button {
   .user-page {
     margin-block: 10px;
     width: calc(100% - 20px);
+    border-radius: 27px 27px 7px 7px;
     padding: 10px;
   }
 
@@ -860,6 +863,7 @@ button {
 
   .post-prew {
     height: auto;
+    margin: 2px;
     aspect-ratio: 1;
     border-radius: 7px;
     background-size: cover;
@@ -916,10 +920,9 @@ button {
 
   .user-posts-content {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     justify-content: flex-start;
     width: 100%;
-    gap: 7px;
     flex-direction: column;
   }
 
