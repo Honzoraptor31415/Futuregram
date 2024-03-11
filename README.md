@@ -14,3 +14,44 @@ And also, I'm making all of my projects myself, with no tutorials whatsoever, be
 <br/>
 
 [![Technologies used](https://skillicons.dev/icons?i=svelte,typescript,supabase)](/)
+
+## Database schema
+Btw I'm using supabase's database, which means it's Postgres.
+
+#### users table
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | `uuid` | User's ID |
+| joined_at | `int8` | When the user joined |
+| url_username | `text` | Username that can be used in a URL |
+| displayed_username | `text` | A username that can ex. contain spaces and special characters |
+| bio | `text` | User's bio |
+| image_url | `int8`| User's profile pic URL |
+
+#### posts table
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | `uuid` | Post's ID |
+| created_at | `int8` | Post creation time (milliseconds) |
+| likes | `json` | An array of users who liked it |
+| image_url | `text` | The post's image URL |
+| user_id | `uuid` | ID of the user who made the post |
+| description | `text` | Post description |
+| likes_count | `int8`| Number of likes |
+| title | `text` | Post title |
+| user_image | `text` | User's profile pic URL |
+| created_by_username | `text` | Who the post is created by |
+| comments_count | `int8` | Number of comments |
+
+#### comments table
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | `uuid` | Comment ID |
+| created_at | `int8` | Comment creation time (milliseconds) |
+| likes | `json` | Array of user's who liked it |
+| post_id | `uuid` | ID of the post where the comment is |
+| likes_count | `int8` | Number of likes |
+| user_id | `uuid` | ID of the user who made it |
