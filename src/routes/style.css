@@ -550,8 +550,6 @@ button {
     font-size: 1.4rem;
   }
 
-  /* .feed-main {} */
-
   .feed-posts-wrp {
     width: 500px;
     margin-inline: auto
@@ -561,28 +559,6 @@ button {
     display: flex;
     flex-direction: row;
     width: 100%;
-  }
-
-  .feed-post-image {
-    max-width: 100%;
-    min-width: 100%;
-    border-radius: 14px;
-    height: auto;
-  }
-
-  .feed-post-bottom {
-    margin-bottom: 14px;
-  }
-
-  .feed-post-description {
-    line-height: 1.2;
-    margin-block: 5px 9px;
-  }
-
-  .feed-post-actions {
-    display: flex;
-    margin-block: 7px;
-    gap: 1px;
   }
 
   .feed-post-action {
@@ -596,29 +572,9 @@ button {
     position: relative;
   }
 
-  .feed-post-action::before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.04);
-    transform: scale(.4);
-    transition: .1s;
-    opacity: 0;
-  }
-
   .feed-post-action:hover::before {
     transform: scale(1.3);
     opacity: 1;
-  }
-
-  .feed-post-action:active {
-    transform: scale(.85);
-  }
-
-  .feed-action-icon path {
-    transition: .1s;
   }
 
   .feed-post-action:hover .heart-icon path {
@@ -642,30 +598,8 @@ button {
     animation: shake .3s linear;
   }
 
-  @keyframes shake {
-    25% {
-      transform: rotate(-10deg);
-    }
-
-    70% {
-      transform: rotate(10deg);
-    }
-  }
-
-  .feed-action-icon {
-    height: 25px;
-    width: auto;
-  }
-
   .feed-post-left {
     padding-right: 12px;
-  }
-
-  .feed-post-user-image {
-    max-height: 40px;
-    width: auto;
-    border-radius: 50%;
-    margin-top: 4px;
   }
 
   .feed-post-top {
@@ -674,22 +608,16 @@ button {
     gap: 16px;
   }
 
-  .feed-post-username {
-    line-height: 1.2;
-  }
-
   .reactions-count {
     color: grey;
     margin-left: 5px;
     font-size: .9rem;
   }
 
-  .reactions-dot {
-    margin-inline: 3px;
-    color: inherit;
+  .feed-post-top-mobile,
+  .feed-post-description-mobile {
+    display: none;
   }
-
-  /* .feed-post-texts {} */
 }
 
 /* SMALLER - TABLET */
@@ -993,6 +921,75 @@ button {
   .posts-heading {
     font-size: 1.3rem;
   }
+
+  .feed-posts-wrp {
+    width: 500px;
+    margin-inline: auto
+  }
+
+  .feed-post {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .feed-post-action {
+    cursor: pointer;
+    width: auto;
+    border: none;
+    background: transparent;
+    transition: .15s;
+    display: grid;
+    margin-inline: 4px;
+    position: relative;
+  }
+
+  .feed-post-action:hover::before {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+
+  .feed-post-action:hover .heart-icon path {
+    fill: rgb(255, 0, 144);
+  }
+
+  .feed-post-action:hover .comment-icon path {
+    fill: white;
+    stroke: white;
+  }
+
+  .feed-post-action:hover .share-icon path {
+    fill: white;
+  }
+
+  .feed-post-action:hover .report-icon path {
+    fill: rgb(212, 0, 0);
+  }
+
+  .feed-post-action:hover .report-icon {
+    animation: shake .3s linear;
+  }
+
+  .feed-post-left {
+    padding-right: 12px;
+  }
+
+  .feed-post-top {
+    display: flex;
+    width: 100%;
+    gap: 16px;
+  }
+
+  .reactions-count {
+    color: grey;
+    margin-left: 5px;
+    font-size: .9rem;
+  }
+
+  .feed-post-top-mobile,
+  .feed-post-description-mobile {
+    display: none;
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -1207,7 +1204,7 @@ button {
     text-align: left;
   }
 
-  .menu-link:hover {
+  .menu-link:active {
     color: rgb(171, 171, 171);
   }
 
@@ -1251,6 +1248,97 @@ button {
 
   .posts-heading {
     font-size: 1.2rem;
+  }
+
+  .feed-main {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+  }
+
+  .feed-posts-wrp {
+    width: 100%;
+  }
+
+  .feed-post {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 12px);
+    margin-inline: auto;
+  }
+
+  .feed-post-actions {
+    display: flex;
+    margin-block: 7px;
+    gap: 1px;
+  }
+
+  .feed-post-action {
+    cursor: pointer;
+    width: auto;
+    border: none;
+    background: transparent;
+    transition: .1s;
+    display: grid;
+    margin-inline: 4px;
+    position: relative;
+  }
+
+  .feed-post-action:active::before {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+
+  .feed-post-action:active .heart-icon path {
+    fill: rgb(255, 0, 144);
+  }
+
+  .feed-post-action:active .comment-icon path {
+    fill: white;
+    stroke: white;
+  }
+
+  .feed-post-action:active .share-icon path {
+    fill: white;
+  }
+
+  .feed-post-action:active .report-icon path {
+    fill: rgb(212, 0, 0);
+  }
+
+  .feed-action-icon {
+    height: 25px;
+    width: auto;
+  }
+
+  .feed-post-left {
+    display: none;
+  }
+
+  .feed-post-top {
+    display: none;
+  }
+
+  .reactions-count {
+    color: grey;
+    font-size: .9rem;
+  }
+
+  .post-vertical-line-wrp {
+    height: 100%;
+  }
+
+  .feed-post-top-mobile {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 7px;
+  }
+
+  .feed-post-description-mobile {
+    line-height: 1.2;
+    margin-block: 5px 9px;
   }
 }
 
@@ -1332,4 +1420,86 @@ nav {
 
 .first-capital {
   text-transform: capitalize;
+}
+
+.feed-post-action:first-child {
+  margin-left: 0;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feed-post-image {
+  max-width: 100%;
+  min-width: 100%;
+  border-radius: 14px;
+  height: auto;
+}
+
+.feed-post-bottom {
+  margin-bottom: 14px;
+}
+
+.feed-post-description {
+  line-height: 1.2;
+  margin-block: 5px 9px;
+}
+
+.feed-post-actions {
+  display: flex;
+  margin-block: 7px;
+  gap: 1px;
+}
+
+.feed-post-action::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  transform: scale(.4);
+  transition: .1s;
+  opacity: 0;
+}
+
+.feed-post-action:active {
+  transform: scale(.85);
+}
+
+.feed-action-icon path {
+  transition: .1s;
+}
+
+@keyframes shake {
+  25% {
+    transform: rotate(-10deg);
+  }
+
+  70% {
+    transform: rotate(10deg);
+  }
+}
+
+.feed-action-icon {
+  height: 25px;
+  width: auto;
+}
+
+.feed-post-user-image {
+  max-height: 40px;
+  width: auto;
+  border-radius: 50%;
+  margin-top: 4px;
+}
+
+.feed-post-username {
+  line-height: 1.2;
+}
+
+.reactions-dot {
+  margin-inline: 3px;
+  color: inherit;
 }

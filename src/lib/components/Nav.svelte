@@ -69,7 +69,7 @@
   <nav class="desktop-nav">
     <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>
     <div class="nav-btns">
-      <a href="/" class="button-link nav-button">
+      <a href="/feed" class="button-link nav-button">
         <HomeIcon iconClass="icon mobile-menu-icon" /></a
       >
       <button on:click={search} class="button-link nav-button">
@@ -100,7 +100,7 @@
   </nav>
   <!-- MOBILE -->
   <nav class="mobile-nav">
-    <a href="/" class="button-link nav-button">
+    <a href="/feed" class="button-link nav-button">
       <HomeIcon iconClass="icon mobile-menu-icon" /></a
     >
     <button on:click={search} class="button-link nav-button">

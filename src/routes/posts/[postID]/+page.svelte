@@ -59,6 +59,14 @@
           />
         </div>
         <div class="feed-post-right">
+          <div class="feed-post-top-mobile">
+            <img
+              src={post.user_image}
+              alt={post.created_by_username}
+              class="feed-post-user-image"
+            />
+            <p class="feed-post-username">{post.created_by_username}</p>
+          </div>
           <div class="feed-post-top">
             <div class="feed-post-texts">
               <p class="feed-post-username">{post.created_by_username}</p>
@@ -66,20 +74,28 @@
             </div>
           </div>
           <img src={post.image_url} alt={post.title} class="feed-post-image" />
+          <p class="feed-post-description-mobile">
+            <span class="less">{post.created_by_username}: </span>
+            {post.description}
+          </p>
           <div class="feed-post-bottom">
-            <div class="feed-post-actions">
-              <button class="feed-post-action" on:click={like}>
-                <HeartIcon iconClass="feed-action-icon heart-icon" />
-              </button>
-              <button class="feed-post-action" on:click={comments}>
-                <CommentIcon iconClass="feed-action-icon comment-icon" />
-              </button>
-              <button class="feed-post-action" on:click={share}>
-                <ShareIcon iconClass="feed-action-icon share-icon" />
-              </button>
-              <button class="feed-post-action" on:click={report}>
-                <ReportIcon iconClass="feed-action-icon report-icon" />
-              </button>
+            <div class="flex-between">
+              <div class="feed-post-actions">
+                <button class="feed-post-action" on:click={like}>
+                  <HeartIcon iconClass="feed-action-icon heart-icon" />
+                </button>
+                <button class="feed-post-action" on:click={comments}>
+                  <CommentIcon iconClass="feed-action-icon comment-icon" />
+                </button>
+                <button class="feed-post-action" on:click={share}>
+                  <ShareIcon iconClass="feed-action-icon share-icon" />
+                </button>
+              </div>
+              <div class="feed-post-actions">
+                <button class="feed-post-action" on:click={report}>
+                  <ReportIcon iconClass="feed-action-icon report-icon" />
+                </button>
+              </div>
             </div>
             <p class="reactions-count">
               {post.likes_count} likes <span class="reactions-dot">·</span>
