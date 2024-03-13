@@ -41,11 +41,9 @@ Btw I'm using supabase's database, which means it's Postgres.
 | image_url | `text` | The post's image URL |
 | user_id | `uuid` | ID of the user who made the post |
 | description | `text` | Post description |
-| likes_count | `int8`| Number of likes |
 | title | `text` | Post title |
 | user_image | `text` | User's profile pic URL |
 | created_by_username | `text` | Who the post is created by |
-| comments_count | `int8` | Number of comments |
 
 #### comments table
 
@@ -55,5 +53,4 @@ Btw I'm using supabase's database, which means it's Postgres.
 | created_at | `int8` | Comment creation time (milliseconds) |
 | likes | `json` | Array of user's who liked it |
 | post_id | `uuid` | ID of the post where the comment is |
-| likes_count | `int8` | Number of likes |
 | user_id | `uuid` | ID of the user who made it |
