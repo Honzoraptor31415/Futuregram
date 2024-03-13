@@ -42,8 +42,6 @@ Btw I'm using supabase's database, which means it's Postgres.
 | user_id | `uuid` | ID of the user who made the post |
 | description | `text` | Post description |
 | title | `text` | Post title |
-| user_image | `text` | User's profile pic URL |
-| created_by_username | `text` | Who the post is created by |
 
 #### comments table
 
