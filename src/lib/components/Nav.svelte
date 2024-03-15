@@ -91,7 +91,7 @@
       >
       <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>
-        <a href={`${urlUsername ? urlUsername : ""}`} class="menu-link"
+        <a href={`/${urlUsername ? urlUsername : ""}`} class="menu-link"
           >My profile</a
         >
         <button class="menu-link" on:click={signOut}>Sign out</button>

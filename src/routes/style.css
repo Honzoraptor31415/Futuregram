@@ -598,16 +598,16 @@ button {
   }
 
   .feed-post-action:hover .heart-icon path {
-    fill: rgb(255, 0, 144);
+    stroke: rgb(255, 0, 144);
   }
 
   .feed-post-action:hover .comment-icon path {
-    fill: white;
-    stroke: white;
+    fill: rgb(var(--accent2));
+    stroke: rgb(var(--accent2));
   }
 
   .feed-post-action:hover .share-icon path {
-    fill: white;
+    stroke: rgb(var(--accent));
   }
 
   .feed-post-action:hover .report-icon path {
@@ -630,7 +630,6 @@ button {
 
   .reactions-count {
     color: grey;
-    margin-left: 5px;
     font-size: .9rem;
   }
 
@@ -844,6 +843,11 @@ button {
     left: 0;
   }
 
+  .nav-button:hover::before {
+    opacity: 1;
+    transform: scale(1);
+  }
+
   .no-bg-nav-btn {
     background: transparent !important;
     padding: 0;
@@ -985,16 +989,16 @@ button {
   }
 
   .feed-post-action:hover .heart-icon path {
-    fill: rgb(255, 0, 144);
+    stroke: rgb(255, 0, 144);
   }
 
   .feed-post-action:hover .comment-icon path {
-    fill: white;
-    stroke: white;
+    fill: rgb(var(--accent2));
+    stroke: rgb(var(--accent2));
   }
 
   .feed-post-action:hover .share-icon path {
-    fill: white;
+    stroke: rgb(var(--accent));
   }
 
   .feed-post-action:hover .report-icon path {
@@ -1017,7 +1021,6 @@ button {
 
   .reactions-count {
     color: grey;
-    margin-left: 5px;
     font-size: .9rem;
   }
 
@@ -1325,16 +1328,21 @@ button {
   }
 
   .feed-post-action:active .heart-icon path {
-    fill: rgb(255, 0, 144);
+    stroke: rgb(255, 0, 144);
+  }
+
+  .heart-icon:active path {
+    fill: transparent;
+    stroke: rgb(255, 0, 144);
   }
 
   .feed-post-action:active .comment-icon path {
-    fill: white;
-    stroke: white;
+    fill: rgb(var(--accent2));
+    stroke: rgb(var(--accent2));
   }
 
   .feed-post-action:active .share-icon path {
-    fill: white;
+    stroke: rgb(var(--accent));
   }
 
   .feed-post-action:active .report-icon path {
@@ -1461,6 +1469,10 @@ nav {
   margin-left: 0;
 }
 
+.feed-post-action:last-child {
+  margin-right: 0;
+}
+
 .flex-between {
   display: flex;
   justify-content: space-between;
@@ -1505,7 +1517,7 @@ nav {
 }
 
 .feed-action-icon path {
-  transition: .1s;
+  transition: .14s;
 }
 
 @keyframes shake {
@@ -1520,7 +1532,7 @@ nav {
 
 .feed-action-icon {
   height: 25px;
-  width: auto;
+  width: 25px;
 }
 
 .feed-post-user-image {
@@ -1537,4 +1549,13 @@ nav {
 .reactions-dot {
   margin-inline: 3px;
   color: inherit;
+}
+
+.liked-heart-icon {
+  fill: rgb(255, 0, 144);
+}
+
+.heart-icon {
+  fill: transparent;
+  stroke: grey;
 }
