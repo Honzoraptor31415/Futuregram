@@ -9,14 +9,13 @@
   import UserIcon from "$lib/components/icons/UserIcon.svelte";
   let menuVisible = false;
   let currentUser: any;
-  // needs to be dynamic, just a placeholder rn
 
   async function signOut() {
     const { error } = await supabase.auth.signOut();
     if (browser) {
       window.location.href = "/login";
     }
-    currentUser = "";
+    currentUser = null;
   }
 
   async function authListener() {
@@ -26,7 +25,7 @@
       if (event === "SIGNED_IN") {
         checkUser();
       } else if (event === "SIGNED_OUT") {
-        currentUser = "";
+        currentUser = null;
       }
     });
   }
@@ -36,7 +35,6 @@
       data: { user },
       error,
     } = await supabase.auth.getUser();
-    currentUser = user?.user_metadata.name;
   }
 
   authListener();

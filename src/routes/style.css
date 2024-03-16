@@ -430,7 +430,6 @@ button {
     width: 27px;
     height: 27px;
     box-sizing: content-box;
-    padding: 9px;
     border-radius: 9px;
     position: relative;
     background: transparent;
@@ -637,6 +636,14 @@ button {
   .feed-post-description-mobile {
     display: none;
   }
+
+  .feed-post-texts {
+    width: 100%;
+  }
+
+  .mobile-nav-placeholder {
+    display: none;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -803,10 +810,7 @@ button {
   }
 
   .logo-nav-text {
-    font-weight: 900;
-    letter-spacing: -2px;
-    font-size: 1.5rem;
-    transition: .15s linear;
+    visibility: hidden;
   }
 
   .logo-nav-text:hover {
@@ -818,15 +822,14 @@ button {
   }
 
   .nav-button {
-    width: 25px;
-    height: 25px;
+    width: 27px;
+    height: 27px;
     box-sizing: content-box;
-    padding: 9px;
     border-radius: 9px;
     background: transparent;
     position: relative;
     transition: .15s;
-    padding: 20px 30px;
+    padding: 20px;
   }
 
   .nav-button::before {
@@ -930,6 +933,7 @@ button {
 
   .menu-button-wrp {
     position: relative;
+    display: grid;
   }
 
   @keyframes nav-menu {
@@ -1026,6 +1030,14 @@ button {
 
   .feed-post-top-mobile,
   .feed-post-description-mobile {
+    display: none;
+  }
+
+  .feed-post-texts {
+    width: 100%;
+  }
+
+  .mobile-nav-placeholder {
     display: none;
   }
 }
@@ -1256,6 +1268,7 @@ button {
 
   .menu-button-wrp {
     position: relative;
+    display: grid;
   }
 
   @keyframes nav-menu {
@@ -1290,12 +1303,14 @@ button {
 
   .feed-main {
     min-height: 100svh;
-    display: grid;
-    place-items: center;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
   }
 
   .feed-posts-wrp {
     width: 100%;
+    margin-block: auto;
   }
 
   .feed-post {
@@ -1376,12 +1391,17 @@ button {
     width: 100%;
     align-items: center;
     gap: 12px;
-    margin-bottom: 7px;
+    margin-block: 7px;
   }
 
   .feed-post-description-mobile {
     line-height: 1.2;
     margin-block: 5px 9px;
+  }
+
+  .mobile-nav-placeholder {
+    height: 10vh;
+    width: 100%;
   }
 }
 
@@ -1552,10 +1572,51 @@ nav {
 }
 
 .liked-heart-icon {
-  fill: rgb(255, 0, 144);
+  fill: url("#liked-gradient");
 }
 
 .heart-icon {
   fill: transparent;
   stroke: grey;
+}
+
+.desc-dots {
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding-inline: 4px;
+  font-size: .95rem;
+  transition: .15s;
+  position: relative;
+}
+
+.desc-dots span {
+  position: relative;
+  z-index: 3;
+}
+
+.desc-dots::before {
+  width: 100%;
+  height: 0;
+  content: '';
+  z-index: 1;
+  display: block;
+  position: absolute;
+  transition: .2s cubic-bezier(0.075, 0.82, 0.165, 1);
+  border-radius: 4px;
+  bottom: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.075);
+}
+
+.desc-dots:hover {
+  color: white;
+}
+
+.desc-dots:hover::before {
+  height: 100%;
+}
+
+.showed-desc-dots {
+  margin-left: 4px;
 }

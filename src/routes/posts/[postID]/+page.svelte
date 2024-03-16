@@ -13,6 +13,7 @@
   let postCreator: any;
   let liked = false;
   let currDbUser: any;
+  let descShowed = false;
 
   async function getAuthUser() {
     const { data, error } = await supabase.auth.getUser();
@@ -110,6 +111,7 @@
       data && (likes = data[0].likes);
       if (!likes.includes(currDbUser.url_username)) {
         likes.push(currDbUser.url_username);
+        post.likes = likes;
         const { error } = await supabase
           .from("posts")
           .update({ likes: likes })
@@ -118,6 +120,7 @@
         likes = likes.filter((user: any) => {
           return user !== currDbUser.url_username;
         });
+        post.likes = likes;
         const { error } = await supabase
           .from("posts")
           .update({ likes: likes })
@@ -138,6 +141,10 @@
 
   function report() {
     console.log("Report function");
+  }
+
+  function showmore() {
+    descShowed = !descShowed;
   }
 </script>
 
@@ -164,7 +171,28 @@
           <div class="feed-post-top">
             <div class="feed-post-texts">
               <p class="feed-post-username">{postCreator.url_username}</p>
-              <p class="feed-post-description">{post.description}</p>
+              <p class="feed-post-description">
+                {#if post.description.length < 50}
+                  {post.description}
+                {:else}
+                  {#if descShowed}
+                    {post.description}
+                  {:else}
+                    {post.description.slice(0, 45)}
+                  {/if}
+                  {#if descShowed}
+                    <button
+                      on:click={showmore}
+                      class="desc-dots showed-desc-dots"
+                      ><span class="less">less</span></button
+                    >
+                  {:else}
+                    <button on:click={showmore} class="desc-dots"
+                      ><span class="less">... more</span></button
+                    >
+                  {/if}
+                {/if}
+              </p>
             </div>
           </div>
           <img
@@ -206,8 +234,8 @@
             </div>
             <p class="reactions-count">
               {post.likes.length === 1
-                ? `${post.likes.length} like`
-                : `${post.likes.length} likes`}
+                ? `${post.likes.length} Like`
+                : `${post.likes.length} Likes`}
               <span class="reactions-dot">·</span>
               {#if postComments}
                 {postComments.length === 1
@@ -222,4 +250,5 @@
       </div>
     {/if}
   </div>
+  <div class="mobile-nav-placeholder"></div>
 </main>
