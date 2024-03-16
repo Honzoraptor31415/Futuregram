@@ -73,7 +73,9 @@
 {#if currentUser}
   <!-- DESKTOP USER -->
   <nav class="desktop-nav">
-    <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>
+    <div class="nav-side grid-parent">
+      <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>
+    </div>
     <div class="nav-btns">
       <a href="/feed" class="button-link nav-button">
         <HomeIcon iconClass="icon mobile-menu-icon" /></a
@@ -94,7 +96,7 @@
         <UserIcon iconClass="icon mobile-menu-icon" /></a
       >
     </div>
-    <div class="menu-button-wrp">
+    <div class="menu-button-wrp nav-side">
       <button
         on:click={(e) => {
           e.stopPropagation();

@@ -4,6 +4,11 @@
   import CommentIcon from "$lib/components/icons/CommentIcon.svelte";
   import ShareIcon from "$lib/components/icons/ShareIcon.svelte";
   import ReportIcon from "$lib/components/icons/ReportIcon.svelte";
+  import dayjs from "dayjs";
+  import relativeTime from "dayjs/plugin/relativeTime";
+  dayjs.extend(relativeTime);
+  dayjs().format();
+
   export let data;
 
   let postID = data.postID;
@@ -67,6 +72,7 @@
       data && (likes = data[0].likes);
       if (!likes.includes(currDbUser.url_username)) {
         likes.push(currDbUser.url_username);
+        post.likes = likes;
         const { error } = await supabase
           .from("posts")
           .update({ likes: likes })
@@ -153,24 +159,40 @@
     {#if post && postCreator}
       <div class="feed-post">
         <div class="feed-post-left">
-          <img
-            src={postCreator.image_url}
-            alt={postCreator.url_username}
-            class="feed-post-user-image"
-          />
-        </div>
-        <div class="feed-post-right">
-          <div class="feed-post-top-mobile">
+          <a href={`/${postCreator.url_username}`} class="grid-wrp">
             <img
               src={postCreator.image_url}
               alt={postCreator.url_username}
               class="feed-post-user-image"
             />
-            <p class="feed-post-username">{postCreator.url_username}</p>
+          </a>
+        </div>
+        <div class="feed-post-right">
+          <div class="feed-post-top-mobile">
+            <a href={`/${postCreator.url_username}`} class="grid-wrp">
+              <img
+                src={postCreator.image_url}
+                alt={postCreator.url_username}
+                class="feed-post-user-image"
+              /></a
+            >
+            <div class="feed-post-texts flex-between">
+              <a
+                href={`/${postCreator.url_username}`}
+                class="feed-post-username">{postCreator.url_username}</a
+              >
+              <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
+            </div>
           </div>
           <div class="feed-post-top">
             <div class="feed-post-texts">
-              <p class="feed-post-username">{postCreator.url_username}</p>
+              <div class="feed-post-texts-top flex-between">
+                <a
+                  href={`/${postCreator.url_username}`}
+                  class="feed-post-username">{postCreator.url_username}</a
+                >
+                <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
+              </div>
               <p class="feed-post-description">
                 {#if post.description.length < 50}
                   {post.description}
@@ -183,11 +205,13 @@
                   {#if descShowed}
                     <button
                       on:click={showmore}
-                      class="desc-dots showed-desc-dots"
+                      class="desc-dots showed-desc-dots hover-before-height"
                       ><span class="less">less</span></button
                     >
                   {:else}
-                    <button on:click={showmore} class="desc-dots"
+                    <button
+                      on:click={showmore}
+                      class="desc-dots hover-before-height"
                       ><span class="less">... more</span></button
                     >
                   {/if}
@@ -232,11 +256,11 @@
                 </button>
               </div>
             </div>
-            <p class="reactions-count">
+            <p class="even-less">
               {post.likes.length === 1
                 ? `${post.likes.length} Like`
                 : `${post.likes.length} Likes`}
-              <span class="reactions-dot">·</span>
+              <span class="text-dot">·</span>
               {#if postComments}
                 {postComments.length === 1
                   ? `${postComments.length} comment`
