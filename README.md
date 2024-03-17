@@ -52,3 +52,15 @@ Btw I'm using supabase's database, which means it's Postgres.
 | likes | `json` | Array of user's who liked it |
 | post_id | `uuid` | ID of the post where the comment is |
 | user_id | `uuid` | ID of the user who made it |
+| text | `text` | Text of the comment |
+
+#### replies table
+
+| Name | Type | Description |
+| --- | --- | --- |
+| id | `uuid` | Comment ID |
+| created_at | `int8` | Comment creation time (milliseconds) |
+| likes | `json` | Array of user's who liked it |
+| comment_id | `uuid` | ID of the post where the comment is |
+| user_id | `uuid` | ID of the user who made it |
+| text | `text` | Text of the reply |
