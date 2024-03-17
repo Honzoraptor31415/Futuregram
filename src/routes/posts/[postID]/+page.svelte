@@ -6,6 +6,7 @@
   import ReportIcon from "$lib/components/icons/ReportIcon.svelte";
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
+  import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   dayjs.extend(relativeTime);
   dayjs().format();
 
@@ -137,12 +138,16 @@
     }
   }
 
-  function comments() {
-    console.log("Show comments icon");
+  function comment() {
+    console.log("Comment function");
   }
 
-  function share() {
-    console.log("Show share dialog function");
+  function share(type: string, id: string) {
+    if (type === "comment") {
+      console.log(`Sharing comment ${id}`);
+    } else {
+      console.log(`Sharing post ${id}`);
+    }
   }
 
   function report() {
@@ -152,123 +157,225 @@
   function showmore() {
     descShowed = !descShowed;
   }
+
+  function commentLike(commentId: string) {
+    console.log(`Like function\nLiked comment: ${commentId}`);
+  }
+
+  function showReplies(commentId: string) {
+    console.log(`Show replies function\nComment: ${commentId}`);
+  }
+
+  function reply(commentId: string) {
+    console.log(`Replying to comment ${commentId}`);
+  }
 </script>
 
 <main class="feed-main">
   <div class="feed-posts-wrp">
     {#if post && postCreator}
-      <div class="feed-post">
-        <div class="feed-post-left">
-          <a href={`/${postCreator.url_username}`} class="grid-wrp">
-            <img
-              src={postCreator.image_url}
-              alt={postCreator.url_username}
-              class="feed-post-user-image"
-            />
-          </a>
-        </div>
-        <div class="feed-post-right">
-          <div class="feed-post-top-mobile">
+      <div class="feed-post-wrp">
+        <div class="feed-post">
+          <div class="feed-post-left">
             <a href={`/${postCreator.url_username}`} class="grid-wrp">
               <img
                 src={postCreator.image_url}
                 alt={postCreator.url_username}
                 class="feed-post-user-image"
-              /></a
-            >
-            <div class="feed-post-texts flex-between">
-              <a
-                href={`/${postCreator.url_username}`}
-                class="feed-post-username">{postCreator.url_username}</a
-              >
-              <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
-            </div>
+              />
+            </a>
           </div>
-          <div class="feed-post-top">
-            <div class="feed-post-texts">
-              <div class="feed-post-texts-top flex-between">
+          <div class="feed-post-right">
+            <div class="feed-post-top-mobile">
+              <a href={`/${postCreator.url_username}`} class="grid-wrp">
+                <img
+                  src={postCreator.image_url}
+                  alt={postCreator.url_username}
+                  class="feed-post-user-image"
+                /></a
+              >
+              <div class="feed-post-texts flex-between">
                 <a
                   href={`/${postCreator.url_username}`}
                   class="feed-post-username">{postCreator.url_username}</a
                 >
                 <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
               </div>
-              <p class="feed-post-description">
-                {#if post.description.length < 50}
-                  {post.description}
-                {:else}
-                  {#if descShowed}
+            </div>
+            <div class="feed-post-top">
+              <div class="feed-post-texts">
+                <div class="feed-post-texts-top flex-between">
+                  <a
+                    href={`/${postCreator.url_username}`}
+                    class="feed-post-username">{postCreator.url_username}</a
+                  >
+                  <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
+                </div>
+                <p class="feed-post-description">
+                  {#if post.description.length < 50}
                     {post.description}
                   {:else}
-                    {post.description.slice(0, 45)}
+                    {#if descShowed}
+                      {post.description}
+                    {:else}
+                      {post.description.slice(0, 45)}
+                    {/if}
+                    {#if descShowed}
+                      <button
+                        on:click={showmore}
+                        class="desc-dots showed-desc-dots hover-before-height"
+                        ><span class="less">less</span></button
+                      >
+                    {:else}
+                      <button
+                        on:click={showmore}
+                        class="desc-dots hover-before-height"
+                        ><span class="less">... more</span></button
+                      >
+                    {/if}
                   {/if}
-                  {#if descShowed}
-                    <button
-                      on:click={showmore}
-                      class="desc-dots showed-desc-dots hover-before-height"
-                      ><span class="less">less</span></button
-                    >
+                </p>
+              </div>
+            </div>
+            <img
+              src={post.image_url}
+              alt={post.title}
+              class="feed-post-image"
+              on:dblclick={dbClickLike}
+            />
+            <p class="feed-post-description-mobile">
+              <span class="less">{postCreator.url_username}: </span>
+              {post.description}
+            </p>
+            <div class="feed-post-bottom">
+              <div class="flex-between">
+                <div class="feed-post-actions">
+                  {#if currUser && currDbUser}
+                    <button class="feed-post-action" on:click={like}>
+                      <HeartIcon
+                        iconClass={`feed-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
+                      />
+                    </button>
                   {:else}
-                    <button
-                      on:click={showmore}
-                      class="desc-dots hover-before-height"
-                      ><span class="less">... more</span></button
-                    >
+                    <a href="/login" class="feed-post-action button-link">
+                      <HeartIcon iconClass="feed-action-icon heart-icon" />
+                    </a>
                   {/if}
+                  <button class="feed-post-action" on:click={comment}>
+                    <CommentIcon iconClass="feed-action-icon comment-icon" />
+                  </button>
+                  <button
+                    class="feed-post-action"
+                    on:click={() => {
+                      share("post", "slkadfjhalskjdfhlakjshdljah123456");
+                    }}
+                  >
+                    <ShareIcon iconClass="feed-action-icon share-icon" />
+                  </button>
+                </div>
+                <div class="feed-post-actions">
+                  <button class="feed-post-action" on:click={report}>
+                    <ReportIcon iconClass="feed-action-icon report-icon" />
+                  </button>
+                </div>
+              </div>
+              <p class="even-less">
+                {post.likes.length === 1
+                  ? `${post.likes.length} like`
+                  : `${post.likes.length} likes`}
+                <span class="text-dot">·</span>
+                {#if postComments}
+                  {postComments.length === 1
+                    ? `${postComments.length} comment`
+                    : `${postComments.length} comments`}
+                {:else}
+                  no comments
                 {/if}
               </p>
             </div>
           </div>
-          <img
-            src={post.image_url}
-            alt={post.title}
-            class="feed-post-image"
-            on:dblclick={dbClickLike}
-          />
-          <p class="feed-post-description-mobile">
-            <span class="less">{postCreator.url_username}: </span>
-            {post.description}
-          </p>
-          <div class="feed-post-bottom">
-            <div class="flex-between">
-              <div class="feed-post-actions">
-                {#if currUser && currDbUser}
-                  <button class="feed-post-action" on:click={like}>
-                    <HeartIcon
-                      iconClass={`feed-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
+        </div>
+        <div class="feed-post-comments-wrp">
+          <div class="feed-post-comment">
+            <div class="feed-comment-left">
+              <a href="/ahoj1" class="grid-wrp">
+                <img
+                  src="https://xsgames.co/randomusers/avatar.php?g=pixel"
+                  alt="Comment pfp"
+                  class="feed-comment-user-image"
+                /></a
+              >
+            </div>
+            <div class="feed-comment-right">
+              <div class="feed-comment-top flex-between">
+                <a href="/ahoj1" class="feed-post-username">ahoj1</a>
+                <div class="comment-top-right">
+                  <p class="even-less comment-date">4 days ago</p>
+                  <button class="no-style comments-menu feed-post-action">
+                    <ThreeDotsHoriz iconClass="small-post-icon" />
+                  </button>
+                </div>
+              </div>
+              <p class="feed-comment-text">
+                Aughth placeholder text omg extremely crazy bro. lsjadfh
+              </p>
+              <div class="flex-between">
+                <div class="feed-post-actions">
+                  {#if currUser && currDbUser}
+                    <button
+                      class="feed-post-action"
+                      on:click={() => {
+                        commentLike("some-id-123456789-idunnoo");
+                      }}
+                    >
+                      <HeartIcon
+                        iconClass="feed-action-icon comment-action-icon heart-icon"
+                      />
+                    </button>
+                  {:else}
+                    <a href="/login" class="feed-post-action button-link">
+                      <HeartIcon
+                        iconClass="feed-action-icon comment-action-icon heart-icon"
+                      />
+                    </a>
+                  {/if}
+                  <button
+                    class="feed-post-action"
+                    on:click={() => {
+                      reply("yet-another-random-id-068229875");
+                    }}
+                  >
+                    <CommentIcon
+                      iconClass="feed-action-icon comment-action-icon comment-icon"
                     />
                   </button>
-                {:else}
-                  <a href="/login" class="feed-post-action button-link">
-                    <HeartIcon iconClass="feed-action-icon heart-icon" />
-                  </a>
-                {/if}
-                <button class="feed-post-action" on:click={comments}>
-                  <CommentIcon iconClass="feed-action-icon comment-icon" />
-                </button>
-                <button class="feed-post-action" on:click={share}>
-                  <ShareIcon iconClass="feed-action-icon share-icon" />
-                </button>
+                  <button
+                    class="feed-post-action"
+                    on:click={() => {
+                      share(
+                        "comment",
+                        "dajkshdflkjhlkjhlkhblahblah-126291029384756",
+                      );
+                    }}
+                  >
+                    <ShareIcon
+                      iconClass="feed-action-icon comment-action-icon share-icon"
+                    />
+                  </button>
+                  <p class="even-less comment-reactions-count">
+                    1 like
+                    <span class="text-dot">·</span>
+                    1 reply
+                  </p>
+                </div>
               </div>
-              <div class="feed-post-actions">
-                <button class="feed-post-action" on:click={report}>
-                  <ReportIcon iconClass="feed-action-icon report-icon" />
-                </button>
-              </div>
+              <button
+                class="no-style hover-before-height desc-dots less"
+                on:click={() => {
+                  showReplies("some-random-id-again-12345ř434567_42069yeah");
+                }}>show replies</button
+              >
             </div>
-            <p class="even-less">
-              {post.likes.length === 1
-                ? `${post.likes.length} Like`
-                : `${post.likes.length} Likes`}
-              <span class="text-dot">·</span>
-              {#if postComments}
-                {postComments.length === 1
-                  ? `${postComments.length} comment`
-                  : `${postComments.length} comments`}
-              {:else}
-                no comments
-              {/if}
-            </p>
           </div>
         </div>
       </div>
