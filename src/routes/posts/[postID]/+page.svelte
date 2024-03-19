@@ -15,7 +15,7 @@
   let postID = data.postID;
   let currUser: any;
   let post: any;
-  let postComments: object[] = [];
+  let postComments: any;
   let postCreator: any;
   let liked = false;
   let currDbUser: any;
@@ -65,13 +65,13 @@
 
   async function dbClickLike() {
     if (currUser) {
-      let likes;
+      let likes = [];
       const { data, error } = await supabase
         .from("posts")
         .select()
         .eq("id", postID);
-      data && (likes = data[0].likes);
-      if (!likes.includes(currDbUser.url_username)) {
+      data && data[0].likes && (likes = data[0].likes);
+      if (likes && !likes.includes(currDbUser.url_username)) {
         likes.push(currDbUser.url_username);
         post.likes = likes;
         const { error } = await supabase
@@ -102,21 +102,21 @@
       .from("posts")
       .select()
       .eq("id", postID);
-    if (data && data[0].likes.includes(currUsername)) {
+    if (data && data[0].likes && data[0].likes.includes(currUsername)) {
       liked = true;
     }
   }
 
   async function like() {
-    liked = !liked;
     if (currUser) {
-      let likes;
+      liked = !liked;
+      let likes = [];
       const { data, error } = await supabase
         .from("posts")
         .select()
         .eq("id", postID);
-      data && (likes = data[0].likes);
-      if (!likes.includes(currDbUser.url_username)) {
+      data && data[0].likes && (likes = data[0].likes);
+      if (likes && !likes.includes(currDbUser.url_username)) {
         likes.push(currDbUser.url_username);
         post.likes = likes;
         const { error } = await supabase
@@ -124,9 +124,10 @@
           .update({ likes: likes })
           .eq("id", postID);
       } else {
-        likes = likes.filter((user: any) => {
-          return user !== currDbUser.url_username;
-        });
+        likes &&
+          (likes = likes.filter((user: any) => {
+            return user !== currDbUser.url_username;
+          }));
         post.likes = likes;
         const { error } = await supabase
           .from("posts")
@@ -135,6 +136,15 @@
       }
     } else {
       console.log("You have to be logged in to like posts.");
+    }
+  }
+
+  async function getCommentCreator(uid: string) {
+    const { data, error } = await supabase.from("users").select().eq("id", uid);
+    if (data) {
+      return data[0];
+    } else {
+      console.log("Error while getting user");
     }
   }
 
@@ -280,13 +290,21 @@
                 </div>
               </div>
               <p class="even-less">
-                {post.likes.length === 1
-                  ? `${post.likes.length} like`
-                  : `${post.likes.length} likes`}
+                {#if post.likes}
+                  {post.likes.length <= 1
+                    ? post.likes.length === 0
+                      ? "no likes"
+                      : `${post.likes.length} like`
+                    : `${post.likes.length} likes`}
+                {:else}
+                  no likes
+                {/if}
                 <span class="text-dot">·</span>
                 {#if postComments}
-                  {postComments.length === 1
-                    ? `${postComments.length} comment`
+                  {postComments.length <= 1
+                    ? postComments.length === 0
+                      ? "no comments"
+                      : `${postComments.length} comment`
                     : `${postComments.length} comments`}
                 {:else}
                   no comments
@@ -296,87 +314,104 @@
           </div>
         </div>
         <div class="feed-post-comments-wrp">
-          <div class="feed-post-comment">
-            <div class="feed-comment-left">
-              <a href="/ahoj1" class="grid-wrp">
-                <img
-                  src="https://xsgames.co/randomusers/avatar.php?g=pixel"
-                  alt="Comment pfp"
-                  class="feed-comment-user-image"
-                /></a
-              >
-            </div>
-            <div class="feed-comment-right">
-              <div class="feed-comment-top flex-between">
-                <a href="/ahoj1" class="feed-post-username">ahoj1</a>
-                <div class="comment-top-right">
-                  <p class="even-less comment-date">4 days ago</p>
-                  <button class="no-style comments-menu feed-post-action">
-                    <ThreeDotsHoriz iconClass="small-post-icon" />
-                  </button>
-                </div>
-              </div>
-              <p class="feed-comment-text">
-                Aughth placeholder text omg extremely crazy bro. lsjadfh
-              </p>
-              <div class="flex-between">
-                <div class="feed-post-actions">
-                  {#if currUser && currDbUser}
-                    <button
-                      class="feed-post-action"
-                      on:click={() => {
-                        commentLike("some-id-123456789-idunnoo");
-                      }}
+          {#if postComments}
+            {#each postComments as comment}
+              {#await getCommentCreator(comment.user_id) then commentCreator}
+                <div class="feed-post-comment">
+                  <div class="feed-comment-left">
+                    <a
+                      href={`/${commentCreator.url_username}`}
+                      class="grid-wrp"
                     >
-                      <HeartIcon
-                        iconClass="feed-action-icon comment-action-icon heart-icon"
-                      />
-                    </button>
-                  {:else}
-                    <a href="/login" class="feed-post-action button-link">
-                      <HeartIcon
-                        iconClass="feed-action-icon comment-action-icon heart-icon"
-                      />
-                    </a>
-                  {/if}
-                  <button
-                    class="feed-post-action"
-                    on:click={() => {
-                      reply("yet-another-random-id-068229875");
-                    }}
-                  >
-                    <CommentIcon
-                      iconClass="feed-action-icon comment-action-icon comment-icon"
-                    />
-                  </button>
-                  <button
-                    class="feed-post-action"
-                    on:click={() => {
-                      share(
-                        "comment",
-                        "dajkshdflkjhlkjhlkhblahblah-126291029384756",
-                      );
-                    }}
-                  >
-                    <ShareIcon
-                      iconClass="feed-action-icon comment-action-icon share-icon"
-                    />
-                  </button>
-                  <p class="even-less comment-reactions-count">
-                    1 like
-                    <span class="text-dot">·</span>
-                    1 reply
-                  </p>
+                      <img
+                        src={commentCreator.image_url}
+                        alt="Comment pfp"
+                        class="feed-comment-user-image"
+                      /></a
+                    >
+                  </div>
+                  <div class="feed-comment-right">
+                    <div class="feed-comment-top flex-between">
+                      <a
+                        href={`/${commentCreator.url_username}`}
+                        class="feed-post-username"
+                        >{commentCreator.url_username}</a
+                      >
+                      <div class="comment-top-right">
+                        <p class="even-less comment-date">
+                          {dayjs(1710694355073).fromNow()}
+                        </p>
+                        <button class="no-style comments-menu feed-post-action">
+                          <ThreeDotsHoriz iconClass="small-post-icon" />
+                        </button>
+                      </div>
+                    </div>
+                    <p class="feed-comment-text">
+                      {comment.text}
+                    </p>
+                    <div class="flex-between">
+                      <div class="feed-post-actions">
+                        {#if currUser && currDbUser}
+                          <button
+                            class="feed-post-action"
+                            on:click={() => {
+                              commentLike("some-id-123456789-idunnoo");
+                            }}
+                          >
+                            <HeartIcon
+                              iconClass="feed-action-icon comment-action-icon heart-icon"
+                            />
+                          </button>
+                        {:else}
+                          <a href="/login" class="feed-post-action button-link">
+                            <HeartIcon
+                              iconClass="feed-action-icon comment-action-icon heart-icon"
+                            />
+                          </a>
+                        {/if}
+                        <button
+                          class="feed-post-action"
+                          on:click={() => {
+                            reply("yet-another-random-id-068229875");
+                          }}
+                        >
+                          <CommentIcon
+                            iconClass="feed-action-icon comment-action-icon comment-icon"
+                          />
+                        </button>
+                        <button
+                          class="feed-post-action"
+                          on:click={() => {
+                            share(
+                              "comment",
+                              "dajkshdflkjhlkjhlkhblahblah-126291029384756",
+                            );
+                          }}
+                        >
+                          <ShareIcon
+                            iconClass="feed-action-icon comment-action-icon share-icon"
+                          />
+                        </button>
+                        <p class="even-less comment-reactions-count">
+                          1 like
+                          <span class="text-dot">·</span>
+                          1 reply
+                        </p>
+                      </div>
+                    </div>
+                    <button
+                      class="no-style hover-before-height desc-dots less"
+                      on:click={() => {
+                        showReplies(
+                          "some-random-id-again-12345ř434567_42069yeah",
+                        );
+                      }}>show replies</button
+                    >
+                  </div>
                 </div>
-              </div>
-              <button
-                class="no-style hover-before-height desc-dots less"
-                on:click={() => {
-                  showReplies("some-random-id-again-12345ř434567_42069yeah");
-                }}>show replies</button
-              >
-            </div>
-          </div>
+              {/await}
+            {/each}
+          {/if}
         </div>
       </div>
     {/if}
