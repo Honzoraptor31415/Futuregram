@@ -31,36 +31,37 @@
     );
 
     if (username.length < 1) {
-      setLabels("Username can't be empty", "", "", "", "");
+      usernameLabel = "Username can't be empty";
     } else if (!containsOnlyAllowedChars || isDisallowedUsername) {
-      setLabels("Invalid username", "", "", "", "");
+      usernameLabel = "Invalid username";
       return false;
     } else if (username.length > 30) {
-      setLabels("Username is too long", "", "", "", "");
+      usernameLabel = "Username is too long";
       return false;
     } else if (data.usernames.includes(username)) {
-      setLabels("Username already taken", "", "", "", "");
+      usernameLabel = "Username already taken";
     } else if (containsOnlyAllowedChars && !isDisallowedUsername) {
-      setLabels("", "", "", "", "");
+      usernameLabel = "";
       return true;
     }
   }
 
   function displayedNameCheck() {
     if (displayedName.length < 1) {
-      setLabels("", "Name can't be empty", "", "", "");
+      displayedNameLabel = "Name can't be empty";
       return false;
     } else if (displayedName.length > 30) {
-      setLabels("", "Name is too long", "", "", "");
+      displayedNameLabel = "Name is too long";
       return false;
     } else {
+      displayedNameLabel = "";
       return true;
     }
   }
 
   function emailCheck() {
     if (email.length < 1) {
-      setLabels("", "", "Email can't be empty", "", "");
+      emailLabel = "Email can't be empty";
       return false;
     } else if (
       !email.match(
@@ -68,36 +69,36 @@
       ) ||
       email.length > 255
     ) {
-      setLabels("", "", "Invalid email", "", "");
+      emailLabel = "Invalid email";
       return false;
     } else {
-      setLabels("", "", "", "", "");
+      emailLabel = "";
       return true;
     }
   }
 
   function passwordCheck() {
     if (password.length < 1) {
-      setLabels("", "", "", "Password can't be empty", "");
+      passwordLabel = "Password can't be empty";
       return false;
     } else if (password.length < 6) {
-      setLabels("", "", "", "Password is too short", "");
+      passwordLabel = "Password is too short";
       return false;
     } else {
-      setLabels("", "", "", "", "");
+      passwordLabel = "";
       return true;
     }
   }
 
   function bioCheck() {
     if (bio.length < 1) {
-      setLabels("", "", "", "", "Bio can't be empty");
+      bioLabel = "Bio can't be empty";
       return false;
     } else if (bio.length > 200) {
-      setLabels("", "", "", "", "Bio is too long");
+      bioLabel = "Bio is too long";
       return false;
     } else {
-      setLabels("", "", "", "", "");
+      bioLabel = "";
       return true;
     }
   }
@@ -107,6 +108,11 @@
     displayedName = displayedName.trim();
     email = email.trim().toLowerCase();
     bio = bio.trim();
+    usernameCheck();
+    displayedNameCheck();
+    emailCheck();
+    passwordCheck();
+    bioCheck();
     if (
       usernameCheck() &&
       displayedNameCheck() &&
@@ -114,7 +120,11 @@
       passwordCheck() &&
       bioCheck()
     ) {
-      setLabels("", "", "", "", "");
+      usernameLabel = "";
+      displayedNameLabel = "";
+      emailLabel = "";
+      passwordLabel = "";
+      bioLabel = "";
       createUserInDB();
       verifyEmail = true;
     }
@@ -166,20 +176,6 @@
       provider: "github",
     });
     console.log(data, error);
-  }
-
-  function setLabels(
-    username: string,
-    displayedName: string,
-    email: string,
-    password: string,
-    bio: string,
-  ) {
-    usernameLabel = username;
-    displayedNameLabel = displayedName;
-    emailLabel = email;
-    passwordLabel = password;
-    bioLabel = bio;
   }
 </script>
 

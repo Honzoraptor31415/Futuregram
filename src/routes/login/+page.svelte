@@ -13,7 +13,6 @@
   function emailCheck() {
     if (email.length < 1) {
       emailLabel = "Email can't be empty";
-      passwordLabel = "";
       return false;
     } else if (
       !email.match(
@@ -22,11 +21,9 @@
       email.length > 255
     ) {
       emailLabel = "Invalid email";
-      passwordLabel = "";
       return false;
     } else {
       emailLabel = "";
-      passwordLabel = "";
       return true;
     }
   }
@@ -34,21 +31,20 @@
   function passwordCheck() {
     if (password.length < 1) {
       passwordLabel = "Password can't be empty";
-      emailLabel = "";
       return false;
     } else if (password.length < 6) {
       passwordLabel = "Password is too short";
-      emailLabel = "";
       return false;
     } else {
       passwordLabel = "";
-      emailLabel = "";
       return true;
     }
   }
 
   async function emailPassworLogin() {
     email = email.trim().toLowerCase();
+    emailCheck();
+    passwordCheck();
     if (emailCheck() && passwordCheck()) {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
