@@ -1,6 +1,7 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import { supabase } from "$lib/supabaseClient";
+  import loggedInUser from "$lib/stores/user";
   export let data;
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
@@ -23,21 +24,10 @@
     }
   }
 
-  async function getAuthUser() {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser();
-    console.log(user, error);
-    currUser = user;
-    if (user) {
-      getUserDBID(user);
-    } else {
-      browser ? (location.href = "/signup") : null;
-    }
-  }
-
-  getAuthUser();
+  loggedInUser.subscribe((val) => {
+    currUser = val;
+    val ? getUserDBID(val) : browser && (location.href = "/signup");
+  });
 
   function usernameCheck() {
     const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";

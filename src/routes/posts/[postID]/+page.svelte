@@ -22,8 +22,9 @@
   let currDbUser: any;
   let descShowed = false;
 
-  loggedInUser.subscribe((val) => {
+  loggedInUser.subscribe((val: any) => {
     currUser = val;
+    val && getDbUser(val.user_metadata.db_id);
   });
 
   async function getPost() {
