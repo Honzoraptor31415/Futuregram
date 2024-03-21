@@ -1700,17 +1700,19 @@ nav {
   width: auto;
 }
 
-.mobile-menu-icon {
+.nav-menu-icon {
   max-width: 100%;
   height: auto;
 }
 
-.mobile-menu-icon path {
+.nav-menu-icon path {
   fill: var(--icon-grey);
   transition: .15s;
 }
 
-.mobile-menu-icon circle {
+
+
+.nav-menu-icon circle {
   fill: var(--icon-grey);
 }
 
@@ -1775,4 +1777,11 @@ nav {
 
 .red-error {
   color: rgb(255, 48, 64);
+}
+
+.nav-icon-current,
+.nav-icon-current path,
+.nav-icon-current circle {
+  fill: white !important;
+  stroke: white !important;
 }

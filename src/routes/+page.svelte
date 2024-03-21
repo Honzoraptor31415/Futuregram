@@ -3,7 +3,8 @@
   import { supabase } from "$lib/supabaseClient";
   export let data;
 
-  let userInDB: boolean;
+  // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
+  let userInDB: string | boolean = "waiting";
   let username = "";
   let displayedName = "";
   let bio = "";
@@ -32,7 +33,7 @@
     if (user) {
       getUserDBID(user);
     } else {
-      browser ? (location.href = "/login") : null;
+      browser ? (location.href = "/signup") : null;
     }
   }
 

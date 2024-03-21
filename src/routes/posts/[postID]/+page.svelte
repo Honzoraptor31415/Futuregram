@@ -7,6 +7,7 @@
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
+  import loggedInUser from "$lib/stores/user";
   dayjs.extend(relativeTime);
   dayjs().format();
 
@@ -21,13 +22,9 @@
   let currDbUser: any;
   let descShowed = false;
 
-  async function getAuthUser() {
-    const { data, error } = await supabase.auth.getUser();
-    currUser = data.user;
-    getDbUser(data.user?.user_metadata.db_id);
-  }
-
-  getAuthUser();
+  loggedInUser.subscribe((val) => {
+    currUser = val;
+  });
 
   async function getPost() {
     const { data, error } = await supabase

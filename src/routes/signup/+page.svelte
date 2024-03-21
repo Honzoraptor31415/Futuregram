@@ -1,7 +1,13 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import { supabase } from "$lib/supabaseClient";
+  import loggedInUser from "$lib/stores/user";
   export let data;
+
+  loggedInUser.subscribe((val) => {
+    browser && val && (location.href = "/");
+  });
+
   let email = "";
   let password = "";
   let username = "";
@@ -161,17 +167,6 @@
     });
     console.log(data, error);
   }
-
-  async function getUser() {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser();
-    if (user && browser) {
-      location.href = "/feed";
-    }
-  }
-  getUser();
 
   function setLabels(
     username: string,

@@ -7,49 +7,24 @@
   import MenuIcon from "$lib/components/icons/MenuIcon.svelte";
   import NewIcon from "$lib/components/icons/NewIcon.svelte";
   import UserIcon from "$lib/components/icons/UserIcon.svelte";
+  import loggedInUser from "$lib/stores/user";
   let menuVisible = false;
   let currentUser: any;
+  let locationHref = browser && location.pathname;
 
   async function signOut() {
     const { error } = await supabase.auth.signOut();
     if (browser) {
       window.location.href = "/login";
     }
-    currentUser = null;
   }
 
-  async function authListener() {
-    const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event);
-
-      if (event === "SIGNED_IN") {
-        checkUser();
-      } else if (event === "SIGNED_OUT") {
-        currentUser = null;
-      }
-    });
-  }
-
-  async function checkUser() {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser();
-  }
-
-  authListener();
-
-  async function getUser() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) {
-      currentUser = user;
-      console.log(user);
-      getDbUser(user.user_metadata.db_id);
+  loggedInUser.subscribe((val: any) => {
+    if (val) {
+      currentUser = val;
+      getDbUser(val.user_metadata.db_id);
     }
-  }
-  getUser();
+  });
 
   async function getDbUser(uid: string) {
     const { data, error } = await supabase.from("users").select().eq("id", uid);
@@ -78,22 +53,30 @@
     </div>
     <div class="nav-btns">
       <a href="/feed" class="button-link nav-button">
-        <HomeIcon iconClass="icon mobile-menu-icon" /></a
+        <HomeIcon
+          iconClass={`icon nav-menu-icon ${locationHref === "/feed" ? "nav-icon-current" : ""}`}
+        /></a
       >
       <button on:click={search} class="button-link nav-button">
-        <SearchIcon iconClass="icon mobile-menu-icon" /></button
+        <SearchIcon iconClass="icon nav-menu-icon" /></button
       >
       <a href="/new" class="button-link nav-button">
-        <NewIcon iconClass="icon mobile-menu-icon" />
+        <NewIcon
+          iconClass={`icon nav-menu-icon ${locationHref === "/new" ? "nav-icon-current" : ""}`}
+        />
       </a>
       <a href="/chat" class="button-link nav-button">
-        <MessageIcon iconClass="icon mobile-menu-icon" /></a
+        <MessageIcon
+          iconClass={`icon nav-menu-icon ${locationHref === "/chat" ? "nav-icon-current" : ""}`}
+        /></a
       >
       <a
         href={`/${currentUser.url_username ? currentUser.url_username : ""}`}
         class="button-link nav-button"
       >
-        <UserIcon iconClass="icon mobile-menu-icon" /></a
+        <UserIcon
+          iconClass={`icon nav-menu-icon ${locationHref === currentUser?.url_username ? "nav-icon-current" : ""}`}
+        /></a
       >
     </div>
     <div class="menu-button-wrp nav-side">
@@ -104,7 +87,7 @@
         }}
         class="button-link nav-button no-bg-nav-btn nav-will-stay"
       >
-        <MenuIcon iconClass="icon mobile-menu-icon nav-will-stay" /></button
+        <MenuIcon iconClass="icon nav-menu-icon nav-will-stay" /></button
       >
       <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>
@@ -115,22 +98,22 @@
   <!-- MOBILE USER -->
   <nav class="mobile-nav">
     <a href="/feed" class="button-link nav-button">
-      <HomeIcon iconClass="icon mobile-menu-icon" /></a
+      <HomeIcon iconClass="icon nav-menu-icon" /></a
     >
     <button on:click={search} class="button-link nav-button">
-      <SearchIcon iconClass="icon mobile-menu-icon" /></button
+      <SearchIcon iconClass="icon nav-menu-icon" /></button
     >
     <a href="/new" class="button-link nav-button">
-      <NewIcon iconClass="icon mobile-menu-icon" />
+      <NewIcon iconClass="icon nav-menu-icon" />
     </a>
     <a href="/chat" class="button-link nav-button">
-      <MessageIcon iconClass="icon mobile-menu-icon" /></a
+      <MessageIcon iconClass="icon nav-menu-icon" /></a
     >
     <a
       href={`/${currentUser.url_username ? currentUser.url_username : ""}`}
       class="button-link nav-button"
     >
-      <UserIcon iconClass="icon mobile-menu-icon" /></a
+      <UserIcon iconClass="icon nav-menu-icon" /></a
     >
   </nav>
 {:else}
@@ -139,10 +122,10 @@
     <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>
     <div class="nav-btns">
       <a href="/" class="button-link nav-button">
-        <HomeIcon iconClass="icon mobile-menu-icon" /></a
+        <HomeIcon iconClass="icon nav-menu-icon" /></a
       >
       <button on:click={search} class="button-link nav-button">
-        <SearchIcon iconClass="icon mobile-menu-icon" /></button
+        <SearchIcon iconClass="icon nav-menu-icon" /></button
       >
     </div>
     <div class="menu-button-wrp">
@@ -153,7 +136,7 @@
         }}
         class="button-link nav-button no-bg-nav-btn nav-will-stay"
       >
-        <MenuIcon iconClass="icon mobile-menu-icon nav-will-stay" /></button
+        <MenuIcon iconClass="icon nav-menu-icon nav-will-stay" /></button
       >
       <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>
@@ -165,10 +148,10 @@
   <!-- MOBILE GUEST -->
   <nav class="mobile-nav">
     <a href="/" class="button-link nav-button">
-      <HomeIcon iconClass="icon mobile-menu-icon" /></a
+      <HomeIcon iconClass="icon nav-menu-icon" /></a
     >
     <button on:click={search} class="button-link nav-button">
-      <SearchIcon iconClass="icon mobile-menu-icon" /></button
+      <SearchIcon iconClass="icon nav-menu-icon" /></button
     >
     <div class="menu-button-wrp">
       <button
@@ -178,7 +161,7 @@
         }}
         class="button-link nav-button no-bg-nav-btn nav-will-stay"
       >
-        <MenuIcon iconClass="icon mobile-menu-icon nav-will-stay" /></button
+        <MenuIcon iconClass="icon nav-menu-icon nav-will-stay" /></button
       >
       <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>

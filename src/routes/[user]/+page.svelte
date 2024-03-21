@@ -1,6 +1,13 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
+  import loggedInUser from "$lib/stores/user";
   export let data;
+
+  let currLoggedInUser;
+  loggedInUser.subscribe((val) => {
+    currLoggedInUser = val;
+    console.log(val);
+  });
 
   let pageUser = data.user;
   let user: any;
@@ -24,11 +31,6 @@
     }
   }
   getUser();
-
-  async function getAuthUser() {
-    const { data, error } = await supabase.auth.getUser();
-    console.log(data, error);
-  }
 
   async function getPosts(id: string) {
     const { data, error } = await supabase

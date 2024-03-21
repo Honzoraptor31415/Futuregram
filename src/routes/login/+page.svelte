@@ -1,6 +1,10 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
   import { browser } from "$app/environment";
+  import loggedInUser from "$lib/stores/user";
+  loggedInUser.subscribe((val) => {
+    browser && val && (location.href = "/feed");
+  });
   let email = "";
   let password = "";
   let emailLabel = "";
@@ -75,17 +79,6 @@
     });
     console.log(data, error);
   }
-
-  async function getUser() {
-    const {
-      data: { user },
-      error,
-    } = await supabase.auth.getUser();
-    if (user && browser) {
-      location.href = "/feed";
-    }
-  }
-  getUser();
 </script>
 
 <svelte:head>
