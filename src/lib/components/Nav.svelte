@@ -7,9 +7,9 @@
   import MenuIcon from "$lib/components/icons/MenuIcon.svelte";
   import NewIcon from "$lib/components/icons/NewIcon.svelte";
   import UserIcon from "$lib/components/icons/UserIcon.svelte";
-  import loggedInUser from "$lib/stores/user";
+  import userDbData from "$lib/stores/user-db-data";
   let menuVisible = false;
-  let currentUser: any;
+  let currDbUser: any;
   let locationHref = browser && location.pathname;
 
   async function signOut() {
@@ -19,17 +19,9 @@
     }
   }
 
-  loggedInUser.subscribe((val: any) => {
-    if (val) {
-      currentUser = val;
-      getDbUser(val.user_metadata.db_id);
-    }
+  userDbData.subscribe((val: any) => {
+    val && (currDbUser = val);
   });
-
-  async function getDbUser(uid: string) {
-    const { data, error } = await supabase.from("users").select().eq("id", uid);
-    data && (currentUser = data[0]);
-  }
 
   function search() {
     console.log("Search function");
@@ -45,7 +37,7 @@
   }
 </script>
 
-{#if currentUser}
+{#if currDbUser}
   <!-- DESKTOP USER -->
   <nav class="desktop-nav">
     <div class="nav-side grid-parent">
@@ -71,11 +63,11 @@
         /></a
       >
       <a
-        href={`/${currentUser.url_username ? currentUser.url_username : ""}`}
+        href={`/${currDbUser.url_username ? currDbUser.url_username : ""}`}
         class="button-link nav-button"
       >
         <UserIcon
-          iconClass={`icon nav-menu-icon ${locationHref === currentUser?.url_username ? "nav-icon-current" : ""}`}
+          iconClass={`icon nav-menu-icon ${locationHref === currDbUser?.url_username ? "nav-icon-current" : ""}`}
         /></a
       >
     </div>
@@ -110,7 +102,7 @@
       <MessageIcon iconClass="icon nav-menu-icon" /></a
     >
     <a
-      href={`/${currentUser.url_username ? currentUser.url_username : ""}`}
+      href={`/${currDbUser.url_username ? currDbUser.url_username : ""}`}
       class="button-link nav-button"
     >
       <UserIcon iconClass="icon nav-menu-icon" /></a

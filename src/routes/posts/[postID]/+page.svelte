@@ -8,6 +8,7 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   import loggedInUser from "$lib/stores/user";
+  import userDbData from "$lib/stores/user-db-data.js";
   dayjs.extend(relativeTime);
   dayjs().format();
 
@@ -24,7 +25,6 @@
 
   loggedInUser.subscribe((val: any) => {
     currUser = val;
-    val && getDbUser(val.user_metadata.db_id);
   });
 
   async function getPost() {
@@ -85,15 +85,12 @@
     }
   }
 
-  async function getDbUser(uid: string) {
-    const { data, error } = await supabase.from("users").select().eq("id", uid);
-    if (data) {
-      currDbUser = data[0];
-      getLikes(data[0].url_username);
-    } else {
-      console.log("No user with such ID");
+  userDbData.subscribe((val: any) => {
+    if (val) {
+      currDbUser = val;
+      getLikes(val.url_username);
     }
-  }
+  });
 
   async function getLikes(currUsername: string) {
     const { data, error } = await supabase
