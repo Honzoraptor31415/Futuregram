@@ -78,6 +78,7 @@
         <MenuIcon iconClass="icon nav-menu-icon" /></button
       >
       <div class={`dots-menu ${menuVisible ? "dots-menu-visible" : ""}`}>
+        <a href="/settings" class="menu-link">Settings</a>
         <a href="/about" class="menu-link">About Futuregram</a>
         <button class="menu-link" on:click={signOut}>Sign out</button>
       </div>

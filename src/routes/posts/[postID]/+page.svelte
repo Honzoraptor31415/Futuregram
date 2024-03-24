@@ -9,6 +9,8 @@
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/user-db-data";
   import Comment from "$lib/components/Comment.svelte";
+  import TopPostNav from "$lib/components/TopPostNav.svelte";
+  import { page } from "$app/stores";
   dayjs.extend(relativeTime);
   dayjs().format();
 
@@ -22,6 +24,11 @@
   let liked = false;
   let currDbUser: any;
   let descShowed = false;
+
+  page.subscribe((val: any) => {
+    getPost();
+    getComments();
+  });
 
   loggedInUser.subscribe((val: any) => {
     currUser = val;
@@ -149,6 +156,7 @@
 </script>
 
 <main class="feed-main">
+  <TopPostNav />
   <div class="feed-posts-wrp">
     {#if post && postCreator}
       <div class="feed-post-wrp">

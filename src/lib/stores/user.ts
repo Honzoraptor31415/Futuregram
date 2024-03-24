@@ -5,7 +5,11 @@ const loggedInUser = writable()
 
 async function getUser() {
   const { data: { user } } = await supabase.auth.getUser()
-  user && loggedInUser.set(user)
+  if (user) {
+    loggedInUser.set(user)
+  } else {
+    loggedInUser.set(null)
+  }
 }
 getUser()
 

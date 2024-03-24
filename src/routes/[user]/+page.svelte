@@ -1,6 +1,7 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
+  import { page } from "$app/stores";
   export let data;
 
   console.log(data);
@@ -15,6 +16,12 @@
   let user: any;
   let pageError = "";
   let posts: any;
+
+  page.subscribe((val: any) => {
+    posts = null;
+    pageUser = val.data.user;
+    getUser();
+  });
 
   function follow() {
     console.log("Follow function");
