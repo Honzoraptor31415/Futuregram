@@ -3,6 +3,8 @@
   import loggedInUser from "$lib/stores/user";
   export let data;
 
+  console.log(data);
+
   let currLoggedInUser;
   loggedInUser.subscribe((val) => {
     currLoggedInUser = val;

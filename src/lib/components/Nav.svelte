@@ -23,10 +23,6 @@
     val && (currDbUser = val);
   });
 
-  function search() {
-    console.log("Search function");
-  }
-
   browser &&
     document.addEventListener("click", () => {
       menuVisible = false;
@@ -49,8 +45,8 @@
           iconClass={`icon nav-menu-icon ${locationHref === "/feed" ? "nav-icon-current" : ""}`}
         /></a
       >
-      <button on:click={search} class="button-link nav-button">
-        <SearchIcon iconClass="icon nav-menu-icon" /></button
+      <a href="/search" class="button-link nav-button">
+        <SearchIcon iconClass="icon nav-menu-icon" /></a
       >
       <a href="/new" class="button-link nav-button">
         <NewIcon
@@ -77,11 +73,11 @@
           e.stopPropagation();
           menu();
         }}
-        class="button-link nav-button no-bg-nav-btn nav-will-stay"
+        class="button-link nav-button no-bg-nav-btn"
       >
-        <MenuIcon iconClass="icon nav-menu-icon nav-will-stay" /></button
+        <MenuIcon iconClass="icon nav-menu-icon" /></button
       >
-      <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
+      <div class={`dots-menu ${menuVisible ? "dots-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>
         <button class="menu-link" on:click={signOut}>Sign out</button>
       </div>
@@ -90,22 +86,27 @@
   <!-- MOBILE USER -->
   <nav class="mobile-nav">
     <a href="/feed" class="button-link nav-button">
-      <HomeIcon iconClass="icon nav-menu-icon" /></a
+      <HomeIcon iconClass="icon nav-menu-icon" />
+      <span class="mobile-nav-btn-text">Home</span></a
     >
-    <button on:click={search} class="button-link nav-button">
-      <SearchIcon iconClass="icon nav-menu-icon" /></button
+    <a href="/search" class="button-link nav-button">
+      <SearchIcon iconClass="icon nav-menu-icon" />
+      <span class="mobile-nav-btn-text">Search</span></a
     >
     <a href="/new" class="button-link nav-button">
       <NewIcon iconClass="icon nav-menu-icon" />
+      <span class="mobile-nav-btn-text">Create</span>
     </a>
     <a href="/chat" class="button-link nav-button">
-      <MessageIcon iconClass="icon nav-menu-icon" /></a
+      <MessageIcon iconClass="icon nav-menu-icon" />
+      <span class="mobile-nav-btn-text">Chats</span></a
     >
     <a
       href={`/${currDbUser.url_username ? currDbUser.url_username : ""}`}
       class="button-link nav-button"
     >
-      <UserIcon iconClass="icon nav-menu-icon" /></a
+      <UserIcon iconClass="icon nav-menu-icon" />
+      <span class="mobile-nav-btn-text">Profile</span></a
     >
   </nav>
 {:else}
@@ -116,8 +117,8 @@
       <a href="/" class="button-link nav-button">
         <HomeIcon iconClass="icon nav-menu-icon" /></a
       >
-      <button on:click={search} class="button-link nav-button">
-        <SearchIcon iconClass="icon nav-menu-icon" /></button
+      <a href="/search" class="button-link nav-button">
+        <SearchIcon iconClass="icon nav-menu-icon" /></a
       >
     </div>
     <div class="menu-button-wrp">
@@ -126,11 +127,11 @@
           e.stopPropagation();
           menu();
         }}
-        class="button-link nav-button no-bg-nav-btn nav-will-stay"
+        class="button-link nav-button no-bg-nav-btn"
       >
-        <MenuIcon iconClass="icon nav-menu-icon nav-will-stay" /></button
+        <MenuIcon iconClass="icon nav-menu-icon" /></button
       >
-      <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
+      <div class={`dots-menu ${menuVisible ? "dots-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>
         <a href="/login" class="menu-link">Login</a>
       </div>
@@ -142,8 +143,8 @@
     <a href="/" class="button-link nav-button">
       <HomeIcon iconClass="icon nav-menu-icon" /></a
     >
-    <button on:click={search} class="button-link nav-button">
-      <SearchIcon iconClass="icon nav-menu-icon" /></button
+    <a href="/search" class="button-link nav-button">
+      <SearchIcon iconClass="icon nav-menu-icon" /></a
     >
     <div class="menu-button-wrp">
       <button
@@ -151,11 +152,11 @@
           e.stopPropagation();
           menu();
         }}
-        class="button-link nav-button no-bg-nav-btn nav-will-stay"
+        class="button-link nav-button no-bg-nav-btn"
       >
-        <MenuIcon iconClass="icon nav-menu-icon nav-will-stay" /></button
+        <MenuIcon iconClass="icon nav-menu-icon" /></button
       >
-      <div class={`nav-menu ${menuVisible ? "nav-menu-visible" : ""}`}>
+      <div class={`dots-menu ${menuVisible ? "dots-menu-visible" : ""}`}>
         <a href="/about" class="menu-link">About Futuregram</a>
         <a href="/login" class="menu-link">Login</a>
       </div>

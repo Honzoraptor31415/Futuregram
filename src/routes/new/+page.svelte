@@ -5,3 +5,5 @@
     browser && !val && (location.href = "/signup");
   });
 </script>
+
+<h1>Create new post</h1>
