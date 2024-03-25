@@ -155,6 +155,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>{post ? `"${post.title}" - Futuregram` : "Loading post..."}</title>
+</svelte:head>
+
 <main class="feed-main">
   <TopPostNav />
   <div class="feed-posts-wrp">

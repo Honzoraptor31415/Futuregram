@@ -17,4 +17,10 @@
   });
 </script>
 
-<h1>User settings</h1>
+<svelte:head>
+  <title>Your settings</title>
+</svelte:head>
+
+<main>
+  <h1>User settings</h1>
+</main>

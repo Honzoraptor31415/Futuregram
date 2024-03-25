@@ -26,12 +26,21 @@
 
   loggedInUser.subscribe((val) => {
     currUser = val;
-    val ? getUserDBID(val) : browser && (location.href = "/signup");
+    val
+      ? getUserDBID(val)
+      : val === null && browser && (location.href = "/signup");
   });
 
   function usernameCheck() {
     const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
-    const disallowedUsernames = ["feed", "login", "signup", "chat", "about"];
+    const disallowedUsernames = [
+      "feed",
+      "login",
+      "signup",
+      "chat",
+      "about",
+      "search",
+    ];
     const containsOnlyAllowedChars = username
       .toLocaleLowerCase()
       .match(`^[${allowedUsernameChars}]+$`);

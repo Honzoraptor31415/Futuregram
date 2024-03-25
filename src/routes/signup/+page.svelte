@@ -22,7 +22,14 @@
 
   function usernameCheck() {
     const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
-    const disallowedUsernames = ["feed", "login", "signup", "chat", "about"];
+    const disallowedUsernames = [
+      "feed",
+      "login",
+      "signup",
+      "chat",
+      "about",
+      "search",
+    ];
     const containsOnlyAllowedChars = username
       .toLocaleLowerCase()
       .match(`^[${allowedUsernameChars}]+$`);

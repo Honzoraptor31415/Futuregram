@@ -1,1 +1,7 @@
-<h1>Chat</h1>
+<svelte:head>
+  <title>Your chats</title>
+</svelte:head>
+
+<main>
+  <h1>Chats</h1>
+</main>

@@ -8,10 +8,18 @@
   }
 </script>
 
+<svelte:head>
+  <title>Your feed</title>
+</svelte:head>
+
 {#if error}
   <Error code={404} message="Post was not found." />
 {:else if !postID}
-  <h1>Feed</h1>
+  <main>
+    <h1>Feed</h1>
+  </main>
 {:else}
-  <h1>Post</h1>
+  <main>
+    <h1>Post</h1>
+  </main>
 {/if}
