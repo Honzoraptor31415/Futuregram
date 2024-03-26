@@ -153,7 +153,7 @@
 </svelte:head>
 
 {#if user && !pageError}
-  <div class="user-page-wrp">
+  <div class="user-page-wrp bottom-padding-nav">
     <main class="user-page sec-bg-element">
       <div class="user-page-top">
         <div class="basic-user-info">

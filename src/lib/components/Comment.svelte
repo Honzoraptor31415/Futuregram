@@ -27,7 +27,7 @@
 
   userDbData.subscribe((val: any) => {
     currDbUser = val;
-    getLikes(val.url_username);
+    val && getLikes(val.url_username);
   });
 
   async function getComment() {
