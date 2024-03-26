@@ -22,13 +22,15 @@
           : 0
     : 0;
   let currDbUser: any;
+  let followed = false;
 
-  loggedInUser.subscribe((val) => {
+  loggedInUser.subscribe((val: any) => {
     currLoggedInUser = val;
   });
 
-  userDbData.subscribe((val) => {
+  userDbData.subscribe((val: any) => {
     currDbUser = val;
+    val && getFollowed(val.url_username);
   });
 
   if (browser) {
@@ -50,8 +52,36 @@
     getUser();
   });
 
-  function follow() {
-    console.log("Follow function");
+  async function follow() {
+    if (currLoggedInUser) {
+      followed = !followed;
+      let followers = [];
+      const { data, error } = await supabase
+        .from("users")
+        .select()
+        .eq("url_username", user.url_username);
+      data && data[0].followers && (followers = data[0].followers);
+      if (followers && !followers.includes(currDbUser.url_username)) {
+        followers.push(currDbUser.url_username);
+        user.followers = followers;
+        const { error } = await supabase
+          .from("users")
+          .update({ followers: followers })
+          .eq("url_username", user.url_username);
+      } else {
+        followers &&
+          (followers = followers.filter((user: any) => {
+            return user !== currDbUser.url_username;
+          }));
+        user.followers = followers;
+        const { error } = await supabase
+          .from("users")
+          .update({ followers: followers })
+          .eq("url_username", user.url_username);
+      }
+    } else {
+      console.log("You have to be logged in to follow users.");
+    }
   }
 
   async function getUser() {
@@ -75,6 +105,19 @@
       .eq("user_id", id);
     if (data && data.length > 0) {
       posts = data;
+    }
+  }
+
+  async function getFollowed(currUsername: string) {
+    const { data, error } = await supabase
+      .from("users")
+      .select()
+      .eq("url_username", pageUser);
+    if (data && data[0].followers && data[0].followers.includes(currUsername)) {
+      followed = true;
+      console.log("User is followed");
+    } else {
+      console.log("You don't follow this user");
     }
   }
 
@@ -103,10 +146,17 @@
                     on:click={editProfile}>Edit profile</button
                   >
                 {:else}
-                  <button
-                    class="button-element user-page-input primary-button"
-                    on:click={follow}>Follow</button
-                  >
+                  {#if followed}
+                    <button
+                      class="button-element user-page-input red-bright-button"
+                      on:click={follow}>Unfollow</button
+                    >
+                  {:else}
+                    <button
+                      class="button-element user-page-input primary-button"
+                      on:click={follow}>Follow</button
+                    >
+                  {/if}
                   <a
                     href="/chat?id=blabla12342069"
                     class="button-element user-page-input secondary-button button-link"
@@ -136,12 +186,12 @@
         <div class="user-follows-wrp mobile">
           <div class="user-follow-element">
             <span class="user-follow-counter">
-              {#if user.followed_by}
-                {user.followed_by.length <= 1
-                  ? user.followed_by.length === 0
+              {#if user.followers}
+                {user.followers.length <= 1
+                  ? user.followers.length === 0
                     ? "0"
-                    : user.followed_by.length
-                  : user.followed_by.length}
+                    : user.followers.length
+                  : user.followers.length}
               {:else}
                 0
               {/if}
@@ -199,10 +249,17 @@
                 on:click={editProfile}>Edit profile</button
               >
             {:else}
-              <button
-                class="button-element user-page-input primary-button"
-                on:click={follow}>Follow</button
-              >
+              {#if followed}
+                <button
+                  class="button-element user-page-input red-bright-button"
+                  on:click={follow}>Unfollow</button
+                >
+              {:else}
+                <button
+                  class="button-element user-page-input primary-button"
+                  on:click={follow}>Follow</button
+                >
+              {/if}
               <a
                 href="/chat?id=blabla12342069"
                 class="button-element user-page-input secondary-button button-link"
