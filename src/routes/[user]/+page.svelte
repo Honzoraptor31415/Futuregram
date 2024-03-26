@@ -2,20 +2,47 @@
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
   import { page } from "$app/stores";
+  import LongHiddenText from "$lib/components/LongHiddenText.svelte";
+  import { browser } from "$app/environment";
+  import userDbData from "$lib/stores/user-db-data.js";
   export let data;
-
-  console.log(data);
-
-  let currLoggedInUser;
-  loggedInUser.subscribe((val) => {
-    currLoggedInUser = val;
-    console.log(val);
-  });
 
   let pageUser = data.user;
   let user: any;
   let pageError = "";
   let posts: any;
+  let currLoggedInUser: any;
+  let maxChars = browser
+    ? self.innerWidth > 970
+      ? 76
+      : self.innerWidth <= 970 && self.innerWidth >= 631
+        ? 69
+        : self.innerWidth <= 631
+          ? 37
+          : 0
+    : 0;
+  let currDbUser: any;
+
+  loggedInUser.subscribe((val) => {
+    currLoggedInUser = val;
+  });
+
+  userDbData.subscribe((val) => {
+    currDbUser = val;
+  });
+
+  if (browser) {
+    window.onresize = (e: any) => {
+      maxChars =
+        self.innerWidth > 970
+          ? 76
+          : self.innerWidth <= 970 && self.innerWidth >= 631
+            ? 69
+            : self.innerWidth <= 631
+              ? 37
+              : 0;
+    };
+  }
 
   page.subscribe((val: any) => {
     posts = null;
@@ -50,6 +77,10 @@
       posts = data;
     }
   }
+
+  function editProfile() {
+    console.log("Edit profile function");
+  }
 </script>
 
 <svelte:head>
@@ -65,6 +96,109 @@
             <h1 class="displayed-username">{user.displayed_username}</h1>
             <p class="user-page-username less">@{user.url_username}</p>
             <div class="user-buttons-desktop">
+              {#if currDbUser && currLoggedInUser}
+                {#if currDbUser.id === user.id}
+                  <button
+                    class="button-element user-page-input primary-button"
+                    on:click={editProfile}>Edit profile</button
+                  >
+                {:else}
+                  <button
+                    class="button-element user-page-input primary-button"
+                    on:click={follow}>Follow</button
+                  >
+                  <a
+                    href="/chat?id=blabla12342069"
+                    class="button-element user-page-input secondary-button button-link"
+                    >Message</a
+                  >
+                {/if}
+              {:else}
+                <a
+                  href="/login"
+                  class="button-element user-page-input primary-button"
+                  on:click={follow}>Follow</a
+                >
+                <a
+                  href="/login"
+                  class="button-element user-page-input secondary-button button-link"
+                  >Message</a
+                >
+              {/if}
+            </div>
+          </div>
+          <img
+            src={user.image_url}
+            class="user-page-pfp no-select"
+            alt="Profile pic"
+          />
+        </div>
+        <div class="user-follows-wrp mobile">
+          <div class="user-follow-element">
+            <span class="user-follow-counter">
+              {#if user.followed_by}
+                {user.followed_by.length <= 1
+                  ? user.followed_by.length === 0
+                    ? "0"
+                    : user.followed_by.length
+                  : user.followed_by.length}
+              {:else}
+                0
+              {/if}
+            </span>
+            <span class="follow-indicator even-less">Followers</span>
+          </div>
+          <div class="user-follow-element">
+            <span class="user-follow-counter">
+              {#if user.follows}
+                {user.follows.length <= 1
+                  ? user.follows.length === 0
+                    ? "0"
+                    : user.follows.length
+                  : user.follows.length}
+              {:else}
+                0
+              {/if}
+            </span>
+            <span class="follow-indicator even-less">Following</span>
+          </div>
+          <div class="user-follow-element">
+            <span class="user-follow-counter">
+              {#if posts}
+                {posts.length <= 1
+                  ? posts.length === 0
+                    ? "0"
+                    : posts.length
+                  : posts.length}
+              {:else}
+                0
+              {/if}
+            </span>
+            <span class="follow-indicator even-less">
+              {#if posts}
+                {posts.length <= 1
+                  ? posts.length === 0
+                    ? "Posts"
+                    : "Post"
+                  : "Posts"}
+              {:else}
+                Posts
+              {/if}
+            </span>
+          </div>
+        </div>
+        <p class="user-bio mobile">
+          <LongHiddenText text={user.bio} maxLength={maxChars} />
+        </p>
+        <p class="user-bio desktop">{user.bio}</p>
+        <div class="user-buttons-mobile">
+          {#if currDbUser && currLoggedInUser}
+            {#if currDbUser.id === user.id}
+              <button
+                class="button-element user-page-input primary-button"
+                on:click={editProfile}>Edit profile</button
+              >
+            {:else}
               <button
                 class="button-element user-page-input primary-button"
                 on:click={follow}>Follow</button
@@ -74,27 +208,19 @@
                 class="button-element user-page-input secondary-button button-link"
                 >Message</a
               >
-            </div>
-          </div>
-          <img
-            src={user.image_url}
-            class="user-page-pfp no-select"
-            alt="Profile pic"
-          />
-        </div>
-        <p class="user-bio">
-          {user.bio}
-        </p>
-        <div class="user-buttons-mobile">
-          <button
-            class="button-element user-page-input primary-button"
-            on:click={follow}>Follow</button
-          >
-          <a
-            href="/chat?id=blabla12342069"
-            class="button-element user-page-input secondary-button button-link"
-            >Message</a
-          >
+            {/if}
+          {:else}
+            <a
+              href="/login"
+              class="button-element user-page-input primary-button"
+              on:click={follow}>Follow</a
+            >
+            <a
+              href="/login"
+              class="button-element user-page-input secondary-button button-link"
+              >Message</a
+            >
+          {/if}
         </div>
       </div>
       <div class="user-posts-wrp">
@@ -113,7 +239,11 @@
             </div>
           {:else}
             <p class="no-posts less">
-              <b class="first-capital">{data.user}</b> didn't post yet.
+              <b>
+                {#if currDbUser}
+                  {currDbUser.id === user.id ? "You" : data.user}
+                {/if}
+              </b> didn't post yet.
             </p>
           {/if}
         </div>

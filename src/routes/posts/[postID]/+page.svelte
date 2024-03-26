@@ -11,6 +11,8 @@
   import Comment from "$lib/components/Comment.svelte";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
   import { page } from "$app/stores";
+  import LongHiddenText from "$lib/components/LongHiddenText.svelte";
+  import { browser } from "$app/environment";
   dayjs.extend(relativeTime);
   dayjs().format();
 
@@ -23,7 +25,28 @@
   let postCreator: any;
   let liked = false;
   let currDbUser: any;
-  let descShowed = false;
+  let maxChars = browser
+    ? self.innerWidth > 970
+      ? 69
+      : self.innerWidth <= 970 && self.innerWidth >= 631
+        ? 55
+        : self.innerWidth <= 631
+          ? 41
+          : 0
+    : 0;
+
+  if (browser) {
+    window.onresize = (e: object | Event) => {
+      maxChars =
+        self.innerWidth > 970
+          ? 69
+          : self.innerWidth <= 970 && self.innerWidth >= 631
+            ? 55
+            : self.innerWidth <= 631
+              ? 41
+              : 0;
+    };
+  }
 
   page.subscribe((val: any) => {
     getPost();
@@ -149,10 +172,6 @@
   function report() {
     console.log("Report function");
   }
-
-  function showmore() {
-    descShowed = !descShowed;
-  }
 </script>
 
 <svelte:head>
@@ -201,28 +220,10 @@
                   <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
                 </div>
                 <p class="feed-post-description">
-                  {#if post.description.length < 50}
-                    {post.description}
-                  {:else}
-                    {#if descShowed}
-                      {post.description}
-                    {:else}
-                      {post.description.slice(0, 45)}
-                    {/if}
-                    {#if descShowed}
-                      <button
-                        on:click={showmore}
-                        class="desc-dots showed-desc-dots hover-before-height"
-                        ><span class="less">less</span></button
-                      >
-                    {:else}
-                      <button
-                        on:click={showmore}
-                        class="desc-dots hover-before-height"
-                        ><span class="less">... more</span></button
-                      >
-                    {/if}
-                  {/if}
+                  <LongHiddenText
+                    text={post.description}
+                    maxLength={maxChars}
+                  />
                 </p>
               </div>
             </div>
@@ -234,7 +235,7 @@
             />
             <p class="feed-post-description-mobile">
               <span class="less">{postCreator.url_username}: </span>
-              {post.description}
+              <LongHiddenText text={post.description} maxLength={60} />
             </p>
             <div class="feed-post-bottom">
               <div class="flex-between">

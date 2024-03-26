@@ -14,7 +14,6 @@
   --main-border-radius: 14px;
   --search-border-brighter: rgba(255, 255, 255, 0.3);
   --nav-icon-current-color: white;
-  --accent-whiter: rgb(165, 255, 232);
 }
 
 * {
@@ -738,6 +737,10 @@ button {
   .search-results {}
 
   .search-result {}
+
+  .mobile {
+    display: none;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1153,6 +1156,10 @@ button {
     transform: translateY(-3px);
     border-color: rgba(255, 255, 255, 0.9);
   }
+
+  .mobile {
+    display: none;
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -1161,7 +1168,6 @@ button {
   body {
     --nav-icon-fill: rgb(160, 160, 160);
     --nav-height: 50px;
-    --nav-icon-current-color: var(--accent-whiter);
   }
 
   .form {
@@ -1177,6 +1183,7 @@ button {
     margin-block: 10px;
     width: calc(100% - 20px);
     padding: 10px;
+    height: 100%;
   }
 
   .user-page:not(:has(.no-posts)) {
@@ -1205,6 +1212,7 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-direction: column-reverse;
     width: 100%;
     margin-top: 20px;
   }
@@ -1217,12 +1225,12 @@ button {
 
   .user-bio {
     width: 100%;
-    text-align: center;
   }
 
   .user-text-info {
     display: flex;
     flex-direction: column;
+    text-align: center;
   }
 
   .displayed-username {
@@ -1236,7 +1244,7 @@ button {
 
   .user-page-top {
     min-height: 0;
-    padding-inline: 20px;
+    padding-inline: 10px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -1333,7 +1341,8 @@ button {
   }
 
   .post-prew:active {
-    transform: scale(1.04);
+    transform: scale(.9);
+    opacity: .6;
   }
 
   .dots-menu {
@@ -1558,6 +1567,38 @@ button {
     opacity: .4;
   }
 
+  .user-follows-wrp {
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+  }
+
+  .user-follow-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 100%;
+    gap: 4px;
+  }
+
+  .user-follow-counter {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  .follow-indicator {
+    font-weight: 600;
+  }
+
+  .button-element,
+  .button-link {
+    transition: .1s;
+  }
+
+  .desktop {
+    display: none;
+  }
+
   * {
     cursor: default !important;
   }
@@ -1623,8 +1664,8 @@ nav {
   border-radius: inherit;
 }
 
-.button-element:active:not(:focus-within),
-.button-link:active:not(:focus-within) {
+.button-element:active,
+.button-link:active {
   transform: scale(.9);
 }
 
@@ -1640,10 +1681,6 @@ nav {
 .form-error-input:hover,
 .form-error-input:focus {
   border-color: red;
-}
-
-.first-capital {
-  text-transform: capitalize;
 }
 
 .feed-post-action:first-child {
@@ -1934,4 +1971,8 @@ nav {
 .button-link span {
   user-select: none;
   -webkit-user-select: none;
+}
+
+.user-page-wrp {
+  padding-bottom: var(--nav-height);
 }

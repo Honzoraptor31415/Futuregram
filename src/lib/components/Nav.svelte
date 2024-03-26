@@ -12,7 +12,7 @@
 
   let menuVisible = false;
   let currDbUser: any;
-  let locationHref = browser && location.pathname;
+  let locationHref = browser && location.pathname.replaceAll("/", "");
 
   page.subscribe((val: any) => {
     locationHref = val.url.pathname.replaceAll("/", "");
