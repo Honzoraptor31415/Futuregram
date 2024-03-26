@@ -56,32 +56,54 @@
     if (currLoggedInUser) {
       followed = !followed;
       let followers = [];
+      let currUserFollows = [];
       const { data, error } = await supabase
         .from("users")
         .select()
         .eq("url_username", user.url_username);
+      const res = await supabase.from("users").select().eq("id", currDbUser.id);
+      res.data &&
+        res.data[0].follows &&
+        (currUserFollows = res.data[0].follows);
       data && data[0].followers && (followers = data[0].followers);
       if (followers && !followers.includes(currDbUser.url_username)) {
         followers.push(currDbUser.url_username);
+        currUserFollows.push(user.url_username);
         user.followers = followers;
-        const { error } = await supabase
-          .from("users")
-          .update({ followers: followers })
-          .eq("url_username", user.url_username);
+        updateFollowers(followers, user.url_username);
+        updateFollows(currUserFollows, currDbUser.url_username);
       } else {
         followers &&
           (followers = followers.filter((user: any) => {
             return user !== currDbUser.url_username;
           }));
+        currUserFollows &&
+          (currUserFollows = currUserFollows.filter((user: any) => {
+            return user !== pageUser;
+          }));
         user.followers = followers;
-        const { error } = await supabase
-          .from("users")
-          .update({ followers: followers })
-          .eq("url_username", user.url_username);
+        updateFollowers(followers, user.url_username);
+        updateFollows(currUserFollows, currDbUser.url_username);
       }
     } else {
       console.log("You have to be logged in to follow users.");
     }
+  }
+
+  async function updateFollows(value: string[], username: string) {
+    const { error } = await supabase
+      .from("users")
+      .update({ follows: value })
+      .eq("url_username", username);
+    console.log(error);
+  }
+
+  async function updateFollowers(value: string[], username: string) {
+    const { error } = await supabase
+      .from("users")
+      .update({ followers: value })
+      .eq("url_username", username);
+    console.log(error);
   }
 
   async function getUser() {
