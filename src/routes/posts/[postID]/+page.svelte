@@ -13,18 +13,20 @@
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
+  import type { dbUserData, dbPost, dbComment } from "$lib/types/db";
+  import type { authUser } from "$lib/types/auth";
   dayjs.extend(relativeTime);
   dayjs().format();
 
   export let data;
 
   let postID = data.postID;
-  let currUser: any;
-  let post: any;
-  let postComments: any[] = [];
-  let postCreator: any;
+  let currUser: authUser;
+  let post: dbPost;
+  let postComments: dbComment[] = [];
+  let postCreator: dbUserData;
   let liked = false;
-  let currDbUser: any;
+  let currDbUser: dbUserData;
   let maxChars = browser
     ? self.innerWidth > 970
       ? 69
@@ -54,7 +56,7 @@
   });
 
   loggedInUser.subscribe((val: any) => {
-    currUser = val;
+    val && (currUser = val);
   });
 
   async function getPost() {
@@ -147,7 +149,7 @@
           .eq("id", postID);
       } else {
         likes &&
-          (likes = likes.filter((user: any) => {
+          (likes = likes.filter((user: string) => {
             return user !== currDbUser.url_username;
           }));
         post.likes = likes;

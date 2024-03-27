@@ -5,13 +5,15 @@
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
   import userDbData from "$lib/stores/user-db-data.js";
+  import type { dbUserData, dbPost } from "$lib/types/db";
+  import type { authUser } from "$lib/types/auth";
   export let data;
 
   let pageUser = data.user;
-  let user: any;
+  let user: dbUserData;
   let pageError = "";
-  let posts: any;
-  let currLoggedInUser: any;
+  let posts: dbPost[] | null;
+  let currLoggedInUser: authUser;
   let maxChars = browser
     ? self.innerWidth > 970
       ? 76
@@ -21,7 +23,7 @@
           ? 37
           : 0
     : 0;
-  let currDbUser: any;
+  let currDbUser: dbUserData;
   let followed = false;
 
   loggedInUser.subscribe((val: any) => {

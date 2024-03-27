@@ -2,6 +2,8 @@
   import { browser } from "$app/environment";
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
+  import type { dbUserData } from "$lib/types/db";
+  import type { authUser } from "$lib/types/auth";
   export let data;
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
@@ -12,9 +14,9 @@
   let usernameLabel = "";
   let displayedNameLabel = "";
   let bioLabel = "";
-  let currUser: any;
+  let currUser: dbUserData;
 
-  async function getUserDBID(user: any) {
+  async function getUserDBID(user: authUser) {
     if (user) {
       browser && !user.user_metadata.db_id
         ? (userInDB = false)
@@ -24,7 +26,7 @@
     }
   }
 
-  loggedInUser.subscribe((val) => {
+  loggedInUser.subscribe((val: any) => {
     currUser = val;
     val
       ? getUserDBID(val)

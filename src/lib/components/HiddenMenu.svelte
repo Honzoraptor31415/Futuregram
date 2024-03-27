@@ -11,8 +11,6 @@
 
   let menuVisible = false;
 
-  console.log(typeof icon);
-
   browser &&
     document.addEventListener("click", () => {
       menuVisible = false;

@@ -8,22 +8,22 @@
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
-  import { browser } from "$app/environment";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
+  import type { dbUserData, dbComment } from "$lib/types/db";
+  import type { authUser } from "$lib/types/auth";
   dayjs.extend(relativeTime);
   dayjs().format();
 
   export let id: string;
 
-  let currUser: any;
-  let currDbUser: any;
-  let comment: any;
+  let currUser: authUser;
+  let currDbUser: dbUserData;
+  let comment: dbComment;
   let liked = false;
-  let commentCreator: any;
-  let menuVisible = false;
+  let commentCreator: dbUserData;
 
   loggedInUser.subscribe((val: any) => {
-    currUser = val;
+    val && (currUser = val);
   });
 
   userDbData.subscribe((val: any) => {
@@ -64,7 +64,7 @@
           .eq("id", id);
       } else {
         likes &&
-          (likes = likes.filter((user: any) => {
+          (likes = likes.filter((user: string) => {
             return user !== currDbUser.url_username;
           }));
         comment.likes = likes;

@@ -137,7 +137,7 @@
     }
   }
 
-  async function createUserAuth(dbID: any) {
+  async function createUserAuth(dbID: string) {
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
