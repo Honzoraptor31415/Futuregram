@@ -4,7 +4,7 @@
   --accent: 0, 255, 190;
   --accent2: 0, 208, 255;
   --main-border-color: rgba(128, 128, 128, 0.709);
-  --sec-border-color: rgba(128, 128, 128, 0.37);
+  --sec-border-color: rgba(128, 128, 128, 0.2);
   --nav-height: 75.5px;
   color-scheme: dark;
   --post-report-icon-color: rgb(255, 0, 0);
@@ -477,10 +477,6 @@ button {
   }
 
   .no-bg-nav-btn:hover path {
-    fill: rgba(255, 255, 255, 0.85);
-  }
-
-  .no-bg-nav-btn:focus-within path {
     fill: rgba(255, 255, 255, 0.85);
   }
 
@@ -1001,10 +997,6 @@ button {
   }
 
   .no-bg-nav-btn:hover path {
-    fill: rgba(255, 255, 255, 0.85);
-  }
-
-  .no-bg-nav-btn:focus-within path {
     fill: rgba(255, 255, 255, 0.85);
   }
 

@@ -9,10 +9,46 @@
   import UserIcon from "$lib/components/icons/UserIcon.svelte";
   import userDbData from "$lib/stores/user-db-data";
   import { page } from "$app/stores";
+  import HiddenMenu from "$lib/components/HiddenMenu.svelte";
 
   let menuVisible = false;
   let currDbUser: any;
   let locationHref = browser && location.pathname.replaceAll("/", "");
+  const loggedInMenuElements = [
+    {
+      class: "menu-link",
+      type: "link",
+      text: "Settings",
+      href: "/settings",
+    },
+    {
+      class: "menu-link",
+      type: "link",
+      text: "About Futuregram",
+      href: "/about",
+    },
+    {
+      class: "menu-link",
+      type: "button",
+      text: "Sign out",
+      onClick: signOut,
+    },
+  ];
+
+  const guestMenuElements = [
+    {
+      type: "link",
+      class: "menu-link",
+      text: "About Futuregram",
+      href: "/about",
+    },
+    {
+      type: "link",
+      class: "menu-link",
+      text: "Login",
+      href: "/login",
+    },
+  ];
 
   page.subscribe((val: any) => {
     locationHref = val.url.pathname.replaceAll("/", "");
@@ -28,15 +64,6 @@
   userDbData.subscribe((val: any) => {
     val && (currDbUser = val);
   });
-
-  browser &&
-    document.addEventListener("click", () => {
-      menuVisible = false;
-    });
-
-  function menu() {
-    menuVisible = !menuVisible;
-  }
 </script>
 
 {#if currDbUser}
@@ -76,20 +103,15 @@
       >
     </div>
     <div class="menu-button-wrp nav-side">
-      <button
-        on:click={(e) => {
-          e.stopPropagation();
-          menu();
-        }}
-        class="button-link nav-button no-bg-nav-btn"
-      >
-        <MenuIcon iconClass="icon nav-menu-icon" /></button
-      >
-      <div class={`dots-menu ${menuVisible ? "dots-menu-visible" : ""}`}>
-        <a href="/settings" class="menu-link">Settings</a>
-        <a href="/about" class="menu-link">About Futuregram</a>
-        <button class="menu-link" on:click={signOut}>Sign out</button>
-      </div>
+      <HiddenMenu
+        icon={MenuIcon}
+        iconClass="icon nav-menu-icon"
+        wrpClass="dots-menu"
+        btnClass="button-link nav-button no-bg-nav-btn"
+        wrpClassVis="dots-menu-visible"
+        wrpClassHid=""
+        elements={loggedInMenuElements}
+      />
     </div>
   </nav>
   <!-- MOBILE USER -->
@@ -148,19 +170,15 @@
       >
     </div>
     <div class="menu-button-wrp">
-      <button
-        on:click={(e) => {
-          e.stopPropagation();
-          menu();
-        }}
-        class="button-link nav-button no-bg-nav-btn"
-      >
-        <MenuIcon iconClass="icon nav-menu-icon" /></button
-      >
-      <div class={`dots-menu ${menuVisible ? "dots-menu-visible" : ""}`}>
-        <a href="/about" class="menu-link">About Futuregram</a>
-        <a href="/login" class="menu-link">Login</a>
-      </div>
+      <HiddenMenu
+        btnClass="button-link nav-button no-bg-nav-btn"
+        icon={MenuIcon}
+        wrpClass="dots-menu"
+        wrpClassVis="dots-menu-visible"
+        wrpClassHid=""
+        iconClass="icon nav-menu-icon"
+        elements={guestMenuElements}
+      />
     </div>
   </nav>
 

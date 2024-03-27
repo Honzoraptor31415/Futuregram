@@ -9,6 +9,7 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   import { browser } from "$app/environment";
+  import HiddenMenu from "$lib/components/HiddenMenu.svelte";
   dayjs.extend(relativeTime);
   dayjs().format();
 
@@ -112,13 +113,8 @@
     console.log(`Report function\nFor comment ${id}`);
   }
 
-  browser &&
-    document.addEventListener("click", () => {
-      menuVisible = false;
-    });
-
-  function menu() {
-    menuVisible = !menuVisible;
+  function block(uid: string) {
+    console.log(`Block function for ${uid}`);
   }
 </script>
 
@@ -143,21 +139,30 @@
             <p class="even-less comment-date">
               {dayjs(1710694355073).fromNow()}
             </p>
-            <button
-              on:click={(e) => {
-                e.stopPropagation();
-                menu();
-              }}
-              class="no-style comments-menu button-element before-hover-anim"
-            >
-              <ThreeDotsHoriz iconClass="small-post-icon" />
-              <div
-                class={`dots-menu ${menuVisible ? "dots-menu-visible" : ""}`}
-              >
-                <button class="menu-link red" on:click={report}>Report</button>
-                <button class="menu-link red">Block account</button>
-              </div>
-            </button>
+            <HiddenMenu
+              btnClass="no-style comments-menu button-element before-hover-anim"
+              icon={ThreeDotsHoriz}
+              iconClass="small-post-icon"
+              wrpClass="dots-menu"
+              wrpClassVis="dots-menu-visible"
+              wrpClassHid=""
+              elements={[
+                {
+                  type: "button",
+                  onClick: report,
+                  class: "menu-link red",
+                  text: "Report",
+                },
+                {
+                  type: "button",
+                  onClick: () => {
+                    block("random-id-45478-utfasdýasdýř87ř");
+                  },
+                  class: "menu-link red",
+                  text: "Block account",
+                },
+              ]}
+            />
           </div>
         </div>
         <p class="feed-comment-text">{comment.text}</p>
