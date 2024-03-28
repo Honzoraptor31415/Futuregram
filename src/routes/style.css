@@ -202,9 +202,6 @@ button {
   cursor: pointer;
   max-width: 180px;
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   transition: .15s;
   background: transparent;
 }
@@ -310,7 +307,6 @@ button {
   .user-page-pfp {
     max-height: 120px;
     width: auto;
-    border-radius: 50%;
   }
 
   .user-bio {
@@ -696,23 +692,22 @@ button {
   }
 
   .search-wrp {
-    background: rgb(10, 10, 10);
-    border: 1px var(--sec-border-color) solid;
     display: flex;
     align-items: center;
-    border-radius: var(--main-border-radius);
-    transition: .2s;
   }
 
-  .search-wrp:has(.search-input:hover) {
+  .search-wrp:has(.search-input:hover),
+  .dark-input:hover {
     border-color: var(--search-border-brighter);
   }
 
-  .search-wrp:has(.search-input:focus) {
+  .search-wrp:has(.search-input:focus),
+  .dark-input:focus {
     border-color: var(--search-border-brighter);
   }
 
-  .search-wrp:has(.search-input:focus) .search-input::placeholder {
+  .search-wrp:has(.search-input:focus) .search-input::placeholder,
+  .dark-input:focus::placeholder {
     color: var(--search-border-brighter);
   }
 
@@ -824,7 +819,6 @@ button {
   .user-page-pfp {
     max-height: 100px;
     width: auto;
-    border-radius: 50%;
   }
 
   .user-bio {
@@ -1210,23 +1204,22 @@ button {
   }
 
   .search-wrp {
-    background: rgb(10, 10, 10);
-    border: 1px var(--sec-border-color) solid;
     display: flex;
     align-items: center;
-    border-radius: var(--main-border-radius);
-    transition: .2s;
   }
 
-  .search-wrp:has(.search-input:hover) {
+  .search-wrp:has(.search-input:hover),
+  .dark-input:hover {
     border-color: var(--search-border-brighter);
   }
 
-  .search-wrp:has(.search-input:focus) {
+  .search-wrp:has(.search-input:focus),
+  .dark-input:focus {
     border-color: var(--search-border-brighter);
   }
 
-  .search-wrp:has(.search-input:focus) .search-input::placeholder {
+  .search-wrp:has(.search-input:focus) .search-input::placeholder,
+  .dark-input.dark-input:focus::placeholder {
     color: var(--search-border-brighter);
   }
 
@@ -1345,7 +1338,6 @@ button {
   .user-page-pfp {
     max-width: 70px;
     height: auto;
-    border-radius: 50%;
   }
 
   .user-bio {
@@ -1739,24 +1731,23 @@ button {
   }
 
   .search-wrp {
-    background: rgb(10, 10, 10);
-    border: 1px var(--sec-border-color) solid;
     display: flex;
     align-items: center;
-    border-radius: var(--main-border-radius);
-    transition: .2s;
     margin: 20px 20px 0 20px;
   }
 
-  .search-wrp:has(.search-input:active) {
+  .search-wrp:has(.search-input:active),
+  .dark-input:active {
     border-color: var(--search-border-brighter);
   }
 
-  .search-wrp:has(.search-input:focus) {
+  .search-wrp:has(.search-input:focus),
+  .dark-input:focus {
     border-color: var(--search-border-brighter);
   }
 
-  .search-wrp:has(.search-input:focus) .search-input::placeholder {
+  .search-wrp:has(.search-input:focus) .search-input::placeholder,
+  .dark-input:focus::placeholder {
     color: var(--search-border-brighter);
   }
 
@@ -1957,13 +1948,6 @@ nav {
   width: 25px;
 }
 
-.feed-post-user-image {
-  max-height: 40px;
-  width: auto;
-  border-radius: 50%;
-  margin-top: 4px;
-}
-
 .feed-post-username {
   line-height: 1.2;
   font-weight: 700;
@@ -2100,18 +2084,11 @@ nav {
   align-items: center;
 }
 
-.feed-comment-user-image {
-  max-height: 30px;
-  width: auto;
-  border-radius: 50%;
-  margin-top: 4px;
-}
+/* .feed-comment-user-image {} */
 
 .comments-menu {
   width: 20px;
   height: 20px;
-  display: grid;
-  place-items: center;
   box-sizing: content-box;
   padding: 4px;
   margin-left: 4px;
@@ -2211,8 +2188,29 @@ nav {
   flex-direction: column;
 }
 
-.result-user-image {
+/* .result-user-image {} */
+
+.dark-input {
+  background: rgb(10, 10, 10);
+  border: 1px var(--sec-border-color) solid;
+  border-radius: var(--main-border-radius);
+  transition: .2s;
+}
+
+.radius-50 {
+  border-radius: 50%;
+}
+
+.image-height-40 {
   max-height: 40px;
   width: auto;
-  border-radius: 50%;
+}
+
+.image-height-30 {
+  max-height: 30px;
+  width: auto;
+}
+
+.margin-top-4 {
+  margin-top: 4px;
 }

@@ -25,7 +25,7 @@
 
 <main class="search-main bottom-padding-nav">
   <div class="search-top">
-    <div class="search-wrp">
+    <div class="search-wrp dark-input">
       <label for="search" class="grid-wrp">
         <SearchIcon iconClass="text-field-icon" />
       </label>

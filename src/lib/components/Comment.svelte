@@ -126,7 +126,7 @@
           <img
             src={commentCreator.image_url}
             alt="Comment pfp"
-            class="feed-comment-user-image"
+            class="feed-comment-user-image radius-50 image-height-30 margin-top-4"
           /></a
         >
       </div>
@@ -140,7 +140,7 @@
               {dayjs(1710694355073).fromNow()}
             </p>
             <HiddenMenu
-              btnClass="no-style comments-menu button-element before-hover-anim"
+              btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
               icon={ThreeDotsHoriz}
               iconClass="small-post-icon"
               wrpClass="dots-menu"

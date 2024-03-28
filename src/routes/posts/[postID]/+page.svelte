@@ -191,7 +191,7 @@
               <img
                 src={postCreator.image_url}
                 alt={postCreator.url_username}
-                class="feed-post-user-image"
+                class="feed-post-user-image image-height-40 radius-50 margin-top-4"
               />
             </a>
           </div>
@@ -201,7 +201,7 @@
                 <img
                   src={postCreator.image_url}
                   alt={postCreator.url_username}
-                  class="feed-post-user-image"
+                  class="feed-post-user-image image-height-40 radius-50 margin-top-4"
                 /></a
               >
               <div class="feed-post-texts flex-between">

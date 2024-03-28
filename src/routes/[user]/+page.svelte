@@ -76,11 +76,11 @@
         updateFollows(currUserFollows, currDbUser.url_username);
       } else {
         followers &&
-          (followers = followers.filter((user: any) => {
+          (followers = followers.filter((user: string) => {
             return user !== currDbUser.url_username;
           }));
         currUserFollows &&
-          (currUserFollows = currUserFollows.filter((user: any) => {
+          (currUserFollows = currUserFollows.filter((user: string) => {
             return user !== pageUser;
           }));
         user.followers = followers;
@@ -203,7 +203,7 @@
           </div>
           <img
             src={user.image_url}
-            class="user-page-pfp no-select"
+            class="user-page-pfp radius-50 no-select"
             alt="Profile pic"
           />
         </div>
