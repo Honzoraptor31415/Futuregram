@@ -4,7 +4,7 @@
 
 <svg
   class={iconClass}
-  fill="white"
+  fill="rgb(188, 188, 188)"
   version="1.1"
   xmlns="http://www.w3.org/2000/svg"
   width="800px"

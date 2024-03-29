@@ -2,6 +2,7 @@
   import { browser } from "$app/environment";
   import loggedInUser from "$lib/stores/user";
   import PlusIcon from "$lib/components/icons/PlusIcon.svelte";
+  import RedFormStar from "$lib/components/RedFormStar.svelte";
 
   let title = "";
   let description = "";
@@ -17,8 +18,36 @@
     val === null && browser && (location.href = "/signup");
   });
 
+  function titleCheck() {
+    title = title.trim();
+    if (title.length < 1) {
+      titleLabel = "Title can't be empty";
+      return false;
+    } else if (title.length < 2) {
+      titleLabel = "Title is too short";
+      return false;
+    } else {
+      titleLabel = "";
+      return true;
+    }
+  }
+
+  function descriptionCheck() {
+    if (description.length > 500) {
+      descriptionLabel = "Description is too long";
+      return false;
+    } else {
+      descriptionLabel = "";
+      return true;
+    }
+  }
+
   function newPost() {
-    console.log("New post function");
+    titleCheck();
+    descriptionCheck();
+    if (titleCheck()) {
+      console.log("Everything's good");
+    }
   }
 </script>
 
@@ -33,7 +62,7 @@
     <h2 class="inline-auto">Create a new post</h2>
     <div class="form-content form">
       <div class="new-post-form-side">
-        <p class="label mobile">Add a photo</p>
+        <label for="photo" class="label mobile">Add a photo</label>
         <label for="photo" class="new-post-photo-button flex-center-all">
           <PlusIcon iconClass="image-height-40 new-post-button-icon" />
         </label>
@@ -50,7 +79,11 @@
           <label
             for="title"
             class={`no-tp ${titleLabel !== "" ? "form-error" : ""}`}
-            >{titleLabel === "" ? "Title" : titleLabel}</label
+            >{#if titleLabel === ""}
+              Title <RedFormStar startClass="left-0" />
+            {:else}
+              {titleLabel}
+            {/if}</label
           >
           <input
             type="text"

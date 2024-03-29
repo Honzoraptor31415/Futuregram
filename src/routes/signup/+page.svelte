@@ -2,6 +2,7 @@
   import { browser } from "$app/environment";
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
+  import RedFormStar from "$lib/components/RedFormStar.svelte";
   export let data;
 
   loggedInUser.subscribe((val) => {
@@ -226,8 +227,13 @@
           <label
             for="username"
             class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
-            >{usernameLabel === "" ? "Username" : usernameLabel}</label
           >
+            {#if usernameLabel === ""}
+              Username <RedFormStar startClass="left-0" />
+            {:else}
+              {usernameLabel}
+            {/if}
+          </label>
           <input
             type="text"
             id="username"
@@ -240,10 +246,13 @@
           <label
             for="displayed-name"
             class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
-            >{displayedNameLabel === ""
-              ? "Displayed username"
-              : displayedNameLabel}</label
           >
+            {#if displayedNameLabel === ""}
+              Displayed username <RedFormStar startClass="left-0" />
+            {:else}
+              {displayedNameLabel}
+            {/if}
+          </label>
           <input
             type="text"
             id="displayed-name"
@@ -253,9 +262,13 @@
           />
         </div>
         <div class="form-element">
-          <label for="email" class={emailLabel !== "" ? "form-error" : ""}
-            >{emailLabel === "" ? "Email" : emailLabel}</label
-          >
+          <label for="email" class={emailLabel !== "" ? "form-error" : ""}>
+            {#if emailLabel === ""}
+              Email <RedFormStar startClass="left-0" />
+            {:else}
+              {emailLabel}
+            {/if}
+          </label>
           <input
             type="text"
             id="email"
@@ -265,9 +278,16 @@
           />
         </div>
         <div class="form-element">
-          <label for="password" class={passwordLabel !== "" ? "form-error" : ""}
-            >{passwordLabel === "" ? "Password" : passwordLabel}</label
+          <label
+            for="password"
+            class={passwordLabel !== "" ? "form-error" : ""}
           >
+            {#if passwordLabel === ""}
+              Password <RedFormStar startClass="left-0" />
+            {:else}
+              {passwordLabel}
+            {/if}
+          </label>
           <input
             type="password"
             id="password"
@@ -278,9 +298,13 @@
         </div>
       </div>
       <div class="form-element signup-full-width">
-        <label for="user-bio" class={bioLabel !== "" ? "form-error" : ""}
-          >{bioLabel === "" ? "Bio" : bioLabel}</label
-        >
+        <label for="user-bio" class={bioLabel !== "" ? "form-error" : ""}>
+          {#if bioLabel === ""}
+            Bio <RedFormStar startClass="left-0" />
+          {:else}
+            {bioLabel}
+          {/if}
+        </label>
         <textarea
           bind:value={bio}
           id="user-bio"
