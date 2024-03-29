@@ -8,11 +8,23 @@
   let description = "";
   let titleLabel = "";
   let descriptionLabel = "";
+  let photo: string | any;
+  let photoFile: any;
   let files: any;
 
   $: if (files) {
     console.log(files);
   }
+
+  const onFileSelected = (e: any) => {
+    let image = e.target.files[0];
+    let reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onload = (e) => {
+      photo = e.target!.result;
+      console.log(e.target);
+    };
+  };
 
   loggedInUser.subscribe((val) => {
     val === null && browser && (location.href = "/signup");
@@ -61,18 +73,29 @@
   <form class="form sec-bg-element grid-wrp new-post-form" on:submit={newPost}>
     <h2 class="inline-auto">Create a new post</h2>
     <div class="form-content form">
-      <div class="new-post-form-side">
-        <label for="photo" class="label mobile">Add a photo</label>
-        <label for="photo" class="new-post-photo-button flex-center-all">
-          <PlusIcon iconClass="image-height-40 new-post-button-icon" />
-        </label>
-        <input
-          type="file"
-          id="photo"
-          class="hidden"
-          accept="image/jpeg,image/png,image/webp"
-          bind:files
-        />
+      <div class="new-post-form-side gap-0 justify-center">
+        {#if photo}
+          <img src={photo} alt={title} class="new-post-photo radius-main" />
+        {:else}
+          <label for="photo" class="label no-tp"
+            >Add a photo <RedFormStar
+              text="A photo"
+              startClass="left-0"
+            /></label
+          >
+          <label for="photo" class="new-post-photo-button flex-center-all">
+            <PlusIcon iconClass="image-height-40 new-post-button-icon" />
+          </label>
+          <input
+            type="file"
+            id="photo"
+            class="hidden"
+            accept="image/jpeg,image/png,image/webp"
+            on:change={(e) => onFileSelected(e)}
+            bind:this={photoFile}
+            bind:files
+          />
+        {/if}
       </div>
       <div class="new-post-form-side flex-between">
         <div class="form-element">
