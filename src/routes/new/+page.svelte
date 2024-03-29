@@ -73,9 +73,13 @@
   <form class="form sec-bg-element grid-wrp new-post-form" on:submit={newPost}>
     <h2 class="inline-auto">Create a new post</h2>
     <div class="form-content form">
-      <div class="new-post-form-side gap-0 justify-center">
+      <div class="new-post-form-side gap-0 new-post-photos-side">
         {#if photo}
-          <img src={photo} alt={title} class="new-post-photo radius-main" />
+          <div class="grid-wrp new-post-photos-grid">
+            <div class="grid-wrp new-post-photo-wrp">
+              <img src={photo} alt={title} class="new-post-photo radius-main" />
+            </div>
+          </div>
         {:else}
           <label for="photo" class="label no-tp"
             >Add a photo <RedFormStar
@@ -94,10 +98,11 @@
             on:change={(e) => onFileSelected(e)}
             bind:this={photoFile}
             bind:files
+            multiple
           />
         {/if}
       </div>
-      <div class="new-post-form-side flex-between">
+      <div class="new-post-form-side justify-center">
         <div class="form-element">
           <label
             for="title"
