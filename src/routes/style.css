@@ -1427,7 +1427,7 @@ button {
   }
 
   .user-page {
-    margin-block: 10px;
+    margin-bottom: 10px;
     width: calc(100% - 20px);
     padding: 10px;
     height: 100%;
@@ -2492,4 +2492,12 @@ nav {
 
 .new-post-photo-wrp {
   margin: 4px;
+}
+
+.mobile-nav-padding {
+  padding-top: var(--nav-height);
+}
+
+.right-25 {
+  right: 25px;
 }

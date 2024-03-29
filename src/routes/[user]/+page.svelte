@@ -7,6 +7,7 @@
   import userDbData from "$lib/stores/user-db-data.js";
   import type { dbUserData, dbPost } from "$lib/types/db";
   import type { authUser } from "$lib/types/auth";
+  import TopPostNav from "$lib/components/TopPostNav.svelte";
   export let data;
 
   let pageUser = data.user;
@@ -155,7 +156,8 @@
 </svelte:head>
 
 {#if user && !pageError}
-  <div class="user-page-wrp bottom-padding-nav">
+  <div class="user-page-wrp bottom-padding-nav mobile-nav-padding">
+    <TopPostNav {user} />
     <main class="user-page sec-bg-element">
       <div class="user-page-top">
         <div class="basic-user-info">
