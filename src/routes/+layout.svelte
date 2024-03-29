@@ -3,14 +3,19 @@
   import Nav from "$lib/components/Nav.svelte";
   import Footer from "$lib/components/Footer.svelte";
   import { browser } from "$app/environment";
-  const navDisallowedLocations = ["/login", "/signup"];
-  let noNav = true;
-  if (browser) {
-    noNav = !navDisallowedLocations.includes(location.pathname);
-  }
+  import { page } from "$app/stores";
+  const navDisallowedLocations = ["login", "signup"];
+  let nav = true;
+  page.subscribe((val: any) => {
+    if (browser) {
+      nav = !navDisallowedLocations.includes(
+        val.url.pathname.replaceAll("/", ""),
+      );
+    }
+  });
 </script>
 
-{#if browser && noNav}
+{#if browser && nav}
   <Nav />
 {/if}
 <slot />

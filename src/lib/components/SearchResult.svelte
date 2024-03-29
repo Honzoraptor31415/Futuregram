@@ -23,7 +23,7 @@
     </div>
     <div class="result-right-button">
       <button
-        class="button-element secondary-button user-page-input font-weight search-follow"
+        class="button-element secondary-button user-page-input search-follow"
         on:click={(e) => {
           e.preventDefault();
           follow();

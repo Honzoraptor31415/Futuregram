@@ -83,7 +83,7 @@
 
 <header class="flex-center-all">
   <form
-    class="sec-bg-element form-width-set form login-form"
+    class="sec-bg-element form-width-set form login-form no-nav"
     on:submit={emailPassworLogin}
   >
     <h2>Welcome back!</h2>

@@ -120,26 +120,22 @@
       <HomeIcon
         iconClass={`icon nav-menu-icon ${locationHref === "feed" ? "nav-icon-current" : ""}`}
       />
-      <span class="mobile-nav-btn-text">Home</span></a
-    >
+    </a>
     <a href="/search" class="button-link nav-button">
       <SearchIcon
         iconClass={`icon nav-menu-icon ${locationHref === "search" ? "nav-icon-current" : ""}`}
       />
-      <span class="mobile-nav-btn-text">Search</span></a
-    >
+    </a>
     <a href="/new" class="button-link nav-button">
       <NewIcon
         iconClass={`icon nav-menu-icon ${locationHref === "new" ? "nav-icon-current" : ""}`}
       />
-      <span class="mobile-nav-btn-text">Create</span>
     </a>
     <a href="/chat" class="button-link nav-button">
       <MessageIcon
         iconClass={`icon nav-menu-icon ${locationHref === "chat" ? "nav-icon-current" : ""}`}
       />
-      <span class="mobile-nav-btn-text">Chats</span></a
-    >
+    </a>
     <a
       href={`/${currDbUser.url_username ? currDbUser.url_username : ""}`}
       class="button-link nav-button"
@@ -147,8 +143,7 @@
       <UserIcon
         iconClass={`icon nav-menu-icon ${locationHref === currDbUser?.url_username ? "nav-icon-current" : ""}`}
       />
-      <span class="mobile-nav-btn-text">Profile</span></a
-    >
+    </a>
   </nav>
 {:else}
   <!-- DESKTOP GUEST -->
@@ -188,17 +183,14 @@
       <HomeIcon
         iconClass={`icon nav-menu-icon ${locationHref === "feed" ? "nav-icon-current" : ""}`}
       />
-      <span class="mobile-nav-btn-text">Home</span></a
-    >
+    </a>
     <a href="/search" class="button-link nav-button">
       <SearchIcon
         iconClass={`icon nav-menu-icon ${locationHref === "search" ? "nav-icon-current" : ""}`}
       />
-      <span class="mobile-nav-btn-text">Search</span></a
-    >
+    </a>
     <a href="/login" class="button-link nav-button">
       <UserIcon iconClass="icon nav-menu-icon" />
-      <span class="mobile-nav-btn-text">Login</span></a
-    >
+    </a>
   </nav>
 {/if}
