@@ -93,6 +93,9 @@ p a:hover {
   flex-direction: column;
   align-items: center;
   gap: 16px;
+}
+
+.form:not(.form-content) {
   margin-block: 10px;
 }
 
@@ -772,7 +775,7 @@ button {
   }
 
   .mobile {
-    display: none;
+    display: none !important;
   }
 
   .form-content {
@@ -809,6 +812,31 @@ button {
 
   .new-post-photos-side {
     max-height: 248px;
+  }
+
+  .user-follows-wrp {
+    display: flex;
+    width: fit-content;
+    justify-content: space-between;
+  }
+
+  .user-follow-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-inline: 20px;
+    min-width: 100px;
+    gap: 4px;
+  }
+
+  .user-follow-counter {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .follow-indicator {
+    font-weight: 600;
+    font-size: 1rem !important;
   }
 }
 
@@ -1227,7 +1255,7 @@ button {
   }
 
   .mobile {
-    display: none;
+    display: none !important;
   }
 
   .search-main {
@@ -1353,6 +1381,31 @@ button {
 
   .new-post-photos-side {
     max-height: 248px;
+  }
+
+  .user-follows-wrp {
+    display: flex;
+    width: fit-content;
+    justify-content: space-between;
+  }
+
+  .user-follow-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-inline: 20px;
+    min-width: 100px;
+    gap: 4px;
+  }
+
+  .user-follow-counter {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .follow-indicator {
+    font-weight: 600;
+    font-size: 1rem !important;
   }
 }
 

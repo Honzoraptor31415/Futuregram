@@ -207,7 +207,7 @@
             alt="Profile pic"
           />
         </div>
-        <div class="user-follows-wrp mobile">
+        <div class="user-follows-wrp inline-auto">
           <div class="user-follow-element">
             <span class="user-follow-counter">
               {#if user.followers}
@@ -220,7 +220,17 @@
                 0
               {/if}
             </span>
-            <span class="follow-indicator even-less">Followers</span>
+            <span class="follow-indicator even-less">
+              {#if user.followers}
+                {#if user.followers.length < 1 || user.followers.length > 1}
+                  Followers
+                {:else if user.followers.length === 1}
+                  Follower
+                {/if}
+              {:else}
+                Followers
+              {/if}
+            </span>
           </div>
           <div class="user-follow-element">
             <span class="user-follow-counter">

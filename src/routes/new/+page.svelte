@@ -82,7 +82,7 @@
           </div>
         {:else}
           <label for="photo" class="label no-tp"
-            >Add a photo <RedFormStar
+            >Add one or more photos <RedFormStar
               text="A photo"
               startClass="left-0"
             /></label
