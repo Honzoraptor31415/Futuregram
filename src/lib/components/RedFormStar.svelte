@@ -5,7 +5,7 @@
 
 <span class="red form-star relative">
   *
-  <p class={`form-star-description less ${startClass}`}>
+  <p class={`form-star-description ${startClass}`}>
     {text === "" ? "This field" : text} is required
   </p>
 </span>

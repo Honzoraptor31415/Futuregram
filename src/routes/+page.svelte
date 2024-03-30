@@ -5,6 +5,7 @@
   import type { dbUserData } from "$lib/types/db";
   import type { authUser } from "$lib/types/auth";
   export let data;
+  import RedFormStar from "$lib/components/RedFormStar.svelte";
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
   let userInDB: string | boolean = "waiting";
@@ -26,12 +27,12 @@
     }
   }
 
-  loggedInUser.subscribe((val: any) => {
-    currUser = val;
-    val
-      ? getUserDBID(val)
-      : val === null && browser && (location.href = "/signup");
-  });
+  // loggedInUser.subscribe((val: any) => {
+  //   currUser = val;
+  //   val
+  //     ? getUserDBID(val)
+  //     : val === null && browser && (location.href = "/signup");
+  // });
 
   function usernameCheck() {
     const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
@@ -120,58 +121,71 @@
   }
 </script>
 
-{#if currUser && !userInDB}
-  <header class="flex-center-all finish-signup">
-    <form class="sec-bg-element form" on:submit={finishSignup}>
-      <h2>Let's finish signing up!</h2>
-      <div class="signup-form-elements">
-        <div class="form-element">
-          <label
-            for="username"
-            class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
-            >{usernameLabel === "" ? "Username" : usernameLabel}</label
-          >
-          <input
-            type="text"
-            id="username"
-            bind:value={username}
-            class={`user-input user-input-text ${usernameLabel !== "" ? "form-error-input" : ""}`}
-            placeholder="Username"
-          />
-        </div>
-        <div class="form-element">
-          <label
-            for="displayed-name"
-            class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
-            >{displayedNameLabel === ""
-              ? "Displayed username"
-              : displayedNameLabel}</label
-          >
-          <input
-            type="text"
-            id="displayed-name"
-            bind:value={displayedName}
-            class={`user-input user-input-text ${displayedNameLabel !== "" ? "form-error-input" : ""}`}
-            placeholder="Displayed name"
-          />
-        </div>
-      </div>
-      <div class="form-element signup-full-width">
+<!-- {#if currUser && !userInDB} -->
+<header class="flex-center-all finish-signup mobile-nav-padding">
+  <form class="sec-bg-element form" on:submit={finishSignup}>
+    <h2>Let's finish signing up!</h2>
+    <div class="signup-form-elements">
+      <div class="form-element">
         <label
-          for="user-bio"
-          class={`no-tp ${bioLabel !== "" ? "form-error" : ""}`}
-          >{bioLabel === "" ? "Bio" : bioLabel}</label
+          for="username"
+          class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
         >
-        <textarea
-          bind:value={bio}
-          id="user-bio"
-          placeholder="Your bio"
-          class={`user-input user-input-text ${bioLabel !== "" ? "form-error-input" : ""}`}
-        ></textarea>
+          {#if usernameLabel === ""}
+            Username <RedFormStar startClass="left-0" />
+          {:else}
+            {usernameLabel}
+          {/if}
+        </label>
+        <input
+          type="text"
+          id="username"
+          bind:value={username}
+          class={`user-input user-input-text ${usernameLabel !== "" ? "form-error-input" : ""}`}
+          placeholder="Username"
+        />
       </div>
-      <button type="submit" class="user-input button-element primary-button"
-        >Finish!</button
+      <div class="form-element">
+        <label
+          for="displayed-name"
+          class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
+        >
+          {#if displayedNameLabel === ""}
+            Displayed name <RedFormStar startClass="left-0" />
+          {:else}
+            {displayedNameLabel}
+          {/if}
+        </label>
+        <input
+          type="text"
+          id="displayed-name"
+          bind:value={displayedName}
+          class={`user-input user-input-text ${displayedNameLabel !== "" ? "form-error-input" : ""}`}
+          placeholder="Displayed name"
+        />
+      </div>
+    </div>
+    <div class="form-element signup-full-width">
+      <label
+        for="user-bio"
+        class={`no-tp ${bioLabel !== "" ? "form-error" : ""}`}
       >
-    </form>
-  </header>
-{/if}
+        {#if bioLabel === ""}
+          Bio <RedFormStar startClass="left-0" />
+        {:else}
+          {bioLabel}
+        {/if}
+      </label>
+      <textarea
+        bind:value={bio}
+        id="user-bio"
+        placeholder="Your bio"
+        class={`user-input user-input-text ${bioLabel !== "" ? "form-error-input" : ""}`}
+      ></textarea>
+    </div>
+    <button type="submit" class="user-input button-element primary-button"
+      >Finish!</button
+    >
+  </form>
+</header>
+<!-- {/if} -->

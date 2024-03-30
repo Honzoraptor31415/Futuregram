@@ -2441,6 +2441,7 @@ nav {
   width: max-content;
   background: var(--tercBG);
   padding: 8px 11px;
+  color: rgb(215, 215, 215);
   border-radius: 10px;
   box-shadow: 0 3px 10px 2px rgba(0, 0, 0, 0.25);
   z-index: 5;
