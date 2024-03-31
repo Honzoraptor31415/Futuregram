@@ -15,6 +15,7 @@
   import { browser } from "$app/environment";
   import type { dbUserData, dbPost, dbComment } from "$lib/types/db";
   import type { authUser } from "$lib/types/auth";
+  import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   dayjs.extend(relativeTime);
   dayjs().format();
 
@@ -36,6 +37,8 @@
           ? 41
           : 0
     : 0;
+  let commentText = "";
+  let commentPlaceholder = "";
 
   if (browser) {
     window.onresize = (e: object | Event) => {
@@ -80,6 +83,7 @@
     if (data && data.length > 0) {
       postComments = data;
     }
+    commentsListener();
   }
   getComments();
 
@@ -166,7 +170,7 @@
 
   function likesListener() {
     const handleInserts = (payload: any) => {
-      console.log("Change received!", payload);
+      console.log("Likes received!", payload);
       post.likes = post.likes.filter((user: string) => {
         return user !== currDbUser.url_username;
       });
@@ -186,8 +190,49 @@
       .subscribe();
   }
 
-  function comment() {
-    console.log("Comment function");
+  function commentsListener() {
+    const handleInserts = (payload: any) => {
+      console.log("Comment received!", payload);
+      if (payload.new.post_id === postID) {
+        postComments = [...postComments, payload.new];
+      }
+    };
+
+    supabase
+      .channel("comments")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "comments" },
+        handleInserts,
+      )
+      .subscribe();
+  }
+
+  function commentCheck() {
+    commentText = commentText.trim();
+    if (commentText.length < 1) {
+      commentPlaceholder = "Comment can't be empty";
+      return false;
+    } else {
+      commentPlaceholder = "";
+      return true;
+    }
+  }
+
+  async function comment() {
+    if (currUser) {
+      if (commentCheck()) {
+        await supabase.from("comments").insert({
+          created_at: new Date().getTime(),
+          post_id: post.id,
+          user_id: currDbUser.id,
+          text: commentText,
+        });
+        commentText = "";
+      }
+    } else {
+      console.log("You have to be logged in to comment.");
+    }
   }
 
   function share(id: string) {
@@ -337,6 +382,26 @@
             {/each}
           {/if}
         </div>
+        <form
+          class={`comment-input-wrp user-input-text user-input ${commentPlaceholder === "" ? "" : "form-error-input"}`}
+          on:submit={(e) => {
+            e.preventDefault();
+            comment();
+          }}
+        >
+          <input
+            type="text"
+            id="comment-input"
+            placeholder={commentPlaceholder === ""
+              ? "Comment your thoughts!"
+              : commentPlaceholder}
+            class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
+            bind:value={commentText}
+          />
+          <button class="grid-wrp comment-button no-style button-element">
+            <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
+          </button>
+        </form>
       </div>
     {/if}
   </div>

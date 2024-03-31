@@ -838,6 +838,18 @@ button {
     font-weight: 600;
     font-size: 1rem !important;
   }
+
+  .feed-main {
+    padding-bottom: 20px;
+  }
+
+  .comment-button:hover path {
+    fill: white;
+  }
+
+  .comment-button:hover {
+    animation: comment-button-anim .55s forwards cubic-bezier(0.65, 0.11, 0.46, 1.05);
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1407,6 +1419,18 @@ button {
     font-weight: 600;
     font-size: 1rem !important;
   }
+
+  .feed-main {
+    padding-bottom: 20px;
+  }
+
+  .comment-button:hover path {
+    fill: white;
+  }
+
+  .comment-button:hover {
+    animation: comment-button-anim .55s forwards cubic-bezier(0.65, 0.11, 0.46, 1.05);
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -1970,6 +1994,18 @@ button {
     max-height: 170px;
   }
 
+  .comment-button:active path {
+    fill: white;
+  }
+
+  .comment-button:active {
+    opacity: .7;
+  }
+
+  .comment-input-wrp {
+    margin-inline: 6px;
+  }
+
   * {
     cursor: default !important;
   }
@@ -2501,4 +2537,57 @@ nav {
 
 .right-25 {
   right: 25px;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.comment-input-wrp {
+  display: flex;
+  align-items: center;
+}
+
+.comment-input {
+  max-height: 22px;
+  resize: none !important;
+  font-size: 1rem;
+}
+
+.comment-input-icon path {
+  transition: .1s;
+  fill: var(--main-border-color);
+}
+
+.comment-button {
+  cursor: pointer;
+  transition: .1s;
+  margin-left: 19px;
+}
+
+@keyframes comment-button-anim {
+  50% {
+    transform: scale(1.05) rotate(180deg);
+  }
+
+  99% {
+    transform: rotate(359deg);
+  }
+
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.image-height-1\.5rem {
+  max-height: 1.5rem;
+  width: auto;
+}
+
+.comment-input-icon {
+  width: 100%;
+}
+
+.comment-input-error::placeholder {
+  color: red;
 }
