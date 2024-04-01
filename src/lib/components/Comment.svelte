@@ -9,7 +9,7 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
-  import type { dbUserData, dbComment } from "$lib/types/db";
+  import type { dbUserData, dbComment, dbPost } from "$lib/types/db";
   import type { authUser } from "$lib/types/auth";
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -21,6 +21,37 @@
   let comment: dbComment;
   let liked = false;
   let commentCreator: dbUserData;
+  let postCreator: string;
+  const defaultCommentOpts = [
+    {
+      type: "button",
+      onClick: report,
+      class: "menu-link red",
+      text: "Report",
+    },
+    {
+      type: "button",
+      onClick: () => {
+        block("random-id-45478-utfasdýasdýř87ř");
+      },
+      class: "menu-link red",
+      text: "Block account",
+    },
+  ];
+  const userCommentOpts = [
+    {
+      type: "button",
+      onClick: edit,
+      class: "menu-link",
+      text: "Edit",
+    },
+    {
+      type: "button",
+      onClick: remove,
+      class: "menu-link red",
+      text: "Delete comment",
+    },
+  ];
 
   loggedInUser.subscribe((val: any) => {
     val && (currUser = val);
@@ -40,6 +71,7 @@
     if (data) {
       comment = data[0];
       getCommentCreator(data[0].user_id);
+      getPostCreator();
     } else {
       console.log(`Error while getting a comment (${id})`);
     }
@@ -97,6 +129,20 @@
     }
   }
 
+  async function getPostCreator() {
+    const { data } = await supabase
+      .from("posts")
+      .select()
+      .eq("id", comment.post_id);
+    if (data) {
+      const res = await supabase
+        .from("users")
+        .select()
+        .eq("id", data[0].user_id);
+      res.data && (postCreator = res.data[0].url_username);
+    }
+  }
+
   function share() {
     console.log(`Sharing post ${id}`);
   }
@@ -116,10 +162,18 @@
   function block(uid: string) {
     console.log(`Block function for ${uid}`);
   }
+
+  function edit() {
+    console.log("Edit function");
+  }
+
+  function remove() {
+    console.log("Delete comment function");
+  }
 </script>
 
 {#if comment}
-  {#if commentCreator}
+  {#if commentCreator && postCreator}
     <div class="feed-post-comment">
       <div class="feed-comment-left">
         <a href={`/${commentCreator.url_username}`} class="grid-wrp">
@@ -132,12 +186,14 @@
       </div>
       <div class="feed-comment-right">
         <div class="feed-comment-top flex-between">
-          <a href={`/${commentCreator.url_username}`} class="feed-post-username"
+          <a
+            href={`/${commentCreator.url_username}`}
+            class={`feed-post-username ${commentCreator.url_username === postCreator ? "grey-bg-text" : ""}`}
             >{commentCreator.url_username}</a
           >
           <div class="comment-top-right">
             <p class="even-less comment-date">
-              {dayjs(1710694355073).fromNow()}
+              {dayjs(comment.created_at).fromNow()}
             </p>
             <HiddenMenu
               btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
@@ -146,22 +202,9 @@
               wrpClass="dots-menu"
               wrpClassVis="dots-menu-visible"
               wrpClassHid=""
-              elements={[
-                {
-                  type: "button",
-                  onClick: report,
-                  class: "menu-link red",
-                  text: "Report",
-                },
-                {
-                  type: "button",
-                  onClick: () => {
-                    block("random-id-45478-utfasdýasdýř87ř");
-                  },
-                  class: "menu-link red",
-                  text: "Block account",
-                },
-              ]}
+              elements={commentCreator.url_username === currDbUser.url_username
+                ? userCommentOpts
+                : defaultCommentOpts}
             />
           </div>
         </div>

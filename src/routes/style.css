@@ -850,6 +850,10 @@ button {
   .comment-button:hover {
     animation: comment-button-anim .55s forwards cubic-bezier(0.65, 0.11, 0.46, 1.05);
   }
+
+  .comment-input-wrp {
+    bottom: 20px;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1431,6 +1435,10 @@ button {
   .comment-button:hover {
     animation: comment-button-anim .55s forwards cubic-bezier(0.65, 0.11, 0.46, 1.05);
   }
+
+  .comment-input-wrp {
+    bottom: 20px;
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -2004,6 +2012,7 @@ button {
 
   .comment-input-wrp {
     margin-inline: 6px;
+    bottom: calc(var(--nav-height) + 10px);
   }
 
   * {
@@ -2162,7 +2171,7 @@ nav {
 
 .feed-post-username {
   line-height: 1.2;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .feed-post-username:hover {
@@ -2264,10 +2273,6 @@ nav {
 .comment-action-icon {
   width: 23px;
   height: 23px;
-}
-
-.feed-post-comments-wrp {
-  border-top: 1px rgba(128, 128, 128, 0.158) solid;
 }
 
 .comment-actions-noreplies {
@@ -2545,13 +2550,25 @@ nav {
 
 .comment-input-wrp {
   display: flex;
+  position: sticky;
+  z-index: 2;
+  padding-inline: 19px;
+  border-radius: var(--main-border-radius);
   align-items: center;
 }
 
+.comment-input-wrp input::placeholder {
+  transition: .2s;
+}
+
+.comment-input-wrp input:focus::placeholder {
+  color: white;
+}
+
 .comment-input {
-  max-height: 22px;
   resize: none !important;
   font-size: 1rem;
+  padding-block: 12px;
 }
 
 .comment-input-icon path {
@@ -2590,4 +2607,15 @@ nav {
 
 .comment-input-error::placeholder {
   color: red;
+}
+
+.grey-bg-text {
+  background: var(--tercBG);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+.main-bg-blurry {
+  background: rgba(var(--mainBG), .8);
+  backdrop-filter: blur(5px);
 }

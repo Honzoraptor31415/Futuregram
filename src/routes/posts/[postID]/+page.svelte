@@ -375,33 +375,35 @@
             </div>
           </div>
         </div>
-        <div class="feed-post-comments-wrp">
-          {#if postComments}
-            {#each postComments as comment}
-              <Comment id={comment.id} />
-            {/each}
-          {/if}
+        <div>
+          <div class="feed-post-comments-wrp">
+            {#if postComments}
+              {#each postComments as comment}
+                <Comment id={comment.id} />
+              {/each}
+            {/if}
+          </div>
+          <form
+            class={`comment-input-wrp user-input-text main-bg-blurry ${commentPlaceholder === "" ? "" : "form-error-input"}`}
+            on:submit={(e) => {
+              e.preventDefault();
+              comment();
+            }}
+          >
+            <input
+              type="text"
+              id="comment-input"
+              placeholder={commentPlaceholder === ""
+                ? "Comment your thoughts!"
+                : commentPlaceholder}
+              class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
+              bind:value={commentText}
+            />
+            <button class="grid-wrp comment-button no-style button-element">
+              <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
+            </button>
+          </form>
         </div>
-        <form
-          class={`comment-input-wrp user-input-text user-input ${commentPlaceholder === "" ? "" : "form-error-input"}`}
-          on:submit={(e) => {
-            e.preventDefault();
-            comment();
-          }}
-        >
-          <input
-            type="text"
-            id="comment-input"
-            placeholder={commentPlaceholder === ""
-              ? "Comment your thoughts!"
-              : commentPlaceholder}
-            class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
-            bind:value={commentText}
-          />
-          <button class="grid-wrp comment-button no-style button-element">
-            <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
-          </button>
-        </form>
       </div>
     {/if}
   </div>
