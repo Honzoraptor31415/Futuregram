@@ -13,8 +13,8 @@
   import type { authUser } from "$lib/types/auth";
   dayjs.extend(relativeTime);
   dayjs().format();
-
   export let id: string;
+  import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
 
   let currUser: authUser;
   let currDbUser: dbUserData;
@@ -52,6 +52,9 @@
       text: "Delete comment",
     },
   ];
+  let editing = false;
+  let editingValue = "";
+  let editingValueLabel = "";
 
   loggedInUser.subscribe((val: any) => {
     val && (currUser = val);
@@ -70,6 +73,7 @@
 
     if (data) {
       comment = data[0];
+      editingValue = data[0].text;
       getCommentCreator(data[0].user_id);
       getPostCreator();
     } else {
@@ -164,11 +168,50 @@
   }
 
   function edit() {
-    console.log("Edit function");
+    if (commentCreator.url_username === currDbUser.url_username) {
+      editing = true;
+    }
   }
 
-  function remove() {
-    console.log("Delete comment function");
+  async function remove() {
+    if (commentCreator.url_username === currDbUser.url_username) {
+      comment &&
+        (await supabase.from("comments").delete().eq("id", comment.id));
+      const { data } = await supabase
+        .from("comments")
+        .select()
+        .eq("id", comment.id);
+      data && (comment = data[0]);
+    }
+  }
+
+  async function finishEditing() {
+    if (editingValueCheck()) {
+      editing = false;
+      await supabase
+        .from("comments")
+        .update({ text: editingValue })
+        .eq("id", comment.id);
+      const { data } = await supabase
+        .from("comments")
+        .select()
+        .eq("id", comment.id);
+      data && (comment = data[0]);
+    }
+  }
+
+  function editingValueCheck() {
+    editingValue = editingValue.trim();
+    if (editingValue.length < 1) {
+      editingValueLabel = "Text can't be empty";
+      return false;
+    } else if (editingValue.length > 500) {
+      editingValueLabel = "Text is too long";
+      return false;
+    } else {
+      editingValueLabel = "";
+      return true;
+    }
   }
 </script>
 
@@ -208,7 +251,29 @@
             />
           </div>
         </div>
-        <p class="feed-comment-text">{comment.text}</p>
+        {#if editing}
+          <form
+            on:submit={(e) => {
+              e.preventDefault();
+              finishEditing();
+            }}
+            class="flex-between edit-comment-wrp"
+          >
+            <textarea
+              id="comment-edit"
+              class="no-style no-resize comment-edit-input"
+              bind:value={editingValue}
+            ></textarea>
+            <button
+              type="submit"
+              class="grid-wrp comment-button no-style button-element"
+            >
+              <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
+            </button>
+          </form>
+        {:else}
+          <p class="feed-comment-text">{comment.text}</p>
+        {/if}
         <div class="flex-between">
           <div class="feed-post-actions">
             {#if currUser && currDbUser}

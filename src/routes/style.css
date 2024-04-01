@@ -2619,3 +2619,16 @@ nav {
   background: rgba(var(--mainBG), .8);
   backdrop-filter: blur(5px);
 }
+
+.no-resize {
+  resize: none !important;
+}
+
+.edit-comment-wrp {
+  align-items: center;
+}
+
+.comment-edit-input {
+  width: 100%;
+  font-size: 1rem;
+}

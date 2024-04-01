@@ -399,7 +399,10 @@
               class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
               bind:value={commentText}
             />
-            <button class="grid-wrp comment-button no-style button-element">
+            <button
+              type="submit"
+              class="grid-wrp comment-button no-style button-element"
+            >
               <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
             </button>
           </form>
