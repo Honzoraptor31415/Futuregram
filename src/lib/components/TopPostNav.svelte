@@ -8,6 +8,7 @@
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/user-db-data";
   export let user: dbUserData | null = null;
+  import { browser } from "$app/environment";
 
   console.log(user);
 
@@ -63,7 +64,8 @@
   }
 
   async function signOut() {
-    await supabase.auth.signOut();
+    const { error } = await supabase.auth.signOut();
+    !error && browser && (location.href = "/login");
   }
 
   function historyStep(step: string) {

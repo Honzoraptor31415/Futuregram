@@ -1,7 +1,6 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
   import HeartIcon from "$lib/components/icons/HeartIcon.svelte";
-  import CommentIcon from "$lib/components/icons/CommentIcon.svelte";
   import ShareIcon from "$lib/components/icons/ShareIcon.svelte";
   import ReportIcon from "$lib/components/icons/ReportIcon.svelte";
   import dayjs from "dayjs";
@@ -81,7 +80,11 @@
       .select()
       .eq("post_id", postID);
     if (data && data.length > 0) {
-      postComments = data;
+      postComments = data
+        .sort((a, b) => {
+          return a.likes.length - b.likes.length;
+        })
+        .reverse();
     }
     commentsListener();
   }
@@ -327,12 +330,6 @@
                       <HeartIcon iconClass="feed-action-icon heart-icon" />
                     </a>
                   {/if}
-                  <button
-                    class="feed-post-action before-hover-anim"
-                    on:click={comment}
-                  >
-                    <CommentIcon iconClass="feed-action-icon comment-icon" />
-                  </button>
                   <button
                     class="feed-post-action before-hover-anim"
                     on:click={() => {

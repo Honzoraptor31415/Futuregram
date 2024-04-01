@@ -8,6 +8,7 @@
   export let wrpClassHid: string;
   export let wrpClassVis: string;
   export let iconClass: string;
+  export let btnDisabled: boolean = false;
 
   let menuVisible = false;
 
@@ -26,6 +27,7 @@
     e.stopPropagation();
     menu();
   }}
+  disabled={btnDisabled}
   class={btnClass}
 >
   <svelte:component this={icon} {iconClass}></svelte:component>
@@ -35,8 +37,10 @@
       {#if element.type === "link"}
         <a class={element.class} href={element.href}>{element.text}</a>
       {:else}
-        <button class={element.class} on:click={element.onClick}
-          >{element.text}</button
+        <button
+          disabled={btnDisabled}
+          class={element.class}
+          on:click={element.onClick}>{element.text}</button
         >
       {/if}
     {/each}

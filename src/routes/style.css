@@ -2625,10 +2625,27 @@ nav {
 }
 
 .edit-comment-wrp {
-  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .comment-edit-input {
   width: 100%;
   font-size: 1rem;
+}
+
+.feed-post-comments-wrp {
+  border-top: 1px rgba(128, 128, 128, 0.158) solid;
+}
+
+.editing-buttons {
+  width: 100%;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
 }

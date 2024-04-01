@@ -248,6 +248,7 @@
               elements={commentCreator.url_username === currDbUser.url_username
                 ? userCommentOpts
                 : defaultCommentOpts}
+              btnDisabled={editing}
             />
           </div>
         </div>
@@ -264,12 +265,20 @@
               class="no-style no-resize comment-edit-input"
               bind:value={editingValue}
             ></textarea>
-            <button
-              type="submit"
-              class="grid-wrp comment-button no-style button-element"
-            >
-              <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
-            </button>
+            <div class="editing-buttons">
+              <button
+                type="button"
+                class="desc-dots hover-before-height"
+                on:click={() => {
+                  editing = false;
+                }}
+              >
+                <span class="less">Cancel</span>
+              </button>
+              <button type="submit" class="desc-dots hover-before-height">
+                Save
+              </button>
+            </div>
           </form>
         {:else}
           <p class="feed-comment-text">{comment.text}</p>
