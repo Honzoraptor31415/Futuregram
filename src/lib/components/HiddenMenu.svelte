@@ -33,16 +33,18 @@
   <svelte:component this={icon} {iconClass}></svelte:component>
 
   <div class={`${wrpClass} ${menuVisible ? wrpClassVis : wrpClassHid}`}>
-    {#each elements as element}
-      {#if element.type === "link"}
-        <a class={element.class} href={element.href}>{element.text}</a>
-      {:else}
-        <button
-          disabled={btnDisabled}
-          class={element.class}
-          on:click={element.onClick}>{element.text}</button
-        >
-      {/if}
-    {/each}
+    {#if !btnDisabled}
+      {#each elements as element}
+        {#if element.type === "link"}
+          <a class={element.class} href={element.href}>{element.text}</a>
+        {:else}
+          <button
+            disabled={btnDisabled}
+            class={element.class}
+            on:click={element.onClick}>{element.text}</button
+          >
+        {/if}
+      {/each}
+    {/if}
   </div>
 </button>

@@ -3,6 +3,9 @@
   import loggedInUser from "$lib/stores/user";
   import PlusIcon from "$lib/components/icons/PlusIcon.svelte";
   import RedFormStar from "$lib/components/RedFormStar.svelte";
+  import { supabase } from "$lib/supabaseClient";
+  import userDbData from "$lib/stores/user-db-data";
+  import type { dbUserData } from "$lib/types/db";
 
   let title = "";
   let description = "";
@@ -11,6 +14,11 @@
   let photo: string | any;
   let photoFile: any;
   let files: any;
+  let currDbUser: dbUserData;
+
+  userDbData.subscribe((val: any) => {
+    val && (currDbUser = val);
+  });
 
   $: if (files) {
     console.log(files);
@@ -54,11 +62,42 @@
     }
   }
 
+  function imageCheck() {
+    // some logic, that I'll make later
+    return true;
+  }
+
+  // async function uploadImage() {
+  //   const { data, error } = await supabase.storage
+  //     .from("post_images")
+  //     .upload(`${title.trim().replaceAll(" ", "_")}.png`, photo, {
+  //       cacheControl: "3600",
+  //       upsert: false,
+  //     });
+  // }
+
   function newPost() {
     titleCheck();
     descriptionCheck();
-    if (titleCheck()) {
-      console.log("Everything's good");
+    if (titleCheck() && descriptionCheck() && imageCheck()) {
+      insertPost();
+    }
+  }
+
+  async function insertPost() {
+    if (currDbUser) {
+      const { error } = await supabase.from("posts").insert({
+        created_at: new Date().getTime(),
+        // a random url, file upload will be coded later
+        image_url:
+          "https://gcmbwxvewajggyjepvpn.supabase.co/storage/v1/object/sign/post_images/example-image.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwb3N0X2ltYWdlcy9leGFtcGxlLWltYWdlLmpwZyIsImlhdCI6MTcxMDE1NDM2MywiZXhwIjoxNzQxNjkwMzYzfQ.RFett2JKNYfuPmv5EPYWlHbMKtSV-GeD8A7Vyx6iWeE&t=2024-03-11T10%3A52%3A43.648Z",
+        user_id: currDbUser.id,
+        description: description,
+        title: title,
+      });
+      console.log(error);
+    } else {
+      console.error("Error while uploading: user ain't logged in.");
     }
   }
 </script>
