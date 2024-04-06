@@ -3,7 +3,7 @@
   --secBG: rgb(40 40 40);
   --accent: 0, 255, 190;
   --accent2: 0, 208, 255;
-  --main-border-color: rgba(128, 128, 128, 0.709);
+  --main-border-color: rgb(100, 100, 100);
   --sec-border-color: rgba(128, 128, 128, 0.4);
   --terc-border-color: rgba(128, 128, 128, 0.2);
   --nav-height: 75.5px;
@@ -2648,4 +2648,32 @@ nav {
 button:disabled {
   opacity: .5;
   cursor: not-allowed;
+}
+
+.password-input-wrp:has(input:focus) input::placeholder {
+  color: white;
+}
+
+.password-input {
+  font-size: 1rem;
+  width: 100%;
+  padding: 12px 19px;
+}
+
+.password-input-wrp {
+  padding-right: 12px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: var(--main-border-radius);
+  align-items: center;
+}
+
+.password-show-button {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.password-show-button path {
+  fill: var(--main-border-color);
 }

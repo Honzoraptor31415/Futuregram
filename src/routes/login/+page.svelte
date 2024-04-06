@@ -2,6 +2,9 @@
   import { supabase } from "$lib/supabaseClient";
   import { browser } from "$app/environment";
   import loggedInUser from "$lib/stores/user";
+  import HideIcon from "$lib/components/icons/HideIcon.svelte";
+  import ShowIcon from "$lib/components/icons/ShowIcon.svelte";
+
   loggedInUser.subscribe((val) => {
     browser && val && (location.href = "/feed");
   });
@@ -9,6 +12,7 @@
   let password = "";
   let emailLabel = "";
   let passwordLabel = "";
+  let type = "password";
 
   function emailCheck() {
     if (email.length < 1) {
@@ -59,6 +63,7 @@
         default:
           break;
       }
+      !error && browser && (location.href = "/feed");
     }
   }
 
@@ -75,6 +80,20 @@
     });
     console.log(data, error);
   }
+
+  function setShowPassword() {
+    if (type === "password") {
+      type = "text";
+    } else {
+      type = "password";
+    }
+  }
+
+  const handleInput = (e: any) => {
+    password = type.match(/^(number|range)$/)
+      ? +e.target.value
+      : e.target.value;
+  };
 </script>
 
 <svelte:head>
@@ -132,13 +151,30 @@
       <label for="password" class={passwordLabel !== "" ? "form-error" : ""}
         >{passwordLabel === "" ? "Password" : passwordLabel}</label
       >
-      <input
-        type="password"
-        id="password"
-        bind:value={password}
-        class={`user-input user-input-text ${passwordLabel !== "" ? "form-error-input" : ""}`}
-        placeholder="Password"
-      />
+      <div
+        class={`user-input-text password-input-wrp ${passwordLabel !== "" ? "form-error-input" : ""}`}
+      >
+        <input
+          {type}
+          id="password"
+          on:input={handleInput}
+          class="password-input no-style"
+          placeholder="Password"
+        />
+        {#if password}
+          <button
+            type="button"
+            class="no-style before-hover-anim password-show-button"
+            on:click={setShowPassword}
+          >
+            {#if type === "text"}
+              <HideIcon iconClass="image-height-30" />
+            {:else}
+              <ShowIcon iconClass="image-height-30" />
+            {/if}
+          </button>
+        {/if}
+      </div>
     </div>
     <p class="less">
       Don't have an account yet? <a href="/signup">Sign up</a> for one.
