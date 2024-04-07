@@ -2,7 +2,12 @@
   export let iconClass: string;
 </script>
 
-<svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28"
+<svg
+  width="100"
+  height="100"
+  class={iconClass}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 28 28"
   ><path
     d="M20,26H8c-3.3,0-6-2.7-6-6V8c0-3.3,2.7-6,6-6h12c3.3,0,6,2.7,6,6v12C26,23.3,23.3,26,20,26z M8,4
   C5.8,4,4,5.8,4,8v12c0,2.2,1.8,4,4,4h12c2.2,0,4-1.8,4-4V8c0-2.2-1.8-4-4-4H8z M14,20c-0.6,0-1-0.4-1-1v-4H9c-0.6,0-1-0.4-1-1

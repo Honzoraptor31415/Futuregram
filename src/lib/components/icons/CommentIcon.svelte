@@ -6,6 +6,8 @@
   class={iconClass}
   xmlns="http://www.w3.org/2000/svg"
   viewBox="1 1 29 29"
+  width="100"
+  height="100"
   id="comment"
   ><path
     fill="grey"

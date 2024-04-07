@@ -3,6 +3,8 @@
 </script>
 
 <svg
+  width="100"
+  height="100"
   class={iconClass}
   version="1.1"
   viewBox="0 0 24 24"

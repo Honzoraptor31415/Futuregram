@@ -4,9 +4,9 @@
 
 <svg
   class={iconClass}
-  height="32"
+  height="100"
   viewBox="0 0 32 32"
-  width="32"
+  width="100"
   xmlns="http://www.w3.org/2000/svg"
   ><g fill="none" fill-rule="evenodd"
     ><path

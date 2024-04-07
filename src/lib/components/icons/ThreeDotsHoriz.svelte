@@ -3,6 +3,8 @@
 </script>
 
 <svg
+  width="100"
+  height="100"
   class={iconClass}
   xmlns="http://www.w3.org/2000/svg"
   enable-background="new 0 0 28 28"
