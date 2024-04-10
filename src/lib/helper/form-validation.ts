@@ -22,3 +22,79 @@ export function passwordCheck(password: string) {
     return ""
   }
 }
+
+export function usernameCheck(username: string, takenUsernames: string[]) {
+  const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
+  const disallowedUsernames = [
+    "feed",
+    "login",
+    "signup",
+    "chat",
+    "about",
+    "search",
+  ];
+  const containsOnlyAllowedChars = username
+    .toLocaleLowerCase()
+    .match(`^[${allowedUsernameChars}]+$`);
+  const isDisallowedUsername = disallowedUsernames.includes(
+    username.toLocaleLowerCase(),
+  );
+
+  if (username.length < 1) {
+    return "Username can't be empty";
+  } else if (!containsOnlyAllowedChars || isDisallowedUsername) {
+    return "Invalid username";
+  } else if (username.length > 30) {
+    return "Username is too long";
+  } else if (takenUsernames.includes(username)) {
+    return "Username already taken";
+  } else if (containsOnlyAllowedChars && !isDisallowedUsername) {
+    return ""
+  } else {
+    return ""
+  }
+}
+
+export function displayedNameCheck(displayedName: string) {
+  if (displayedName.length < 1) {
+    return "Name can't be empty";
+  } else if (displayedName.length > 30) {
+    return "Name is too long";
+  } else {
+    return ""
+  }
+}
+
+export function bioCheck(bio: string) {
+  if (bio.length < 1) {
+    return "Bio can't be empty";
+  } else if (bio.length > 200) {
+    return "Bio is too long";
+  } else {
+    return "";
+  }
+}
+
+export function titleCheck(title: string) {
+  title = title.trim();
+  if (title.length < 1) {
+    return "Title can't be empty";
+  } else if (title.length < 2) {
+    return "Title is too short";
+  } else {
+    return "";
+  }
+}
+
+export function descriptionCheck(description: string) {
+  if (description.length > 500) {
+    return "Description is too long";
+  } else {
+    return "";
+  }
+}
+
+export function imageCheck() {
+  // some logic, that I'll make later :D
+  return true;
+}

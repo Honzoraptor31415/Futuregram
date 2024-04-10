@@ -2,8 +2,9 @@
   import { browser } from "$app/environment";
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
-  import RedFormStar from "$lib/components/RedFormStar.svelte";
   export let data;
+  import * as validation from "$lib/helper/form-validation";
+  import FormElement from "$lib/components/FormElement.svelte";
 
   loggedInUser.subscribe((val) => {
     browser && val && (location.href = "/");
@@ -21,112 +22,24 @@
   let bioLabel = "";
   let verifyEmail = false;
 
-  function usernameCheck() {
-    const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
-    const disallowedUsernames = [
-      "feed",
-      "login",
-      "signup",
-      "chat",
-      "about",
-      "search",
-    ];
-    const containsOnlyAllowedChars = username
-      .toLocaleLowerCase()
-      .match(`^[${allowedUsernameChars}]+$`);
-    const isDisallowedUsername = disallowedUsernames.includes(
-      username.toLocaleLowerCase(),
-    );
-
-    if (username.length < 1) {
-      usernameLabel = "Username can't be empty";
-    } else if (!containsOnlyAllowedChars || isDisallowedUsername) {
-      usernameLabel = "Invalid username";
-      return false;
-    } else if (username.length > 30) {
-      usernameLabel = "Username is too long";
-      return false;
-    } else if (data.usernames.includes(username)) {
-      usernameLabel = "Username already taken";
-    } else if (containsOnlyAllowedChars && !isDisallowedUsername) {
-      usernameLabel = "";
-      return true;
-    }
-  }
-
-  function displayedNameCheck() {
-    if (displayedName.length < 1) {
-      displayedNameLabel = "Name can't be empty";
-      return false;
-    } else if (displayedName.length > 30) {
-      displayedNameLabel = "Name is too long";
-      return false;
-    } else {
-      displayedNameLabel = "";
-      return true;
-    }
-  }
-
-  function emailCheck() {
-    if (email.length < 1) {
-      emailLabel = "Email can't be empty";
-      return false;
-    } else if (
-      !email.match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      ) ||
-      email.length > 255
-    ) {
-      emailLabel = "Invalid email";
-      return false;
-    } else {
-      emailLabel = "";
-      return true;
-    }
-  }
-
-  function passwordCheck() {
-    if (password.length < 1) {
-      passwordLabel = "Password can't be empty";
-      return false;
-    } else if (password.length < 6) {
-      passwordLabel = "Password is too short";
-      return false;
-    } else {
-      passwordLabel = "";
-      return true;
-    }
-  }
-
-  function bioCheck() {
-    if (bio.length < 1) {
-      bioLabel = "Bio can't be empty";
-      return false;
-    } else if (bio.length > 200) {
-      bioLabel = "Bio is too long";
-      return false;
-    } else {
-      bioLabel = "";
-      return true;
-    }
-  }
-
   async function signUp() {
     username = username.trim();
     displayedName = displayedName.trim();
     email = email.trim().toLowerCase();
     bio = bio.trim();
-    usernameCheck();
-    displayedNameCheck();
-    emailCheck();
-    passwordCheck();
-    bioCheck();
+
+    usernameLabel = validation.usernameCheck(username, data.usernames);
+    displayedNameLabel = validation.displayedNameCheck(displayedName);
+    emailLabel = validation.emailCheck(email);
+    passwordLabel = validation.passwordCheck(password);
+    bioLabel = validation.bioCheck(bio);
+
     if (
-      usernameCheck() &&
-      displayedNameCheck() &&
-      emailCheck() &&
-      passwordCheck() &&
-      bioCheck()
+      validation.usernameCheck(username, data.usernames) === "" &&
+      validation.displayedNameCheck(displayedName) === "" &&
+      validation.emailCheck(email) === "" &&
+      validation.passwordCheck(password) === "" &&
+      validation.bioCheck(bio) === ""
     ) {
       usernameLabel = "";
       displayedNameLabel = "";
@@ -223,95 +136,57 @@
         <div class="line"></div>
       </div>
       <div class="signup-form-elements">
-        <div class="form-element">
-          <label
-            for="username"
-            class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
-          >
-            {#if usernameLabel === ""}
-              Username <RedFormStar starClass="left-0" />
-            {:else}
-              {usernameLabel}
-            {/if}
-          </label>
-          <input
-            type="text"
-            id="username"
-            bind:value={username}
-            class={`user-input user-input-text ${usernameLabel !== "" ? "form-error-input" : ""}`}
-            placeholder="Username"
-          />
-        </div>
-        <div class="form-element">
-          <label
-            for="displayed-name"
-            class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
-          >
-            {#if displayedNameLabel === ""}
-              Displayed username <RedFormStar starClass="left-0" />
-            {:else}
-              {displayedNameLabel}
-            {/if}
-          </label>
-          <input
-            type="text"
-            id="displayed-name"
-            bind:value={displayedName}
-            class={`user-input user-input-text ${displayedNameLabel !== "" ? "form-error-input" : ""}`}
-            placeholder="Displayed name"
-          />
-        </div>
-        <div class="form-element">
-          <label for="email" class={emailLabel !== "" ? "form-error" : ""}>
-            {#if emailLabel === ""}
-              Email <RedFormStar starClass="left-0" />
-            {:else}
-              {emailLabel}
-            {/if}
-          </label>
-          <input
-            type="text"
-            id="email"
-            bind:value={email}
-            class={`user-input user-input-text ${emailLabel !== "" ? "form-error-input" : ""}`}
-            placeholder="Email"
-          />
-        </div>
-        <div class="form-element">
-          <label
-            for="password"
-            class={passwordLabel !== "" ? "form-error" : ""}
-          >
-            {#if passwordLabel === ""}
-              Password <RedFormStar starClass="left-0" />
-            {:else}
-              {passwordLabel}
-            {/if}
-          </label>
-          <input
-            type="password"
-            id="password"
-            bind:value={password}
-            class={`user-input user-input-text ${passwordLabel !== "" ? "form-error-input" : ""}`}
-            placeholder="Password"
-          />
-        </div>
+        <FormElement
+          id="username"
+          labelClass="no-tp"
+          initLabel="Username"
+          required={true}
+          starClass="left-0"
+          placeholder="Username"
+          label={usernameLabel}
+          bind:value={username}
+        />
+        <FormElement
+          id="displayed-name"
+          labelClass="no-tp"
+          initLabel="Displayed username"
+          required={true}
+          starClass="left-0"
+          placeholder="Displayed name"
+          label={displayedNameLabel}
+          bind:value={displayedName}
+        />
+        <FormElement
+          id="email"
+          initLabel="Email"
+          required={true}
+          starClass="left-0"
+          placeholder="Email"
+          label={emailLabel}
+          bind:value={email}
+        />
+        <FormElement
+          id="password"
+          initLabel="Password"
+          required={true}
+          starClass="left-0"
+          placeholder="Password"
+          label={passwordLabel}
+          bind:value={password}
+          type="password"
+        />
       </div>
-      <div class="form-element w-full">
-        <label for="user-bio" class={bioLabel !== "" ? "form-error" : ""}>
-          {#if bioLabel === ""}
-            Bio <RedFormStar starClass="left-0" />
-          {:else}
-            {bioLabel}
-          {/if}
-        </label>
-        <textarea
-          bind:value={bio}
-          id="user-bio"
-          placeholder="Your bio"
-          class={`user-input user-input-text ${bioLabel !== "" ? "form-error-input" : ""}`}
-        ></textarea>
-      </div>
+      <FormElement
+        id="bio"
+        initLabel="Bio"
+        required={true}
+        starClass="left-0"
+        placeholder="Your bio"
+        label={bioLabel}
+        bind:value={bio}
+        wrpClass="w-full"
+        type="textarea"
+      />
       <p class="less">
         Already have an account? <a href="/login">Login</a>.
       </p>
