@@ -132,7 +132,7 @@
             class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
           >
             {#if usernameLabel === ""}
-              Username <RedFormStar startClass="left-0" />
+              Username <RedFormStar starClass="left-0" />
             {:else}
               {usernameLabel}
             {/if}
@@ -151,7 +151,7 @@
             class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
           >
             {#if displayedNameLabel === ""}
-              Displayed name <RedFormStar startClass="left-0" />
+              Displayed name <RedFormStar starClass="left-0" />
             {:else}
               {displayedNameLabel}
             {/if}
@@ -165,13 +165,13 @@
           />
         </div>
       </div>
-      <div class="form-element signup-full-width">
+      <div class="form-element w-full">
         <label
           for="user-bio"
           class={`no-tp ${bioLabel !== "" ? "form-error" : ""}`}
         >
           {#if bioLabel === ""}
-            Bio <RedFormStar startClass="left-0" />
+            Bio <RedFormStar starClass="left-0" />
           {:else}
             {bioLabel}
           {/if}

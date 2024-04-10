@@ -107,7 +107,7 @@
 </svelte:head>
 
 <main
-  class="new-post-main flex-center-all min-height-screen bottom-padding-nav"
+  class="new-post-main flex-center-all min-height-screen bottom-padding-nav desktop-nav-margin"
 >
   <form class="form sec-bg-element grid-wrp new-post-form" on:submit={newPost}>
     <h2 class="inline-auto">Create a new post</h2>
@@ -123,7 +123,7 @@
           <label for="photo" class="label no-tp"
             >Add one or more photos <RedFormStar
               text="A photo"
-              startClass="left-0"
+              starClass="left-0"
             /></label
           >
           <label for="photo" class="new-post-photo-button flex-center-all">
@@ -147,7 +147,7 @@
             for="title"
             class={`no-tp ${titleLabel !== "" ? "form-error" : ""}`}
             >{#if titleLabel === ""}
-              Title <RedFormStar startClass="left-0" />
+              Title <RedFormStar starClass="left-0" />
             {:else}
               {titleLabel}
             {/if}</label

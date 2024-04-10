@@ -23,7 +23,7 @@
   <title>Search on Futuregram</title>
 </svelte:head>
 
-<main class="search-main bottom-padding-nav">
+<main class="search-main bottom-padding-nav desktop-nav-margin">
   <div class="search-top">
     <div class="search-wrp dark-input">
       <label for="search" class="grid-wrp">

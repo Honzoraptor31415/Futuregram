@@ -13,7 +13,7 @@
     <img
       src={`https://xsgames.co/randomusers/assets/avatars/pixel/${Math.floor(Math.random() * 53)}.jpg`}
       alt="Result"
-      class="result-user-image radius-50 image-height-40"
+      class="result-user-image rounded image-height-40"
     />
   </div>
   <div class="result-right flex-between">

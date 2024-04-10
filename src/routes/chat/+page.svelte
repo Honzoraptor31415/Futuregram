@@ -2,6 +2,6 @@
   <title>Your chats</title>
 </svelte:head>
 
-<main>
+<main class="desktop-nav-margin">
   <h1>Chats</h1>
 </main>

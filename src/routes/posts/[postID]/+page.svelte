@@ -251,7 +251,7 @@
   <title>{post ? `"${post.title}" - Futuregram` : "Loading post..."}</title>
 </svelte:head>
 
-<main class="feed-main">
+<main class="feed-main desktop-nav-margin">
   <TopPostNav />
   <div class="feed-posts-wrp">
     {#if post && postCreator}
@@ -262,7 +262,7 @@
               <img
                 src={postCreator.image_url}
                 alt={postCreator.url_username}
-                class="feed-post-user-image image-height-40 radius-50 margin-top-4"
+                class="feed-post-user-image image-height-40 rounded margin-top-4"
               />
             </a>
           </div>
@@ -272,7 +272,7 @@
                 <img
                   src={postCreator.image_url}
                   alt={postCreator.url_username}
-                  class="feed-post-user-image image-height-40 radius-50 margin-top-4"
+                  class="feed-post-user-image image-height-40 rounded margin-top-4"
                 /></a
               >
               <div class="feed-post-texts flex-between">

@@ -156,7 +156,9 @@
 </svelte:head>
 
 {#if user && !pageError}
-  <div class="user-page-wrp bottom-padding-nav mobile-nav-padding">
+  <div
+    class="user-page-wrp desktop-nav-margin bottom-padding-nav mobile-nav-padding nav-top-space"
+  >
     <TopPostNav {user} />
     <main class="user-page sec-bg-element">
       <div class="user-page-top">
@@ -205,7 +207,7 @@
           </div>
           <img
             src={user.image_url}
-            class="user-page-pfp radius-50 no-select"
+            class="user-page-pfp rounded no-select"
             alt="Profile pic"
           />
         </div>

@@ -15,11 +15,11 @@
 {#if error}
   <Error code={404} message="Post was not found." />
 {:else if !postID}
-  <main>
+  <main class="desktop-nav-margin">
     <h1>Feed</h1>
   </main>
 {:else}
-  <main>
+  <main class="desktop-nav-margin">
     <h1>Post</h1>
   </main>
 {/if}

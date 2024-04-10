@@ -223,7 +223,7 @@
           <img
             src={commentCreator.image_url}
             alt="Comment pfp"
-            class="feed-comment-user-image radius-50 image-height-30 margin-top-4"
+            class="feed-comment-user-image rounded image-height-30 margin-top-4"
           /></a
         >
       </div>
