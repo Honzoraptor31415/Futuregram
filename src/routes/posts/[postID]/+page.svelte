@@ -315,7 +315,7 @@
                 <div class="feed-post-actions">
                   {#if currUser && currDbUser}
                     <button
-                      class="feed-post-action before-hover-anim"
+                      class="feed-post-action before-hover-anim rounded"
                       on:click={like}
                     >
                       <HeartIcon
@@ -325,13 +325,13 @@
                   {:else}
                     <a
                       href="/login"
-                      class="feed-post-action before-hover-anim button-link"
+                      class="feed-post-action before-hover-anim rounded button-link"
                     >
                       <HeartIcon iconClass="feed-action-icon heart-icon" />
                     </a>
                   {/if}
                   <button
-                    class="feed-post-action before-hover-anim"
+                    class="feed-post-action before-hover-anim rounded"
                     on:click={() => {
                       share("slkadfjhalskjdfhlakjshdljah123456");
                     }}
@@ -341,7 +341,7 @@
                 </div>
                 <div class="feed-post-actions">
                   <button
-                    class="feed-post-action before-hover-anim"
+                    class="feed-post-action before-hover-anim rounded"
                     on:click={report}
                   >
                     <ReportIcon iconClass="feed-action-icon report-icon" />

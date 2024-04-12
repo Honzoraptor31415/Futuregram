@@ -106,7 +106,7 @@
 
 <header class="flex-center-all">
   {#if !verifyEmail}
-    <form class="sec-bg-element form no-nav" on:submit={signUp}>
+    <form class="sec-bg-element form no-nav signup-form" on:submit={signUp}>
       <h2>Create an account 👇</h2>
       <div class="other-login-wrp">
         <button

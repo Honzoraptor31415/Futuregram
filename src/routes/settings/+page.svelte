@@ -48,6 +48,7 @@
             id="username"
             initLabel="Username"
             placeholder="Username"
+            label="Username"
             bind:value={username}
           />
           <button class="user-input button-element primary-button"

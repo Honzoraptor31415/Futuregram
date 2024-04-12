@@ -14,7 +14,6 @@
   dayjs.extend(relativeTime);
   dayjs().format();
   export let id: string;
-  import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
 
   let currUser: authUser;
   let currDbUser: dbUserData;
@@ -287,7 +286,7 @@
           <div class="feed-post-actions">
             {#if currUser && currDbUser}
               <button
-                class="feed-post-action before-hover-anim"
+                class="feed-post-action before-hover-anim rounded"
                 on:click={like}
               >
                 <HeartIcon
@@ -297,19 +296,25 @@
             {:else}
               <a
                 href="/login"
-                class="feed-post-action before-hover-anim button-link"
+                class="feed-post-action before-hover-anim button-link rounded"
               >
                 <HeartIcon
                   iconClass="feed-action-icon comment-action-icon heart-icon"
                 />
               </a>
             {/if}
-            <button class="feed-post-action before-hover-anim" on:click={reply}>
+            <button
+              class="feed-post-action before-hover-anim rounded"
+              on:click={reply}
+            >
               <CommentIcon
                 iconClass="feed-action-icon comment-action-icon comment-icon"
               />
             </button>
-            <button class="feed-post-action before-hover-anim" on:click={share}>
+            <button
+              class="feed-post-action before-hover-anim rounded"
+              on:click={share}
+            >
               <ShareIcon
                 iconClass="feed-action-icon comment-action-icon share-icon"
               />
