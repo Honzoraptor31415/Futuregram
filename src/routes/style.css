@@ -863,7 +863,33 @@ button {
     flex-direction: column;
   }
 
-  .settings-content {}
+  /* .settings-content {} */
+
+  .followers-dialog {
+    position: fixed;
+    max-height: 600px;
+    width: 400px;
+    animation: fade-in .2s forwards;
+    z-index: 8;
+  }
+
+  .followers-dialog-icon {
+    margin-inline: auto;
+    fill: white;
+  }
+
+  .followers-dialog-top {
+    align-items: center;
+  }
+
+  .follow-dialog-result {
+    padding: 16px 20px;
+  }
+
+  .followers-dialog-content {
+    margin-top: 13px;
+    overflow-y: auto;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1834,13 +1860,6 @@ button {
     padding-inline: 6px;
   }
 
-  .mobile-top-nav-icon {
-    height: 100%;
-    width: auto;
-    margin-inline: auto;
-    fill: white;
-  }
-
   main:has(.mobile-top-nav) {
     padding-top: var(--nav-height);
   }
@@ -2441,6 +2460,11 @@ nav {
   width: auto;
 }
 
+.image-height-20 {
+  max-height: 20px;
+  width: auto;
+}
+
 .image-height-70 {
   max-height: 70px;
   width: auto;
@@ -2698,4 +2722,60 @@ button:disabled {
 
 .signup-form .password-input-wrp {
   max-width: 235.5px;
+}
+
+.user-follow-element {
+  border-radius: 10px;
+}
+
+.less-padding-dialog {
+  padding: 13px;
+  box-shadow: 0px 4px 12px 3px rgba(0, 0, 0, 0.17);
+  border-radius: 10px;
+}
+
+.top-nav-icon {
+  height: 100%;
+  width: auto;
+  margin-inline: auto;
+  fill: white;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: .5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.fullscreen-fixed-wrp {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  animation: opacity-fade-in .1s forwards;
+  background: rgba(0, 0, 0, 0.24);
+}
+
+@keyframes opacity-fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.s1rem {
+  font-size: 1rem;
 }

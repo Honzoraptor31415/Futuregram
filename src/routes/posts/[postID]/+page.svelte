@@ -105,8 +105,8 @@
         .select()
         .eq("id", postID);
       data && data[0].likes && (likes = data[0].likes);
-      if (likes && !likes.includes(currDbUser.url_username)) {
-        likes.push(currDbUser.url_username);
+      if (likes && !likes.includes(currDbUser.id)) {
+        likes.push(currDbUser.id);
         post.likes = likes;
         const { error } = await supabase
           .from("posts")
@@ -124,17 +124,17 @@
   userDbData.subscribe((val: any) => {
     if (val) {
       currDbUser = val;
-      getLikes(val.url_username);
+      getLikes(val.id);
       likesListener();
     }
   });
 
-  async function getLikes(currUsername: string) {
+  async function getLikes(uid: string) {
     const { data, error } = await supabase
       .from("posts")
       .select()
       .eq("id", postID);
-    if (data && data[0].likes && data[0].likes.includes(currUsername)) {
+    if (data && data[0].likes && data[0].likes.includes(uid)) {
       liked = true;
     }
   }
@@ -148,8 +148,8 @@
         .select()
         .eq("id", postID);
       data && data[0].likes && (likes = data[0].likes);
-      if (likes && !likes.includes(currDbUser.url_username)) {
-        likes.push(currDbUser.url_username);
+      if (likes && !likes.includes(currDbUser.id)) {
+        likes.push(currDbUser.id);
         post.likes = likes;
         const { error } = await supabase
           .from("posts")
@@ -158,7 +158,7 @@
       } else {
         likes &&
           (likes = likes.filter((user: string) => {
-            return user !== currDbUser.url_username;
+            return user !== currDbUser.id;
           }));
         post.likes = likes;
         const { error } = await supabase
@@ -175,9 +175,9 @@
     const handleInserts = (payload: any) => {
       console.log("Likes received!", payload);
       post.likes = post.likes.filter((user: string) => {
-        return user !== currDbUser.url_username;
+        return user !== currDbUser.id;
       });
-      payload.new.likes && payload.new.likes.includes(currDbUser.url_username)
+      payload.new.likes && payload.new.likes.includes(currDbUser.id)
         ? (liked = true)
         : (liked = false);
       post.likes = payload.new.likes;

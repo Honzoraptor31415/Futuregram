@@ -9,6 +9,8 @@
   import type { AuthUser } from "$lib/types/auth";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
   export let data;
+  import CrossIcon from "$lib/components/icons/CrossIcon.svelte";
+  import SearchResult from "$lib/components/SearchResult.svelte";
 
   let pageUser = data.user;
   let user: DBUserData;
@@ -26,6 +28,7 @@
     : 0;
   let currDbUser: DBUserData;
   let followed = false;
+  let renderedDialog: "followers" | "following" | null = "followers";
 
   loggedInUser.subscribe((val: any) => {
     currLoggedInUser = val;
@@ -33,7 +36,7 @@
 
   userDbData.subscribe((val: any) => {
     currDbUser = val;
-    val && getFollowed(val.url_username);
+    val && getFollowed(val.id);
   });
 
   if (browser) {
@@ -52,6 +55,7 @@
   page.subscribe((val: any) => {
     posts = null;
     pageUser = val.data.user;
+    renderedDialog = null;
     getUser();
   });
 
@@ -63,49 +67,49 @@
       const { data, error } = await supabase
         .from("users")
         .select()
-        .eq("url_username", user.url_username);
+        .eq("id", user.id);
       const res = await supabase.from("users").select().eq("id", currDbUser.id);
       res.data &&
         res.data[0].follows &&
         (currUserFollows = res.data[0].follows);
       data && data[0].followers && (followers = data[0].followers);
-      if (followers && !followers.includes(currDbUser.url_username)) {
-        followers.push(currDbUser.url_username);
-        currUserFollows.push(user.url_username);
+      if (followers && !followers.includes(currDbUser.id)) {
+        followers.push(currDbUser.id);
+        currUserFollows.push(user.id);
         user.followers = followers;
-        updateFollowers(followers, user.url_username);
-        updateFollows(currUserFollows, currDbUser.url_username);
+        updateFollowers(followers, user.id);
+        updateFollows(currUserFollows, currDbUser.id);
       } else {
         followers &&
           (followers = followers.filter((user: string) => {
-            return user !== currDbUser.url_username;
+            return user !== currDbUser.id;
           }));
         currUserFollows &&
           (currUserFollows = currUserFollows.filter((user: string) => {
             return user !== pageUser;
           }));
         user.followers = followers;
-        updateFollowers(followers, user.url_username);
-        updateFollows(currUserFollows, currDbUser.url_username);
+        updateFollowers(followers, user.id);
+        updateFollows(currUserFollows, currDbUser.id);
       }
     } else {
       console.log("You have to be logged in to follow users.");
     }
   }
 
-  async function updateFollows(value: string[], username: string) {
+  async function updateFollows(value: string[], uid: string) {
     const { error } = await supabase
       .from("users")
       .update({ follows: value })
-      .eq("url_username", username);
+      .eq("id", uid);
     console.log(error);
   }
 
-  async function updateFollowers(value: string[], username: string) {
+  async function updateFollowers(value: string[], uid: string) {
     const { error } = await supabase
       .from("users")
       .update({ followers: value })
-      .eq("url_username", username);
+      .eq("id", uid);
     console.log(error);
   }
 
@@ -133,12 +137,12 @@
     }
   }
 
-  async function getFollowed(currUsername: string) {
+  async function getFollowed(uid: string) {
     const { data, error } = await supabase
       .from("users")
       .select()
       .eq("url_username", pageUser);
-    if (data && data[0].followers && data[0].followers.includes(currUsername)) {
+    if (data && data[0].followers && data[0].followers.includes(uid)) {
       followed = true;
       console.log("User is followed");
     } else {
@@ -149,6 +153,16 @@
   function editProfile() {
     console.log("Edit profile function");
   }
+
+  function setFollowDialog(dialog: "following" | "followers" | null) {
+    renderedDialog === dialog
+      ? (renderedDialog = null)
+      : (renderedDialog = dialog);
+  }
+
+  function followFromDialog(uid: string) {
+    console.log("Follow function form the dialog");
+  }
 </script>
 
 <svelte:head>
@@ -156,6 +170,53 @@
 </svelte:head>
 
 {#if user && !pageError}
+  {#if renderedDialog}
+    <button
+      on:click={() => {
+        setFollowDialog(null);
+      }}
+      class="fullscreen-fixed-wrp"
+    >
+      <button
+        on:click={(e) => {
+          e.stopPropagation();
+        }}
+        class="sec-bg-element followers-dialog less-padding-dialog s1rem"
+      >
+        <div class="followers-dialog-top flex-between">
+          <p>
+            <b>
+              {renderedDialog.slice(0, 1).toUpperCase() +
+                renderedDialog.slice(1, renderedDialog.length)}
+            </b>
+          </p>
+          <button
+            on:click={() => {
+              setFollowDialog(null);
+            }}
+            class="grid-wrp no-style button-element"
+          >
+            <CrossIcon iconClass="top-nav-icon image-height-20" />
+          </button>
+        </div>
+        <div class="followers-dialog-content">
+          <!--  -->
+
+          {#if renderedDialog === "followers"}
+            {#each user.followers as followerID}
+              <SearchResult id={followerID} followDialog={true} />
+            {/each}
+          {:else}
+            {#each user.follows as followerID}
+              <SearchResult id={followerID} followDialog={true} />
+            {/each}
+          {/if}
+
+          <!--  -->
+        </div>
+      </button>
+    </button>
+  {/if}
   <div
     class="user-page-wrp desktop-nav-margin bottom-padding-nav mobile-nav-padding nav-top-space"
   >
@@ -212,44 +273,99 @@
           />
         </div>
         <div class="user-follows-wrp inline-auto">
-          <div class="user-follow-element">
-            <span class="user-follow-counter">
-              {#if user.followers}
-                {user.followers.length <= 1
-                  ? user.followers.length === 0
-                    ? "0"
-                    : user.followers.length
-                  : user.followers.length}
-              {:else}
-                0
-              {/if}
-            </span>
-            <span class="follow-indicator even-less">
-              {#if user.followers}
-                {#if user.followers.length < 1 || user.followers.length > 1}
-                  Followers
-                {:else if user.followers.length === 1}
-                  Follower
+          {#if user.followers && user.followers.length > 0}
+            <button
+              on:click={() => {
+                setFollowDialog("followers");
+              }}
+              class="user-follow-element no-style before-hover-anim button-element pointer"
+            >
+              <span class="user-follow-counter">
+                {#if user.followers}
+                  {user.followers.length <= 1
+                    ? user.followers.length === 0
+                      ? "0"
+                      : user.followers.length
+                    : user.followers.length}
+                {:else}
+                  0
                 {/if}
-              {:else}
-                Followers
-              {/if}
-            </span>
-          </div>
-          <div class="user-follow-element">
-            <span class="user-follow-counter">
-              {#if user.follows}
-                {user.follows.length <= 1
-                  ? user.follows.length === 0
-                    ? "0"
-                    : user.follows.length
-                  : user.follows.length}
-              {:else}
-                0
-              {/if}
-            </span>
-            <span class="follow-indicator even-less">Following</span>
-          </div>
+              </span>
+              <span class="follow-indicator even-less">
+                {#if user.followers}
+                  {#if user.followers.length < 1 || user.followers.length > 1}
+                    Followers
+                  {:else if user.followers.length === 1}
+                    Follower
+                  {/if}
+                {:else}
+                  Followers
+                {/if}
+              </span>
+            </button>
+          {:else}
+            <div class="user-follow-element">
+              <span class="user-follow-counter">
+                {#if user.followers}
+                  {user.followers.length <= 1
+                    ? user.followers.length === 0
+                      ? "0"
+                      : user.followers.length
+                    : user.followers.length}
+                {:else}
+                  0
+                {/if}
+              </span>
+              <span class="follow-indicator even-less">
+                {#if user.followers}
+                  {#if user.followers.length < 1 || user.followers.length > 1}
+                    Followers
+                  {:else if user.followers.length === 1}
+                    Follower
+                  {/if}
+                {:else}
+                  Followers
+                {/if}
+              </span>
+            </div>
+          {/if}
+
+          {#if user.follows && user.follows.length > 0}
+            <button
+              on:click={() => {
+                setFollowDialog("following");
+              }}
+              class="user-follow-element no-style before-hover-anim button-element pointer"
+            >
+              <span class="user-follow-counter">
+                {#if user.follows}
+                  {user.follows.length <= 1
+                    ? user.follows.length === 0
+                      ? "0"
+                      : user.follows.length
+                    : user.follows.length}
+                {:else}
+                  0
+                {/if}
+              </span>
+              <span class="follow-indicator even-less">Following</span>
+            </button>
+          {:else}
+            <div class="user-follow-element">
+              <span class="user-follow-counter">
+                {#if user.follows}
+                  {user.follows.length <= 1
+                    ? user.follows.length === 0
+                      ? "0"
+                      : user.follows.length
+                    : user.follows.length}
+                {:else}
+                  0
+                {/if}
+              </span>
+              <span class="follow-indicator even-less">Following</span>
+            </div>
+          {/if}
           <div class="user-follow-element">
             <span class="user-follow-counter">
               {#if posts}

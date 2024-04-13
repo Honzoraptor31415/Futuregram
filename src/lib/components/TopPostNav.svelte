@@ -10,8 +10,6 @@
   export let user: DBUserData | null = null;
   import { browser } from "$app/environment";
 
-  console.log(user);
-
   let currUser: AuthUser;
   let currDbUser: DBUserData;
 
@@ -88,21 +86,14 @@
     }}
     class="grid-wrp no-style mobile-top-btn btn-active-opacity"
   >
-    <ArrowLeftIcon iconClass="mobile-top-nav-icon" />
-  </button>
-  <button
-    on:click={() => {
-      historyStep("back");
-    }}
-    class=""
-  >
+    <ArrowLeftIcon iconClass="top-nav-icon" />
   </button>
 
   {#if user}
     <HiddenMenu
       btnClass="grid-wrp no-style mobile-top-btn btn-active-opacity"
       icon={MenuIcon}
-      iconClass="mobile-top-nav-icon"
+      iconClass="top-nav-icon"
       wrpClass="dots-menu right-25"
       wrpClassVis="dots-menu-visible"
       wrpClassHid=""
