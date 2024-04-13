@@ -10,9 +10,10 @@
   import userDbData from "$lib/stores/user-db-data";
   import { page } from "$app/stores";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
-  import type { dbUserData } from "$lib/types/db";
+  import type { DBUserData } from "$lib/types/db";
+  import type { MenuElement } from "$lib/types/app";
 
-  let currDbUser: dbUserData;
+  let currDbUser: DBUserData;
   let locationHref = browser && location.pathname.replaceAll("/", "");
   const loggedInMenuElements = [
     {

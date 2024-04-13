@@ -1,4 +1,4 @@
-export type authUser = {
+export type AuthUser = {
   app_metadata: {
     provider: string,
     providers: any[]

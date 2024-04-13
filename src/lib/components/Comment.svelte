@@ -9,17 +9,17 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
-  import type { dbUserData, dbComment, dbPost } from "$lib/types/db";
-  import type { authUser } from "$lib/types/auth";
+  import type { DBUserData, DBComment, DBPost } from "$lib/types/db";
+  import type { AuthUser } from "$lib/types/auth";
   dayjs.extend(relativeTime);
   dayjs().format();
   export let id: string;
 
-  let currUser: authUser;
-  let currDbUser: dbUserData;
-  let comment: dbComment;
+  let currUser: AuthUser;
+  let currDbUser: DBUserData;
+  let comment: DBComment;
   let liked = false;
-  let commentCreator: dbUserData;
+  let commentCreator: DBUserData;
   let postCreator: string;
   const defaultCommentOpts = [
     {

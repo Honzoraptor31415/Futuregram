@@ -5,7 +5,7 @@
   import RedFormStar from "$lib/components/RedFormStar.svelte";
   import { supabase } from "$lib/supabaseClient";
   import userDbData from "$lib/stores/user-db-data";
-  import type { dbUserData } from "$lib/types/db";
+  import type { DBUserData } from "$lib/types/db";
 
   let title = "";
   let description = "";
@@ -14,7 +14,7 @@
   let photo: string | any;
   let photoFile: any;
   let files: any;
-  let currDbUser: dbUserData;
+  let currDbUser: DBUserData;
 
   userDbData.subscribe((val: any) => {
     val && (currDbUser = val);

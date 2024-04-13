@@ -1,8 +1,8 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import type { menuElement } from "$lib/types/app";
+  import type { MenuElement } from "$lib/types/app";
   export let icon: any;
-  export let elements: menuElement[];
+  export let elements: MenuElement[];
   export let btnClass: string;
   export let wrpClass: string;
   export let wrpClassHid: string;

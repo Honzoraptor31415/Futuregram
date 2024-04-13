@@ -2,18 +2,18 @@
   import ArrowLeftIcon from "$lib/components/icons/ArrowLeftIcon.svelte";
   import MenuIcon from "./icons/MenuIcon.svelte";
   import HiddenMenu from "./HiddenMenu.svelte";
-  import type { authUser } from "$lib/types/auth";
-  import type { dbUserData } from "$lib/types/db";
+  import type { AuthUser } from "$lib/types/auth";
+  import type { DBUserData } from "$lib/types/db";
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/user-db-data";
-  export let user: dbUserData | null = null;
+  export let user: DBUserData | null = null;
   import { browser } from "$app/environment";
 
   console.log(user);
 
-  let currUser: authUser;
-  let currDbUser: dbUserData;
+  let currUser: AuthUser;
+  let currDbUser: DBUserData;
 
   loggedInUser.subscribe((val: any) => {
     val !== null && (currUser = val);

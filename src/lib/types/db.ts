@@ -1,4 +1,4 @@
-export type dbUserData = {
+export type DBUserData = {
   bio: string,
   displayed_username: string,
   followers: string[],
@@ -9,7 +9,7 @@ export type dbUserData = {
   url_username: string
 }
 
-export type dbPost = {
+export type DBPost = {
   created_at: number,
   description: string,
   id: string,
@@ -19,7 +19,7 @@ export type dbPost = {
   user_id: string
 }
 
-export type dbComment = {
+export type DBComment = {
   created_at: number
   id: string
   likes: string[]

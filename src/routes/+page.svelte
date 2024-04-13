@@ -2,8 +2,8 @@
   import { browser } from "$app/environment";
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
-  import type { dbUserData } from "$lib/types/db";
-  import type { authUser } from "$lib/types/auth";
+  import type { DBUserData } from "$lib/types/db";
+  import type { AuthUser } from "$lib/types/auth";
   export let data;
   import RedFormStar from "$lib/components/RedFormStar.svelte";
 
@@ -15,9 +15,9 @@
   let usernameLabel = "";
   let displayedNameLabel = "";
   let bioLabel = "";
-  let currUser: dbUserData;
+  let currUser: DBUserData;
 
-  async function getUserDBID(user: authUser) {
+  async function getUserDBID(user: AuthUser) {
     if (user) {
       browser && !user.user_metadata.db_id
         ? (userInDB = false)

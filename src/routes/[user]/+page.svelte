@@ -5,16 +5,16 @@
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
   import userDbData from "$lib/stores/user-db-data.js";
-  import type { dbUserData, dbPost } from "$lib/types/db";
-  import type { authUser } from "$lib/types/auth";
+  import type { DBUserData, DBPost } from "$lib/types/db";
+  import type { AuthUser } from "$lib/types/auth";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
   export let data;
 
   let pageUser = data.user;
-  let user: dbUserData;
+  let user: DBUserData;
   let pageError = "";
-  let posts: dbPost[] | null;
-  let currLoggedInUser: authUser;
+  let posts: DBPost[] | null;
+  let currLoggedInUser: AuthUser;
   let maxChars = browser
     ? self.innerWidth > 970
       ? 76
@@ -24,7 +24,7 @@
           ? 37
           : 0
     : 0;
-  let currDbUser: dbUserData;
+  let currDbUser: DBUserData;
   let followed = false;
 
   loggedInUser.subscribe((val: any) => {

@@ -3,13 +3,13 @@
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/user-db-data";
   import { browser } from "$app/environment";
-  import type { authUser } from "$lib/types/auth";
-  import type { dbUserData } from "$lib/types/db";
+  import type { AuthUser } from "$lib/types/auth";
+  import type { DBUserData } from "$lib/types/db";
   import RedFormStar from "$lib/components/RedFormStar.svelte";
   import FormElement from "$lib/components/FormElement.svelte";
 
-  let currLoggedInUser: authUser;
-  let currUserDbData: dbUserData;
+  let currLoggedInUser: AuthUser;
+  let currUserDbData: DBUserData;
   let email = "";
   let emailLabel = "";
   let bio = "";

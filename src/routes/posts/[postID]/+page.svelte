@@ -12,8 +12,8 @@
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
-  import type { dbUserData, dbPost, dbComment } from "$lib/types/db";
-  import type { authUser } from "$lib/types/auth";
+  import type { DBUserData, DBPost, DBComment } from "$lib/types/db";
+  import type { AuthUser } from "$lib/types/auth";
   import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -21,12 +21,12 @@
   export let data;
 
   let postID = data.postID;
-  let currUser: authUser;
-  let post: dbPost;
-  let postComments: dbComment[] = [];
-  let postCreator: dbUserData;
+  let currUser: AuthUser;
+  let post: DBPost;
+  let postComments: DBComment[] = [];
+  let postCreator: DBUserData;
   let liked = false;
-  let currDbUser: dbUserData;
+  let currDbUser: DBUserData;
   let maxChars = browser
     ? self.innerWidth > 970
       ? 69

@@ -1,4 +1,4 @@
-export type menuElement = {
+export type MenuElement = {
   class: string,
   type: string,
   href?: string,
