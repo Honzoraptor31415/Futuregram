@@ -182,7 +182,7 @@
         }}
         class="sec-bg-element followers-dialog less-padding-dialog s1rem"
       >
-        <div class="followers-dialog-top flex-between">
+        <div class="followers-dialog-top align-center flex-between">
           <p>
             <b>
               {renderedDialog.slice(0, 1).toUpperCase() +
@@ -205,19 +205,7 @@
             {#each user.followers as followerID}
               <SearchResult uid={followerID} followDialog={true} />
             {/each}
-            {#each user.followers as followerID}
-              <SearchResult uid={followerID} followDialog={true} />
-            {/each}
-            {#each user.followers as followerID}
-              <SearchResult uid={followerID} followDialog={true} />
-            {/each}
           {:else}
-            {#each user.follows as followerID}
-              <SearchResult uid={followerID} followDialog={true} />
-            {/each}
-            {#each user.follows as followerID}
-              <SearchResult uid={followerID} followDialog={true} />
-            {/each}
             {#each user.follows as followerID}
               <SearchResult uid={followerID} followDialog={true} />
             {/each}
