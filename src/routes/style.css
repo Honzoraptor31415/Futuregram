@@ -27,6 +27,22 @@
   color: white;
 }
 
+::-webkit-scrollbar {
+  width: 7px;
+  border-radius: 3px;
+  background-color: var(--main-border-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secBG);
+  border-radius: 3px;
+  border: 1px var(--main-border-color) solid;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border: 1px rgb(150, 150, 150) solid;
+}
+
 header {
   min-height: 100svh;
 }
@@ -867,7 +883,6 @@ button {
 
   .followers-dialog {
     position: fixed;
-    max-height: 600px;
     width: 400px;
     animation: fade-in .2s forwards;
     z-index: 8;
@@ -884,10 +899,12 @@ button {
 
   .follow-dialog-result {
     padding: 16px 20px;
+    max-width: 100%;
   }
 
   .followers-dialog-content {
     margin-top: 13px;
+    max-height: 360px;
     overflow-y: auto;
   }
 }
@@ -2434,6 +2451,8 @@ nav {
 
 .result-info {
   display: flex;
+  text-align: left;
+  word-wrap: break-word;
   flex-direction: column;
 }
 
@@ -2778,4 +2797,24 @@ button:disabled {
 
 .s1rem {
   font-size: 1rem;
+}
+
+.follow-dialog-info {
+  max-width: 147px;
+}
+
+.followers-dialog-content::-webkit-scrollbar {
+  width: 5px;
+  border-radius: 3px;
+  background-color: var(--main-border-color);
+}
+
+.followers-dialog-content::-webkit-scrollbar-thumb {
+  background: var(--secBG);
+  border-radius: 3px;
+  border: 1px var(--main-border-color) solid;
+}
+
+.followers-dialog-content::-webkit-scrollbar-thumb:hover {
+  border: 1px rgb(150, 150, 150) solid;
 }

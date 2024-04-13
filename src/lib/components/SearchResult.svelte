@@ -1,38 +1,53 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
-  export let id: string;
+  import type { DBUserData } from "$lib/types/db";
+  export let uid: string;
   export let followDialog: boolean = false;
-  console.log(id);
+
+  let user: DBUserData;
+
+  async function getUser() {
+    const { data } = await supabase.from("users").select().eq("id", uid);
+
+    data && (user = data[0]);
+  }
+  getUser();
 
   function follow() {
     console.log("Follow function");
   }
 </script>
 
-<a
-  href="/honzoraptor"
-  class={`search-result ${followDialog ? "follow-dialog-result" : ""}`}
->
-  <div class="result-left">
-    <img
-      src={`https://xsgames.co/randomusers/assets/avatars/pixel/${Math.floor(Math.random() * 53)}.jpg`}
-      alt="Result"
-      class={`result-user-image rounded image-height-40`}
-    />
-  </div>
-  <div class="result-right flex-between">
-    <div class="result-info">
-      <p class="result-displayed-username feed-post-username">Example user</p>
-      <p class="result-url-username less font-weight-normal">example.user</p>
+{#if user}
+  <a
+    href={`/${user.url_username}`}
+    class={`search-result ${followDialog ? "follow-dialog-result" : ""}`}
+  >
+    <div class="result-left">
+      <img
+        src={user.image_url}
+        alt="Result"
+        class={`result-user-image rounded image-height-40`}
+      />
     </div>
-    <div class="result-right-button">
-      <button
-        class="button-element secondary-button user-page-input search-follow"
-        on:click={(e) => {
-          e.preventDefault();
-          follow();
-        }}>Follow</button
-      >
+    <div class="result-right flex-between">
+      <div class={`result-info ${followDialog ? "follow-dialog-info" : ""}`}>
+        <p class="result-displayed-username feed-post-username">
+          {user.displayed_username}
+        </p>
+        <p class="result-url-username less font-weight-normal">
+          {user.url_username}
+        </p>
+      </div>
+      <div class="result-right-button">
+        <button
+          class="button-element secondary-button user-page-input search-follow"
+          on:click={(e) => {
+            e.preventDefault();
+            follow();
+          }}>Follow</button
+        >
+      </div>
     </div>
-  </div>
-</a>
+  </a>
+{/if}

@@ -204,11 +204,23 @@
 
           {#if renderedDialog === "followers"}
             {#each user.followers as followerID}
-              <SearchResult id={followerID} followDialog={true} />
+              <SearchResult uid={followerID} followDialog={true} />
+            {/each}
+            {#each user.followers as followerID}
+              <SearchResult uid={followerID} followDialog={true} />
+            {/each}
+            {#each user.followers as followerID}
+              <SearchResult uid={followerID} followDialog={true} />
             {/each}
           {:else}
             {#each user.follows as followerID}
-              <SearchResult id={followerID} followDialog={true} />
+              <SearchResult uid={followerID} followDialog={true} />
+            {/each}
+            {#each user.follows as followerID}
+              <SearchResult uid={followerID} followDialog={true} />
+            {/each}
+            {#each user.follows as followerID}
+              <SearchResult uid={followerID} followDialog={true} />
             {/each}
           {/if}
 

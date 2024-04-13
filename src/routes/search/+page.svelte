@@ -4,14 +4,10 @@
   import SearchResult from "$lib/components/SearchResult.svelte";
 
   const results = [
-    "fhkasflhhsdkflh",
-    "jhgkjhg51597žjhd-sdfůah",
-    "lajsf-768igjlgasdf-uotdasU",
-    "LJASGDF6-fhgFHJASD",
-    "fhkasflhhsdkjhagfflh",
-    "jhgkjhg51234567597žjhd-sdfůah",
-    "l-768igjlgasdf-uotdasU",
-    "ljasfljglj78pen1s-fhgFHJASD",
+    "3f755bce-f7a3-4251-907c-3ac9d4a5adc7",
+    "3bf69b16-0140-4679-970d-03b6f8710e7f",
+    "696eb608-b094-465f-903b-9bb38d11fdfe",
+    "71bc76bd-719e-4e93-bbc2-e1bbb4417603",
   ];
 
   function search() {
@@ -39,7 +35,7 @@
   </div>
   <div class="search-results">
     {#each results as result}
-      <SearchResult id={result} />
+      <SearchResult uid={result} />
     {/each}
   </div>
 </main>
