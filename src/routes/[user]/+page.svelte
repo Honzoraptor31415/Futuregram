@@ -11,7 +11,6 @@
   export let data;
   import CrossIcon from "$lib/components/icons/CrossIcon.svelte";
   import SearchResult from "$lib/components/SearchResult.svelte";
-
   let pageUser = data.user;
   let user: DBUserData;
   let pageError = "";
