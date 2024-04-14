@@ -17,6 +17,7 @@
   let photoFile: any;
   let files: any;
   let currDbUser: DBUserData;
+  let image: any;
 
   userDbData.subscribe((val: any) => {
     val && (currDbUser = val);
@@ -27,7 +28,7 @@
   }
 
   const onFileSelected = (e: any) => {
-    let image = e.target.files[0];
+    image = e.target.files[0];
     let reader = new FileReader();
     reader.readAsDataURL(image);
     reader.onload = (e) => {
@@ -69,7 +70,7 @@
       .from("post_images")
       .upload(
         `${title.trim().replaceAll(" ", "-") + new Date().getTime()}-.png`,
-        photo,
+        image,
         {
           cacheControl: "3600",
           upsert: false,
