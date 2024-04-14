@@ -1217,6 +1217,11 @@ button {
     transition: .15s;
   }
 
+  .before-hover-anim:not(.no-hover-before):hover::before {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+
   .feed-post-action:hover .heart-icon path {
     stroke: rgb(255, 0, 144);
   }

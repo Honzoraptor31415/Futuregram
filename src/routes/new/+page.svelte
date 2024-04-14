@@ -6,6 +6,8 @@
   import { supabase } from "$lib/supabaseClient";
   import userDbData from "$lib/stores/user-db-data";
   import type { DBUserData } from "$lib/types/db";
+  import { imageCheck } from "$lib/helper/form-validation";
+  import type { StorageResponse } from "$lib/types/storage";
 
   let title = "";
   let description = "";
@@ -62,35 +64,48 @@
     }
   }
 
-  function imageCheck() {
-    // some logic, that I'll make later
-    return true;
-  }
+  async function uploadImage() {
+    const uploadImageResponse: StorageResponse = await supabase.storage
+      .from("post_images")
+      .upload(
+        `${title.trim().replaceAll(" ", "-") + new Date().getTime()}-.png`,
+        photo,
+        {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: files[0].type,
+        },
+      );
 
-  // async function uploadImage() {
-  //   const { data, error } = await supabase.storage
-  //     .from("post_images")
-  //     .upload(`${title.trim().replaceAll(" ", "_")}.png`, photo, {
-  //       cacheControl: "3600",
-  //       upsert: false,
-  //     });
-  // }
+    if (uploadImageResponse.data.path) {
+      const getImageURLResponse = supabase.storage
+        .from("post_images")
+        .getPublicUrl(uploadImageResponse.data.path);
+
+      console.log(getImageURLResponse.data.publicUrl);
+      return {
+        imageURL: getImageURLResponse.data.publicUrl,
+      };
+    }
+  }
 
   function newPost() {
     titleCheck();
     descriptionCheck();
     if (titleCheck() && descriptionCheck() && imageCheck()) {
-      insertPost();
+      uploadImage().then((data) => {
+        if (data) {
+          insertPost(data.imageURL);
+        }
+      });
     }
   }
 
-  async function insertPost() {
+  async function insertPost(imgURL: string) {
     if (currDbUser) {
       const { error } = await supabase.from("posts").insert({
         created_at: new Date().getTime(),
-        // a random url, file upload will be coded later
-        image_url:
-          "https://gcmbwxvewajggyjepvpn.supabase.co/storage/v1/object/sign/post_images/example-image.jpg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJwb3N0X2ltYWdlcy9leGFtcGxlLWltYWdlLmpwZyIsImlhdCI6MTcxMDE1NDM2MywiZXhwIjoxNzQxNjkwMzYzfQ.RFett2JKNYfuPmv5EPYWlHbMKtSV-GeD8A7Vyx6iWeE&t=2024-03-11T10%3A52%3A43.648Z",
+        image_url: imgURL,
         user_id: currDbUser.id,
         description: description,
         title: title,
