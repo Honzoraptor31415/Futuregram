@@ -316,7 +316,6 @@ button {
     margin: 7px;
     aspect-ratio: 1;
     transition: .3s;
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.26);
     cursor: pointer;
   }
 
@@ -928,7 +927,6 @@ button {
     margin: 5px;
     aspect-ratio: 1;
     transition: .3s;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.068);
     cursor: pointer;
   }
 
@@ -2145,6 +2143,7 @@ nav {
   max-width: 100%;
   height: auto;
   transition: .15s;
+  object-fit: cover;
   aspect-ratio: 1;
   border-radius: inherit;
 }
@@ -2183,9 +2182,11 @@ nav {
 
 .feed-post-image {
   max-width: 100%;
+  object-fit: cover;
   min-width: 100%;
   border-radius: var(--main-border-radius);
   height: auto;
+  border: 1px rgba(255, 255, 255, 0.07) solid;
 }
 
 .feed-post-bottom {
@@ -2853,4 +2854,13 @@ button:disabled {
 .align-center {
   display: flex;
   align-items: center;
+}
+
+.feed-page-post-wrp {
+  margin-block: 20px;
+  border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
+}
+
+.feed-page-post-wrp:last-child {
+  border-bottom: none;
 }

@@ -6,6 +6,8 @@
   import type { AuthUser } from "$lib/types/auth";
   export let data;
   import RedFormStar from "$lib/components/RedFormStar.svelte";
+  import Feed from "$lib/components/Feed.svelte";
+  import * as validation from "$lib/helper/form-validation";
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
   let userInDB: string | boolean = "waiting";
@@ -19,11 +21,7 @@
 
   async function getUserDBID(user: AuthUser) {
     if (user) {
-      browser && !user.user_metadata.db_id
-        ? (userInDB = false)
-        : browser && user.user_metadata.db_id
-          ? (location.href = "/feed")
-          : null;
+      browser && !user.user_metadata.db_id && (userInDB = false);
     }
   }
 
@@ -34,66 +32,15 @@
       : val === null && browser && (location.href = "/signup");
   });
 
-  function usernameCheck() {
-    const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
-    const disallowedUsernames = [
-      "feed",
-      "login",
-      "signup",
-      "chat",
-      "about",
-      "search",
-    ];
-    const containsOnlyAllowedChars = username
-      .toLocaleLowerCase()
-      .match(`^[${allowedUsernameChars}]+$`);
-    const isDisallowedUsername = disallowedUsernames.includes(
-      username.toLocaleLowerCase(),
-    );
-
-    if (username.length < 1) {
-      setLabels("Username can't be empty", "", "");
-    } else if (!containsOnlyAllowedChars || isDisallowedUsername) {
-      setLabels("Invalid username", "", "");
-      return false;
-    } else if (username.length > 30) {
-      setLabels("Username is too long", "", "");
-      return false;
-    } else if (data.usernames.includes(username)) {
-      setLabels("Username already taken", "", "");
-    } else if (containsOnlyAllowedChars && !isDisallowedUsername) {
-      setLabels("", "", "");
-      return true;
-    }
-  }
-
-  function displayedNameCheck() {
-    if (displayedName.length < 1) {
-      setLabels("", "Name can't be empty", "");
-      return false;
-    } else if (displayedName.length > 30) {
-      setLabels("", "Name is too long", "");
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  function bioCheck() {
-    if (bio.length < 1) {
-      setLabels("", "", "Bio can't be empty");
-      return false;
-    } else if (bio.length > 200) {
-      setLabels("", "", "Bio is too long");
-      return false;
-    } else {
-      setLabels("", "", "");
-      return true;
-    }
-  }
-
   async function finishSignup() {
-    if (usernameCheck() && displayedNameCheck() && bioCheck()) {
+    usernameLabel = validation.usernameCheck(username, data.usernames);
+    displayedNameLabel = validation.displayedNameCheck(displayedName);
+    bioLabel = validation.bioCheck(bio);
+    if (
+      validation.usernameCheck(username, data.usernames) &&
+      validation.displayedNameCheck(displayedName) &&
+      validation.bioCheck(bio)
+    ) {
       const { data } = await supabase
         .from("users")
         .insert({
@@ -104,20 +51,13 @@
         })
         .select();
       if (data && browser) {
-        location.href = "/feed";
-        const {
-          data: { user },
-          error,
-        } = await supabase.auth.updateUser({ data: { db_id: data[0].id } });
+        location.href = "/";
+        const { error } = await supabase.auth.updateUser({
+          data: { db_id: data[0].id },
+        });
         console.log(error);
       }
     }
-  }
-
-  function setLabels(username: string, displayedName: string, bio: string) {
-    usernameLabel = username;
-    displayedNameLabel = displayedName;
-    bioLabel = bio;
   }
 </script>
 
@@ -188,4 +128,6 @@
       >
     </form>
   </header>
+{:else}
+  <Feed />
 {/if}

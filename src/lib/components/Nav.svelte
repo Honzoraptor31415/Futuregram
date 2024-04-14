@@ -74,9 +74,9 @@
       <a href="/#" class="logo-nav-text gradient-text no-select">Futuregram</a>
     </div>
     <div class="nav-btns">
-      <a href="/feed" class="button-link nav-button">
+      <a href="/" class="button-link nav-button">
         <HomeIcon
-          iconClass={`icon nav-menu-icon ${locationHref === "feed" ? "nav-icon-current" : ""}`}
+          iconClass={`icon nav-menu-icon ${locationHref === "" ? "nav-icon-current" : ""}`}
         /></a
       >
       <a href="/search" class="button-link nav-button">
@@ -117,9 +117,9 @@
   </nav>
   <!-- MOBILE USER -->
   <nav class="mobile-nav">
-    <a href="/feed" class="button-link nav-button">
+    <a href="/" class="button-link nav-button">
       <HomeIcon
-        iconClass={`icon nav-menu-icon ${locationHref === "feed" ? "nav-icon-current" : ""}`}
+        iconClass={`icon nav-menu-icon ${locationHref === "" ? "nav-icon-current" : ""}`}
       />
     </a>
     <a href="/search" class="button-link nav-button">
@@ -151,9 +151,9 @@
   <nav class="desktop-nav">
     <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>
     <div class="nav-btns">
-      <a href="/feed" class="button-link nav-button">
+      <a href="/" class="button-link nav-button">
         <HomeIcon
-          iconClass={`icon nav-menu-icon ${locationHref === "feed" ? "nav-icon-current" : ""}`}
+          iconClass={`icon nav-menu-icon ${locationHref === "" ? "nav-icon-current" : ""}`}
         /></a
       >
       <a href="/search" class="button-link nav-button">
@@ -180,9 +180,9 @@
 
   <!-- MOBILE GUEST -->
   <nav class="mobile-nav">
-    <a href="/feed" class="button-link nav-button">
+    <a href="/" class="button-link nav-button">
       <HomeIcon
-        iconClass={`icon nav-menu-icon ${locationHref === "feed" ? "nav-icon-current" : ""}`}
+        iconClass={`icon nav-menu-icon ${locationHref === "" ? "nav-icon-current" : ""}`}
       />
     </a>
     <a href="/search" class="button-link nav-button">

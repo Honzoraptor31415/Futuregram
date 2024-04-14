@@ -132,6 +132,11 @@
       .select()
       .eq("user_id", id);
     if (data && data.length > 0) {
+      data
+        .sort((a, b) => {
+          return a.created_at - b.created_at;
+        })
+        .reverse();
       posts = data;
     }
   }
@@ -170,13 +175,15 @@
 
 {#if user && !pageError}
   {#if renderedDialog}
-    <button
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div
       on:click={() => {
         setFollowDialog(null);
       }}
       class="fullscreen-fixed-wrp"
     >
-      <button
+      <div
         on:click={(e) => {
           e.stopPropagation();
         }}
@@ -213,8 +220,8 @@
 
           <!--  -->
         </div>
-      </button>
-    </button>
+      </div>
+    </div>
   {/if}
   <div
     class="user-page-wrp desktop-nav-margin bottom-padding-nav mobile-nav-padding nav-top-space"

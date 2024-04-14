@@ -6,7 +6,7 @@
   import FormElement from "$lib/components/FormElement.svelte";
 
   loggedInUser.subscribe((val) => {
-    browser && val && (location.href = "/feed");
+    browser && val && (location.href = "/");
   });
   let email = "";
   let password = "";
@@ -36,7 +36,7 @@
         default:
           break;
       }
-      !error && browser && (location.href = "/feed");
+      !error && browser && (location.href = "/");
     }
   }
 

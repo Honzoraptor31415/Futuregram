@@ -115,13 +115,15 @@
         </p>
       </div>
       <div class="result-right-button">
-        <button
-          class={`button-element secondary-button user-page-input search-follow ${followed ? "less" : ""}`}
-          on:click={(e) => {
-            e.preventDefault();
-            follow();
-          }}>{followed ? "Unfollow" : "Follow"}</button
-        >
+        {#if user.id !== currDbUser.id}
+          <button
+            class={`button-element secondary-button user-page-input search-follow ${followed ? "less" : ""}`}
+            on:click={(e) => {
+              e.preventDefault();
+              follow();
+            }}>{followed ? "Unfollow" : "Follow"}</button
+          >
+        {/if}
       </div>
     </div>
   </a>
