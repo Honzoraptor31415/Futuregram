@@ -2443,6 +2443,7 @@ nav {
   border: 1px var(--terc-border-color) solid;
   padding: 7px 30px;
   font-weight: 500;
+  width: 120px;
 }
 
 .search-results {

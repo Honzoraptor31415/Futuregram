@@ -84,8 +84,8 @@
             return user !== currDbUser.id;
           }));
         currUserFollows &&
-          (currUserFollows = currUserFollows.filter((user: string) => {
-            return user !== pageUser;
+          (currUserFollows = currUserFollows.filter((uid: string) => {
+            return uid !== user.id;
           }));
         user.followers = followers;
         updateFollowers(followers, user.id);
