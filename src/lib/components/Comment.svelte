@@ -244,7 +244,7 @@
               wrpClass="dots-menu"
               wrpClassVis="dots-menu-visible"
               wrpClassHid=""
-              elements={commentCreator.url_username === currDbUser.url_username
+              elements={currDbUser && commentCreator.id === currDbUser.id
                 ? userCommentOpts
                 : defaultCommentOpts}
               btnDisabled={editing}

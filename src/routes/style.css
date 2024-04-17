@@ -2064,10 +2064,6 @@ button {
     bottom: calc(var(--nav-height) + 10px);
   }
 
-  .mobile-nav-padding {
-    padding-top: var(--nav-height);
-  }
-
   .followers-dialog {
     position: fixed;
     margin-block: var(--nav-height);
@@ -2713,7 +2709,7 @@ nav {
   font-size: 1rem;
 }
 
-.feed-post-comments-wrp {
+.feed-post-comments-wrp:has(.feed-post-comment) {
   border-top: 1px rgba(128, 128, 128, 0.158) solid;
 }
 

@@ -5,9 +5,9 @@
   import type { DBUserData } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   export let data;
-  import RedFormStar from "$lib/components/RedFormStar.svelte";
   import Feed from "$lib/components/Feed.svelte";
   import * as validation from "$lib/helper/form-validation";
+  import FormElement from "$lib/components/FormElement.svelte";
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
   let userInDB: string | boolean = "waiting";
@@ -37,9 +37,9 @@
     displayedNameLabel = validation.displayedNameCheck(displayedName);
     bioLabel = validation.bioCheck(bio);
     if (
-      validation.usernameCheck(username, data.usernames) &&
-      validation.displayedNameCheck(displayedName) &&
-      validation.bioCheck(bio)
+      validation.usernameCheck(username, data.usernames) === "" &&
+      validation.displayedNameCheck(displayedName) === "" &&
+      validation.bioCheck(bio) === ""
     ) {
       const { data } = await supabase
         .from("users")
@@ -62,67 +62,44 @@
 </script>
 
 {#if currUser && !userInDB}
-  <header class="flex-center-all finish-signup mobile-nav-padding">
+  <header
+    class="flex-center-all finish-signup mobile-nav-padding desktop-nav-margin"
+  >
     <form class="sec-bg-element form" on:submit={finishSignup}>
       <h2>Let's finish signing up!</h2>
       <div class="signup-form-elements">
-        <div class="form-element">
-          <label
-            for="username"
-            class={`no-tp ${usernameLabel !== "" ? "form-error" : ""}`}
-          >
-            {#if usernameLabel === ""}
-              Username <RedFormStar starClass="left-0" />
-            {:else}
-              {usernameLabel}
-            {/if}
-          </label>
-          <input
-            type="text"
-            id="username"
-            bind:value={username}
-            class={`user-input user-input-text ${usernameLabel !== "" ? "form-error-input" : ""}`}
-            placeholder="Username"
-          />
-        </div>
-        <div class="form-element">
-          <label
-            for="displayed-name"
-            class={`no-tp ${displayedNameLabel !== "" ? "form-error" : ""}`}
-          >
-            {#if displayedNameLabel === ""}
-              Displayed name <RedFormStar starClass="left-0" />
-            {:else}
-              {displayedNameLabel}
-            {/if}
-          </label>
-          <input
-            type="text"
-            id="displayed-name"
-            bind:value={displayedName}
-            class={`user-input user-input-text ${displayedNameLabel !== "" ? "form-error-input" : ""}`}
-            placeholder="Displayed name"
-          />
-        </div>
+        <FormElement
+          id="username"
+          initLabel="Username"
+          required={true}
+          starClass="left-0"
+          placeholder="Username"
+          label={usernameLabel}
+          bind:value={username}
+          type="text"
+        />
+        <FormElement
+          id="displayed-name"
+          initLabel="Displayed name"
+          required={true}
+          starClass="left-0"
+          placeholder="Displayed name"
+          label={displayedNameLabel}
+          bind:value={displayedName}
+          type="text"
+        />
       </div>
-      <div class="form-element w-full">
-        <label
-          for="user-bio"
-          class={`no-tp ${bioLabel !== "" ? "form-error" : ""}`}
-        >
-          {#if bioLabel === ""}
-            Bio <RedFormStar starClass="left-0" />
-          {:else}
-            {bioLabel}
-          {/if}
-        </label>
-        <textarea
-          bind:value={bio}
-          id="user-bio"
-          placeholder="Your bio"
-          class={`user-input user-input-text ${bioLabel !== "" ? "form-error-input" : ""}`}
-        ></textarea>
-      </div>
+      <FormElement
+        wrpClass="w-full"
+        id="user-bio"
+        placeholder="Bio"
+        required={true}
+        initLabel="Bio"
+        starClass="left-0"
+        label={bioLabel}
+        bind:value={bio}
+        type="textarea"
+      />
       <button type="submit" class="user-input button-element primary-button"
         >Finish!</button
       >
