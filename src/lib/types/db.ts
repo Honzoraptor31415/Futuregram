@@ -27,3 +27,7 @@ export type DBComment = {
   text: string
   user_id: string
 }
+
+export interface DBReply extends DBComment {
+  comment_id: string
+}

@@ -2860,3 +2860,7 @@ button:disabled {
 .feed-page-post-wrp:last-child {
   border-bottom: none;
 }
+
+.replies-wrp {
+  margin-left: 10px;
+}

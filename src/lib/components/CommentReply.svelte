@@ -9,19 +9,18 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
-  import type { DBUserData, DBComment, DBPost, DBReply } from "$lib/types/db";
+  import type { DBUserData, DBComment, DBPost } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
-  import CommentReply from "$lib/components/CommentReply.svelte";
+  import * as validation from "$lib/helper/form-validation";
   dayjs.extend(relativeTime);
   dayjs().format();
   export let id: string;
-  import * as validation from "$lib/helper/form-validation";
 
   let currUser: AuthUser;
   let currDbUser: DBUserData;
-  let comment: DBComment;
+  let reply: DBComment;
   let liked = false;
-  let commentCreator: DBUserData;
+  let replyCreator: DBUserData;
   let postCreator: string;
   const defaultCommentOpts = [
     {
@@ -56,7 +55,6 @@
   let editing = false;
   let editingValue = "";
   let editingValueLabel = "";
-  let replies: DBReply[];
 
   loggedInUser.subscribe((val: any) => {
     val && (currUser = val);
@@ -67,37 +65,40 @@
     val && getLikes(val.id);
   });
 
-  async function getComment() {
+  async function getReply() {
     const { data, error } = await supabase
-      .from("comments")
+      .from("replies")
       .select()
       .eq("id", id);
+    console.log(
+      `Error while getting reply: ${error}\nOn ID: ${id}\nData: ${JSON.stringify(data)}`,
+    );
 
     if (data) {
-      comment = data[0];
+      reply = data[0];
       editingValue = data[0].text;
-      getCommentCreator(data[0].user_id);
+      getReplyCreator(data[0].user_id);
       getPostCreator();
     } else {
-      console.log(`Error while getting a comment (${id})`);
+      console.log(`Error while getting a reply (${id})`);
     }
   }
-  getComment();
+  getReply();
 
   async function like() {
     if (currUser) {
       liked = !liked;
       let likes = [];
       const { data, error } = await supabase
-        .from("comments")
+        .from("replies")
         .select()
         .eq("id", id);
       data && data[0].likes && (likes = data[0].likes);
       if (likes && !likes.includes(currDbUser.id)) {
         likes.push(currDbUser.id);
-        comment.likes = likes;
+        reply.likes = likes;
         const { error } = await supabase
-          .from("comments")
+          .from("replies")
           .update({ likes: likes })
           .eq("id", id);
       } else {
@@ -105,9 +106,9 @@
           (likes = likes.filter((user: string) => {
             return user !== currDbUser.id;
           }));
-        comment.likes = likes;
+        reply.likes = likes;
         const { error } = await supabase
-          .from("comments")
+          .from("replies")
           .update({ likes: likes })
           .eq("id", id);
       }
@@ -118,7 +119,7 @@
 
   async function getLikes(uid: string) {
     const { data, error } = await supabase
-      .from("comments")
+      .from("replies")
       .select()
       .eq("id", id);
     if (data && data[0].likes && data[0].likes.includes(uid)) {
@@ -126,10 +127,10 @@
     }
   }
 
-  async function getCommentCreator(uid: string) {
+  async function getReplyCreator(uid: string) {
     const { data, error } = await supabase.from("users").select().eq("id", uid);
     if (data) {
-      commentCreator = data[0];
+      replyCreator = data[0];
     } else {
       console.log("Error while getting creator of comment");
     }
@@ -139,7 +140,7 @@
     const { data } = await supabase
       .from("posts")
       .select()
-      .eq("id", comment.post_id);
+      .eq("id", reply.post_id);
     if (data) {
       const res = await supabase
         .from("users")
@@ -149,15 +150,7 @@
     }
   }
 
-  function share() {
-    console.log(`Sharing post ${id}`);
-  }
-
-  function showReplies() {
-    console.log(`Show replies function`);
-  }
-
-  function reply() {
+  function replyFunc() {
     console.log(`Replying to comment ${id}`);
   }
 
@@ -170,59 +163,47 @@
   }
 
   function edit() {
-    if (commentCreator.id === currDbUser.id) {
+    if (replyCreator.id === currDbUser.id) {
       editing = true;
     }
   }
 
   async function remove() {
-    if (commentCreator.id === currDbUser.id) {
-      comment &&
-        (await supabase.from("comments").delete().eq("id", comment.id));
+    if (replyCreator.id === currDbUser.id) {
+      reply && (await supabase.from("replies").delete().eq("id", reply.id));
       const { data } = await supabase
-        .from("comments")
+        .from("replies")
         .select()
-        .eq("id", comment.id);
-      data && (comment = data[0]);
+        .eq("id", reply.id);
+      data && (reply = data[0]);
     }
   }
 
   async function finishEditing() {
     editingValue = editingValue.trim();
-    editingValueLabel = validation.editingValueCheck(editingValueLabel);
+    editingValueLabel = validation.editingValueCheck(editingValue);
     if (validation.editingValueCheck(editingValue)) {
       editing = false;
       await supabase
-        .from("comments")
+        .from("replies")
         .update({ text: editingValue })
-        .eq("id", comment.id);
+        .eq("id", reply.id);
       const { data } = await supabase
-        .from("comments")
+        .from("replies")
         .select()
-        .eq("id", comment.id);
-      data && (comment = data[0]);
+        .eq("id", reply.id);
+      data && (reply = data[0]);
     }
   }
-
-  async function getReplies() {
-    const { data } = await supabase
-      .from("replies")
-      .select()
-      .eq("comment_id", id);
-
-    data && (replies = data);
-  }
-
-  getReplies();
 </script>
 
-{#if comment}
-  {#if commentCreator && postCreator}
+{#if reply}
+  {#if replyCreator && postCreator}
     <div class="feed-post-comment">
       <div class="feed-comment-left">
-        <a href={`/${commentCreator.url_username}`} class="grid-wrp">
+        <a href={`/${replyCreator.url_username}`} class="grid-wrp">
           <img
-            src={commentCreator.image_url}
+            src={replyCreator.image_url}
             alt="Comment pfp"
             class="feed-comment-user-image rounded image-height-30 margin-top-4"
           /></a
@@ -231,13 +212,13 @@
       <div class="feed-comment-right">
         <div class="feed-comment-top flex-between">
           <a
-            href={`/${commentCreator.url_username}`}
-            class={`feed-post-username ${commentCreator.url_username === postCreator ? "grey-bg-text" : ""}`}
-            >{commentCreator.url_username}</a
+            href={`/${replyCreator.url_username}`}
+            class={`feed-post-username ${replyCreator.url_username === postCreator ? "grey-bg-text" : ""}`}
+            >{replyCreator.url_username}</a
           >
           <div class="comment-top-right">
             <p class="even-less comment-date">
-              {dayjs(comment.created_at).fromNow()}
+              {dayjs(reply.created_at).fromNow()}
             </p>
             <HiddenMenu
               btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
@@ -246,7 +227,7 @@
               wrpClass="dots-menu"
               wrpClassVis="dots-menu-visible"
               wrpClassHid=""
-              elements={currDbUser && commentCreator.id === currDbUser.id
+              elements={currDbUser && replyCreator.id === currDbUser.id
                 ? userCommentOpts
                 : defaultCommentOpts}
               btnDisabled={editing}
@@ -282,7 +263,7 @@
             </div>
           </form>
         {:else}
-          <p class="feed-comment-text">{comment.text}</p>
+          <p class="feed-comment-text">{reply.text}</p>
         {/if}
         <div class="flex-between">
           <div class="feed-post-actions">
@@ -307,46 +288,25 @@
             {/if}
             <button
               class="feed-post-action before-hover-anim rounded"
-              on:click={reply}
+              on:click={replyFunc}
             >
               <CommentIcon
                 iconClass="feed-action-icon comment-action-icon comment-icon"
               />
             </button>
-            <button
-              class="feed-post-action before-hover-anim rounded"
-              on:click={share}
-            >
-              <ShareIcon
-                iconClass="feed-action-icon comment-action-icon share-icon"
-              />
-            </button>
             <p class="even-less comment-reactions-count">
-              {#if comment.likes}
-                {comment.likes.length <= 1
-                  ? comment.likes.length === 0
+              {#if reply.likes}
+                {reply.likes.length <= 1
+                  ? reply.likes.length === 0
                     ? "no likes"
-                    : `${comment.likes.length} like`
-                  : `${comment.likes.length} likes`}
+                    : `${reply.likes.length} like`
+                  : `${reply.likes.length} likes`}
               {:else}
                 no likes
               {/if}
-              <span class="text-dot">·</span>
-              1 reply
             </p>
           </div>
         </div>
-        <button
-          class="no-style hover-before-height desc-dots less"
-          on:click={showReplies}>show replies</button
-        >
-        {#if replies}
-          <div class="replies-wrp">
-            {#each replies as reply}
-              <CommentReply id={reply.id} />
-            {/each}
-          </div>
-        {/if}
       </div>
     </div>
   {/if}

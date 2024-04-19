@@ -76,7 +76,6 @@ export function bioCheck(bio: string) {
 }
 
 export function titleCheck(title: string) {
-  title = title.trim();
   if (title.length < 1) {
     return "Title can't be empty";
   } else if (title.length < 2) {
@@ -97,4 +96,14 @@ export function descriptionCheck(description: string) {
 export function imageCheck() {
   // some logic, that I'll make later :D
   return true;
+}
+
+export function editingValueCheck(editingValue: string) {
+  if (editingValue.length < 1) {
+    return "Text can't be empty";
+  } else if (editingValue.length > 500) {
+    return "Text is too long";
+  } else {
+    return ""
+  }
 }
