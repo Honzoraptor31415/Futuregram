@@ -15,6 +15,9 @@
   import type { AuthUser } from "$lib/types/auth";
   import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   import CommentIcon from "./icons/CommentIcon.svelte";
+  import type { ReplyingToComment } from "$lib/types/app";
+  import CrossIcon from "./icons/CrossIcon.svelte";
+  import { commentCheck } from "$lib/helper/form-validation";
   dayjs.extend(relativeTime);
   dayjs().format();
 
@@ -38,6 +41,9 @@
   let commentText = "";
   let commentPlaceholder = "";
   let firstID: string;
+  let replying: ReplyingToComment;
+
+  $: replying && browser && document.getElementById("comment-input")?.focus();
 
   if (browser) {
     window.onresize = (e: object | Event) => {
@@ -212,30 +218,33 @@
       .subscribe();
   }
 
-  function commentCheck() {
-    commentText = commentText.trim();
-    if (commentText.length > 600) {
-      commentPlaceholder = "Comment is too long";
-      return false;
-    } else {
-      commentPlaceholder = "";
-      return true;
-    }
-  }
-
   async function comment() {
+    commentText = commentText.trim();
+    commentPlaceholder = commentCheck(commentText);
     if (currUser) {
-      if (commentCheck()) {
-        await supabase.from("comments").insert({
-          created_at: new Date().getTime(),
-          post_id: post.id,
-          user_id: currDbUser.id,
-          text: commentText,
-        });
-        commentText = "";
+      if (commentCheck(commentText) === "") {
+        if (replying) {
+          await supabase.from("replies").insert({
+            created_at: new Date().getTime(),
+            post_id: post.id,
+            user_id: currDbUser.id,
+            text: commentText,
+            comment_id: replying.commentID,
+          });
+          commentText = "";
+          replying = null;
+        } else {
+          await supabase.from("comments").insert({
+            created_at: new Date().getTime(),
+            post_id: post.id,
+            user_id: currDbUser.id,
+            text: commentText,
+          });
+          commentText = "";
+        }
       }
     } else {
-      console.log("You have to be logged in to comment.");
+      console.log("You have to be logged in to comment");
     }
   }
 
@@ -249,6 +258,10 @@
 
   function commentFromFeed() {
     console.log("Comment from the feed");
+  }
+
+  function clearReplying() {
+    replying = null;
   }
 </script>
 
@@ -398,11 +411,11 @@
         {#if postComments}
           {#if feedPost}
             {#if firstID}
-              <Comment id={firstID} />
+              <Comment bind:replying id={firstID} feedComment={true} />
             {/if}
           {:else}
             {#each postComments as comment}
-              <Comment id={comment.id} />
+              <Comment bind:replying id={comment.id} feedComment={false} />
             {/each}
           {/if}
         {/if}
@@ -415,18 +428,32 @@
             comment();
           }}
         >
+          {#if replying}
+            <span class="tagged-replying align-center min-w-fit">
+              <button
+                type="button"
+                on:click={clearReplying}
+                class="no-style grid-wrp min-w-fit pointer button-element hover-opacity"
+              >
+                <CrossIcon iconClass="image-height-15 white-icon" />
+              </button>
+              <span class="even-less">
+                @{replying.commentUsername}
+              </span>
+            </span>
+          {/if}
           <input
             type="text"
             id="comment-input"
-            placeholder={commentPlaceholder === ""
-              ? "Comment your thoughts!"
-              : commentPlaceholder}
+            placeholder={replying
+              ? `Replying to ${replying.commentUsername}'s comment`
+              : "Comment your thoughts!"}
             class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
             bind:value={commentText}
           />
           <button
             type="submit"
-            class="grid-wrp comment-button no-style button-element"
+            class="grid-wrp comment-button no-style button-element min-w-fit"
           >
             <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
           </button>

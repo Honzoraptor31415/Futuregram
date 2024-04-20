@@ -4,7 +4,6 @@
   import userDbData from "$lib/stores/user-db-data";
   import HeartIcon from "$lib/components/icons/HeartIcon.svelte";
   import CommentIcon from "$lib/components/icons/CommentIcon.svelte";
-  import ShareIcon from "$lib/components/icons/ShareIcon.svelte";
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
@@ -70,9 +69,6 @@
       .from("replies")
       .select()
       .eq("id", id);
-    console.log(
-      `Error while getting reply: ${error}\nOn ID: ${id}\nData: ${JSON.stringify(data)}`,
-    );
 
     if (data) {
       reply = data[0];

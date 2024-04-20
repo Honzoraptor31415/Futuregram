@@ -107,3 +107,13 @@ export function editingValueCheck(editingValue: string) {
     return ""
   }
 }
+
+export function commentCheck(comment: string) {
+  if (comment.length < 1) {
+    return "Comment can't be empty"
+  } else if (comment.length > 600) {
+    return "Comment is too long";
+  } else {
+    return "";
+  }
+}

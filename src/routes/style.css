@@ -893,6 +893,10 @@ button {
     max-height: 360px;
     overflow-y: auto;
   }
+
+  .hover-opacity:hover {
+    opacity: .4;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1495,6 +1499,10 @@ button {
     max-height: 360px;
     overflow-y: auto;
   }
+
+  .hover-opacity:hover {
+    opacity: .4;
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -2078,6 +2086,10 @@ button {
     overflow-y: auto;
   }
 
+  .hover-opacity:active {
+    opacity: .4;
+  }
+
   * {
     cursor: default !important;
   }
@@ -2507,6 +2519,11 @@ nav {
   width: auto;
 }
 
+.image-height-15 {
+  max-height: 15px;
+  width: auto;
+}
+
 .margin-top-4 {
   margin-top: 4px;
 }
@@ -2674,10 +2691,6 @@ nav {
 .image-height-1\.5rem {
   max-height: 1.5rem;
   width: auto;
-}
-
-.comment-input-icon {
-  width: 100%;
 }
 
 .comment-input-error::placeholder {
@@ -2861,6 +2874,36 @@ button:disabled {
   border-bottom: none;
 }
 
-.replies-wrp {
+/* .replies-wrp {
+  margin-left: 10px;
+} */
+
+.comment-in-feed .comment-actions {
+  margin-bottom: 0;
+}
+
+.tagged-replying {
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-right: 10px;
+  gap: 3px;
+  background: var(--tercBG);
+}
+
+.white-icon,
+.white-icon path {
+  fill: white;
+}
+
+/* I could just use tailwind already */
+.min-w-fit {
+  min-width: fit-content;
+}
+
+.comment-input-wrp:has(.tagged-replying) {
+  padding-left: 10px;
+}
+
+.comment-input-wrp:has(.tagged-replying) .comment-button {
   margin-left: 10px;
 }

@@ -5,3 +5,5 @@ export type MenuElement = {
   text: string,
   onClick?: any
 }
+
+export type ReplyingToComment = { commentID: string; commentUsername: string } | null

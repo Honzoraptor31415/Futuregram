@@ -16,6 +16,9 @@
   dayjs().format();
   export let id: string;
   import * as validation from "$lib/helper/form-validation";
+  import type { ReplyingToComment } from "$lib/types/app";
+  export let feedComment: boolean = true;
+  export let replying: ReplyingToComment = null;
 
   let currUser: AuthUser;
   let currDbUser: DBUserData;
@@ -78,8 +81,9 @@
       editingValue = data[0].text;
       getCommentCreator(data[0].user_id);
       getPostCreator();
+      repliesListener();
     } else {
-      console.log(`Error while getting a comment (${id})`);
+      console.log(`Error while getting a reply (${id})`);
     }
   }
   getComment();
@@ -158,7 +162,12 @@
   }
 
   function reply() {
-    console.log(`Replying to comment ${id}`);
+    commentCreator && comment
+      ? (replying = {
+          commentID: comment.id,
+          commentUsername: commentCreator.url_username,
+        })
+      : console.log("Unable to reply before comment loaded.");
   }
 
   function report() {
@@ -214,11 +223,29 @@
   }
 
   getReplies();
+
+  function repliesListener() {
+    const handleInserts = (payload: any) => {
+      console.log("Comment received!", payload);
+      if (payload.new.comment_id === comment.id) {
+        replies = [...replies, payload.new];
+      }
+    };
+
+    supabase
+      .channel("replies")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "replies" },
+        handleInserts,
+      )
+      .subscribe();
+  }
 </script>
 
 {#if comment}
   {#if commentCreator && postCreator}
-    <div class="feed-post-comment">
+    <div class={`feed-post-comment ${feedComment ? "comment-in-feed" : ""}`}>
       <div class="feed-comment-left">
         <a href={`/${commentCreator.url_username}`} class="grid-wrp">
           <img
@@ -285,7 +312,7 @@
           <p class="feed-comment-text">{comment.text}</p>
         {/if}
         <div class="flex-between">
-          <div class="feed-post-actions">
+          <div class="feed-post-actions comment-actions">
             {#if currUser && currDbUser}
               <button
                 class="feed-post-action before-hover-anim rounded"
@@ -336,16 +363,18 @@
             </p>
           </div>
         </div>
-        <button
-          class="no-style hover-before-height desc-dots less"
-          on:click={showReplies}>show replies</button
-        >
-        {#if replies}
-          <div class="replies-wrp">
-            {#each replies as reply}
-              <CommentReply id={reply.id} />
-            {/each}
-          </div>
+        {#if !feedComment}
+          <button
+            class="no-style hover-before-height desc-dots less"
+            on:click={showReplies}>show replies</button
+          >
+          {#if replies}
+            <div class="replies-wrp">
+              {#each replies as reply}
+                <CommentReply id={reply.id} />
+              {/each}
+            </div>
+          {/if}
         {/if}
       </div>
     </div>
