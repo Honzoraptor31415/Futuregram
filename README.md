@@ -53,6 +53,7 @@ Btw I'm using supabase's database, which means it's Postgres.
 | post_id | `uuid` | ID of the post where the comment is |
 | user_id | `uuid` | ID of the user who made it |
 | text | `text` | Text of the comment |
+| edited | `bool` | If the comment was ever edited |
 
 #### replies table
 
@@ -65,3 +66,4 @@ Btw I'm using supabase's database, which means it's Postgres.
 | user_id | `uuid` | ID of the user who made it |
 | text | `text` | Text of the reply |
 | post_id | `uuid` | ID of the post where the reply is |
+| edited | `bool` | If the reply was ever edited |

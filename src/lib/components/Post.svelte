@@ -219,7 +219,6 @@
   }
 
   async function comment() {
-    commentText = commentText.trim();
     commentPlaceholder = commentCheck(commentText);
     if (currUser) {
       if (commentCheck(commentText) === "") {
@@ -293,7 +292,7 @@
             <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
           </div>
         </div>
-        <p class="feed-post-description mobile">
+        <p class="feed-post-description mobile pl-text">
           <LongHiddenText text={post.description} maxLength={maxChars} />
         </p>
         <div class="feed-post-top">
@@ -305,7 +304,7 @@
               >
               <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
             </div>
-            <p class="feed-post-description">
+            <p class="feed-post-description pl-text">
               <LongHiddenText text={post.description} maxLength={maxChars} />
             </p>
           </div>
@@ -442,6 +441,7 @@
             </span>
           {/if}
           <input
+            autocomplete="off"
             type="text"
             id="comment-input"
             placeholder={replying

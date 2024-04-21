@@ -20,12 +20,13 @@ export type DBPost = {
 }
 
 export type DBComment = {
-  created_at: number
-  id: string
-  likes: string[]
-  post_id: string
-  text: string
-  user_id: string
+  created_at: number,
+  id: string,
+  likes: string[],
+  post_id: string,
+  text: string,
+  user_id: string,
+  edited: boolean | null
 }
 
 export interface DBReply extends DBComment {

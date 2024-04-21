@@ -58,6 +58,10 @@ body {
   min-height: 100svh;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body:has(.no-nav) nav,
 body:has(.user-doesnt-exist-bro) nav {
   display: none !important;
@@ -80,6 +84,10 @@ body:has(.post-top-nav) main {
 
 p {
   line-height: 1.4;
+}
+
+.pl-text {
+  white-space: pre-line;
 }
 
 a {

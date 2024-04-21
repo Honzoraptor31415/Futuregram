@@ -37,7 +37,6 @@
 
   userDbData.subscribe((val: any) => {
     currDbUser = val;
-    val && getFollowed(val.id);
   });
 
   if (browser) {
@@ -140,19 +139,6 @@
         })
         .reverse();
       posts = data;
-    }
-  }
-
-  async function getFollowed(uid: string) {
-    const { data, error } = await supabase
-      .from("users")
-      .select()
-      .eq("url_username", pageUser);
-    if (data && data[0].followers && data[0].followers.includes(uid)) {
-      followed = true;
-      console.log("User is followed");
-    } else {
-      console.log("You don't follow this user");
     }
   }
 

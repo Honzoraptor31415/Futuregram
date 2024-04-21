@@ -178,11 +178,11 @@
   async function finishEditing() {
     editingValue = editingValue.trim();
     editingValueLabel = validation.editingValueCheck(editingValue);
-    if (validation.editingValueCheck(editingValue)) {
+    if (validation.editingValueCheck(editingValue) === "") {
       editing = false;
       await supabase
         .from("replies")
-        .update({ text: editingValue })
+        .update({ text: editingValue, edited: true })
         .eq("id", reply.id);
       const { data } = await supabase
         .from("replies")
@@ -215,6 +215,7 @@
           <div class="comment-top-right">
             <p class="even-less comment-date">
               {dayjs(reply.created_at).fromNow()}
+              {reply.edited ? "(edited)" : ""}
             </p>
             <HiddenMenu
               btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
@@ -259,7 +260,7 @@
             </div>
           </form>
         {:else}
-          <p class="feed-comment-text">{reply.text}</p>
+          <p class="feed-comment-text pl-text">{reply.text}</p>
         {/if}
         <div class="flex-between">
           <div class="feed-post-actions reply-actions">

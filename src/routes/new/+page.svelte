@@ -91,6 +91,8 @@
   }
 
   function newPost() {
+    title = title.trim();
+    description = description.trim();
     titleCheck();
     descriptionCheck();
     if (titleCheck() && descriptionCheck() && imageCheck()) {
