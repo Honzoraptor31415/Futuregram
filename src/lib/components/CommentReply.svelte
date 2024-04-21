@@ -195,7 +195,7 @@
 
 {#if reply}
   {#if replyCreator && postCreator}
-    <div class="feed-post-comment">
+    <div class="feed-post-comment comment-reply">
       <div class="feed-comment-left">
         <a href={`/${replyCreator.url_username}`} class="grid-wrp">
           <img
@@ -262,7 +262,7 @@
           <p class="feed-comment-text">{reply.text}</p>
         {/if}
         <div class="flex-between">
-          <div class="feed-post-actions">
+          <div class="feed-post-actions reply-actions">
             {#if currUser && currDbUser}
               <button
                 class="feed-post-action before-hover-anim rounded"

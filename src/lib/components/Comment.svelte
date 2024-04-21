@@ -364,11 +364,11 @@
           </div>
         </div>
         {#if !feedComment}
-          <button
-            class="no-style hover-before-height desc-dots less"
-            on:click={showReplies}>show replies</button
-          >
-          {#if replies}
+          {#if replies.length > 0}
+            <button
+              class="no-style hover-before-height desc-dots less"
+              on:click={showReplies}>show replies</button
+            >
             <div class="replies-wrp">
               {#each replies as reply}
                 <CommentReply id={reply.id} />

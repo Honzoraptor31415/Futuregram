@@ -277,7 +277,7 @@
           />
         </a>
       </div>
-      <div class="feed-post-right">
+      <div class="feed-post-right grid-wrp">
         <div class="feed-post-top-mobile">
           <a href={`/${postCreator.url_username}`} class="grid-wrp">
             <img

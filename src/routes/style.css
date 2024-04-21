@@ -163,7 +163,7 @@ textarea.user-input-text {
   background: transparent;
   border: 1px var(--main-border-color) solid;
   outline: none;
-  transition: .3s;
+  transition: .3s border-color;
 }
 
 .user-input-text:hover {
@@ -593,7 +593,6 @@ button {
     border: none;
     background: transparent;
     display: grid;
-    margin-inline: 4px;
   }
 
   .before-hover-anim {
@@ -660,7 +659,7 @@ button {
   .feed-post-comment {
     display: flex;
     width: 100%;
-    padding-block: 20px;
+    padding-block: 17px;
     border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
   }
 
@@ -1211,7 +1210,6 @@ button {
     background: transparent;
     transition: .15s;
     display: grid;
-    margin-inline: 4px;
   }
 
   .before-hover-anim {
@@ -1275,7 +1273,7 @@ button {
   .feed-post-comment {
     display: flex;
     width: 100%;
-    padding-block: 20px;
+    padding-block: 17px;
     border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
   }
 
@@ -1770,19 +1768,12 @@ button {
     margin-inline: auto;
   }
 
-  .feed-post-actions {
-    display: flex;
-    margin-block: 7px;
-    gap: 1px;
-  }
-
   .feed-post-action {
     cursor: pointer;
     width: auto;
     border: none;
     background: transparent;
     display: grid;
-    margin-inline: 4px;
   }
 
   .before-hover-anim {
@@ -2198,7 +2189,7 @@ nav {
 }
 
 .feed-post-bottom {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .feed-post-description {
@@ -2208,8 +2199,7 @@ nav {
 
 .feed-post-actions {
   display: flex;
-  margin-block: 7px;
-  gap: 1px;
+  margin-block: 10px 5px;
 }
 
 .before-hover-anim::before {
@@ -2358,7 +2348,7 @@ nav {
 }
 
 .feed-post-comment:last-child {
-  border-bottom: none;
+  border-bottom: 0;
 }
 
 .feed-comment-left {
@@ -2906,4 +2896,25 @@ button:disabled {
 
 .comment-input-wrp:has(.tagged-replying) .comment-button {
   margin-left: 10px;
+}
+
+.feed-post-action {
+  margin-inline: 3px;
+}
+
+.comment-actions {
+  margin-block: 7px;
+}
+
+.reply-actions {
+  margin-block: 7px 0;
+}
+
+.comemnt-reply:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.feed-post-comment:has(.comment-reply) {
+  padding-bottom: 0;
 }
