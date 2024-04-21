@@ -293,6 +293,9 @@
             <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
           </div>
         </div>
+        <p class="feed-post-description mobile">
+          <LongHiddenText text={post.description} maxLength={maxChars} />
+        </p>
         <div class="feed-post-top">
           <div class="feed-post-texts">
             <div class="feed-post-texts-top flex-between">
@@ -324,10 +327,6 @@
             on:dblclick={dbClickLike}
           />
         {/if}
-        <p class="feed-post-description-mobile">
-          <span class="less">{postCreator.url_username}: </span>
-          <LongHiddenText text={post.description} maxLength={60} />
-        </p>
         <div class="feed-post-bottom">
           <div class="flex-between">
             <div class="feed-post-actions">

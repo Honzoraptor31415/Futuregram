@@ -5,7 +5,7 @@ import loggedInUser from "$lib/stores/user";
 const userDbData = writable()
 
 loggedInUser.subscribe((val: any) => {
-  val && getDbUser(val.user_metadata.db_id)
+  val ? getDbUser(val.user_metadata.db_id) : userDbData.set(null)
 })
 
 async function getDbUser(uid: string) {

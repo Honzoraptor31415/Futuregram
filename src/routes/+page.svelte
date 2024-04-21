@@ -27,9 +27,7 @@
 
   loggedInUser.subscribe((val: any) => {
     currUser = val;
-    val
-      ? getUserDBID(val)
-      : val === null && browser && (location.href = "/signup");
+    val && getUserDBID(val);
   });
 
   async function finishSignup() {

@@ -11,7 +11,6 @@
   import { page } from "$app/stores";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
   import type { DBUserData } from "$lib/types/db";
-  import type { MenuElement } from "$lib/types/app";
 
   let currDbUser: DBUserData;
   let locationHref = browser && location.pathname.replaceAll("/", "");

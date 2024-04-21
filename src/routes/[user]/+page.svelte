@@ -11,6 +11,8 @@
   export let data;
   import CrossIcon from "$lib/components/icons/CrossIcon.svelte";
   import SearchResult from "$lib/components/SearchResult.svelte";
+  import Follow from "$lib/components/Follow.svelte";
+
   let pageUser = data.user;
   let user: DBUserData;
   let pageError = "";
@@ -234,6 +236,11 @@
             <h1 class="displayed-username">{user.displayed_username}</h1>
             <p class="user-page-username less">@{user.url_username}</p>
             <div class="user-buttons-desktop">
+              <Follow
+                uid={user.id}
+                btnClass="button-element user-page-input primary-button"
+                unfollowClass="button-element user-page-input red-bright-button"
+              />
               {#if currDbUser && currLoggedInUser}
                 {#if currDbUser.id === user.id}
                   <button
@@ -241,17 +248,6 @@
                     on:click={editProfile}>Edit profile</button
                   >
                 {:else}
-                  {#if followed}
-                    <button
-                      class="button-element user-page-input red-bright-button"
-                      on:click={follow}>Unfollow</button
-                    >
-                  {:else}
-                    <button
-                      class="button-element user-page-input primary-button"
-                      on:click={follow}>Follow</button
-                    >
-                  {/if}
                   <a
                     href="/chat?id=blabla12342069"
                     class="button-element user-page-input secondary-button button-link"
@@ -259,11 +255,6 @@
                   >
                 {/if}
               {:else}
-                <a
-                  href="/login"
-                  class="button-element user-page-input primary-button"
-                  on:click={follow}>Follow</a
-                >
                 <a
                   href="/login"
                   class="button-element user-page-input secondary-button button-link"
@@ -402,6 +393,11 @@
         </p>
         <p class="user-bio desktop">{user.bio}</p>
         <div class="user-buttons-mobile">
+          <Follow
+            uid={user.id}
+            btnClass="button-element user-page-input primary-button"
+            unfollowClass="button-element user-page-input red-bright-button"
+          />
           {#if currDbUser && currLoggedInUser}
             {#if currDbUser.id === user.id}
               <button
@@ -409,17 +405,6 @@
                 on:click={editProfile}>Edit profile</button
               >
             {:else}
-              {#if followed}
-                <button
-                  class="button-element user-page-input red-bright-button"
-                  on:click={follow}>Unfollow</button
-                >
-              {:else}
-                <button
-                  class="button-element user-page-input primary-button"
-                  on:click={follow}>Follow</button
-                >
-              {/if}
               <a
                 href="/chat?id=blabla12342069"
                 class="button-element user-page-input secondary-button button-link"
@@ -427,11 +412,6 @@
               >
             {/if}
           {:else}
-            <a
-              href="/login"
-              class="button-element user-page-input primary-button"
-              on:click={follow}>Follow</a
-            >
             <a
               href="/login"
               class="button-element user-page-input secondary-button button-link"
