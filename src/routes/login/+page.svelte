@@ -1,13 +1,9 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
   import { browser } from "$app/environment";
-  import loggedInUser from "$lib/stores/user";
   import * as validation from "$lib/helper/form-validation";
   import FormElement from "$lib/components/FormElement.svelte";
 
-  loggedInUser.subscribe((val) => {
-    browser && val && (location.href = "/");
-  });
   let email = "";
   let password = "";
   let emailLabel = "";
