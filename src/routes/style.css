@@ -2763,6 +2763,7 @@ button:disabled {
 
 .password-input-wrp {
   padding-right: 12px;
+  overflow: hidden;
   display: flex;
   justify-content: space-between;
   border-radius: var(--main-border-radius);

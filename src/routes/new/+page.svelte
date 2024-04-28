@@ -37,10 +37,6 @@
     };
   };
 
-  loggedInUser.subscribe((val) => {
-    val === null && browser && (location.href = "/signup");
-  });
-
   function titleCheck() {
     title = title.trim();
     if (title.length < 1) {

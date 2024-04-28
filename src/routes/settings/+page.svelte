@@ -19,11 +19,6 @@
   let displayedName = "";
   let displayedNameLabel = "";
 
-  // loggedInUser.subscribe((val: any) => {
-  //   currLoggedInUser = val;
-  // browser && val === null && (location.href = "/signup");
-  // });
-
   userDbData.subscribe((val: any) => {
     currUserDbData = val;
   });
