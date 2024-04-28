@@ -9,14 +9,15 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
-  import type { DBUserData, DBComment, DBPost, DBReply } from "$lib/types/db";
+  import type { DBUserData, DBComment, DBReply } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import CommentReply from "$lib/components/CommentReply.svelte";
   dayjs.extend(relativeTime);
   dayjs().format();
   export let id: string;
   import * as validation from "$lib/helper/form-validation";
-  import type { ReplyingToComment } from "$lib/types/app";
+  import type { MenuElement, ReplyingToComment } from "$lib/types/app";
+  import { browser } from "$app/environment";
   export let feedComment: boolean = true;
   export let replying: ReplyingToComment = null;
 
@@ -25,7 +26,8 @@
   let comment: DBComment;
   let liked = false;
   let commentCreator: DBUserData;
-  let postCreator: string;
+  let postCreator: DBUserData;
+
   const defaultCommentOpts = [
     {
       type: "button",
@@ -42,6 +44,7 @@
       text: "Block account",
     },
   ];
+
   const userCommentOpts = [
     {
       type: "button",
@@ -56,6 +59,30 @@
       text: "Delete comment",
     },
   ];
+
+  const postCreatorCommentOpts = [
+    {
+      type: "button",
+      onClick: remove,
+      class: "menu-link red",
+      text: "Delete comment",
+    },
+    {
+      type: "button",
+      onClick: report,
+      class: "menu-link red",
+      text: "Report",
+    },
+    {
+      type: "button",
+      onClick: () => {
+        block("random-id-45478-utfasdýasdýř87ř");
+      },
+      class: "menu-link red",
+      text: "Block account",
+    },
+  ];
+
   let editing = false;
   let editingValue = "";
   let editingValueLabel = "";
@@ -149,7 +176,7 @@
         .from("users")
         .select()
         .eq("id", data[0].user_id);
-      res.data && (postCreator = res.data[0].url_username);
+      res.data && (postCreator = res.data[0]);
     }
   }
 
@@ -181,11 +208,18 @@
   function edit() {
     if (commentCreator.id === currDbUser.id) {
       editing = true;
+      browser &&
+        setTimeout(() => {
+          document.getElementById(`comment-edit-${comment.id}`)?.focus();
+        }, 0);
     }
   }
 
   async function remove() {
-    if (commentCreator.id === currDbUser.id) {
+    if (
+      commentCreator.id === currDbUser.id ||
+      postCreator.id === currDbUser.id
+    ) {
       comment &&
         (await supabase.from("comments").delete().eq("id", comment.id));
       const { data } = await supabase
@@ -241,6 +275,17 @@
       )
       .subscribe();
   }
+
+  export const getMenuElements = () => {
+    if (currDbUser) {
+      if (currDbUser.id === commentCreator.id) {
+        return userCommentOpts;
+      } else if (currDbUser.id === postCreator.id) {
+        return postCreatorCommentOpts;
+      }
+    }
+    return defaultCommentOpts;
+  };
 </script>
 
 {#if comment}
@@ -259,7 +304,7 @@
         <div class="feed-comment-top flex-between">
           <a
             href={`/${commentCreator.url_username}`}
-            class={`feed-post-username ${commentCreator.url_username === postCreator ? "grey-bg-text" : ""}`}
+            class={`feed-post-username ${commentCreator.url_username === postCreator.url_username ? "grey-bg-text" : ""}`}
             >{commentCreator.url_username}</a
           >
           <div class="comment-top-right">
@@ -274,9 +319,7 @@
               wrpClass="dots-menu"
               wrpClassVis="dots-menu-visible"
               wrpClassHid=""
-              elements={currDbUser && commentCreator.id === currDbUser.id
-                ? userCommentOpts
-                : defaultCommentOpts}
+              elements={getMenuElements()}
               btnDisabled={editing}
             />
           </div>
@@ -290,7 +333,7 @@
             class="flex-between edit-comment-wrp"
           >
             <textarea
-              id="comment-edit"
+              id={`comment-edit-${comment.id}`}
               class="no-style no-resize comment-edit-input"
               bind:value={editingValue}
             ></textarea>
@@ -359,8 +402,16 @@
               {:else}
                 no likes
               {/if}
-              <span class="text-dot">·</span>
-              1 reply
+              {#if replies}
+                {#if replies.length >= 1}
+                  <span class="text-dot">·</span>
+                {/if}
+                {replies.length === 1
+                  ? `${replies.length} reply`
+                  : replies.length > 1
+                    ? `${replies.length} replies`
+                    : ""}
+              {/if}
             </p>
           </div>
         </div>

@@ -2941,3 +2941,7 @@ button:disabled {
 .feed-post-comment:has(.comment-reply) {
   padding-bottom: 0;
 }
+
+.dots-menu {
+  z-index: 10;
+}

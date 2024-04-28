@@ -11,7 +11,7 @@
     if (data) {
       data
         .sort((a, b) => {
-          return a.likes.length - b.likes.length;
+          return a.likes ? a.likes.length : 0 - b.likes ? b.likes.length : 0;
         })
         .reverse();
       posts = data;
