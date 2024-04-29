@@ -10,8 +10,8 @@
   import TopPostNav from "$lib/components/TopPostNav.svelte";
   export let data;
   import CrossIcon from "$lib/components/icons/CrossIcon.svelte";
-  import SearchResult from "$lib/components/SearchResult.svelte";
   import Follow from "$lib/components/Follow.svelte";
+  import UserFollowsResult from "$lib/components/UserFollowsResult.svelte";
 
   let pageUser = data.user;
   let user: DBUserData;
@@ -198,11 +198,11 @@
 
           {#if renderedDialog === "followers"}
             {#each user.followers as followerID}
-              <SearchResult uid={followerID} followDialog={true} />
+              <UserFollowsResult uid={followerID} followDialog={true} />
             {/each}
           {:else}
             {#each user.follows as followerID}
-              <SearchResult uid={followerID} followDialog={true} />
+              <UserFollowsResult uid={followerID} followDialog={true} />
             {/each}
           {/if}
 

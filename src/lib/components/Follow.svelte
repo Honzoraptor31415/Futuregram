@@ -20,8 +20,10 @@
   });
 
   userDbData.subscribe((val: any) => {
-    currDbUser = val;
-    val && getFollowed(val.id);
+    if (val) {
+      currDbUser = val;
+      getFollowed(val.id);
+    }
   });
 
   async function getFollowed(funcUid: string) {
@@ -96,7 +98,7 @@
   }
 </script>
 
-{#if user}
+{#if currDbUser && user}
   {#if user.id !== currDbUser.id}
     <button
       class={`${btnClass} ${followed ? unfollowClass : ""}`}
@@ -106,6 +108,4 @@
       }}>{followed ? unfollowText : followText}</button
     >
   {/if}
-{:else}
-  <a href="/login" class={btnClass}>{followText}</a>
 {/if}

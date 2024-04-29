@@ -1,8 +1,17 @@
 <script lang="ts">
+  import { supabase } from "$lib/supabaseClient";
   import type { DBUserData } from "$lib/types/db";
-  export let user: DBUserData;
+  export let uid: string;
   export let followDialog: boolean = false;
   import Follow from "$lib/components/Follow.svelte";
+
+  let user: DBUserData;
+
+  async function getUser() {
+    const { data } = await supabase.from("users").select().eq("id", uid);
+    data && (user = data[0]);
+  }
+  getUser();
 </script>
 
 {#if user}

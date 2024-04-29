@@ -14,6 +14,7 @@
   dayjs.extend(relativeTime);
   dayjs().format();
   export let id: string;
+  import { browser } from "$app/environment";
 
   let currUser: AuthUser;
   let currDbUser: DBUserData;
@@ -161,6 +162,10 @@
   function edit() {
     if (replyCreator.id === currDbUser.id) {
       editing = true;
+      browser &&
+        setTimeout(() => {
+          document.getElementById(`reply-edit-${reply.id}`)?.focus();
+        }, 0);
     }
   }
 
@@ -228,6 +233,7 @@
                 ? userCommentOpts
                 : defaultCommentOpts}
               btnDisabled={editing}
+              authOnly
             />
           </div>
         </div>
@@ -240,7 +246,7 @@
             class="flex-between edit-comment-wrp"
           >
             <textarea
-              id="comment-edit"
+              id={`reply-edit-${reply.id}`}
               class="no-style no-resize comment-edit-input"
               bind:value={editingValue}
             ></textarea>
@@ -273,25 +279,18 @@
                   iconClass={`feed-action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                 />
               </button>
-            {:else}
-              <a
-                href="/login"
-                class="feed-post-action before-hover-anim button-link rounded"
+              <button
+                class="feed-post-action before-hover-anim rounded"
+                on:click={replyFunc}
               >
-                <HeartIcon
-                  iconClass="feed-action-icon comment-action-icon heart-icon"
+                <CommentIcon
+                  iconClass="feed-action-icon comment-action-icon comment-icon"
                 />
-              </a>
+              </button>
             {/if}
-            <button
-              class="feed-post-action before-hover-anim rounded"
-              on:click={replyFunc}
+            <p
+              class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
             >
-              <CommentIcon
-                iconClass="feed-action-icon comment-action-icon comment-icon"
-              />
-            </button>
-            <p class="even-less comment-reactions-count">
               {#if reply.likes}
                 {reply.likes.length <= 1
                   ? reply.likes.length === 0

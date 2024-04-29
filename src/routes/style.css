@@ -2190,10 +2190,6 @@ nav {
   border-color: red;
 }
 
-.feed-post-action:first-child {
-  margin-left: 0;
-}
-
 .feed-post-action:last-child {
   margin-right: 0;
 }
@@ -2214,6 +2210,10 @@ nav {
 
 .feed-post-bottom {
   margin-bottom: 10px;
+}
+
+.feed-post-bottom-no-auth {
+  margin-block: 10px;
 }
 
 .feed-post-description {
@@ -2944,4 +2944,14 @@ button:disabled {
 
 .dots-menu {
   z-index: 10;
+}
+
+.feed-post-action:first-child,
+.m-left-0 {
+  margin-left: 0 !important;
+}
+
+.no-auth-c-reactions-count {
+  margin-bottom: 0;
+  margin-top: 11px;
 }

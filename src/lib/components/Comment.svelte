@@ -192,7 +192,7 @@
     commentCreator && comment
       ? (replying = {
           commentID: comment.id,
-          commentUsername: commentCreator.url_username,
+          commentCreator: commentCreator,
         })
       : console.log("Unable to reply before comment loaded.");
   }
@@ -321,6 +321,7 @@
               wrpClassHid=""
               elements={getMenuElements()}
               btnDisabled={editing}
+              authOnly
             />
           </div>
         </div>
@@ -356,7 +357,9 @@
           <p class="feed-comment-text pl-text">{comment.text}</p>
         {/if}
         <div class="flex-between">
-          <div class="feed-post-actions comment-actions">
+          <div
+            class={`feed-post-actions comment-actions ${!currDbUser ? "no-auth-c-reactions-count" : ""}`}
+          >
             {#if currUser && currDbUser}
               <button
                 class="feed-post-action before-hover-anim rounded"
@@ -366,33 +369,26 @@
                   iconClass={`feed-action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                 />
               </button>
-            {:else}
-              <a
-                href="/login"
-                class="feed-post-action before-hover-anim button-link rounded"
+              <button
+                class="feed-post-action before-hover-anim rounded"
+                on:click={reply}
               >
-                <HeartIcon
-                  iconClass="feed-action-icon comment-action-icon heart-icon"
+                <CommentIcon
+                  iconClass="feed-action-icon comment-action-icon comment-icon"
                 />
-              </a>
+              </button>
+              <button
+                class="feed-post-action before-hover-anim rounded"
+                on:click={share}
+              >
+                <ShareIcon
+                  iconClass="feed-action-icon comment-action-icon share-icon"
+                />
+              </button>
             {/if}
-            <button
-              class="feed-post-action before-hover-anim rounded"
-              on:click={reply}
+            <p
+              class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
             >
-              <CommentIcon
-                iconClass="feed-action-icon comment-action-icon comment-icon"
-              />
-            </button>
-            <button
-              class="feed-post-action before-hover-anim rounded"
-              on:click={share}
-            >
-              <ShareIcon
-                iconClass="feed-action-icon comment-action-icon share-icon"
-              />
-            </button>
-            <p class="even-less comment-reactions-count">
               {#if comment.likes}
                 {comment.likes.length <= 1
                   ? comment.likes.length === 0

@@ -1,3 +1,5 @@
+import type { DBUserData } from "$lib/types/db"
+
 export type MenuElement = {
   class: string,
   type: string,
@@ -6,4 +8,4 @@ export type MenuElement = {
   onClick?: any
 }
 
-export type ReplyingToComment = { commentID: string; commentUsername: string } | null
+export type ReplyingToComment = { commentID: string; commentCreator: DBUserData } | null

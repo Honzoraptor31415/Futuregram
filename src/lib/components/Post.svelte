@@ -326,10 +326,12 @@
             on:dblclick={dbClickLike}
           />
         {/if}
-        <div class="feed-post-bottom">
-          <div class="flex-between">
-            <div class="feed-post-actions">
-              {#if currUser && currDbUser}
+        <div
+          class={currDbUser ? "feed-post-bottom" : "feed-post-bottom-no-auth"}
+        >
+          {#if currUser && currDbUser}
+            <div class="flex-between">
+              <div class="feed-post-actions">
                 <button
                   class="feed-post-action before-hover-anim rounded"
                   on:click={like}
@@ -346,40 +348,25 @@
                     <CommentIcon iconClass="feed-action-icon comment-icon" />
                   </button>
                 {/if}
-              {:else}
-                <a
-                  href="/login"
-                  class="feed-post-action before-hover-anim rounded button-link"
+                <button
+                  class="feed-post-action before-hover-anim rounded"
+                  on:click={() => {
+                    share("slkadfjhalskjdfhlakjshdljah123456");
+                  }}
                 >
-                  <HeartIcon iconClass="feed-action-icon heart-icon" />
-                </a>
-                {#if feedPost}
-                  <a
-                    href="/login"
-                    class="feed-post-action before-hover-anim rounded button-link"
-                  >
-                    <CommentIcon iconClass="feed-action-icon comment-icon" />
-                  </a>
-                {/if}
-              {/if}
-              <button
-                class="feed-post-action before-hover-anim rounded"
-                on:click={() => {
-                  share("slkadfjhalskjdfhlakjshdljah123456");
-                }}
-              >
-                <ShareIcon iconClass="feed-action-icon share-icon" />
-              </button>
+                  <ShareIcon iconClass="feed-action-icon share-icon" />
+                </button>
+              </div>
+              <div class="feed-post-actions">
+                <button
+                  class="feed-post-action before-hover-anim rounded"
+                  on:click={report}
+                >
+                  <ReportIcon iconClass="feed-action-icon report-icon" />
+                </button>
+              </div>
             </div>
-            <div class="feed-post-actions">
-              <button
-                class="feed-post-action before-hover-anim rounded"
-                on:click={report}
-              >
-                <ReportIcon iconClass="feed-action-icon report-icon" />
-              </button>
-            </div>
-          </div>
+          {/if}
           <p class="even-less">
             {#if post.likes}
               {post.likes.length <= 1
@@ -418,7 +405,7 @@
           {/if}
         {/if}
       </div>
-      {#if !feedPost}
+      {#if !feedPost && currDbUser}
         <form
           class={`comment-input-wrp user-input-text main-bg-blurry ${commentPlaceholder === "" ? "" : "form-error-input"}`}
           on:submit={(e) => {
@@ -436,7 +423,7 @@
                 <CrossIcon iconClass="image-height-15 white-icon" />
               </button>
               <span class="even-less">
-                @{replying.commentUsername}
+                @{replying.commentCreator.url_username}
               </span>
             </span>
           {/if}
@@ -445,7 +432,7 @@
             type="text"
             id="comment-input"
             placeholder={replying
-              ? `Replying to ${replying.commentUsername}'s comment`
+              ? `Replying to ${replying.commentCreator.id === currDbUser.id ? "your" : `${replying.commentCreator.url_username}'s`} comment`
               : "Comment your thoughts!"}
             class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
             bind:value={commentText}
