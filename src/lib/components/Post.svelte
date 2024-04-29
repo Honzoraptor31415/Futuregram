@@ -221,7 +221,7 @@
   async function comment() {
     commentPlaceholder = commentCheck(commentText);
     if (currUser) {
-      if (commentCheck(commentText) === "") {
+      if (commentPlaceholder === "") {
         if (replying) {
           await supabase.from("replies").insert({
             created_at: new Date().getTime(),

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { supabase } from "$lib/supabaseClient";
   import { browser } from "$app/environment";
   import HomeIcon from "$lib/components/icons/HomeIcon.svelte";
   import SearchIcon from "$lib/components/icons/SearchIcon.svelte";
@@ -11,6 +10,10 @@
   import { page } from "$app/stores";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
   import type { DBUserData } from "$lib/types/db";
+
+  export let supabase: any;
+
+  console.log(supabase);
 
   let currDbUser: DBUserData;
   let locationHref = browser && location.pathname.replaceAll("/", "");
@@ -62,7 +65,9 @@
   }
 
   userDbData.subscribe((val: any) => {
-    val && (currDbUser = val);
+    console.log(val);
+
+    currDbUser = val;
   });
 </script>
 

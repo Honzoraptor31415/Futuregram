@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
@@ -11,7 +10,9 @@
   export let data;
   import CrossIcon from "$lib/components/icons/CrossIcon.svelte";
   import Follow from "$lib/components/Follow.svelte";
-  import UserFollowsResult from "$lib/components/UserFollowsResult.svelte";
+  import SearchResult from "$lib/components/SearchResult.svelte";
+
+  const supabase = data.supabase;
 
   let pageUser = data.user;
   let user: DBUserData;
@@ -28,8 +29,9 @@
           : 0
     : 0;
   let currDbUser: DBUserData;
-  let followed = false;
   let renderedDialog: "followers" | "following" | null = "followers";
+  let followers: DBUserData[] = [];
+  let follows: DBUserData[] = [];
 
   loggedInUser.subscribe((val: any) => {
     currLoggedInUser = val;
@@ -59,60 +61,6 @@
     getUser();
   });
 
-  async function follow() {
-    if (currLoggedInUser) {
-      followed = !followed;
-      let followers = [];
-      let currUserFollows = [];
-      const { data, error } = await supabase
-        .from("users")
-        .select()
-        .eq("id", user.id);
-      const res = await supabase.from("users").select().eq("id", currDbUser.id);
-      res.data &&
-        res.data[0].follows &&
-        (currUserFollows = res.data[0].follows);
-      data && data[0].followers && (followers = data[0].followers);
-      if (followers && !followers.includes(currDbUser.id)) {
-        followers.push(currDbUser.id);
-        currUserFollows.push(user.id);
-        user.followers = followers;
-        updateFollowers(followers, user.id);
-        updateFollows(currUserFollows, currDbUser.id);
-      } else {
-        followers &&
-          (followers = followers.filter((user: string) => {
-            return user !== currDbUser.id;
-          }));
-        currUserFollows &&
-          (currUserFollows = currUserFollows.filter((uid: string) => {
-            return uid !== user.id;
-          }));
-        user.followers = followers;
-        updateFollowers(followers, user.id);
-        updateFollows(currUserFollows, currDbUser.id);
-      }
-    } else {
-      console.log("You have to be logged in to follow users.");
-    }
-  }
-
-  async function updateFollows(value: string[], uid: string) {
-    const { error } = await supabase
-      .from("users")
-      .update({ follows: value })
-      .eq("id", uid);
-    console.log(error);
-  }
-
-  async function updateFollowers(value: string[], uid: string) {
-    const { error } = await supabase
-      .from("users")
-      .update({ followers: value })
-      .eq("id", uid);
-    console.log(error);
-  }
-
   async function getUser() {
     const { data, error } = await supabase
       .from("users")
@@ -123,6 +71,8 @@
     } else if (data) {
       user = data ? data[0] : "";
       getPosts(data[0].id);
+      getFollowers();
+      getFollows();
     }
   }
   getUser();
@@ -152,8 +102,34 @@
       : (renderedDialog = dialog);
   }
 
-  function followFromDialog(uid: string) {
-    console.log("Follow function form the dialog");
+  async function getFollowers() {
+    if (user.followers) {
+      user.followers.forEach(async (followerID: string) => {
+        const { data } = await supabase
+          .from("users")
+          .select()
+          .eq("id", followerID);
+        if (data) {
+          console.log(followers, followers.includes(data[0]), data);
+          !followers.includes(data[0]) && (followers = [...followers, data[0]]);
+        }
+      });
+    }
+  }
+
+  async function getFollows() {
+    if (user.follows) {
+      user.follows.forEach(async (followID: string) => {
+        const { data } = await supabase
+          .from("users")
+          .select()
+          .eq("id", followID);
+        if (data) {
+          console.log(follows, follows.includes(data[0]));
+          !follows.includes(data[0]) && (follows = [...follows, data[0]]);
+        }
+      });
+    }
   }
 </script>
 
@@ -197,12 +173,12 @@
           <!--  -->
 
           {#if renderedDialog === "followers"}
-            {#each user.followers as followerID}
-              <UserFollowsResult uid={followerID} followDialog={true} />
+            {#each followers as follower}
+              <SearchResult user={follower} followDialog={true} />
             {/each}
           {:else}
-            {#each user.follows as followerID}
-              <UserFollowsResult uid={followerID} followDialog={true} />
+            {#each follows as follow}
+              <SearchResult user={follow} followDialog={true} />
             {/each}
           {/if}
 
@@ -240,12 +216,6 @@
                     >Message</a
                   >
                 {/if}
-              {:else}
-                <a
-                  href="/login"
-                  class="button-element user-page-input secondary-button button-link"
-                  >Message</a
-                >
               {/if}
             </div>
           </div>
@@ -397,12 +367,6 @@
                 >Message</a
               >
             {/if}
-          {:else}
-            <a
-              href="/login"
-              class="button-element user-page-input secondary-button button-link"
-              >Message</a
-            >
           {/if}
         </div>
       </div>

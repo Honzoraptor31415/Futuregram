@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { supabase } from "$lib/supabaseClient";
   export let data;
   import * as validation from "$lib/helper/form-validation";
   import FormElement from "$lib/components/FormElement.svelte";
+
+  const supabase = data.supabase;
 
   let email = "";
   let password = "";
@@ -29,17 +30,12 @@
     bioLabel = validation.bioCheck(bio);
 
     if (
-      validation.usernameCheck(username, data.usernames) === "" &&
-      validation.displayedNameCheck(displayedName) === "" &&
-      validation.emailCheck(email) === "" &&
-      validation.passwordCheck(password) === "" &&
-      validation.bioCheck(bio) === ""
+      usernameLabel === "" &&
+      displayedNameLabel === "" &&
+      emailLabel === "" &&
+      passwordLabel === "" &&
+      bioLabel === ""
     ) {
-      usernameLabel = "";
-      displayedNameLabel = "";
-      emailLabel = "";
-      passwordLabel = "";
-      bioLabel = "";
       createUserInDB();
       verifyEmail = true;
     }
@@ -195,8 +191,8 @@
       </div>
       <div class="line"></div>
       <p class="less">
-        We sent you an email at <b>email@fake.org</b>. All you have to do is
-        click the link in the email!
+        We sent you an email at <b>{email}</b>. All you have to do is click the
+        link in the email!
       </p>
     </div>
   {/if}

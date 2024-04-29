@@ -1,8 +1,11 @@
 <script lang="ts">
-  import { supabase } from "$lib/supabaseClient";
   import { browser } from "$app/environment";
   import * as validation from "$lib/helper/form-validation";
   import FormElement from "$lib/components/FormElement.svelte";
+
+  export let data;
+
+  const supabase = data.supabase;
 
   let email = "";
   let password = "";
@@ -15,10 +18,7 @@
     emailLabel = validation.emailCheck(email);
     passwordLabel = validation.passwordCheck(password);
 
-    if (
-      validation.emailCheck(email) === "" &&
-      validation.passwordCheck(password) === ""
-    ) {
+    if (emailLabel === "" && passwordLabel === "") {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,

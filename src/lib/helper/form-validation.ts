@@ -78,8 +78,8 @@ export function bioCheck(bio: string) {
 export function titleCheck(title: string) {
   if (title.length < 1) {
     return "Title can't be empty";
-  } else if (title.length < 2) {
-    return "Title is too short";
+  } else if (title.length > 200) {
+    return "Title is too long";
   } else {
     return "";
   }
@@ -95,7 +95,7 @@ export function descriptionCheck(description: string) {
 
 export function imageCheck() {
   // some logic, that I'll make later :D
-  return true;
+  return "";
 }
 
 export function editingValueCheck(editingValue: string) {

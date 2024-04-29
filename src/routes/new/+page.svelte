@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
-  import loggedInUser from "$lib/stores/user";
   import PlusIcon from "$lib/components/icons/PlusIcon.svelte";
   import RedFormStar from "$lib/components/RedFormStar.svelte";
-  import { supabase } from "$lib/supabaseClient";
   import userDbData from "$lib/stores/user-db-data";
   import type { DBUserData } from "$lib/types/db";
-  import { imageCheck } from "$lib/helper/form-validation";
   import type { StorageResponse } from "$lib/types/storage";
+  import * as validation from "$lib/helper/form-validation";
+
+  export let data;
+  const supabase = data.supabase;
 
   let title = "";
   let description = "";
@@ -37,30 +37,6 @@
     };
   };
 
-  function titleCheck() {
-    title = title.trim();
-    if (title.length < 1) {
-      titleLabel = "Title can't be empty";
-      return false;
-    } else if (title.length < 2) {
-      titleLabel = "Title is too short";
-      return false;
-    } else {
-      titleLabel = "";
-      return true;
-    }
-  }
-
-  function descriptionCheck() {
-    if (description.length > 500) {
-      descriptionLabel = "Description is too long";
-      return false;
-    } else {
-      descriptionLabel = "";
-      return true;
-    }
-  }
-
   async function uploadImage() {
     const uploadImageResponse: StorageResponse = await supabase.storage
       .from("post_images")
@@ -89,9 +65,14 @@
   function newPost() {
     title = title.trim();
     description = description.trim();
-    titleCheck();
-    descriptionCheck();
-    if (titleCheck() && descriptionCheck() && imageCheck()) {
+
+    titleLabel = validation.titleCheck(title);
+    descriptionLabel = validation.descriptionCheck(description);
+    if (
+      descriptionLabel === "" &&
+      titleLabel === "" &&
+      validation.imageCheck() === ""
+    ) {
       uploadImage().then((data) => {
         if (data) {
           insertPost(data.imageURL);

@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { supabase } from "$lib/supabaseClient";
   import type { DBPost } from "$lib/types/db";
   import Post from "$lib/components/Post.svelte";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
 
   export let data;
+
+  const supabase = data.supabase;
   let postID = data.postID;
 
   let post: DBPost;
