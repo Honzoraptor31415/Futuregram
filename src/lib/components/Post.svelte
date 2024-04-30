@@ -19,12 +19,10 @@
   import { commentCheck } from "$lib/helper/form-validation";
   dayjs.extend(relativeTime);
   dayjs().format();
+  import { supabase } from "$lib/supabaseClient";
 
   export let postID: string;
   export let feedPost: boolean = false;
-  export let supabase: any;
-
-  console.log(supabase);
 
   let currUser: AuthUser;
   let post: DBPost;
@@ -184,9 +182,11 @@
   function likesListener() {
     const handleInserts = (payload: any) => {
       console.log("Likes received!", payload);
-      post.likes = post.likes.filter((user: string) => {
-        return user !== currDbUser.id;
-      });
+      if (post.likes) {
+        post.likes = post.likes.filter((user: string) => {
+          return user !== currDbUser.id;
+        });
+      }
       payload.new.likes && payload.new.likes.includes(currDbUser.id)
         ? (liked = true)
         : (liked = false);

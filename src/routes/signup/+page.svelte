@@ -2,8 +2,7 @@
   export let data;
   import * as validation from "$lib/helper/form-validation";
   import FormElement from "$lib/components/FormElement.svelte";
-
-  const supabase = data.supabase;
+  import { supabase } from "$lib/supabaseClient";
 
   let email = "";
   let password = "";

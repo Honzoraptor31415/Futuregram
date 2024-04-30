@@ -10,8 +10,7 @@
   import { page } from "$app/stores";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
   import type { DBUserData } from "$lib/types/db";
-
-  export let supabase: any;
+  import { supabase } from "$lib/supabaseClient";
 
   let currDbUser: DBUserData;
   let locationHref = browser && location.pathname.replaceAll("/", "");

@@ -2,10 +2,10 @@
   import type { DBPost } from "$lib/types/db";
   import Post from "$lib/components/Post.svelte";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
+  import { supabase } from "$lib/supabaseClient";
 
   export let data;
 
-  const supabase = data.supabase;
   let postID = data.postID;
 
   let post: DBPost;
@@ -30,7 +30,7 @@
 <main class="feed-main desktop-nav-margin">
   <TopPostNav />
   <div class="feed-posts-wrp">
-    <Post {supabase} {postID} />
+    <Post {postID} />
   </div>
   <div class="mobile-nav-placeholder"></div>
 </main>

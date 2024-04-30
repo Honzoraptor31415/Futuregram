@@ -53,7 +53,7 @@
 </script>
 
 {#if browser && nav}
-  <Nav supabase={data.supabase} />
+  <Nav />
 {/if}
 <slot />
 <Footer />

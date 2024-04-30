@@ -11,8 +11,7 @@
   import CrossIcon from "$lib/components/icons/CrossIcon.svelte";
   import Follow from "$lib/components/Follow.svelte";
   import SearchResult from "$lib/components/SearchResult.svelte";
-
-  const supabase = data.supabase;
+  import { supabase } from "$lib/supabaseClient";
 
   let pageUser = data.user;
   let user: DBUserData;

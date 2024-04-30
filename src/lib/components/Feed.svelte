@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { DBPost } from "$lib/types/db";
   import Post from "./Post.svelte";
-
-  export let supabase: any;
+  import { supabase } from "$lib/supabaseClient";
 
   let posts: DBPost[];
   let noPosts = false;
@@ -27,7 +26,7 @@
   <div class="feed-posts-wrp">
     {#if posts && !noPosts}
       {#each posts as { id }}
-        <Post {supabase} postID={id} feedPost={true} />
+        <Post postID={id} feedPost={true} />
       {/each}
     {:else if noPosts}
       <h1>No posts</h1>
