@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { supabase } from "$lib/supabaseClient";
   import type { DBPost } from "$lib/types/db";
   import Post from "./Post.svelte";
+
+  export let supabase: any;
 
   let posts: DBPost[];
   let noPosts = false;
@@ -10,7 +11,7 @@
     const { data } = await supabase.from("posts").select();
     if (data) {
       data
-        .sort((a, b) => {
+        .sort((a: any, b: any) => {
           return a.likes ? a.likes.length : 0 - b.likes ? b.likes.length : 0;
         })
         .reverse();
@@ -26,7 +27,7 @@
   <div class="feed-posts-wrp">
     {#if posts && !noPosts}
       {#each posts as { id }}
-        <Post postID={id} feedPost={true} />
+        <Post {supabase} postID={id} feedPost={true} />
       {/each}
     {:else if noPosts}
       <h1>No posts</h1>

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
   import type { DBUserData } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
@@ -8,6 +7,8 @@
   import Feed from "$lib/components/Feed.svelte";
   import * as validation from "$lib/helper/form-validation";
   import FormElement from "$lib/components/FormElement.svelte";
+
+  const supabase = data.supabase;
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
   let userInDB: string | boolean = "waiting";
@@ -104,5 +105,5 @@
     </form>
   </header>
 {:else}
-  <Feed />
+  <Feed {supabase} />
 {/if}

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { supabase } from "$lib/supabaseClient";
   import HeartIcon from "$lib/components/icons/HeartIcon.svelte";
   import ShareIcon from "$lib/components/icons/ShareIcon.svelte";
   import ReportIcon from "$lib/components/icons/ReportIcon.svelte";
@@ -23,6 +22,10 @@
 
   export let postID: string;
   export let feedPost: boolean = false;
+  export let supabase: any;
+
+  console.log(supabase);
+
   let currUser: AuthUser;
   let post: DBPost;
   let postComments: DBComment[] = [];
@@ -87,7 +90,7 @@
       .eq("post_id", postID);
     if (data && data.length > 0) {
       postComments = data
-        .sort((a, b) => {
+        .sort((a: any, b: any) => {
           return a.likes.length - b.likes.length;
         })
         .reverse();
@@ -219,6 +222,16 @@
   }
 
   async function comment() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    console.log(user);
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    console.log(session);
+
     commentPlaceholder = commentCheck(commentText);
     if (currUser) {
       if (commentPlaceholder === "") {

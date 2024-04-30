@@ -5,9 +5,9 @@
   import type { DBUserData } from "$lib/types/db";
   import type { StorageResponse } from "$lib/types/storage";
   import * as validation from "$lib/helper/form-validation";
-
-  export let data;
-  const supabase = data.supabase;
+  import type { AuthUser } from "$lib/types/auth.js";
+  import loggedInUser from "$lib/stores/user.js";
+  import { supabase } from "$lib/supabaseClient.js";
 
   let title = "";
   let description = "";
@@ -18,9 +18,14 @@
   let files: any;
   let currDbUser: DBUserData;
   let image: any;
+  let currUser: AuthUser;
 
   userDbData.subscribe((val: any) => {
     val && (currDbUser = val);
+  });
+
+  loggedInUser.subscribe((val: any) => {
+    val && (currUser = val);
   });
 
   $: if (files) {
@@ -82,7 +87,7 @@
   }
 
   async function insertPost(imgURL: string) {
-    if (currDbUser) {
+    if (currDbUser && currUser) {
       const { error } = await supabase.from("posts").insert({
         created_at: new Date().getTime(),
         image_url: imgURL,

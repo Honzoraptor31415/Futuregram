@@ -13,8 +13,6 @@
 
   export let supabase: any;
 
-  console.log(supabase);
-
   let currDbUser: DBUserData;
   let locationHref = browser && location.pathname.replaceAll("/", "");
   const loggedInMenuElements = [

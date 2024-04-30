@@ -30,7 +30,7 @@
 <main class="feed-main desktop-nav-margin">
   <TopPostNav />
   <div class="feed-posts-wrp">
-    <Post {postID} />
+    <Post {supabase} {postID} />
   </div>
   <div class="mobile-nav-placeholder"></div>
 </main>

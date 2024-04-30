@@ -2,10 +2,7 @@
   import { browser } from "$app/environment";
   import * as validation from "$lib/helper/form-validation";
   import FormElement from "$lib/components/FormElement.svelte";
-
-  export let data;
-
-  const supabase = data.supabase;
+  import { supabase } from "$lib/supabaseClient";
 
   let email = "";
   let password = "";
