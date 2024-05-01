@@ -1,6 +1,6 @@
 import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_KEY } from '$env/static/public'
 import { createServerClient } from '@supabase/ssr'
-import type { Handle } from '@sveltejs/kit'
+import { redirect, type Handle } from '@sveltejs/kit'
 
 export const handle: Handle = async ({ event, resolve }) => {
   event.locals.safeGetSession = async () => {
@@ -33,6 +33,19 @@ export const handle: Handle = async ({ event, resolve }) => {
       },
     },
   })
+
+  const session = await event.locals.safeGetSession()
+
+  const protectedRoutes = ["/settings", "/new", "/chat"]
+  const redirectAuthenticatedRoutes = ["/login", "/signup"]
+
+  const url = new URL(event.request.url)
+
+  if (session.user && redirectAuthenticatedRoutes.includes(url.pathname)) {
+    redirect(302, "/")
+  } else if (!session.user && protectedRoutes.includes(url.pathname)) {
+    redirect(302, "/login")
+  }
 
   return await resolve(event, {
     filterSerializedResponseHeaders(name) {
