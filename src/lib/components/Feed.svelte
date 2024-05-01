@@ -1,25 +1,9 @@
 <script lang="ts">
   import type { DBPost } from "$lib/types/db";
   import Post from "./Post.svelte";
-  import { supabase } from "$lib/supabaseClient";
 
-  let posts: DBPost[];
-  let noPosts = false;
-
-  async function getPosts() {
-    const { data } = await supabase.from("posts").select();
-    if (data) {
-      data
-        .sort((a: any, b: any) => {
-          return a.likes ? a.likes.length : 0 - b.likes ? b.likes.length : 0;
-        })
-        .reverse();
-      posts = data;
-    } else {
-      noPosts = true;
-    }
-  }
-  getPosts();
+  export let posts: DBPost[];
+  export let noPosts = false;
 </script>
 
 <main class="feed-main desktop-nav-margin">

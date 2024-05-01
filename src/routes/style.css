@@ -17,6 +17,7 @@
   --nav-icon-current-color: white;
   --red-button-bg: 227, 51, 51;
   --tercBG: rgb(59 59 59);
+  --image-border-color: rgba(255, 255, 255, 0.07);
 }
 
 * {
@@ -106,6 +107,7 @@ p a:hover {
   border-radius: 27px;
   padding: 27px;
   box-shadow: 0 5px 12px 3px rgba(0, 0, 0, 0.318);
+  border: 1px var(--terc-border-color) solid;
 }
 
 .terc-bg-element {
@@ -908,6 +910,10 @@ button {
   .feed-page-post-wrp {
     margin-block: 20px;
   }
+
+  .signup-form .password-input-wrp {
+    max-width: 235.5px;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1516,6 +1522,10 @@ button {
 
   .feed-page-post-wrp {
     margin-block: 20px;
+  }
+
+  .signup-form .password-input-wrp {
+    max-width: 235.5px;
   }
 }
 
@@ -2205,7 +2215,7 @@ nav {
   min-width: 100%;
   border-radius: var(--main-border-radius);
   height: auto;
-  border: 1px rgba(255, 255, 255, 0.07) solid;
+  border: 1px var(--image-border-color) solid;
 }
 
 .feed-post-bottom {
@@ -2784,10 +2794,6 @@ button:disabled {
   margin-bottom: 19px;
 }
 
-.signup-form .password-input-wrp {
-  max-width: 235.5px;
-}
-
 .user-follow-element {
   border-radius: 10px;
 }
@@ -2954,4 +2960,8 @@ button:disabled {
 .no-auth-c-reactions-count {
   margin-bottom: 0;
   margin-top: 11px;
+}
+
+.post-prew {
+  border: 1px var(--image-border-color) solid;
 }
