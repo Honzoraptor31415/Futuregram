@@ -16,7 +16,7 @@
   page.subscribe((val: any) => {
     if (browser) {
       nav = !navDisallowedLocations.includes(
-        val.url.pathname.replaceAll("/", ""),
+        val.url.pathname.replaceAll("/", "")
       );
     }
   });
@@ -41,8 +41,6 @@
     if (user) {
       loggedInUser.set(user);
       getUserDBData(user.user_metadata.db_id);
-    } else {
-      console.log("No user in auth");
     }
   }
   getAuthUser();

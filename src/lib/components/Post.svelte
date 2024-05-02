@@ -14,12 +14,16 @@
   import type { AuthUser } from "$lib/types/auth";
   import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   import CommentIcon from "./icons/CommentIcon.svelte";
-  import type { ReplyingToComment } from "$lib/types/app";
+  import type { MenuElement, ReplyingToComment } from "$lib/types/app";
   import CrossIcon from "./icons/CrossIcon.svelte";
   import { commentCheck } from "$lib/helper/form-validation";
+  import { supabase } from "$lib/supabaseClient";
+  import HiddenMenu from "./HiddenMenu.svelte";
+  import ThreeDotsHoriz from "./icons/ThreeDotsHoriz.svelte";
+  import { blockUser, report } from "$lib/helper/feed-advanced";
+
   dayjs.extend(relativeTime);
   dayjs().format();
-  import { supabase } from "$lib/supabaseClient";
 
   export let postID: string;
   export let feedPost: boolean = false;
@@ -44,6 +48,71 @@
   let firstID: string;
   let replying: ReplyingToComment;
   let repliesShown: boolean = false;
+  let postShown = true;
+
+  const defaultPostOpts = feedPost
+    ? [
+        {
+          type: "button",
+          onClick: togglePostVisibility,
+          class: "menu-link",
+          text: "Hide",
+        },
+        {
+          type: "button",
+          onClick: () => {
+            blockUser("random-id-45478-utfasdýasdýř87ř");
+          },
+          class: "menu-link red",
+          text: "Block account",
+        },
+      ]
+    : [
+        {
+          type: "button",
+          onClick: () => {
+            blockUser("random-id-45478-utfasdýasdýř87ř");
+          },
+          class: "menu-link red",
+          text: "Block account",
+        },
+      ];
+
+  const authorPostOpts: MenuElement[] = feedPost
+    ? [
+        {
+          type: "button",
+          onClick: togglePostVisibility,
+          class: "menu-link",
+          text: "Hide",
+        },
+        {
+          type: "link",
+          class: "menu-link",
+          text: "Edit",
+          href: `/posts/${postID}/edit`,
+        },
+        {
+          type: "button",
+          onClick: remove,
+          class: "menu-link red",
+          text: "Delete post",
+        },
+      ]
+    : [
+        {
+          type: "link",
+          class: "menu-link",
+          text: "Edit",
+          href: `/posts/${postID}/edit`,
+        },
+        {
+          type: "button",
+          onClick: remove,
+          class: "menu-link red",
+          text: "Delete post",
+        },
+      ];
 
   $: replying && browser && document.getElementById("comment-input")?.focus();
 
@@ -266,10 +335,6 @@
     console.log(`Sharing post ${id}`);
   }
 
-  function report() {
-    console.log("Report function");
-  }
-
   function commentFromFeed() {
     console.log("Comment from the feed");
   }
@@ -277,199 +342,255 @@
   function clearReplying() {
     replying = null;
   }
+
+  function remove() {
+    console.log("Delete post function");
+  }
+
+  function getMenuElements() {
+    if (currDbUser && currDbUser.id === postCreator.id) {
+      return authorPostOpts;
+    }
+    return defaultPostOpts;
+  }
+
+  function togglePostVisibility() {
+    postShown = !postShown;
+  }
 </script>
 
 {#if post && postCreator}
-  <div class={`feed-post-wrp ${feedPost ? "feed-page-post-wrp" : ""}`}>
-    <div class="feed-post">
-      <div class="feed-post-left">
-        <a href={`/${postCreator.url_username}`} class="grid-wrp">
-          <img
-            src={postCreator.image_url}
-            alt={postCreator.url_username}
-            class="feed-post-user-image image-height-40 rounded margin-top-4"
-          />
-        </a>
-      </div>
-      <div class="feed-post-right grid-wrp">
-        <div class="feed-post-top-mobile">
+  {#if postShown}
+    <div class={`feed-post-wrp ${feedPost ? "feed-page-post-wrp" : ""}`}>
+      <div class="feed-post">
+        <div class="feed-post-left">
           <a href={`/${postCreator.url_username}`} class="grid-wrp">
             <img
               src={postCreator.image_url}
               alt={postCreator.url_username}
               class="feed-post-user-image image-height-40 rounded margin-top-4"
-            /></a
-          >
-          <div class="feed-post-texts flex-between">
-            <a href={`/${postCreator.url_username}`} class="feed-post-username"
-              >{postCreator.url_username}</a
-            >
-            <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
-          </div>
+            />
+          </a>
         </div>
-        <p class="feed-post-description mobile pl-text">
-          <LongHiddenText text={post.description} maxLength={maxChars} />
-        </p>
-        <div class="feed-post-top">
-          <div class="feed-post-texts">
-            <div class="feed-post-texts-top flex-between">
+        <div class="feed-post-right grid-wrp">
+          <div class="feed-post-top-mobile">
+            <a href={`/${postCreator.url_username}`} class="grid-wrp">
+              <img
+                src={postCreator.image_url}
+                alt={postCreator.url_username}
+                class="feed-post-user-image image-height-40 rounded margin-top-4"
+              /></a
+            >
+            <div class="feed-post-texts flex-between">
               <a
                 href={`/${postCreator.url_username}`}
                 class="feed-post-username">{postCreator.url_username}</a
               >
-              <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
+              <div class="align-center">
+                <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
+                <HiddenMenu
+                  btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
+                  icon={ThreeDotsHoriz}
+                  iconClass="small-post-icon"
+                  wrpClass="dots-menu"
+                  wrpClassVis="dots-menu-visible"
+                  wrpClassHid=""
+                  elements={getMenuElements()}
+                  authOnly
+                />
+              </div>
             </div>
-            <p class="feed-post-description pl-text">
-              <LongHiddenText text={post.description} maxLength={maxChars} />
-            </p>
           </div>
-        </div>
-        {#if feedPost}
-          <a href={`posts/${post.id}`} class="grid-wrp">
+          <p class="feed-post-description mobile pl-text">
+            <LongHiddenText text={post.description} maxLength={maxChars} />
+          </p>
+          <div class="feed-post-top">
+            <div class="feed-post-texts">
+              <div class="feed-post-texts-top flex-between">
+                <a
+                  href={`/${postCreator.url_username}`}
+                  class="feed-post-username">{postCreator.url_username}</a
+                >
+                <div class="align-center">
+                  <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
+                  <HiddenMenu
+                    btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
+                    icon={ThreeDotsHoriz}
+                    iconClass="small-post-icon"
+                    wrpClass="dots-menu"
+                    wrpClassVis="dots-menu-visible"
+                    wrpClassHid=""
+                    elements={getMenuElements()}
+                    authOnly
+                  />
+                </div>
+              </div>
+              <p class="feed-post-description pl-text">
+                <LongHiddenText text={post.description} maxLength={maxChars} />
+              </p>
+            </div>
+          </div>
+          {#if feedPost}
+            <a href={`posts/${post.id}`} class="grid-wrp">
+              <img
+                src={post.image_url}
+                alt={post.title}
+                class="feed-post-image"
+                on:dblclick={dbClickLike}
+              /></a
+            >
+          {:else}
             <img
               src={post.image_url}
               alt={post.title}
               class="feed-post-image"
               on:dblclick={dbClickLike}
-            /></a
-          >
-        {:else}
-          <img
-            src={post.image_url}
-            alt={post.title}
-            class="feed-post-image"
-            on:dblclick={dbClickLike}
-          />
-        {/if}
-        <div
-          class={currDbUser ? "feed-post-bottom" : "feed-post-bottom-no-auth"}
-        >
-          {#if currUser && currDbUser}
-            <div class="flex-between">
-              <div class="feed-post-actions">
-                <button
-                  class="feed-post-action before-hover-anim rounded"
-                  on:click={like}
-                >
-                  <HeartIcon
-                    iconClass={`feed-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
-                  />
-                </button>
-                {#if feedPost}
-                  <button
-                    on:click={commentFromFeed}
-                    class="feed-post-action before-hover-anim rounded button-link"
-                  >
-                    <CommentIcon iconClass="feed-action-icon comment-icon" />
-                  </button>
-                {/if}
-                <button
-                  class="feed-post-action before-hover-anim rounded"
-                  on:click={() => {
-                    share("slkadfjhalskjdfhlakjshdljah123456");
-                  }}
-                >
-                  <ShareIcon iconClass="feed-action-icon share-icon" />
-                </button>
-              </div>
-              <div class="feed-post-actions">
-                <button
-                  class="feed-post-action before-hover-anim rounded"
-                  on:click={report}
-                >
-                  <ReportIcon iconClass="feed-action-icon report-icon" />
-                </button>
-              </div>
-            </div>
+            />
           {/if}
-          <p class="even-less">
-            {#if post.likes}
-              {post.likes.length <= 1
-                ? post.likes.length === 0
-                  ? "no likes"
-                  : `${post.likes.length} like`
-                : `${post.likes.length} likes`}
-            {:else}
-              no likes
+          <div
+            class={currDbUser ? "feed-post-bottom" : "feed-post-bottom-no-auth"}
+          >
+            {#if currUser && currDbUser}
+              <div class="flex-between">
+                <div class="feed-post-actions">
+                  <button
+                    class="feed-post-action before-hover-anim rounded"
+                    on:click={like}
+                  >
+                    <HeartIcon
+                      iconClass={`feed-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
+                    />
+                  </button>
+                  {#if feedPost}
+                    <button
+                      on:click={commentFromFeed}
+                      class="feed-post-action before-hover-anim rounded button-link"
+                    >
+                      <CommentIcon iconClass="feed-action-icon comment-icon" />
+                    </button>
+                  {/if}
+                  <button
+                    class="feed-post-action before-hover-anim rounded"
+                    on:click={() => {
+                      share("slkadfjhalskjdfhlakjshdljah123456");
+                    }}
+                  >
+                    <ShareIcon iconClass="feed-action-icon share-icon" />
+                  </button>
+                </div>
+                <div class="feed-post-actions">
+                  <button
+                    class="feed-post-action before-hover-anim rounded"
+                    on:click={() => {
+                      report("post", post.id);
+                    }}
+                  >
+                    <ReportIcon iconClass="feed-action-icon report-icon" />
+                  </button>
+                </div>
+              </div>
             {/if}
-            <span class="text-dot">·</span>
-            {#if postComments}
-              {postComments.length <= 1
-                ? postComments.length === 0
-                  ? "no comments"
-                  : `${postComments.length} comment`
-                : `${postComments.length} comments`}
-            {:else}
-              no comments
-            {/if}
-          </p>
+            <p class="even-less">
+              {#if post.likes}
+                {post.likes.length <= 1
+                  ? post.likes.length === 0
+                    ? "no likes"
+                    : `${post.likes.length} like`
+                  : `${post.likes.length} likes`}
+              {:else}
+                no likes
+              {/if}
+              <span class="text-dot">·</span>
+              {#if postComments}
+                {postComments.length <= 1
+                  ? postComments.length === 0
+                    ? "no comments"
+                    : `${postComments.length} comment`
+                  : `${postComments.length} comments`}
+              {:else}
+                no comments
+              {/if}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-    <div>
-      <div class="feed-post-comments-wrp">
-        {#if postComments}
-          {#if feedPost}
-            {#if firstID}
-              <Comment
-                bind:replying
-                {repliesShown}
-                id={firstID}
-                feedComment={true}
-              />
+      <div>
+        <div class="feed-post-comments-wrp">
+          {#if postComments}
+            {#if feedPost}
+              {#if firstID}
+                <Comment
+                  bind:replying
+                  {repliesShown}
+                  id={firstID}
+                  feedComment={true}
+                />
+              {/if}
+            {:else}
+              {#each postComments as comment}
+                <Comment
+                  bind:replying
+                  {repliesShown}
+                  id={comment.id}
+                  feedComment={false}
+                />
+              {/each}
             {/if}
-          {:else}
-            {#each postComments as comment}
-              <Comment
-                bind:replying
-                {repliesShown}
-                id={comment.id}
-                feedComment={false}
-              />
-            {/each}
           {/if}
+        </div>
+        {#if !feedPost && currDbUser}
+          <form
+            class={`comment-input-wrp user-input-text main-bg-blurry ${commentPlaceholder === "" ? "" : "form-error-input"}`}
+            on:submit={(e) => {
+              e.preventDefault();
+              comment();
+            }}
+          >
+            {#if replying}
+              <span class="tagged-replying align-center min-w-fit">
+                <button
+                  type="button"
+                  on:click={clearReplying}
+                  class="no-style grid-wrp min-w-fit pointer button-element hover-opacity"
+                >
+                  <CrossIcon iconClass="image-height-15 white-icon" />
+                </button>
+                <span class="even-less">
+                  @{replying.commentCreator.url_username}
+                </span>
+              </span>
+            {/if}
+            <input
+              autocomplete="off"
+              type="text"
+              id="comment-input"
+              placeholder={replying
+                ? `Replying to ${replying.commentCreator.id === currDbUser.id ? "your" : `${replying.commentCreator.url_username}'s`} comment`
+                : "Comment your thoughts!"}
+              class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
+              bind:value={commentText}
+            />
+            <button
+              type="submit"
+              class="grid-wrp comment-button no-style button-element min-w-fit"
+            >
+              <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
+            </button>
+          </form>
         {/if}
       </div>
-      {#if !feedPost && currDbUser}
-        <form
-          class={`comment-input-wrp user-input-text main-bg-blurry ${commentPlaceholder === "" ? "" : "form-error-input"}`}
-          on:submit={(e) => {
-            e.preventDefault();
-            comment();
-          }}
-        >
-          {#if replying}
-            <span class="tagged-replying align-center min-w-fit">
-              <button
-                type="button"
-                on:click={clearReplying}
-                class="no-style grid-wrp min-w-fit pointer button-element hover-opacity"
-              >
-                <CrossIcon iconClass="image-height-15 white-icon" />
-              </button>
-              <span class="even-less">
-                @{replying.commentCreator.url_username}
-              </span>
-            </span>
-          {/if}
-          <input
-            autocomplete="off"
-            type="text"
-            id="comment-input"
-            placeholder={replying
-              ? `Replying to ${replying.commentCreator.id === currDbUser.id ? "your" : `${replying.commentCreator.url_username}'s`} comment`
-              : "Comment your thoughts!"}
-            class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
-            bind:value={commentText}
-          />
-          <button
-            type="submit"
-            class="grid-wrp comment-button no-style button-element min-w-fit"
-          >
-            <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
-          </button>
-        </form>
-      {/if}
     </div>
-  </div>
+  {:else}
+    <div class="feed-page-post-wrp">
+      <div
+        class="alpha-bg-element flex-between align-center post-hidden-dialog"
+      >
+        <p class="less">Post was hidden.</p>
+        <button
+          on:click={togglePostVisibility}
+          class="desc-dots hover-before-height less">Show it again</button
+        >
+      </div>
+    </div>
+  {/if}
 {/if}

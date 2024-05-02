@@ -12,16 +12,18 @@
   import type { DBUserData, DBComment, DBReply } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import CommentReply from "$lib/components/CommentReply.svelte";
-  dayjs.extend(relativeTime);
-  dayjs().format();
   import * as validation from "$lib/helper/form-validation";
   import type { ReplyingToComment } from "$lib/types/app";
   import { browser } from "$app/environment";
+  import { blockUser, report } from "$lib/helper/feed-advanced";
 
   export let id: string;
   export let feedComment: boolean = true;
   export let replying: ReplyingToComment = null;
   export let repliesShown: boolean = false;
+
+  dayjs.extend(relativeTime);
+  dayjs().format();
 
   let currUser: AuthUser;
   let currDbUser: DBUserData;
@@ -40,14 +42,14 @@
     {
       type: "button",
       onClick: () => {
-        block("random-id-45478-utfasdýasdýř87ř");
+        blockUser("random-id-45478-utfasdýasdýř87ř");
       },
       class: "menu-link red",
       text: "Block account",
     },
   ];
 
-  const userCommentOpts = [
+  const authorCommentOpts = [
     {
       type: "button",
       onClick: edit,
@@ -78,7 +80,7 @@
     {
       type: "button",
       onClick: () => {
-        block("random-id-45478-utfasdýasdýř87ř");
+        blockUser("random-id-45478-utfasdýasdýř87ř");
       },
       class: "menu-link red",
       text: "Block account",
@@ -201,14 +203,6 @@
     }
   }
 
-  function report() {
-    console.log(`Report function\nFor comment ${id}`);
-  }
-
-  function block(uid: string) {
-    console.log(`Block function for ${uid}`);
-  }
-
   function edit() {
     if (commentCreator.id === currDbUser.id) {
       editing = true;
@@ -281,16 +275,16 @@
       .subscribe();
   }
 
-  export const getMenuElements = () => {
+  function getMenuElements() {
     if (currDbUser) {
       if (currDbUser.id === commentCreator.id) {
-        return userCommentOpts;
+        return authorCommentOpts;
       } else if (currDbUser.id === postCreator.id) {
         return postCreatorCommentOpts;
       }
     }
     return defaultCommentOpts;
-  };
+  }
 </script>
 
 {#if comment}
@@ -312,7 +306,7 @@
             class={`feed-post-username ${commentCreator.url_username === postCreator.url_username ? "grey-bg-text" : ""}`}
             >{commentCreator.url_username}</a
           >
-          <div class="comment-top-right">
+          <div class="align-center">
             <p class="even-less comment-date">
               {dayjs(comment.created_at).fromNow()}
               {comment.edited ? "(edited)" : ""}

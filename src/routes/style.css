@@ -19,6 +19,7 @@
   --tercBG: rgb(59 59 59);
   --image-border-color: rgba(255, 255, 255, 0.07);
   --menu-icon-active-color: rgba(255, 255, 255, 0.85);
+  --feed-spacing: 20px;
 }
 
 * {
@@ -888,7 +889,7 @@ button {
   }
 
   .feed-page-post-wrp {
-    margin-block: 20px;
+    margin-block: var(--feed-spacing);
   }
 
   .signup-form .password-input-wrp {
@@ -1480,7 +1481,7 @@ button {
   }
 
   .feed-page-post-wrp {
-    margin-block: 20px;
+    margin-block: var(--feed-spacing);
   }
 
   .signup-form .password-input-wrp {
@@ -1494,6 +1495,7 @@ button {
   body {
     --nav-icon-fill: rgb(160, 160, 160);
     --nav-height: 50px;
+    --feed-spacing: 13px;
   }
 
   .form {
@@ -2047,7 +2049,7 @@ button {
   }
 
   .feed-page-post-wrp {
-    margin-block: 13px;
+    margin-block: var(--feed-spacing);
   }
 
   * {
@@ -2330,11 +2332,6 @@ nav {
 
 .feed-comment-top {
   width: 100%;
-  align-items: center;
-}
-
-.comment-top-right {
-  display: flex;
   align-items: center;
 }
 
@@ -2923,4 +2920,19 @@ button:disabled {
 
 .no-bg-nav-btn.hidden-menu-active path {
   fill: var(--menu-icon-active-color);
+}
+
+.feed-posts-wrp {
+  margin-top: 10px;
+}
+
+.alpha-bg-element {
+  border-radius: var(--main-border-radius);
+  background: var(--terc-border-color);
+  border: none;
+  padding: 20px;
+}
+
+.post-hidden-dialog {
+  margin-block: 20px;
 }

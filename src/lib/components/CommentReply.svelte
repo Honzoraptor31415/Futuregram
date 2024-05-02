@@ -217,7 +217,7 @@
             class={`feed-post-username ${replyCreator.url_username === postCreator ? "grey-bg-text" : ""}`}
             >{replyCreator.url_username}</a
           >
-          <div class="comment-top-right">
+          <div class="align-center">
             <p class="even-less comment-date">
               {dayjs(reply.created_at).fromNow()}
               {reply.edited ? "(edited)" : ""}
