@@ -14,7 +14,7 @@
   import { supabase } from "$lib/supabaseClient";
 
   let pageUser = data.user;
-  let user: DBUserData;
+  let user: DBUserData | null;
   let pageError = "";
   let posts: DBPost[] | null;
   let currLoggedInUser: AuthUser;
@@ -57,6 +57,9 @@
     posts = null;
     pageUser = val.data.user;
     renderedDialog = null;
+    user = null;
+    followers = [];
+    follows = [];
     getUser();
   });
 
@@ -74,7 +77,6 @@
       getFollows();
     }
   }
-  getUser();
 
   async function getPosts(id: string) {
     const { data, error } = await supabase
@@ -102,30 +104,28 @@
   }
 
   async function getFollowers() {
-    if (user.followers) {
+    if (user && user.followers) {
       user.followers.forEach(async (followerID: string) => {
         const { data } = await supabase
           .from("users")
           .select()
           .eq("id", followerID);
         if (data) {
-          console.log(followers, followers.includes(data[0]), data);
-          !followers.includes(data[0]) && (followers = [...followers, data[0]]);
+          followers = [...followers, data[0]];
         }
       });
     }
   }
 
   async function getFollows() {
-    if (user.follows) {
+    if (user && user.follows) {
       user.follows.forEach(async (followID: string) => {
         const { data } = await supabase
           .from("users")
           .select()
           .eq("id", followID);
         if (data) {
-          console.log(follows, follows.includes(data[0]));
-          !follows.includes(data[0]) && (follows = [...follows, data[0]]);
+          follows = [...follows, data[0]];
         }
       });
     }

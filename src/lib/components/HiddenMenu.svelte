@@ -37,7 +37,7 @@
       menu();
     }}
     disabled={btnDisabled}
-    class={`${menuVisible ? "no-hover-before" : ""} rounded ${btnClass}`}
+    class={`${menuVisible ? "hidden-menu-active" : ""} rounded ${btnClass}`}
   >
     <svelte:component this={icon} {iconClass}></svelte:component>
 

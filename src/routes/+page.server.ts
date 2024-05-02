@@ -8,12 +8,12 @@ export const load: PageServerLoad = async ({ url }) => {
   let posts: DBPost[] = []
   let noPosts: boolean = false
 
-  const { data:postsData } = await supabase.from("posts").select();
+  const { data:postsData } = await supabase.from("posts").select().limit(5)
     if (postsData) {
       postsData
         .sort((a: any, b: any) => {
-          return a.likes ? a.likes.length : 0 - b.likes ? b.likes.length : 0;
-        })
+          return a.likes.length - b.likes.length;
+        }).reverse()
       posts = postsData;
     } else {
       noPosts = true;

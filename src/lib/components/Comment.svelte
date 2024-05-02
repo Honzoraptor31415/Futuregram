@@ -14,12 +14,14 @@
   import CommentReply from "$lib/components/CommentReply.svelte";
   dayjs.extend(relativeTime);
   dayjs().format();
-  export let id: string;
   import * as validation from "$lib/helper/form-validation";
-  import type { MenuElement, ReplyingToComment } from "$lib/types/app";
+  import type { ReplyingToComment } from "$lib/types/app";
   import { browser } from "$app/environment";
+
+  export let id: string;
   export let feedComment: boolean = true;
   export let replying: ReplyingToComment = null;
+  export let repliesShown: boolean = false;
 
   let currUser: AuthUser;
   let currDbUser: DBUserData;
@@ -185,16 +187,18 @@
   }
 
   function showReplies() {
-    console.log(`Show replies function`);
+    repliesShown = !repliesShown;
   }
 
   function reply() {
-    commentCreator && comment
-      ? (replying = {
-          commentID: comment.id,
-          commentCreator: commentCreator,
-        })
-      : console.log("Unable to reply before comment loaded.");
+    if (commentCreator && comment) {
+      replying = {
+        commentID: comment.id,
+        commentCreator: commentCreator,
+      };
+    } else {
+      console.log("Unable to reply before comment loaded.");
+    }
   }
 
   function report() {
@@ -254,6 +258,7 @@
       .eq("comment_id", id);
 
     data && (replies = data);
+    console.log("Replies are selected from the DB now");
   }
 
   getReplies();
@@ -271,7 +276,7 @@
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "replies" },
-        handleInserts,
+        handleInserts
       )
       .subscribe();
   }
@@ -413,15 +418,18 @@
         </div>
         {#if !feedComment}
           {#if replies.length > 0}
-            <button
-              class="no-style hover-before-height desc-dots less"
-              on:click={showReplies}>show replies</button
-            >
-            <div class="replies-wrp">
-              {#each replies as reply}
-                <CommentReply id={reply.id} />
-              {/each}
-            </div>
+            {#if !repliesShown}
+              <button
+                class="no-style hover-before-height desc-dots less"
+                on:click={showReplies}>show replies</button
+              >
+            {:else}
+              <div class="replies-wrp">
+                {#each replies as reply}
+                  <CommentReply id={reply.id} />
+                {/each}
+              </div>
+            {/if}
           {/if}
         {/if}
       </div>

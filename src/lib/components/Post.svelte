@@ -43,6 +43,7 @@
   let commentPlaceholder = "";
   let firstID: string;
   let replying: ReplyingToComment;
+  let repliesShown: boolean = false;
 
   $: replying && browser && document.getElementById("comment-input")?.focus();
 
@@ -198,7 +199,7 @@
       .on(
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "posts" },
-        handleInserts,
+        handleInserts
       )
       .subscribe();
   }
@@ -216,7 +217,7 @@
       .on(
         "postgres_changes",
         { event: "INSERT", schema: "public", table: "comments" },
-        handleInserts,
+        handleInserts
       )
       .subscribe();
   }
@@ -245,6 +246,7 @@
           });
           commentText = "";
           replying = null;
+          repliesShown = true;
         } else {
           await supabase.from("comments").insert({
             created_at: new Date().getTime(),
@@ -409,11 +411,21 @@
         {#if postComments}
           {#if feedPost}
             {#if firstID}
-              <Comment bind:replying id={firstID} feedComment={true} />
+              <Comment
+                bind:replying
+                {repliesShown}
+                id={firstID}
+                feedComment={true}
+              />
             {/if}
           {:else}
             {#each postComments as comment}
-              <Comment bind:replying id={comment.id} feedComment={false} />
+              <Comment
+                bind:replying
+                {repliesShown}
+                id={comment.id}
+                feedComment={false}
+              />
             {/each}
           {/if}
         {/if}

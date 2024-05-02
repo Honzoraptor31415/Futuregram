@@ -18,6 +18,7 @@
   --red-button-bg: 227, 51, 51;
   --tercBG: rgb(59 59 59);
   --image-border-color: rgba(255, 255, 255, 0.07);
+  --menu-icon-active-color: rgba(255, 255, 255, 0.85);
 }
 
 * {
@@ -506,7 +507,7 @@ button {
   }
 
   .no-bg-nav-btn:hover path {
-    fill: rgba(255, 255, 255, 0.85);
+    fill: var(--menu-icon-active-color);
   }
 
   .nav-button:not(.no-bg-nav-btn):hover::before {
@@ -536,34 +537,12 @@ button {
     height: auto;
   }
 
-  .menu-link {
-    background: transparent;
-    border: none;
-    border-bottom: 1px rgba(255, 255, 255, 0.147) solid;
-    font-size: 15px;
-    font-weight: 600;
-    word-wrap: unset;
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: .15s;
-    width: 100%;
-    text-align: left;
-  }
-
   .menu-link:hover {
-    color: var(--menu-link-hover);
-  }
-
-  .menu-link.red:hover {
-    color: var(--menu-red-hover);
+    background: var(--terc-border-color);
   }
 
   .menu-link:active {
     transform: none;
-  }
-
-  .menu-link:last-child {
-    border-bottom: none;
   }
 
   .menu-button-wrp {
@@ -610,9 +589,10 @@ button {
     transition: .15s;
   }
 
-  .before-hover-anim:not(.no-hover-before):hover::before {
-    transform: scale(1.3);
-    opacity: 1;
+  .before-hover-anim:hover::before,
+  .hidden-menu-active::before {
+    transform: scale(1.3) !important;
+    opacity: 1 !important;
   }
 
   .feed-post-action:hover .heart-icon path {
@@ -1133,7 +1113,7 @@ button {
   }
 
   .no-bg-nav-btn:hover path {
-    fill: rgba(255, 255, 255, 0.85);
+    fill: var(--menu-icon-active-color);
   }
 
   .nav-btns {
@@ -1159,34 +1139,12 @@ button {
     height: auto;
   }
 
-  .menu-link {
-    background: transparent;
-    border: none;
-    border-bottom: 1px rgba(255, 255, 255, 0.147) solid;
-    font-size: 15px;
-    font-weight: 600;
-    word-wrap: unset;
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: .15s;
-    width: 100%;
-    text-align: left;
-  }
-
   .menu-link:hover {
-    color: var(--menu-link-hover);
-  }
-
-  .menu-link.red:hover {
-    color: var(--menu-red-hover);
+    background: var(--terc-border-color);
   }
 
   .menu-link:active {
     transform: none;
-  }
-
-  .menu-link:last-child {
-    border-bottom: none;
   }
 
   .menu-button-wrp {
@@ -1235,9 +1193,10 @@ button {
     transition: .15s;
   }
 
-  .before-hover-anim:not(.no-hover-before):hover::before {
-    transform: scale(1.3);
-    opacity: 1;
+  .before-hover-anim:hover::before,
+  .hidden-menu-active::before {
+    transform: scale(1.3) !important;
+    opacity: 1 !important;
   }
 
   .feed-post-action:hover .heart-icon path {
@@ -1724,34 +1683,9 @@ button {
     min-width: 187px;
   }
 
-  .menu-link {
-    background: transparent;
-    border: none;
-    border-bottom: 1px rgba(255, 255, 255, 0.147) solid;
-    font-size: 15px;
-    font-weight: 600;
-    word-wrap: unset;
-    padding: 14px 16px;
-    cursor: pointer;
-    transition: .15s;
-    width: 100%;
-    text-align: left;
-  }
-
   .menu-link:active {
-    color: var(--menu-link-hover);
-  }
-
-  .menu-link.red:active {
-    color: var(--menu-red-hover);
-  }
-
-  .menu-link:active {
+    background: var(--terc-border-color);
     transform: none;
-  }
-
-  .menu-link:last-child {
-    border-bottom: none;
   }
 
   .menu-button-wrp {
@@ -1807,9 +1741,10 @@ button {
     transition: .05s;
   }
 
-  .before-hover-anim:not(.no-hover-before):active::before {
-    transform: scale(1.3);
-    opacity: 1;
+  .before-hover-anim:active::before,
+  .hidden-menu-active::before {
+    transform: scale(1.3) !important;
+    opacity: 1 !important;
   }
 
   .feed-post-action:active .heart-icon path {
@@ -2950,6 +2885,8 @@ button:disabled {
 
 .dots-menu {
   z-index: 10;
+  border: 1px var(--terc-border-color) solid;
+  overflow: hidden;
 }
 
 .feed-post-action:first-child,
@@ -2964,4 +2901,26 @@ button:disabled {
 
 .post-prew {
   border: 1px var(--image-border-color) solid;
+}
+
+.menu-link {
+  background: transparent;
+  border: none;
+  border-bottom: 1px var(--terc-border-color) solid;
+  font-size: 15px;
+  font-weight: 600;
+  word-wrap: unset;
+  padding: 14px 16px;
+  cursor: pointer;
+  transition: .15s;
+  width: 100%;
+  text-align: left;
+}
+
+.menu-link:last-child {
+  border-bottom: none;
+}
+
+.no-bg-nav-btn.hidden-menu-active path {
+  fill: var(--menu-icon-active-color);
 }
