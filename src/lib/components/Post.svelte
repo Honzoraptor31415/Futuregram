@@ -10,7 +10,7 @@
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
-  import type { DBUserData, DBPost, DBComment } from "$lib/types/db";
+  import type { DBUserData, DBComment } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   import CommentIcon from "./icons/CommentIcon.svelte";
@@ -25,11 +25,16 @@
   dayjs.extend(relativeTime);
   dayjs().format();
 
-  export let postID: string;
+  export let id: string;
+  export let title: string;
+  export let created_at: number;
+  export let image_url: string;
+  export let description: string;
+  export let likes: string[];
+  export let user_id: string;
   export let feedPost: boolean = false;
 
   let currUser: AuthUser;
-  let post: DBPost;
   let postComments: DBComment[] = [];
   let postCreator: DBUserData;
   let liked = false;
@@ -90,7 +95,7 @@
           type: "link",
           class: "menu-link",
           text: "Edit",
-          href: `/posts/${postID}/edit`,
+          href: `/posts/${id}/edit`,
         },
         {
           type: "button",
@@ -104,7 +109,7 @@
           type: "link",
           class: "menu-link",
           text: "Edit",
-          href: `/posts/${postID}/edit`,
+          href: `/posts/${id}/edit`,
         },
         {
           type: "button",
@@ -130,7 +135,6 @@
   }
 
   page.subscribe((val: any) => {
-    getPost();
     getComments();
   });
 
@@ -138,24 +142,11 @@
     val && (currUser = val);
   });
 
-  async function getPost() {
-    const { data, error } = await supabase
-      .from("posts")
-      .select()
-      .eq("id", postID);
-
-    if (data && data.length > 0) {
-      post = data[0];
-      getPostCreator(data[0].user_id);
-    }
-  }
-  getPost();
-
   async function getComments() {
     const { data, error } = await supabase
       .from("comments")
       .select()
-      .eq("post_id", postID);
+      .eq("post_id", id);
     if (data && data.length > 0) {
       postComments = data
         .sort((a: any, b: any) => {
@@ -174,6 +165,7 @@
       postCreator = data[0];
     }
   }
+  getPostCreator(user_id);
 
   async function dbClickLike() {
     if (currUser) {
@@ -181,15 +173,15 @@
       const { data, error } = await supabase
         .from("posts")
         .select()
-        .eq("id", postID);
+        .eq("id", id);
       data && data[0].likes && (likes = data[0].likes);
       if (likes && !likes.includes(currDbUser.id)) {
         likes.push(currDbUser.id);
-        post.likes = likes;
+        likes = likes;
         const { error } = await supabase
           .from("posts")
           .update({ likes: likes })
-          .eq("id", postID);
+          .eq("id", id);
         liked = true;
       } else {
         console.log("You already liked this");
@@ -208,10 +200,7 @@
   });
 
   async function getLikes(uid: string) {
-    const { data, error } = await supabase
-      .from("posts")
-      .select()
-      .eq("id", postID);
+    const { data, error } = await supabase.from("posts").select().eq("id", id);
     if (data && data[0].likes && data[0].likes.includes(uid)) {
       liked = true;
     }
@@ -224,25 +213,25 @@
       const { data, error } = await supabase
         .from("posts")
         .select()
-        .eq("id", postID);
+        .eq("id", id);
       data && data[0].likes && (likes = data[0].likes);
       if (likes && !likes.includes(currDbUser.id)) {
         likes.push(currDbUser.id);
-        post.likes = likes;
+        likes = likes;
         const { error } = await supabase
           .from("posts")
           .update({ likes: likes })
-          .eq("id", postID);
+          .eq("id", id);
       } else {
         likes &&
           (likes = likes.filter((user: string) => {
             return user !== currDbUser.id;
           }));
-        post.likes = likes;
+        likes = likes;
         const { error } = await supabase
           .from("posts")
           .update({ likes: likes })
-          .eq("id", postID);
+          .eq("id", id);
       }
     } else {
       console.log("You have to be logged in to like posts.");
@@ -252,15 +241,15 @@
   function likesListener() {
     const handleInserts = (payload: any) => {
       console.log("Likes received!", payload);
-      if (post.likes) {
-        post.likes = post.likes.filter((user: string) => {
+      if (likes) {
+        likes = likes.filter((user: string) => {
           return user !== currDbUser.id;
         });
       }
       payload.new.likes && payload.new.likes.includes(currDbUser.id)
         ? (liked = true)
         : (liked = false);
-      post.likes = payload.new.likes;
+      likes = payload.new.likes;
     };
 
     supabase
@@ -276,7 +265,7 @@
   function commentsListener() {
     const handleInserts = (payload: any) => {
       console.log("Comment received!", payload);
-      if (payload.new.post_id === postID) {
+      if (payload.new.post_id === id) {
         postComments = [...postComments, payload.new];
       }
     };
@@ -308,7 +297,7 @@
         if (replying) {
           await supabase.from("replies").insert({
             created_at: new Date().getTime(),
-            post_id: post.id,
+            post_id: id,
             user_id: currDbUser.id,
             text: commentText,
             comment_id: replying.commentID,
@@ -319,7 +308,7 @@
         } else {
           await supabase.from("comments").insert({
             created_at: new Date().getTime(),
-            post_id: post.id,
+            post_id: id,
             user_id: currDbUser.id,
             text: commentText,
           });
@@ -359,7 +348,7 @@
   }
 </script>
 
-{#if post && postCreator}
+{#if id && postCreator}
   {#if postShown}
     <div class={feedPost ? "feed-page-post-wrp" : ""}>
       <div class="post">
@@ -386,7 +375,7 @@
                 >{postCreator.url_username}</a
               >
               <div class="align-center">
-                <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
+                <p class="even-less">{dayjs(created_at).fromNow()}</p>
                 <HiddenMenu
                   btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
                   icon={ThreeDotsHoriz}
@@ -401,7 +390,7 @@
             </div>
           </div>
           <p class="post-description mobile pl-text">
-            <LongHiddenText text={post.description} maxLength={maxChars} />
+            <LongHiddenText text={description} maxLength={maxChars} />
           </p>
           <div class="post-top desktop">
             <div class="post-texts">
@@ -410,7 +399,7 @@
                   >{postCreator.url_username}</a
                 >
                 <div class="align-center">
-                  <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
+                  <p class="even-less">{dayjs(created_at).fromNow()}</p>
                   <HiddenMenu
                     btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
                     icon={ThreeDotsHoriz}
@@ -424,23 +413,23 @@
                 </div>
               </div>
               <p class="post-description pl-text">
-                <LongHiddenText text={post.description} maxLength={maxChars} />
+                <LongHiddenText text={description} maxLength={maxChars} />
               </p>
             </div>
           </div>
           {#if feedPost}
-            <a href={`posts/${post.id}`} class="grid-wrp">
+            <a href={`posts/${id}`} class="grid-wrp">
               <img
-                src={post.image_url}
-                alt={post.title}
+                src={image_url}
+                alt={title}
                 class="post-image"
                 on:dblclick={dbClickLike}
               /></a
             >
           {:else}
             <img
-              src={post.image_url}
-              alt={post.title}
+              src={image_url}
+              alt={title}
               class="post-image"
               on:dblclick={dbClickLike}
             />
@@ -478,7 +467,7 @@
                   <button
                     class="post-action before-hover-anim rounded"
                     on:click={() => {
-                      report("post", post.id);
+                      report("post", id);
                     }}
                   >
                     <ReportIcon iconClass="action-icon report-icon" />
@@ -487,12 +476,12 @@
               </div>
             {/if}
             <p class="even-less">
-              {#if post.likes}
-                {post.likes.length <= 1
-                  ? post.likes.length === 0
+              {#if likes}
+                {likes.length <= 1
+                  ? likes.length === 0
                     ? "no likes"
-                    : `${post.likes.length} like`
-                  : `${post.likes.length} likes`}
+                    : `${likes.length} like`
+                  : `${likes.length} likes`}
               {:else}
                 no likes
               {/if}

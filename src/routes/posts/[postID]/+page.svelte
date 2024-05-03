@@ -1,36 +1,26 @@
 <script lang="ts">
-  import type { DBPost } from "$lib/types/db";
   import Post from "$lib/components/Post.svelte";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
-  import { supabase } from "$lib/supabaseClient";
 
   export let data;
-
-  let postID = data.postID;
-
-  let post: DBPost;
-
-  async function getPost() {
-    const { data, error } = await supabase
-      .from("posts")
-      .select()
-      .eq("id", postID);
-
-    if (data && data.length > 0) {
-      post = data[0];
-    }
-  }
-  getPost();
 </script>
 
 <svelte:head>
-  <title>{post ? `${post.title} - Futuregram` : "Loading post..."}</title>
+  <title>{data ? `${data.title} - Futuregram` : "Loading post..."}</title>
 </svelte:head>
 
 <main class="feed-main desktop-nav-margin">
   <TopPostNav />
   <div class="posts-inline-spacing">
-    <Post {postID} />
+    <Post
+      user_id={data.user_id}
+      id={data.id}
+      title={data.title}
+      description={data.description}
+      likes={data.likes}
+      image_url={data.image_url}
+      created_at={data.created_at}
+    />
   </div>
   <div class="mobile-nav-placeholder"></div>
 </main>

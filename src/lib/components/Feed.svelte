@@ -1,19 +1,37 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
+  import { supabase } from "$lib/supabaseClient";
   import type { DBPost } from "$lib/types/db";
+  import { onMount } from "svelte";
   import Post from "./Post.svelte";
 
-  export let posts: DBPost[];
-  export let noPosts = false;
+  let posts: DBPost[];
+
+  async function getData() {
+    const { data } = await supabase.from("posts").select();
+    data && (posts = data);
+  }
+
+  onMount(() => {
+    getData();
+  });
 </script>
 
 <main class="feed-main desktop-nav-margin">
   <div class="posts-inline-spacing">
-    {#if posts && !noPosts}
-      {#each posts as { id }}
-        <Post postID={id} feedPost={true} />
+    {#if posts && posts.length > 0}
+      {#each posts as { id, created_at, image_url, title, description, likes, user_id }}
+        <Post
+          {id}
+          {created_at}
+          {image_url}
+          {title}
+          {description}
+          {likes}
+          {user_id}
+          feedPost={true}
+        />
       {/each}
-    {:else if noPosts}
-      <h1>No posts</h1>
     {/if}
   </div>
   <div class="mobile-nav-placeholder"></div>

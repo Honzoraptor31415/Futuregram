@@ -108,5 +108,5 @@
     </form>
   </header>
 {:else}
-  <Feed posts={data.posts} noPosts={data.noPosts} />
+  <Feed />
 {/if}
