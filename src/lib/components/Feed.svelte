@@ -7,7 +7,7 @@
 </script>
 
 <main class="feed-main desktop-nav-margin">
-  <div class="feed-posts-wrp">
+  <div class="posts-inline-spacing">
     {#if posts && !noPosts}
       {#each posts as { id }}
         <Post postID={id} feedPost={true} />

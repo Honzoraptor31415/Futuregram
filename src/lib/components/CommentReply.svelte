@@ -200,21 +200,21 @@
 
 {#if reply}
   {#if replyCreator && postCreator}
-    <div class="feed-post-comment comment-reply">
-      <div class="feed-comment-left">
+    <div class="post-comment comment-reply">
+      <div class="comment-left">
         <a href={`/${replyCreator.url_username}`} class="grid-wrp">
           <img
             src={replyCreator.image_url}
             alt="Comment pfp"
-            class="feed-comment-user-image rounded image-height-30 margin-top-4"
+            class="comment-user-image rounded image-height-30 margin-top-4"
           /></a
         >
       </div>
-      <div class="feed-comment-right">
-        <div class="feed-comment-top flex-between">
+      <div class="comment-right">
+        <div class="comment-top flex-between">
           <a
             href={`/${replyCreator.url_username}`}
-            class={`feed-post-username ${replyCreator.url_username === postCreator ? "grey-bg-text" : ""}`}
+            class={`post-username ${replyCreator.url_username === postCreator ? "grey-bg-text" : ""}`}
             >{replyCreator.url_username}</a
           >
           <div class="align-center">
@@ -266,25 +266,25 @@
             </div>
           </form>
         {:else}
-          <p class="feed-comment-text pl-text">{reply.text}</p>
+          <p class="comment-text pl-text">{reply.text}</p>
         {/if}
         <div class="flex-between">
-          <div class="feed-post-actions reply-actions">
+          <div class="post-actions reply-actions">
             {#if currUser && currDbUser}
               <button
-                class="feed-post-action before-hover-anim rounded"
+                class="post-action before-hover-anim rounded"
                 on:click={like}
               >
                 <HeartIcon
-                  iconClass={`feed-action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
+                  iconClass={`action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                 />
               </button>
               <button
-                class="feed-post-action before-hover-anim rounded"
+                class="post-action before-hover-anim rounded"
                 on:click={replyFunc}
               >
                 <CommentIcon
-                  iconClass="feed-action-icon comment-action-icon comment-icon"
+                  iconClass="action-icon comment-action-icon comment-icon"
                 />
               </button>
             {/if}

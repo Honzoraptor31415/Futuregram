@@ -289,21 +289,21 @@
 
 {#if comment}
   {#if commentCreator && postCreator}
-    <div class={`feed-post-comment ${feedComment ? "comment-in-feed" : ""}`}>
-      <div class="feed-comment-left">
+    <div class={`post-comment ${feedComment ? "comment" : ""}`}>
+      <div class="comment-left">
         <a href={`/${commentCreator.url_username}`} class="grid-wrp">
           <img
             src={commentCreator.image_url}
             alt="Comment pfp"
-            class="feed-comment-user-image rounded image-height-30 margin-top-4"
+            class="comment-user-image rounded image-height-30 margin-top-4"
           /></a
         >
       </div>
-      <div class="feed-comment-right">
-        <div class="feed-comment-top flex-between">
+      <div class="comment-right">
+        <div class="comment-top flex-between">
           <a
             href={`/${commentCreator.url_username}`}
-            class={`feed-post-username ${commentCreator.url_username === postCreator.url_username ? "grey-bg-text" : ""}`}
+            class={`post-username ${commentCreator.url_username === postCreator.url_username ? "grey-bg-text" : ""}`}
             >{commentCreator.url_username}</a
           >
           <div class="align-center">
@@ -353,35 +353,35 @@
             </div>
           </form>
         {:else}
-          <p class="feed-comment-text pl-text">{comment.text}</p>
+          <p class="comment-text pl-text">{comment.text}</p>
         {/if}
         <div class="flex-between">
           <div
-            class={`feed-post-actions comment-actions ${!currDbUser ? "no-auth-c-reactions-count" : ""}`}
+            class={`post-actions comment-actions ${!currDbUser ? "no-auth-c-reactions-count" : ""}`}
           >
             {#if currUser && currDbUser}
               <button
-                class="feed-post-action before-hover-anim rounded"
+                class="post-action before-hover-anim rounded"
                 on:click={like}
               >
                 <HeartIcon
-                  iconClass={`feed-action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
+                  iconClass={`action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                 />
               </button>
               <button
-                class="feed-post-action before-hover-anim rounded"
+                class="post-action before-hover-anim rounded"
                 on:click={reply}
               >
                 <CommentIcon
-                  iconClass="feed-action-icon comment-action-icon comment-icon"
+                  iconClass="action-icon comment-action-icon comment-icon"
                 />
               </button>
               <button
-                class="feed-post-action before-hover-anim rounded"
+                class="post-action before-hover-anim rounded"
                 on:click={share}
               >
                 <ShareIcon
-                  iconClass="feed-action-icon comment-action-icon share-icon"
+                  iconClass="action-icon comment-action-icon share-icon"
                 />
               </button>
             {/if}

@@ -361,30 +361,29 @@
 
 {#if post && postCreator}
   {#if postShown}
-    <div class={`feed-post-wrp ${feedPost ? "feed-page-post-wrp" : ""}`}>
-      <div class="feed-post">
-        <div class="feed-post-left">
+    <div class={feedPost ? "feed-page-post-wrp" : ""}>
+      <div class="post">
+        <div class="post-left">
           <a href={`/${postCreator.url_username}`} class="grid-wrp">
             <img
               src={postCreator.image_url}
               alt={postCreator.url_username}
-              class="feed-post-user-image image-height-40 rounded margin-top-4"
+              class="post-user-image image-height-40 rounded margin-top-4"
             />
           </a>
         </div>
-        <div class="feed-post-right grid-wrp">
-          <div class="feed-post-top-mobile">
+        <div class="post-right grid-wrp">
+          <div class="post-top mobile">
             <a href={`/${postCreator.url_username}`} class="grid-wrp">
               <img
                 src={postCreator.image_url}
                 alt={postCreator.url_username}
-                class="feed-post-user-image image-height-40 rounded margin-top-4"
+                class="post-user-image image-height-40 rounded margin-top-4"
               /></a
             >
-            <div class="feed-post-texts flex-between">
-              <a
-                href={`/${postCreator.url_username}`}
-                class="feed-post-username">{postCreator.url_username}</a
+            <div class="post-texts flex-between">
+              <a href={`/${postCreator.url_username}`} class="post-username"
+                >{postCreator.url_username}</a
               >
               <div class="align-center">
                 <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
@@ -401,15 +400,14 @@
               </div>
             </div>
           </div>
-          <p class="feed-post-description mobile pl-text">
+          <p class="post-description mobile pl-text">
             <LongHiddenText text={post.description} maxLength={maxChars} />
           </p>
-          <div class="feed-post-top">
-            <div class="feed-post-texts">
-              <div class="feed-post-texts-top flex-between">
-                <a
-                  href={`/${postCreator.url_username}`}
-                  class="feed-post-username">{postCreator.url_username}</a
+          <div class="post-top desktop">
+            <div class="post-texts">
+              <div class="post-texts-top flex-between">
+                <a href={`/${postCreator.url_username}`} class="post-username"
+                  >{postCreator.url_username}</a
                 >
                 <div class="align-center">
                   <p class="even-less">{dayjs(post.created_at).fromNow()}</p>
@@ -425,7 +423,7 @@
                   />
                 </div>
               </div>
-              <p class="feed-post-description pl-text">
+              <p class="post-description pl-text">
                 <LongHiddenText text={post.description} maxLength={maxChars} />
               </p>
             </div>
@@ -435,7 +433,7 @@
               <img
                 src={post.image_url}
                 alt={post.title}
-                class="feed-post-image"
+                class="post-image"
                 on:dblclick={dbClickLike}
               /></a
             >
@@ -443,49 +441,47 @@
             <img
               src={post.image_url}
               alt={post.title}
-              class="feed-post-image"
+              class="post-image"
               on:dblclick={dbClickLike}
             />
           {/if}
-          <div
-            class={currDbUser ? "feed-post-bottom" : "feed-post-bottom-no-auth"}
-          >
+          <div class={currDbUser ? "post-bottom" : "post-bottom-no-auth"}>
             {#if currUser && currDbUser}
               <div class="flex-between">
-                <div class="feed-post-actions">
+                <div class="post-actions">
                   <button
-                    class="feed-post-action before-hover-anim rounded"
+                    class="post-action before-hover-anim rounded"
                     on:click={like}
                   >
                     <HeartIcon
-                      iconClass={`feed-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
+                      iconClass={`action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                     />
                   </button>
                   {#if feedPost}
                     <button
                       on:click={commentFromFeed}
-                      class="feed-post-action before-hover-anim rounded button-link"
+                      class="post-action before-hover-anim rounded button-link"
                     >
-                      <CommentIcon iconClass="feed-action-icon comment-icon" />
+                      <CommentIcon iconClass="action-icon comment-icon" />
                     </button>
                   {/if}
                   <button
-                    class="feed-post-action before-hover-anim rounded"
+                    class="post-action before-hover-anim rounded"
                     on:click={() => {
                       share("slkadfjhalskjdfhlakjshdljah123456");
                     }}
                   >
-                    <ShareIcon iconClass="feed-action-icon share-icon" />
+                    <ShareIcon iconClass="action-icon share-icon" />
                   </button>
                 </div>
-                <div class="feed-post-actions">
+                <div class="post-actions">
                   <button
-                    class="feed-post-action before-hover-anim rounded"
+                    class="post-action before-hover-anim rounded"
                     on:click={() => {
                       report("post", post.id);
                     }}
                   >
-                    <ReportIcon iconClass="feed-action-icon report-icon" />
+                    <ReportIcon iconClass="action-icon report-icon" />
                   </button>
                 </div>
               </div>
@@ -515,7 +511,7 @@
         </div>
       </div>
       <div>
-        <div class="feed-post-comments-wrp">
+        <div class="post-comments-wrp">
           {#if postComments}
             {#if feedPost}
               {#if firstID}

@@ -1,6 +1,6 @@
 :root {
-  --mainBG: 20, 20, 20;
-  --secBG: rgb(40 40 40);
+  --main-bg: 20, 20, 20;
+  --sec-bg: rgb(40 40 40);
   --accent: 0, 255, 190;
   --accent2: 0, 208, 255;
   --main-border-color: rgb(100, 100, 100);
@@ -16,7 +16,7 @@
   --search-border-brighter: rgba(255, 255, 255, 0.3);
   --nav-icon-current-color: white;
   --red-button-bg: 227, 51, 51;
-  --tercBG: rgb(59 59 59);
+  --terc-bg: rgb(59 59 59);
   --image-border-color: rgba(255, 255, 255, 0.07);
   --menu-icon-active-color: rgba(255, 255, 255, 0.85);
   --feed-spacing: 20px;
@@ -37,7 +37,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--secBG);
+  background: var(--sec-bg);
   border-radius: 3px;
   border: 1px var(--main-border-color) solid;
 }
@@ -57,7 +57,7 @@ header {
 }
 
 body {
-  background: rgb(var(--mainBG));
+  background: rgb(var(--main-bg));
   min-height: 100svh;
 }
 
@@ -105,7 +105,7 @@ p a:hover {
 }
 
 .sec-bg-element {
-  background: var(--secBG);
+  background: var(--sec-bg);
   border-radius: 27px;
   padding: 27px;
   box-shadow: 0 5px 12px 3px rgba(0, 0, 0, 0.318);
@@ -113,7 +113,7 @@ p a:hover {
 }
 
 .terc-bg-element {
-  background: var(--tercBG);
+  background: var(--terc-bg);
   border-radius: 27px;
   padding: 13px;
 }
@@ -207,7 +207,7 @@ p a {
 }
 
 .primary-button {
-  color: var(--secBG);
+  color: var(--sec-bg);
   background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--accent2)));
 }
 
@@ -524,7 +524,7 @@ button {
   .dots-menu {
     display: none;
     border-radius: 16px;
-    background: var(--secBG);
+    background: var(--sec-bg);
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.219);
     position: absolute;
     top: 30px;
@@ -565,19 +565,19 @@ button {
     font-size: 1.4rem;
   }
 
-  .feed-posts-wrp {
+  .posts-inline-spacing {
     width: 560px;
     margin-inline: auto
   }
 
-  .feed-post {
+  .post {
     display: flex;
     flex-direction: row;
     width: 100%;
     position: relative;
   }
 
-  .feed-post-action {
+  .post-action {
     cursor: pointer;
     width: auto;
     border: none;
@@ -596,28 +596,28 @@ button {
     opacity: 1 !important;
   }
 
-  .feed-post-action:hover .heart-icon path {
+  .post-action:hover .heart-icon path {
     stroke: rgb(255, 0, 144);
   }
 
-  .feed-post-action:hover .comment-icon path {
+  .post-action:hover .comment-icon path {
     fill: rgb(var(--accent2));
     stroke: rgb(var(--accent2));
   }
 
-  .feed-post-action:hover .share-icon path {
+  .post-action:hover .share-icon path {
     stroke: rgb(var(--accent));
   }
 
-  .feed-post-action:hover .report-icon path {
+  .post-action:hover .report-icon path {
     fill: var(--post-report-icon-color);
   }
 
-  .feed-post-action:hover .report-icon {
+  .post-action:hover .report-icon {
     animation: shake .3s linear;
   }
 
-  .feed-post-left {
+  .post-left {
     padding-right: 12px;
     display: flex;
     flex-direction: column;
@@ -627,18 +627,13 @@ button {
     transform: translateX(-100%);
   }
 
-  .feed-post-top {
+  .post-top {
     display: flex;
     width: 100%;
     gap: 16px;
   }
 
-  .feed-post-top-mobile,
-  .feed-post-description-mobile {
-    display: none;
-  }
-
-  .feed-post-texts {
+  .post-texts {
     width: 100%;
   }
 
@@ -647,7 +642,7 @@ button {
     display: none;
   }
 
-  .feed-post-comment {
+  .post-comment {
     display: flex;
     width: 100%;
     padding-block: 17px;
@@ -794,7 +789,7 @@ button {
     height: 100%;
     width: 100%;
     border-radius: var(--main-border-radius);
-    background: var(--tercBG);
+    background: var(--terc-bg);
     cursor: pointer;
     transition: .2s;
     position: relative;
@@ -854,7 +849,7 @@ button {
   }
 
   .comment-button:hover {
-    animation: comment-button-anim .55s forwards cubic-bezier(0.65, 0.11, 0.46, 1.05);
+    transform: scale(1.1);
   }
 
   .comment-input-wrp {
@@ -1126,7 +1121,7 @@ button {
   .dots-menu {
     display: none;
     border-radius: 16px;
-    background: var(--secBG);
+    background: var(--sec-bg);
     position: absolute;
     top: 30px;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.219);
@@ -1168,19 +1163,19 @@ button {
     font-size: 1.3rem;
   }
 
-  .feed-posts-wrp {
+  .posts-inline-spacing {
     width: 460px;
     margin-inline: auto
   }
 
-  .feed-post {
+  .post {
     display: flex;
     position: relative;
     flex-direction: row;
     width: 100%;
   }
 
-  .feed-post-action {
+  .post-action {
     cursor: pointer;
     width: auto;
     border: none;
@@ -1200,28 +1195,28 @@ button {
     opacity: 1 !important;
   }
 
-  .feed-post-action:hover .heart-icon path {
+  .post-action:hover .heart-icon path {
     stroke: rgb(255, 0, 144);
   }
 
-  .feed-post-action:hover .comment-icon path {
+  .post-action:hover .comment-icon path {
     fill: rgb(var(--accent2));
     stroke: rgb(var(--accent2));
   }
 
-  .feed-post-action:hover .share-icon path {
+  .post-action:hover .share-icon path {
     stroke: rgb(var(--accent));
   }
 
-  .feed-post-action:hover .report-icon path {
+  .post-action:hover .report-icon path {
     fill: var(--post-report-icon-color);
   }
 
-  .feed-post-action:hover .report-icon {
+  .post-action:hover .report-icon {
     animation: shake .3s linear;
   }
 
-  .feed-post-left {
+  .post-left {
     padding-right: 12px;
     display: flex;
     flex-direction: column;
@@ -1231,24 +1226,23 @@ button {
     transform: translateX(-100%);
   }
 
-  .feed-post-top {
+  .post-top {
     display: flex;
     width: 100%;
     gap: 16px;
   }
 
-  .feed-post-top-mobile,
-  .feed-post-description-mobile,
+  .post-top-mobile,
   .mobile-nav-placeholder,
   .post-top-nav {
     display: none;
   }
 
-  .feed-post-texts {
+  .post-texts {
     width: 100%;
   }
 
-  .feed-post-comment {
+  .post-comment {
     display: flex;
     width: 100%;
     padding-block: 17px;
@@ -1395,7 +1389,7 @@ button {
     height: 100%;
     width: 100%;
     border-radius: var(--main-border-radius);
-    background: var(--tercBG);
+    background: var(--terc-bg);
     cursor: pointer;
     transition: .2s;
     position: relative;
@@ -1455,7 +1449,7 @@ button {
   }
 
   .comment-button:hover {
-    animation: comment-button-anim .55s forwards cubic-bezier(0.65, 0.11, 0.46, 1.05);
+    transform: scale(1.1);
   }
 
   .comment-input-wrp {
@@ -1676,7 +1670,7 @@ button {
   .dots-menu {
     display: none;
     border-radius: 16px;
-    background: var(--secBG);
+    background: var(--sec-bg);
     position: absolute;
     top: 30px;
     right: 0;
@@ -1718,19 +1712,19 @@ button {
     flex-direction: column;
   }
 
-  .feed-posts-wrp {
+  .posts-inline-spacing {
     width: 100%;
     margin-block: auto;
   }
 
-  .feed-post {
+  .post {
     display: flex;
     flex-direction: row;
     width: calc(100% - 12px);
     margin-inline: auto;
   }
 
-  .feed-post-action {
+  .post-action {
     cursor: pointer;
     width: auto;
     border: none;
@@ -1749,7 +1743,7 @@ button {
     opacity: 1 !important;
   }
 
-  .feed-post-action:active .heart-icon path {
+  .post-action:active .heart-icon path {
     stroke: rgb(255, 0, 144);
   }
 
@@ -1758,33 +1752,29 @@ button {
     stroke: rgb(255, 0, 144);
   }
 
-  .feed-post-action:active .comment-icon path {
+  .post-action:active .comment-icon path {
     fill: rgb(var(--accent2));
     stroke: rgb(var(--accent2));
   }
 
-  .feed-post-action:active .share-icon path {
+  .post-action:active .share-icon path {
     stroke: rgb(var(--accent));
   }
 
-  .feed-post-action:active .report-icon path {
+  .post-action:active .report-icon path {
     fill: var(--post-report-icon-color);
   }
 
-  .feed-action-icon {
+  .action-icon {
     height: 25px;
     width: auto;
   }
 
-  .feed-post-left {
+  .post-left {
     display: none;
   }
 
-  .feed-post-top {
-    display: none;
-  }
-
-  .feed-post-top-mobile {
+  .post-top {
     display: flex;
     width: 100%;
     align-items: center;
@@ -1792,7 +1782,7 @@ button {
     margin-bottom: 4px;
   }
 
-  .feed-post-description-mobile {
+  .post-description {
     line-height: 1.2;
     margin-block: 5px 9px;
   }
@@ -1802,12 +1792,12 @@ button {
     width: 100%;
   }
 
-  .feed-post-texts {
+  .post-texts {
     width: 100%;
     display: flex;
   }
 
-  .feed-post-comment {
+  .post-comment {
     display: flex;
     width: 100%;
     padding: 17px 7px;
@@ -1977,7 +1967,7 @@ button {
     height: 150px;
     width: 100%;
     border-radius: var(--main-border-radius);
-    background: var(--tercBG);
+    background: var(--terc-bg);
     cursor: pointer;
     transition: .2s;
     position: relative;
@@ -2052,6 +2042,10 @@ button {
     margin-block: var(--feed-spacing);
   }
 
+  .post-hidden-dialog {
+    margin-inline: 20px;
+  }
+
   * {
     cursor: default !important;
   }
@@ -2090,7 +2084,7 @@ img.no-select,
 }
 
 nav {
-  background: rgba(var(--mainBG), .9);
+  background: rgba(var(--main-bg), .9);
   z-index: 999;
   width: 100%;
   backdrop-filter: blur(12px);
@@ -2138,7 +2132,7 @@ nav {
   border-color: red;
 }
 
-.feed-post-action:last-child {
+.post-action:last-child {
   margin-right: 0;
 }
 
@@ -2147,7 +2141,7 @@ nav {
   justify-content: space-between;
 }
 
-.feed-post-image {
+.post-image {
   max-width: 100%;
   object-fit: cover;
   min-width: 100%;
@@ -2156,20 +2150,20 @@ nav {
   border: 1px var(--image-border-color) solid;
 }
 
-.feed-post-bottom {
+.post-bottom {
   margin-bottom: 10px;
 }
 
-.feed-post-bottom-no-auth {
+.post-bottom-no-auth {
   margin-block: 10px;
 }
 
-.feed-post-description {
+.post-description {
   line-height: 1.2;
   margin-block: 5px 9px;
 }
 
-.feed-post-actions {
+.post-actions {
   display: flex;
   margin-block: 10px 5px;
 }
@@ -2186,11 +2180,11 @@ nav {
   opacity: 0;
 }
 
-.feed-post-action:active {
+.post-action:active {
   transform: scale(.85);
 }
 
-.feed-action-icon path {
+.action-icon path {
   transition: .14s;
 }
 
@@ -2204,17 +2198,17 @@ nav {
   }
 }
 
-.feed-action-icon {
+.action-icon {
   height: 25px;
   width: 25px;
 }
 
-.feed-post-username {
+.post-username {
   line-height: 1.2;
   font-weight: 600;
 }
 
-.feed-post-username:hover {
+.post-username:hover {
   text-decoration: underline;
 }
 
@@ -2319,24 +2313,24 @@ nav {
   margin-bottom: 0 !important;
 }
 
-.feed-post-comment:last-child {
+.post-comment:last-child {
   border-bottom: 0;
 }
 
-.feed-comment-left {
+.comment-left {
   padding-right: 10px;
 }
 
-.feed-comment-right {
+.comment-right {
   width: 100%;
 }
 
-.feed-comment-top {
+.comment-top {
   width: 100%;
   align-items: center;
 }
 
-/* .feed-comment-user-image {} */
+/* .comment-user-image {} */
 
 .comments-menu {
   width: 20px;
@@ -2532,7 +2526,7 @@ nav {
   position: absolute;
   transition: .2s;
   width: max-content;
-  background: var(--tercBG);
+  background: var(--terc-bg);
   padding: 8px 11px;
   color: rgb(215, 215, 215);
   border-radius: 10px;
@@ -2630,20 +2624,6 @@ nav {
   margin-left: 19px;
 }
 
-@keyframes comment-button-anim {
-  50% {
-    transform: scale(1.05) rotate(180deg);
-  }
-
-  99% {
-    transform: rotate(359deg);
-  }
-
-  100% {
-    transform: rotate(0deg) scale(1);
-  }
-}
-
 .image-height-1\.5rem {
   max-height: 1.5rem;
   width: auto;
@@ -2654,13 +2634,13 @@ nav {
 }
 
 .grey-bg-text {
-  background: var(--tercBG);
+  background: var(--terc-bg);
   border-radius: 4px;
   padding: 2px 6px;
 }
 
 .main-bg-blurry {
-  background: rgba(var(--mainBG), .8);
+  background: rgba(var(--main-bg), .8);
   backdrop-filter: blur(5px);
 }
 
@@ -2678,7 +2658,7 @@ nav {
   font-size: 1rem;
 }
 
-.feed-post-comments-wrp:has(.feed-post-comment) {
+.post-comments-wrp:has(.post-comment) {
   border-top: 1px rgba(128, 128, 128, 0.158) solid;
 }
 
@@ -2794,7 +2774,7 @@ button:disabled {
 }
 
 .followers-dialog-content::-webkit-scrollbar-thumb {
-  background: var(--secBG);
+  background: var(--sec-bg);
   border-radius: 3px;
   border: 1px var(--main-border-color) solid;
 }
@@ -2830,7 +2810,7 @@ button:disabled {
   margin-left: 10px;
 } */
 
-.comment-in-feed .comment-actions {
+.comment .comment-actions {
   margin-bottom: 0;
 }
 
@@ -2839,7 +2819,7 @@ button:disabled {
   border-radius: 4px;
   margin-right: 10px;
   gap: 3px;
-  background: var(--tercBG);
+  background: var(--terc-bg);
 }
 
 .white-icon,
@@ -2860,7 +2840,7 @@ button:disabled {
   margin-left: 10px;
 }
 
-.feed-post-action {
+.post-action {
   margin-inline: 3px;
 }
 
@@ -2877,7 +2857,7 @@ button:disabled {
   padding-bottom: 0;
 }
 
-.feed-post-comment:has(.comment-reply) {
+.post-comment:has(.comment-reply) {
   padding-bottom: 0;
 }
 
@@ -2887,7 +2867,7 @@ button:disabled {
   overflow: hidden;
 }
 
-.feed-post-action:first-child,
+.post-action:first-child,
 .m-left-0 {
   margin-left: 0 !important;
 }
@@ -2923,7 +2903,7 @@ button:disabled {
   fill: var(--menu-icon-active-color);
 }
 
-.feed-posts-wrp {
+.posts-inline-spacing {
   margin-top: 10px;
 }
 
@@ -2936,4 +2916,8 @@ button:disabled {
 
 .post-hidden-dialog {
   margin-block: 20px;
+}
+
+.new-post-photo-button {
+  border: 1px var(--terc-border-color) solid;
 }

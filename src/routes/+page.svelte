@@ -59,6 +59,10 @@
   }
 </script>
 
+<svelte:head>
+  <title>Futuregram</title>
+</svelte:head>
+
 {#if currUser && !userInDB}
   <header
     class="flex-center-all finish-signup mobile-nav-padding desktop-nav-margin"

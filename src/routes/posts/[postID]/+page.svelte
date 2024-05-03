@@ -24,12 +24,12 @@
 </script>
 
 <svelte:head>
-  <title>{post ? `"${post.title}" - Futuregram` : "Loading post..."}</title>
+  <title>{post ? `${post.title} - Futuregram` : "Loading post..."}</title>
 </svelte:head>
 
 <main class="feed-main desktop-nav-margin">
   <TopPostNav />
-  <div class="feed-posts-wrp">
+  <div class="posts-inline-spacing">
     <Post {postID} />
   </div>
   <div class="mobile-nav-placeholder"></div>
