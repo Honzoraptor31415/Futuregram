@@ -3,6 +3,8 @@
   import type { MenuElement } from "$lib/types/app";
   import type { DBUserData } from "$lib/types/db";
   import userDbData from "$lib/stores/user-db-data";
+  import { getRandomHash } from "$lib/helper/random";
+
   export let icon: any;
   export let elements: MenuElement[];
   export let btnClass: string;
@@ -15,10 +17,15 @@
 
   let menuVisible = false;
   let currDbUser: DBUserData;
+  let id = `hidden-menu-${getRandomHash(70)}`;
 
   browser &&
-    document.addEventListener("click", () => {
-      menuVisible = false;
+    document.addEventListener("click", (e: any) => {
+      if (e.target.id === id) {
+        menu();
+      } else {
+        menuVisible = false;
+      }
     });
 
   userDbData.subscribe((val: any) => {
@@ -32,14 +39,12 @@
 
 {#if !authOnly || (authOnly && currDbUser)}
   <button
-    on:click={(e) => {
-      e.stopPropagation();
-      menu();
-    }}
+    {id}
     disabled={btnDisabled}
     class={`${menuVisible ? "hidden-menu-active" : ""} rounded ${btnClass}`}
   >
-    <svelte:component this={icon} {iconClass}></svelte:component>
+    <svelte:component this={icon} iconClass={`p-events-none ${iconClass}`}
+    ></svelte:component>
 
     <div class={`${wrpClass} ${menuVisible ? wrpClassVis : wrpClassHid}`}>
       {#if !btnDisabled}

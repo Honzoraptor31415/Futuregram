@@ -2066,7 +2066,8 @@ button {
   -ms-user-select: none;
 }
 
-img.no-select {
+img.no-select,
+.p-events-none {
   pointer-events: none;
 }
 
