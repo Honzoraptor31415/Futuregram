@@ -1,8 +1,6 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
   import { supabase } from "$lib/supabaseClient";
   import type { DBPost } from "$lib/types/db";
-  import { onMount } from "svelte";
   import Post from "./Post.svelte";
 
   let posts: DBPost[];
@@ -12,9 +10,7 @@
     data && (posts = data);
   }
 
-  onMount(() => {
-    getData();
-  });
+  getData();
 </script>
 
 <main class="feed-main desktop-nav-margin">
@@ -23,12 +19,12 @@
       {#each posts as { id, created_at, image_url, title, description, likes, user_id }}
         <Post
           {id}
+          {user_id}
           {created_at}
           {image_url}
           {title}
           {description}
           {likes}
-          {user_id}
           feedPost={true}
         />
       {/each}
