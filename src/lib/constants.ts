@@ -1,1 +1,1 @@
-export const test = ["yep"]
+export const test = ["yep"];

@@ -568,7 +568,7 @@
   {:else}
     <div class="feed-page-post-wrp">
       <div
-        class="alpha-bg-element flex-between align-center post-hidden-dialog"
+        class="alpha-bg-element flex-between align-center post-hidden-dialog ab-app-dialog"
       >
         <p class="less">Post was hidden.</p>
         <button

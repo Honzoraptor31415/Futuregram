@@ -23,6 +23,7 @@
 	"dependencies": {
 		"@supabase/ssr": "^0.3.0",
 		"@supabase/supabase-js": "^2.39.7",
-		"dayjs": "^1.11.10"
+		"dayjs": "^1.11.10",
+		"fuse.js": "^7.0.0"
 	}
 }

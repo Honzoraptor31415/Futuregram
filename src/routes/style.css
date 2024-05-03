@@ -20,6 +20,7 @@
   --image-border-color: rgba(255, 255, 255, 0.07);
   --menu-icon-active-color: rgba(255, 255, 255, 0.85);
   --feed-spacing: 20px;
+  --search-input-height: 61.5px
 }
 
 * {
@@ -2042,7 +2043,7 @@ button {
     margin-block: var(--feed-spacing);
   }
 
-  .post-hidden-dialog {
+  .ab-app-dialog {
     margin-inline: 20px;
   }
 
@@ -2920,4 +2921,13 @@ button:disabled {
 
 .new-post-photo-button {
   border: 1px var(--terc-border-color) solid;
+}
+
+.no-search-results {
+  margin-top: 20px;
+  height: var(--search-input-height);
+}
+
+.search-wrp {
+  height: var(--search-input-height);
 }

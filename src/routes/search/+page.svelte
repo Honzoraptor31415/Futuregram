@@ -1,19 +1,26 @@
 <script lang="ts">
-  import { supabase } from "$lib/supabaseClient";
   import SearchIcon from "$lib/components/icons/SearchIcon.svelte";
   import SearchResult from "$lib/components/SearchResult.svelte";
   import type { DBUserData } from "$lib/types/db";
+  import Fuse from "fuse.js";
 
-  let results: DBUserData[];
+  export let data;
 
-  async function getResults() {
-    const { data } = await supabase.from("users").select();
-    data && (results = data)
-  }
-  getResults();
+  let results: DBUserData[] = [];
+  let searchValue: string;
+  let initialResults = data.users as DBUserData[];
+
+  const fuseOptions = {
+    keys: ["url_username", "displayed_username", "bio"],
+  };
+
+  const fuse = new Fuse(data.users as any[], fuseOptions);
 
   function search() {
-    console.log("Search function");
+    const fuseResult = fuse.search(searchValue.trim());
+    results = fuseResult.map((result) => {
+      return result.item;
+    });
   }
 </script>
 
@@ -32,14 +39,26 @@
         id="search"
         class="no-style search-input"
         placeholder="Search"
+        bind:value={searchValue}
+        on:input={search}
       />
     </div>
   </div>
   <div class="search-results">
-    {#if results}
+    {#if results.length > 0}
       {#each results as result}
         <SearchResult user={result} />
       {/each}
+    {:else if !searchValue}
+      {#each initialResults as result}
+        <SearchResult user={result} />
+      {/each}
+    {:else}
+      <div
+        class="flex-center-all alpha-bg-element no-search-results ab-app-dialog"
+      >
+        <p class="less">No results 🤷‍♂️</p>
+      </div>
     {/if}
   </div>
 </main>
