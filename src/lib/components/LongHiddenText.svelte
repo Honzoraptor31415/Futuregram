@@ -1,6 +1,7 @@
 <script lang="ts">
   export let text: string;
   export let maxLength: number;
+  export let showButton: boolean = true;
 
   let textShowed = false;
 
@@ -17,15 +18,19 @@
   {:else}
     {text.slice(0, maxLength - 5)}
   {/if}
-  {#if textShowed}
-    <button
-      on:click={showmore}
-      class="desc-dots showed-desc-dots hover-before-height"
-      ><span class="less">less</span></button
-    >
+  {#if showButton}
+    {#if textShowed}
+      <button
+        on:click={showmore}
+        class="desc-dots showed-desc-dots hover-before-height"
+        ><span class="less">less</span></button
+      >
+    {:else}
+      <button on:click={showmore} class="desc-dots hover-before-height"
+        ><span class="less">... more</span></button
+      >
+    {/if}
   {:else}
-    <button on:click={showmore} class="desc-dots hover-before-height"
-      ><span class="less">... more</span></button
-    >
+    <span class="less">...</span>
   {/if}
 {/if}

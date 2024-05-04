@@ -1,26 +1,44 @@
 <script lang="ts">
   import SearchIcon from "$lib/components/icons/SearchIcon.svelte";
+  import PostSearchResult from "$lib/components/PostSearchResult.svelte";
   import SearchResult from "$lib/components/SearchResult.svelte";
-  import type { DBUserData } from "$lib/types/db";
+  import type { DBPost, DBUserData } from "$lib/types/db";
   import Fuse from "fuse.js";
+  import NoSearchResultDialog from "$lib/components/NoSearchResult.svelte";
 
   export let data;
 
-  let results: DBUserData[] = [];
-  let searchValue: string;
+  let userResults: DBUserData[] = [];
+  let postResults: DBPost[] = [];
+  let searchValue = "";
   let initialResults = data.users as DBUserData[];
-
-  const fuseOptions = {
-    keys: ["url_username", "displayed_username", "bio"],
-  };
-
-  const fuse = new Fuse(data.users as any[], fuseOptions);
+  let activeTab = "users";
 
   function search() {
-    const fuseResult = fuse.search(searchValue.trim());
-    results = fuseResult.map((result) => {
-      return result.item;
-    });
+    if (activeTab === "users") {
+      const fuse = new Fuse(data.users as any[], {
+        keys: ["url_username", "displayed_username", "bio"],
+      });
+      const postsResult = fuse.search(searchValue.trim());
+      userResults = postsResult.map((result) => {
+        return result.item;
+      });
+    } else {
+      const fuse = new Fuse(data.posts as any[], {
+        keys: ["title", "description"],
+      });
+      const postsResult = fuse.search(searchValue.trim());
+      console.log(postsResult);
+
+      postResults = postsResult.map((result) => {
+        return result.item;
+      });
+    }
+  }
+
+  function switchTabs(currTab: string) {
+    activeTab = currTab;
+    search();
   }
 </script>
 
@@ -41,24 +59,48 @@
         placeholder="Search"
         bind:value={searchValue}
         on:input={search}
+        autocomplete="off"
       />
     </div>
   </div>
+  <div class="align-center gap-10 tab-desc-wrp">
+    <p class="even-less">Search for:</p>
+    <div class="tab-swichter-wrp align-center">
+      <button
+        class={`no-style tab-switch-button align-center pointer ${activeTab === "users" ? "tab-sb-active" : ""}`}
+        on:click={() => {
+          switchTabs("users");
+        }}>Users</button
+      >
+      <button
+        class={`no-style tab-switch-button align-center pointer ${activeTab === "posts" ? "tab-sb-active" : ""}`}
+        on:click={() => {
+          switchTabs("posts");
+        }}>Posts</button
+      >
+    </div>
+  </div>
   <div class="search-results">
-    {#if results.length > 0}
-      {#each results as result}
-        <SearchResult user={result} />
-      {/each}
-    {:else if !searchValue}
+    {#if searchValue}
+      {#if activeTab === "users"}
+        {#if userResults.length > 0}
+          {#each userResults as result}
+            <SearchResult user={result} />
+          {/each}
+        {:else}
+          <NoSearchResultDialog />
+        {/if}
+      {:else if postResults.length > 0}
+        {#each postResults as result}
+          <PostSearchResult post={result} />
+        {/each}
+      {:else}
+        <NoSearchResultDialog />
+      {/if}
+    {:else}
       {#each initialResults as result}
         <SearchResult user={result} />
       {/each}
-    {:else}
-      <div
-        class="flex-center-all alpha-bg-element no-search-results ab-app-dialog"
-      >
-        <p class="less">No results 🤷‍♂️</p>
-      </div>
     {/if}
   </div>
 </main>

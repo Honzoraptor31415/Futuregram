@@ -20,7 +20,8 @@
   --image-border-color: rgba(255, 255, 255, 0.07);
   --menu-icon-active-color: rgba(255, 255, 255, 0.85);
   --feed-spacing: 20px;
-  --search-input-height: 61.5px
+  --search-input-height: 61.5px;
+  --search-result-image-size: 80px;
 }
 
 * {
@@ -891,6 +892,18 @@ button {
   .signup-form .password-input-wrp {
     max-width: 235.5px;
   }
+
+  .tab-desc-wrp {
+    margin-block: 16px;
+  }
+
+  .tab-switch-button:hover {
+    background: rgb(53, 53, 53);
+  }
+
+  .tab-sb-active:hover {
+    background: rgb(33 33 33);
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1482,6 +1495,18 @@ button {
   .signup-form .password-input-wrp {
     max-width: 235.5px;
   }
+
+  .tab-desc-wrp {
+    margin-block: 16px;
+  }
+
+  .tab-switch-button:hover {
+    background: rgb(53, 53, 53);
+  }
+
+  .tab-sb-active:hover {
+    background: rgb(33 33 33);
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -2045,6 +2070,18 @@ button {
 
   .ab-app-dialog {
     margin-inline: 20px;
+  }
+
+  .tab-desc-wrp {
+    margin-top: 20px;
+  }
+
+  .tab-switch-button:active {
+    background: rgb(53, 53, 53);
+  }
+
+  .tab-sb-active:active {
+    background: rgb(33 33 33);
   }
 
   * {
@@ -2924,10 +2961,66 @@ button:disabled {
 }
 
 .no-search-results {
-  margin-top: 20px;
   height: var(--search-input-height);
 }
 
 .search-wrp {
   height: var(--search-input-height);
+}
+
+.tab-swichter-wrp {
+  border-radius: 100vw;
+  background: var(--sec-bg);
+  border: 1px var(--terc-border-color) solid;
+  padding: 2px;
+  display: flex;
+  gap: 5px;
+}
+
+.tab-switch-button {
+  background: var(--sec-bg);
+  border-radius: 100vw;
+  font-size: 1rem;
+  padding: 7px 12px;
+  transition: .2s ease-in-out;
+}
+
+.tab-sb-active {
+  background: rgb(var(--main-bg));
+}
+
+.gap-10 {
+  display: flex;
+  gap: 10px;
+}
+
+.tab-desc-wrp {
+  padding-inline: 20px;
+}
+
+.post-search-result-image {
+  object-fit: cover;
+  width: var(--search-result-image-size);
+  border-radius: 6px;
+  aspect-ratio: 1;
+  border: 1px var(--image-border-color) solid;
+}
+
+.post-search-result {
+  padding: 20px;
+}
+
+.m-block-0 {
+  margin-block: 0 !important;
+}
+
+.gap-5 {
+  display: flex;
+  gap: 5px;
+}
+
+.post-result-content {
+  display: grid;
+  grid-template-columns: calc(100% - var(--search-result-image-size) - 7px) auto;
+  width: 100%;
 }
