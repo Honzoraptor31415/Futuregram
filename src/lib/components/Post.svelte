@@ -523,7 +523,7 @@
             {/if}
           {/if}
         </div>
-        {#if postComments.length > 0 && !feedPost && currDbUser}
+        {#if !feedPost && currDbUser}
           <form
             class={`comment-input-wrp user-input-text main-bg-blurry ${commentPlaceholder === "" ? "" : "form-error-input"}`}
             on:submit={(e) => {

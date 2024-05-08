@@ -4,15 +4,10 @@
   import { onMount } from "svelte";
   import Post from "./Post.svelte";
   import FeedEnd from "./FeedEnd.svelte";
-  import { page } from "$app/stores";
 
   let posts: DBPost[] = [];
   let isReachedFeedEnd = false;
   let isLoading = false;
-
-  page.subscribe((val: any) => {
-    posts = [];
-  });
 
   async function getData() {
     if (isLoading) return;

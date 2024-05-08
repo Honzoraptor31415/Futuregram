@@ -5,6 +5,7 @@
   import type { DBPost, DBUserData } from "$lib/types/db";
   import Fuse from "fuse.js";
   import NoSearchResultDialog from "$lib/components/NoSearchResult.svelte";
+  import userDbData from "$lib/stores/user-db-data.js";
 
   export let data;
 
@@ -13,6 +14,11 @@
   let searchValue = "";
   let initialResults = data.users as DBUserData[];
   let activeTab = "users";
+  let currDbUser: DBUserData;
+
+  userDbData.subscribe((val: any) => {
+    currDbUser = val;
+  });
 
   function search() {
     if (activeTab === "users") {
@@ -92,7 +98,10 @@
         {/if}
       {:else if postResults.length > 0}
         {#each postResults as result}
-          <PostSearchResult post={result} />
+          <PostSearchResult
+            post={result}
+            liked={result.likes && result.likes.includes(currDbUser.id)}
+          />
         {/each}
       {:else}
         <NoSearchResultDialog />

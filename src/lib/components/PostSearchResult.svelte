@@ -4,6 +4,7 @@
   import HeartIcon from "./icons/HeartIcon.svelte";
 
   export let post: DBPost;
+  export let liked: boolean;
 </script>
 
 <a href={`/posts/${post.id}`} class="search-result post-search-result">
@@ -21,7 +22,9 @@
       </p>
       <div class="post-actions m-block-0 align-center">
         <button class="post-action before-hover-anim rounded">
-          <HeartIcon iconClass={`action-icon heart-icon image-height-20`} />
+          <HeartIcon
+            iconClass={`action-icon image-height-20 ${liked ? "liked-heart-icon" : "heart-icon"}`}
+          />
         </button>
         <span class="even-less font-weight-normal">
           <span class="text-dot">·</span>

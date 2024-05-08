@@ -490,7 +490,7 @@ button {
     border-radius: inherit;
     background: rgba(255, 255, 255, 0.04);
     opacity: 0;
-    transform: scale(.6);
+    transform: scale(.8);
     top: 0;
     left: 0;
   }
@@ -768,7 +768,7 @@ button {
     transition: .2s;
     background: rgba(255, 255, 255, 0.05);
     opacity: 0;
-    transform: scale(.8);
+    transform: scale(.95);
     inset: 0;
   }
 
@@ -1099,7 +1099,7 @@ button {
     border-radius: inherit;
     background: rgba(255, 255, 255, 0.04);
     opacity: 0;
-    transform: scale(.6);
+    transform: scale(.8);
     top: 0;
     left: 0;
   }
@@ -1384,7 +1384,7 @@ button {
     transition: .2s;
     background: rgba(255, 255, 255, 0.05);
     opacity: 0;
-    transform: scale(.8);
+    transform: scale(.95);
     inset: 0;
   }
 
@@ -3027,4 +3027,8 @@ button:disabled {
 
 .text-center {
   text-align: center;
+}
+
+.result-displayed-username {
+  max-width: fit-content;
 }
