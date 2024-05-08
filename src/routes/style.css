@@ -768,7 +768,7 @@ button {
     transition: .2s;
     background: rgba(255, 255, 255, 0.05);
     opacity: 0;
-    transform: scale(.95);
+    transform: scale(.97);
     inset: 0;
   }
 
@@ -1384,7 +1384,7 @@ button {
     transition: .2s;
     background: rgba(255, 255, 255, 0.05);
     opacity: 0;
-    transform: scale(.95);
+    transform: scale(.97);
     inset: 0;
   }
 

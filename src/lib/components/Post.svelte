@@ -21,6 +21,7 @@
   import HiddenMenu from "./HiddenMenu.svelte";
   import ThreeDotsHoriz from "./icons/ThreeDotsHoriz.svelte";
   import { blockUser, report } from "$lib/helper/feed-advanced";
+  import { onMount } from "svelte";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -33,6 +34,7 @@
   export let likes: string[];
   export let user_id: string;
   export let feedPost: boolean = false;
+  export let commentActive: boolean = false;
 
   let currUser: AuthUser;
   let postComments: DBComment[] = [];
@@ -156,6 +158,11 @@
       firstID = postComments[0].id;
     }
     commentsListener();
+
+    if (commentActive && browser) {
+      document.getElementById("comment-input")?.focus();
+      document.getElementById("comment-input")?.scrollIntoView();
+    }
   }
   getComments();
 
@@ -324,10 +331,6 @@
     console.log(`Sharing post ${id}`);
   }
 
-  function commentFromFeed() {
-    console.log("Comment from the feed");
-  }
-
   function clearReplying() {
     replying = null;
   }
@@ -447,12 +450,12 @@
                     />
                   </button>
                   {#if feedPost}
-                    <button
-                      on:click={commentFromFeed}
+                    <a
+                      href={`/posts/${id}?comment`}
                       class="post-action before-hover-anim rounded button-link"
                     >
                       <CommentIcon iconClass="action-icon comment-icon" />
-                    </button>
+                    </a>
                   {/if}
                   <button
                     class="post-action before-hover-anim rounded"
@@ -500,7 +503,7 @@
         </div>
       </div>
       <div>
-        <div class="post-comments-wrp">
+        <div class="post-comments-wrp" id="comments">
           {#if postComments}
             {#if feedPost}
               {#if firstID}

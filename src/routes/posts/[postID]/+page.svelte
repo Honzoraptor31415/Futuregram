@@ -1,6 +1,13 @@
 <script lang="ts">
   import Post from "$lib/components/Post.svelte";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
+  import { page } from "$app/stores";
+
+  let commentActive = false;
+
+  page.subscribe((val: any) => {
+    commentActive = val.url.search === "?comment";
+  });
 
   export let data;
 </script>
@@ -20,6 +27,7 @@
       likes={data.likes}
       image_url={data.image_url}
       created_at={data.created_at}
+      {commentActive}
     />
   </div>
   <div class="mobile-nav-placeholder"></div>
