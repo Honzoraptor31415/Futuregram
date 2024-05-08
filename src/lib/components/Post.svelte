@@ -216,28 +216,28 @@
   async function like() {
     if (currUser) {
       liked = !liked;
-      let likes = [];
+      let localLikes = [];
       const { data, error } = await supabase
         .from("posts")
         .select()
         .eq("id", id);
-      data && data[0].likes && (likes = data[0].likes);
-      if (likes && !likes.includes(currDbUser.id)) {
-        likes.push(currDbUser.id);
-        likes = likes;
+      data && data[0].likes && (localLikes = data[0].likes);
+      if (localLikes && !localLikes.includes(currDbUser.id)) {
+        localLikes.push(currDbUser.id);
+        likes = localLikes;
         const { error } = await supabase
           .from("posts")
-          .update({ likes: likes })
+          .update({ likes: localLikes })
           .eq("id", id);
       } else {
-        likes &&
-          (likes = likes.filter((user: string) => {
+        localLikes &&
+          (localLikes = localLikes.filter((user: string) => {
             return user !== currDbUser.id;
           }));
-        likes = likes;
+        likes = localLikes;
         const { error } = await supabase
           .from("posts")
-          .update({ likes: likes })
+          .update({ likes: localLikes })
           .eq("id", id);
       }
     } else {
@@ -374,8 +374,9 @@
               /></a
             >
             <div class="post-texts flex-between">
-              <a href={`/${postCreator.url_username}`} class="post-username"
-                >{postCreator.url_username}</a
+              <a
+                href={`/${postCreator.url_username}`}
+                class="post-username align-center">{postCreator.url_username}</a
               >
               <div class="align-center">
                 <p class="even-less">{dayjs(created_at).fromNow()}</p>
@@ -398,7 +399,9 @@
           <div class="post-top desktop">
             <div class="post-texts">
               <div class="post-texts-top flex-between">
-                <a href={`/${postCreator.url_username}`} class="post-username"
+                <a
+                  href={`/${postCreator.url_username}`}
+                  class="post-username align-center"
                   >{postCreator.url_username}</a
                 >
                 <div class="align-center">
