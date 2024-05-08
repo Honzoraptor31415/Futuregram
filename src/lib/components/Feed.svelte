@@ -3,23 +3,34 @@
   import type { DBPost } from "$lib/types/db";
   import { onMount } from "svelte";
   import Post from "./Post.svelte";
-  import NoSearchResult from "./NoSearchResult.svelte";
   import FeedEnd from "./FeedEnd.svelte";
+  import { page } from "$app/stores";
 
   let posts: DBPost[] = [];
   let isReachedFeedEnd = false;
+  let isLoading = false;
+
+  page.subscribe((val: any) => {
+    posts = [];
+  });
 
   async function getData() {
+    if (isLoading) return;
+    isLoading = true;
+
     const { data } = await supabase
       .from("posts")
       .select()
-      .range(posts.length, posts.length + 2);
+      .range(posts.length, posts.length + 3);
+
+    console.log(data);
 
     if (data) {
       data.length > 0
         ? (posts = [...posts, ...data])
         : (isReachedFeedEnd = true);
     }
+    isLoading = false;
   }
 
   onMount(() => {
@@ -27,10 +38,13 @@
     const onscroll = () => {
       const scrolledTo = window.scrollY + window.innerHeight + 50;
       const isReachBottom = document.body.scrollHeight <= scrolledTo;
-      console.log(scrolledTo, document.body.scrollHeight, isReachBottom);
-      isReachBottom && getData();
+      isReachBottom && !isReachedFeedEnd && getData();
     };
     document.addEventListener("scroll", onscroll);
+    return () => {
+      document.removeEventListener("scroll", onscroll);
+      console.log("Scroll listener removed");
+    };
   });
 </script>
 
@@ -46,7 +60,7 @@
           {title}
           {description}
           {likes}
-          feedPost={true}
+          feedPost
         />
       {/each}
     {/if}
