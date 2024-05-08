@@ -361,20 +361,30 @@
           >
             {#if currUser && currDbUser}
               <button
-                class="post-action before-hover-anim rounded"
+                class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
                 on:click={like}
               >
                 <HeartIcon
                   iconClass={`action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                 />
+                {#if comment.likes?.length}
+                  <span class={liked ? "liked-span-colored" : "even-less"}>
+                    {comment.likes.length}
+                  </span>
+                {/if}
               </button>
               <button
-                class="post-action before-hover-anim rounded"
+                class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
                 on:click={reply}
               >
                 <CommentIcon
                   iconClass="action-icon comment-action-icon comment-icon"
                 />
+                {#if replies?.length}
+                  <span class="even-less">
+                    {replies.length}
+                  </span>
+                {/if}
               </button>
               <button
                 class="post-action before-hover-anim rounded"
@@ -385,29 +395,31 @@
                 />
               </button>
             {/if}
-            <p
-              class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
-            >
-              {#if comment.likes}
-                {comment.likes.length <= 1
-                  ? comment.likes.length === 0
-                    ? "no likes"
-                    : `${comment.likes.length} like`
-                  : `${comment.likes.length} likes`}
-              {:else}
-                no likes
-              {/if}
-              {#if replies}
-                {#if replies.length >= 1}
-                  <span class="text-dot">·</span>
+            {#if !currDbUser}
+              <p
+                class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
+              >
+                {#if comment.likes}
+                  {comment.likes.length <= 1
+                    ? comment.likes.length === 0
+                      ? "no likes"
+                      : `${comment.likes.length} like`
+                    : `${comment.likes.length} likes`}
+                {:else}
+                  no likes
                 {/if}
-                {replies.length === 1
-                  ? `${replies.length} reply`
-                  : replies.length > 1
-                    ? `${replies.length} replies`
-                    : ""}
-              {/if}
-            </p>
+                {#if replies}
+                  {#if replies.length >= 1}
+                    <span class="text-dot">·</span>
+                  {/if}
+                  {replies.length === 1
+                    ? `${replies.length} reply`
+                    : replies.length > 1
+                      ? `${replies.length} replies`
+                      : ""}
+                {/if}
+              </p>
+            {/if}
           </div>
         </div>
         {#if !feedComment}

@@ -443,25 +443,35 @@
           <div class={currDbUser ? "post-bottom" : "post-bottom-no-auth"}>
             {#if currUser && currDbUser}
               <div class="flex-between">
-                <div class="post-actions">
+                <div class="post-actions gap-5">
                   <button
-                    class="post-action before-hover-anim rounded"
+                    class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
                     on:click={like}
                   >
                     <HeartIcon
                       iconClass={`action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                     />
+                    {#if likes?.length}
+                      <span class={liked ? "liked-span-colored" : "even-less"}>
+                        {likes.length}
+                      </span>
+                    {/if}
                   </button>
                   {#if feedPost}
                     <a
                       href={`/posts/${id}?comment`}
-                      class="post-action before-hover-anim rounded button-link"
+                      class="post-action before-hover-anim bha-keep-scale align-center gap-3 rounded button-link font-weight-normal"
                     >
                       <CommentIcon iconClass="action-icon comment-icon" />
+                      {#if postComments?.length}
+                        <span class="even-less">
+                          {postComments.length}
+                        </span>
+                      {/if}
                     </a>
                   {/if}
                   <button
-                    class="post-action before-hover-anim rounded"
+                    class="post-action before-hover-anim bha-keep-scale rounded"
                     on:click={() => {
                       share("slkadfjhalskjdfhlakjshdljah123456");
                     }}
@@ -471,7 +481,7 @@
                 </div>
                 <div class="post-actions">
                   <button
-                    class="post-action before-hover-anim rounded"
+                    class="post-action before-hover-anim bha-keep-scale rounded"
                     on:click={() => {
                       report("post", id);
                     }}
@@ -481,27 +491,29 @@
                 </div>
               </div>
             {/if}
-            <p class="even-less">
-              {#if likes}
-                {likes.length <= 1
-                  ? likes.length === 0
-                    ? "no likes"
-                    : `${likes.length} like`
-                  : `${likes.length} likes`}
-              {:else}
-                no likes
-              {/if}
-              <span class="text-dot">·</span>
-              {#if postComments}
-                {postComments.length <= 1
-                  ? postComments.length === 0
-                    ? "no comments"
-                    : `${postComments.length} comment`
-                  : `${postComments.length} comments`}
-              {:else}
-                no comments
-              {/if}
-            </p>
+            {#if !currDbUser}
+              <p class="even-less">
+                {#if likes}
+                  {likes.length <= 1
+                    ? likes.length === 0
+                      ? "no likes"
+                      : `${likes.length} like`
+                    : `${likes.length} likes`}
+                {:else}
+                  no likes
+                {/if}
+                <span class="text-dot">·</span>
+                {#if postComments}
+                  {postComments.length <= 1
+                    ? postComments.length === 0
+                      ? "no comments"
+                      : `${postComments.length} comment`
+                    : `${postComments.length} comments`}
+                {:else}
+                  no comments
+                {/if}
+              </p>
+            {/if}
           </div>
         </div>
       </div>
