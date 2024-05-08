@@ -24,6 +24,8 @@
   --search-result-image-size: 80px;
   --heart-color-1: rgb(255, 0, 144);
   --heart-color-2: purple;
+  --post-action-padding-default: 6px;
+  --post-action-padding-big: 9px;
 }
 
 * {
@@ -663,7 +665,6 @@ button {
   .post-comment {
     display: flex;
     width: 100%;
-    padding-block: 17px;
     border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
   }
 
@@ -1289,7 +1290,6 @@ button {
   .post-comment {
     display: flex;
     width: 100%;
-    padding-block: 17px;
     border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
   }
 
@@ -1870,7 +1870,7 @@ button {
   .post-comment {
     display: flex;
     width: 100%;
-    padding: 17px 7px;
+    padding-inline: 7px;
     border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
   }
 
@@ -2918,21 +2918,18 @@ button:disabled {
 }
 
 .post-action {
-  padding: 6px;
+  padding: var(--post-action-padding-default);
 }
 
 .post-action:has(span) {
-  padding: 6px 9px;
+  padding: var(--post-action-padding-default) var(--post-action-padding-big);
 }
 
 .post-action span {
   transition: .14s;
 }
 
-.comment-actions {
-  margin-block: 7px;
-}
-
+.comment-actions,
 .reply-actions {
   margin-block: 7px 0;
 }
@@ -3090,4 +3087,8 @@ button:disabled {
 .gap-3 {
   display: flex;
   gap: 3px;
+}
+
+.post-comment {
+  padding-block: 17px calc(17px - var(--post-action-padding-default));
 }

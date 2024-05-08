@@ -4,7 +4,6 @@
   import userDbData from "$lib/stores/user-db-data";
   import HeartIcon from "$lib/components/icons/HeartIcon.svelte";
   import CommentIcon from "$lib/components/icons/CommentIcon.svelte";
-  import ShareIcon from "$lib/components/icons/ShareIcon.svelte";
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
@@ -182,10 +181,6 @@
         .eq("id", data[0].user_id);
       res.data && (postCreator = res.data[0]);
     }
-  }
-
-  function share() {
-    console.log(`Sharing post ${id}`);
   }
 
   function showReplies() {
@@ -385,14 +380,6 @@
                     {replies.length}
                   </span>
                 {/if}
-              </button>
-              <button
-                class="post-action before-hover-anim rounded"
-                on:click={share}
-              >
-                <ShareIcon
-                  iconClass="action-icon comment-action-icon share-icon"
-                />
               </button>
             {/if}
             {#if !currDbUser}

@@ -272,35 +272,47 @@
           <div class="post-actions reply-actions">
             {#if currUser && currDbUser}
               <button
-                class="post-action before-hover-anim rounded"
+                class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
                 on:click={like}
               >
                 <HeartIcon
                   iconClass={`action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                 />
+                {#if reply.likes?.length}
+                  <span class={liked ? "liked-span-colored" : "even-less"}>
+                    {reply.likes.length}
+                  </span>
+                {/if}
               </button>
               <button
-                class="post-action before-hover-anim rounded"
+                class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
                 on:click={replyFunc}
               >
                 <CommentIcon
                   iconClass="action-icon comment-action-icon comment-icon"
                 />
+                {#if reply.likes?.length}
+                  <span class="even-less">
+                    {reply.likes.length}
+                  </span>
+                {/if}
               </button>
             {/if}
-            <p
-              class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
-            >
-              {#if reply.likes}
-                {reply.likes.length <= 1
-                  ? reply.likes.length === 0
-                    ? "no likes"
-                    : `${reply.likes.length} like`
-                  : `${reply.likes.length} likes`}
-              {:else}
-                no likes
-              {/if}
-            </p>
+            {#if !currDbUser}
+              <p
+                class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
+              >
+                {#if reply.likes}
+                  {reply.likes.length <= 1
+                    ? reply.likes.length === 0
+                      ? "no likes"
+                      : `${reply.likes.length} like`
+                    : `${reply.likes.length} likes`}
+                {:else}
+                  no likes
+                {/if}
+              </p>
+            {/if}
           </div>
         </div>
       </div>
