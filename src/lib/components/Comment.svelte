@@ -387,23 +387,21 @@
                 class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
               >
                 {#if comment.likes}
-                  {comment.likes.length <= 1
-                    ? comment.likes.length === 0
-                      ? "no likes"
-                      : `${comment.likes.length} like`
-                    : `${comment.likes.length} likes`}
-                {:else}
-                  no likes
+                  {comment.likes.length > 0
+                    ? comment.likes.length === 1
+                      ? `${comment.likes.length} like`
+                      : `${comment.likes.length} likes`
+                    : ""}
                 {/if}
                 {#if replies}
                   {#if replies.length >= 1}
                     <span class="text-dot">·</span>
                   {/if}
-                  {replies.length === 1
-                    ? `${replies.length} reply`
-                    : replies.length > 1
-                      ? `${replies.length} replies`
-                      : ""}
+                  {replies.length > 0
+                    ? replies.length === 1
+                      ? `${replies.length} reply`
+                      : `${replies.length} replies`
+                    : ""}
                 {/if}
               </p>
             {/if}

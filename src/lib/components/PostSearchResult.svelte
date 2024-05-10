@@ -27,15 +27,15 @@
           />
         </button>
         <span class="even-less font-weight-normal">
-          <span class="text-dot">·</span>
+          {#if post.likes.length >= 1}
+            <span class="text-dot">·</span>
+          {/if}
           {#if post.likes}
-            {post.likes.length <= 1
-              ? post.likes.length === 0
-                ? "no likes"
-                : `${post.likes.length} like`
-              : `${post.likes.length} likes`}
-          {:else}
-            no likes
+            {post.likes.length > 0
+              ? post.likes.length === 1
+                ? `${post.likes.length} like`
+                : `${post.likes.length} likes`
+              : ""}
           {/if}</span
         >
       </div>

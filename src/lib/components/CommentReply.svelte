@@ -303,13 +303,11 @@
                 class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
               >
                 {#if reply.likes}
-                  {reply.likes.length <= 1
-                    ? reply.likes.length === 0
-                      ? "no likes"
-                      : `${reply.likes.length} like`
-                    : `${reply.likes.length} likes`}
-                {:else}
-                  no likes
+                  {reply.likes.length > 0
+                    ? reply.likes.length === 1
+                      ? `${reply.likes.length} like`
+                      : `${reply.likes.length} likes`
+                    : ""}
                 {/if}
               </p>
             {/if}

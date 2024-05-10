@@ -494,23 +494,21 @@
             {#if !currDbUser}
               <p class="even-less">
                 {#if likes}
-                  {likes.length <= 1
-                    ? likes.length === 0
-                      ? "no likes"
-                      : `${likes.length} like`
-                    : `${likes.length} likes`}
-                {:else}
-                  no likes
+                  {likes.length > 0
+                    ? likes.length === 1
+                      ? `${likes.length} like`
+                      : `${likes.length} likes`
+                    : ""}
                 {/if}
-                <span class="text-dot">·</span>
+                {#if postComments.length >= 1}
+                  <span class="text-dot">·</span>
+                {/if}
                 {#if postComments}
-                  {postComments.length <= 1
-                    ? postComments.length === 0
-                      ? "no comments"
-                      : `${postComments.length} comment`
-                    : `${postComments.length} comments`}
-                {:else}
-                  no comments
+                  {postComments.length > 0
+                    ? postComments.length === 1
+                      ? `${postComments.length} comment`
+                      : `${postComments.length} comments`
+                    : ""}
                 {/if}
               </p>
             {/if}

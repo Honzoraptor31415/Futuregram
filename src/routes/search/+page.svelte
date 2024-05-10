@@ -100,7 +100,9 @@
         {#each postResults as result}
           <PostSearchResult
             post={result}
-            liked={result.likes && result.likes.includes(currDbUser.id)}
+            liked={currDbUser
+              ? result.likes && result.likes.includes(currDbUser.id)
+              : false}
           />
         {/each}
       {:else}
