@@ -8,6 +8,7 @@
   import type { AuthUser } from "$lib/types/auth.js";
   import loggedInUser from "$lib/stores/user.js";
   import { supabase } from "$lib/supabaseClient.js";
+  import { browser } from "$app/environment";
 
   let title = "";
   let description = "";
@@ -52,7 +53,7 @@
           cacheControl: "3600",
           upsert: false,
           contentType: files[0].type,
-        },
+        }
       );
 
     if (uploadImageResponse.data.path) {
@@ -88,14 +89,20 @@
 
   async function insertPost(imgURL: string) {
     if (currDbUser && currUser) {
-      const { error } = await supabase.from("posts").insert({
-        created_at: new Date().getTime(),
-        image_url: imgURL,
-        user_id: currDbUser.id,
-        description: description,
-        title: title,
-      });
-      console.log(error);
+      const { data, error } = await supabase
+        .from("posts")
+        .insert({
+          created_at: new Date().getTime(),
+          image_url: imgURL,
+          user_id: currDbUser.id,
+          description: description,
+          title: title,
+        })
+        .select()
+        .single();
+      if (data && !error && browser) {
+        location.href = `/posts/${data.id}`;
+      }
     } else {
       console.error("Error while uploading: user ain't logged in.");
     }
