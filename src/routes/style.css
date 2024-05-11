@@ -28,6 +28,7 @@
   --post-action-padding-big: 9px;
   --action-bh-inset: -5px;
   --action-bh-inset-big: -7px;
+  --menu-item-hover-bg: rgb(52, 52, 52);
 }
 
 * {
@@ -547,7 +548,7 @@ button {
   }
 
   .menu-link:hover {
-    background: var(--terc-border-color);
+    background: var(--menu-item-hover-bg);
   }
 
   .menu-link:active {
@@ -1177,7 +1178,7 @@ button {
   }
 
   .menu-link:hover {
-    background: var(--terc-border-color);
+    background: var(--menu-item-hover-bg);
   }
 
   .menu-link:active {
@@ -1754,7 +1755,7 @@ button {
   }
 
   .menu-link:active {
-    background: var(--terc-border-color);
+    background: var(--menu-item-hover-bg);
     transform: none;
   }
 
@@ -2984,19 +2985,23 @@ button:disabled {
 .menu-link {
   background: transparent;
   border: none;
-  border-bottom: 1px var(--terc-border-color) solid;
   font-size: 15px;
   font-weight: 600;
+  border-radius: inherit;
   word-wrap: unset;
-  padding: 14px 16px;
+  padding: 11px 16px;
   cursor: pointer;
-  transition: .15s;
-  width: 100%;
+  transition: .1s;
+  margin-inline: 5px;
   text-align: left;
 }
 
+.menu-link:first-child {
+  margin-top: 5px;
+}
+
 .menu-link:last-child {
-  border-bottom: none;
+  margin-bottom: 5px;
 }
 
 .no-bg-nav-btn.hidden-menu-active path {
