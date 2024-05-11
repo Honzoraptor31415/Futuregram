@@ -2991,7 +2991,7 @@ button:disabled {
 
 .alpha-bg-element {
   border-radius: var(--main-border-radius);
-  background: var(--terc-border-color);
+  background: var(--sec-bg);
   border: none;
   padding: 20px;
 }
@@ -3001,7 +3001,7 @@ button:disabled {
 }
 
 .new-post-photo-button {
-  border: 1px var(--terc-border-color) solid;
+  border: 1px var(--main-border-color) solid;
 }
 
 .no-search-results {
@@ -3065,6 +3065,7 @@ button:disabled {
 
 .post-result-content {
   display: grid;
+  align-items: center;
   grid-template-columns: calc(100% - var(--search-result-image-size) - 7px) auto;
   width: 100%;
 }
@@ -3091,4 +3092,8 @@ button:disabled {
 
 .post-comment {
   padding-block: 17px calc(17px - var(--post-action-padding-default));
+}
+
+.padding-0 {
+  padding: 0 !important;
 }

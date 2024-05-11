@@ -291,25 +291,19 @@
                 <CommentIcon
                   iconClass="action-icon comment-action-icon comment-icon"
                 />
-                {#if reply.likes?.length}
-                  <span class="even-less">
-                    {reply.likes.length}
-                  </span>
-                {/if}
+                <span class="even-less">
+                  {Math.ceil(Math.random() * 99)}
+                </span>
+                <!-- ↑↑ just a placeholder -->
               </button>
             {/if}
             {#if !currDbUser}
               <p
                 class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
               >
-                {#if reply.likes}
-                  {reply.likes.length > 0
-                    ? reply.likes.length === 1
-                      ? `${reply.likes.length} like`
-                      : `${reply.likes.length} likes`
-                    : ""}
-                {/if}
+                {Math.ceil(Math.random() * 99)} replies
               </p>
+              <!-- ↑↑ also just a placeholder -->
             {/if}
           </div>
         </div>

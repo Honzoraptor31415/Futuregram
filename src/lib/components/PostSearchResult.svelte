@@ -21,7 +21,7 @@
         />
       </p>
       <div class="post-actions m-block-0 align-center">
-        <button class="post-action before-hover-anim rounded">
+        <button class="post-action before-hover-anim rounded padding-0">
           <HeartIcon
             iconClass={`action-icon image-height-20 ${liked ? "liked-heart-icon" : "heart-icon"}`}
           />

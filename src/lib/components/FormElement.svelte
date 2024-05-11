@@ -64,7 +64,7 @@
       {#if value}
         <button
           type="button"
-          class="no-style before-hover-anim password-show-button rounded"
+          class="button-element no-style before-hover-anim password-show-button rounded"
           on:click={setShowPassword}
         >
           {#if pwdBtnType === "text"}
