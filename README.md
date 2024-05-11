@@ -34,6 +34,7 @@ Btw I'm using supabase's database, which means it's Postgres.
 | follows            | `jsonb[]` | Array of IDs of users who the user follows                    |
 | followers          | `jsonb[]` | Array of IDs of users who follow this user                    |
 | blocked            | `jsonb[]` | Array of IDs of users who this user blocked                   |
+| saved              | `jsonb[]` | Array of IDs of posts that the user saved                     |
 
 #### posts table
 

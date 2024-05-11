@@ -29,6 +29,7 @@
   --action-bh-inset: -5px;
   --action-bh-inset-big: -7px;
   --menu-item-hover-bg: rgb(52, 52, 52);
+  --action-icon-size: 22px;
 }
 
 * {
@@ -628,7 +629,6 @@ button {
   }
 
   .post-action:hover .comment-icon path {
-    fill: rgb(var(--accent2));
     stroke: rgb(var(--accent2));
   }
 
@@ -1260,7 +1260,6 @@ button {
   }
 
   .post-action:hover .comment-icon path {
-    fill: rgb(var(--accent2));
     stroke: rgb(var(--accent2));
   }
 
@@ -1846,7 +1845,6 @@ button {
   }
 
   .post-action:active .comment-icon path {
-    fill: rgb(var(--accent2));
     stroke: rgb(var(--accent2));
   }
 
@@ -1860,11 +1858,6 @@ button {
 
   .post-action:active .report-icon path {
     fill: var(--post-report-icon-color);
-  }
-
-  .action-icon {
-    height: 25px;
-    width: auto;
   }
 
   .post-left {
@@ -2303,8 +2296,8 @@ nav {
 }
 
 .action-icon {
-  height: 25px;
-  width: 25px;
+  height: var(--action-icon-size);
+  width: var(--action-icon-size);
 }
 
 .post-username {
@@ -2327,6 +2320,10 @@ nav {
 
 .liked-heart-icon {
   fill: url("#liked-gradient");
+}
+
+.liked-heart-icon path {
+  stroke: url("#liked-gradient") !important;
 }
 
 .heart-icon {
@@ -2940,12 +2937,13 @@ button:disabled {
   margin-left: 10px;
 }
 
-/* .post-action {
-  padding: var(--post-action-padding-default);
-} */
+.post-action path {
+  stroke: white;
+}
 
 .post-action span {
   transition: .14s;
+  font-size: .9rem;
 }
 
 .comment-actions,
@@ -2965,6 +2963,7 @@ button:disabled {
 .dots-menu {
   z-index: 10;
   border: 1px var(--terc-border-color) solid;
+  cursor: default;
   overflow: hidden;
 }
 
@@ -3132,4 +3131,16 @@ button:disabled {
 
 .comment-reply {
   padding-left: 0;
+}
+
+.save-icon {
+  fill: transparent;
+}
+
+.saved-icon {
+  fill: url("#saved-gradient");
+}
+
+.saved-icon path {
+  stroke: url("#saved-gradient") !important;
 }

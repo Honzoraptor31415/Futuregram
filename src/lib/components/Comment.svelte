@@ -363,7 +363,7 @@
                   iconClass={`action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                 />
                 {#if comment.likes?.length}
-                  <span class={liked ? "liked-span-colored" : "even-less"}>
+                  <span class={liked ? "liked-span-colored" : ""}>
                     {comment.likes.length}
                   </span>
                 {/if}
@@ -376,7 +376,7 @@
                   iconClass="action-icon comment-action-icon comment-icon"
                 />
                 {#if replies?.length}
-                  <span class="even-less">
+                  <span>
                     {replies.length}
                   </span>
                 {/if}

@@ -22,6 +22,7 @@
   import ThreeDotsHoriz from "./icons/ThreeDotsHoriz.svelte";
   import { blockUser, report } from "$lib/helper/feed-advanced";
   import { onMount } from "svelte";
+  import SaveIcon from "./icons/SaveIcon.svelte";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -35,6 +36,7 @@
   export let user_id: string;
   export let feedPost: boolean = false;
   export let commentActive: boolean = false;
+  export let saved: boolean = false;
 
   let currUser: AuthUser;
   let postComments: DBComment[] = [];
@@ -73,6 +75,14 @@
           class: "menu-link red",
           text: "Block account",
         },
+        {
+          type: "button",
+          onClick: () => {
+            report("post", id);
+          },
+          class: "menu-link red",
+          text: "Report post",
+        },
       ]
     : [
         {
@@ -82,6 +92,14 @@
           },
           class: "menu-link red",
           text: "Block account",
+        },
+        {
+          type: "button",
+          onClick: () => {
+            report("post", id);
+          },
+          class: "menu-link red",
+          text: "Report post",
         },
       ];
 
@@ -349,6 +367,11 @@
   function togglePostVisibility() {
     postShown = !postShown;
   }
+
+  function save() {
+    console.log("Save function");
+    saved = !saved;
+  }
 </script>
 
 {#if id && postCreator}
@@ -452,7 +475,7 @@
                       iconClass={`action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                     />
                     {#if likes?.length}
-                      <span class={liked ? "liked-span-colored" : "even-less"}>
+                      <span class={liked ? "liked-span-colored" : ""}>
                         {likes.length}
                       </span>
                     {/if}
@@ -464,7 +487,7 @@
                     >
                       <CommentIcon iconClass="action-icon comment-icon" />
                       {#if postComments?.length}
-                        <span class="even-less">
+                        <span>
                           {postComments.length}
                         </span>
                       {/if}
@@ -482,11 +505,11 @@
                 <div class="post-actions">
                   <button
                     class="post-action before-hover-anim bha-keep-scale rounded"
-                    on:click={() => {
-                      report("post", id);
-                    }}
+                    on:click={save}
                   >
-                    <ReportIcon iconClass="action-icon report-icon" />
+                    <SaveIcon
+                      iconClass={`action-icon ${saved ? "saved-icon" : "save-icon"}`}
+                    />
                   </button>
                 </div>
               </div>

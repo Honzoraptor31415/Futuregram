@@ -279,7 +279,7 @@
                   iconClass={`action-icon comment-action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
                 />
                 {#if reply.likes?.length}
-                  <span class={liked ? "liked-span-colored" : "even-less"}>
+                  <span class={liked ? "liked-span-colored" : ""}>
                     {reply.likes.length}
                   </span>
                 {/if}
@@ -291,7 +291,7 @@
                 <CommentIcon
                   iconClass="action-icon comment-action-icon comment-icon"
                 />
-                <span class="even-less">
+                <span>
                   {Math.ceil(Math.random() * 99)}
                 </span>
                 <!-- ↑↑ just a placeholder -->

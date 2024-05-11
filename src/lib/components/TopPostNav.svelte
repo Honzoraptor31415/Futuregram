@@ -31,6 +31,12 @@
     {
       class: "menu-link",
       type: "link",
+      text: "Saved posts",
+      href: "/saved",
+    },
+    {
+      class: "menu-link",
+      type: "link",
       text: "About Futuregram",
       href: "/about",
     },
