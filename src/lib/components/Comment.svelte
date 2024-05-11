@@ -352,7 +352,7 @@
         {/if}
         <div class="flex-between">
           <div
-            class={`post-actions comment-actions ${!currDbUser ? "no-auth-c-reactions-count" : ""}`}
+            class={`post-actions comment-actions gap-15 ${!currDbUser ? "no-auth-c-reactions-count" : ""}`}
           >
             {#if currUser && currDbUser}
               <button
@@ -411,7 +411,7 @@
           {#if replies.length > 0}
             {#if !repliesShown}
               <button
-                class="no-style hover-before-height desc-dots less"
+                class="no-style hover-before-height desc-dots less show-replies"
                 on:click={showReplies}>show replies</button
               >
             {:else}

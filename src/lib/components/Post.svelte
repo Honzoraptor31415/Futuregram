@@ -443,7 +443,7 @@
           <div class={currDbUser ? "post-bottom" : "post-bottom-no-auth"}>
             {#if currUser && currDbUser}
               <div class="flex-between">
-                <div class="post-actions gap-5">
+                <div class="post-actions gap-15">
                   <button
                     class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
                     on:click={like}

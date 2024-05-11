@@ -5,7 +5,7 @@
   --accent2: 0, 208, 255;
   --main-border-color: rgb(100, 100, 100);
   --sec-border-color: rgba(128, 128, 128, 0.4);
-  --terc-border-color: rgba(128, 128, 128, 0.2);
+  --terc-border-color: rgb(59 59 59);
   --nav-height: 75.5px;
   color-scheme: dark;
   --post-report-icon-color: rgb(255, 0, 0);
@@ -26,6 +26,8 @@
   --heart-color-2: purple;
   --post-action-padding-default: 6px;
   --post-action-padding-big: 9px;
+  --action-bh-inset: -5px;
+  --action-bh-inset-big: -7px;
 }
 
 * {
@@ -604,6 +606,14 @@ button {
 
   .before-hover-anim.bha-keep-scale:hover::before,
   .hidden-menu-active.bha-keep-scale::before {
+    inset: var(--action-bh-inset);
+    transform: scale(1) !important;
+    opacity: 1 !important;
+  }
+
+  .before-hover-anim.bha-keep-scale:has(span):hover::before,
+  .hidden-menu-active.bha-keep-scale:has(span)::before {
+    inset: var(--action-bh-inset) var(--action-bh-inset-big);
     transform: scale(1) !important;
     opacity: 1 !important;
   }
@@ -1228,6 +1238,14 @@ button {
 
   .before-hover-anim.bha-keep-scale:hover::before,
   .hidden-menu-active.bha-keep-scale::before {
+    inset: var(--action-bh-inset);
+    transform: scale(1) !important;
+    opacity: 1 !important;
+  }
+
+  .before-hover-anim.bha-keep-scale:has(span):hover::before,
+  .hidden-menu-active.bha-keep-scale:has(span)::before {
+    inset: var(--action-bh-inset) var(--action-bh-inset-big);
     transform: scale(1) !important;
     opacity: 1 !important;
   }
@@ -1801,6 +1819,14 @@ button {
 
   .before-hover-anim.bha-keep-scale:active::before,
   .hidden-menu-active.bha-keep-scale::before {
+    inset: var(--action-bh-inset);
+    transform: scale(1) !important;
+    opacity: 1 !important;
+  }
+
+  .before-hover-anim.bha-keep-scale:has(span):active::before,
+  .hidden-menu-active.bha-keep-scale:has(span)::before {
+    inset: var(--action-bh-inset) var(--action-bh-inset-big);
     transform: scale(1) !important;
     opacity: 1 !important;
   }
@@ -2243,7 +2269,7 @@ nav {
 
 .post-actions {
   display: flex;
-  margin-block: 8px;
+  margin-block: 15px;
 }
 
 .before-hover-anim::before {
@@ -2883,10 +2909,6 @@ button:disabled {
   border-bottom: none;
 }
 
-/* .replies-wrp {
-  margin-left: 10px;
-} */
-
 .comment .comment-actions {
   margin-bottom: 0;
 }
@@ -2917,13 +2939,9 @@ button:disabled {
   margin-left: 10px;
 }
 
-.post-action {
+/* .post-action {
   padding: var(--post-action-padding-default);
-}
-
-.post-action:has(span) {
-  padding: var(--post-action-padding-default) var(--post-action-padding-big);
-}
+} */
 
 .post-action span {
   transition: .14s;
@@ -3091,9 +3109,22 @@ button:disabled {
 }
 
 .post-comment {
-  padding-block: 17px calc(17px - var(--post-action-padding-default));
+  padding-block: 17px;
 }
 
 .padding-0 {
   padding: 0 !important;
+}
+
+.gap-15 {
+  display: flex;
+  gap: 15px;
+}
+
+.show-replies {
+  margin-top: 17px;
+}
+
+.comment-reply {
+  padding-left: 0;
 }

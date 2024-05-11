@@ -269,7 +269,7 @@
           <p class="comment-text pl-text">{reply.text}</p>
         {/if}
         <div class="flex-between">
-          <div class="post-actions reply-actions">
+          <div class="post-actions gap-15 reply-actions">
             {#if currUser && currDbUser}
               <button
                 class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
