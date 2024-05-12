@@ -397,15 +397,15 @@
                   />
                 {/each}
               </div>
-            {:else}
-              <p class="no-posts less">
-                <b>
-                  {#if currDbUser}
-                    {currDbUser.id === user.id ? "You" : data.user}
-                  {/if}
-                </b> didn't post yet.
-              </p>
             {/if}
+          {:else}
+            <p class="no-posts less">
+              <b>
+                {#if currDbUser}
+                  {currDbUser.id === user.id ? "You" : data.user}
+                {/if}
+              </b> didn't post yet.
+            </p>
           {/if}
         </div>
       </div>

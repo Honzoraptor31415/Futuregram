@@ -31,6 +31,7 @@
   --menu-item-hover-bg: rgb(52, 52, 52);
   --action-icon-size: 22px;
   --alpha-bg: rgba(255, 255, 255, 0.051);
+  --suggestions-scroll-padding: 10px;
 }
 
 * {
@@ -935,7 +936,8 @@ button {
   }
 
   .suggestion {
-    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
     display: flex;
     gap: 14px;
   }
@@ -1569,13 +1571,14 @@ button {
   }
 
   .suggestion {
-    width: 160px;
+    min-width: 160px;
+    max-width: 160px;
     display: flex;
     gap: 14px;
   }
 
   .suggestion-image {
-    max-height: 80px;
+    max-height: 70px;
     width: auto;
   }
 }
@@ -2171,7 +2174,8 @@ button {
   }
 
   .suggestion {
-    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
     display: flex;
     gap: 10px;
     padding: 10px !important;
@@ -3205,6 +3209,8 @@ button:disabled {
   max-width: 100%;
   overflow-x: scroll;
   margin-block: var(--feed-spacing);
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: var(--suggestions-scroll-padding);
 }
 
 .suggestions-content::-webkit-scrollbar {
@@ -3226,4 +3232,8 @@ button:disabled {
 
 .padding-block-6 {
   padding-block: 6px;
+}
+
+.suggestion {
+  scroll-snap-align: start;
 }
