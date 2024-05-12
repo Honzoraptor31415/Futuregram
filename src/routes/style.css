@@ -30,6 +30,7 @@
   --action-bh-inset-big: -7px;
   --menu-item-hover-bg: rgb(52, 52, 52);
   --action-icon-size: 22px;
+  --alpha-bg: rgba(255, 255, 255, 0.051);
 }
 
 * {
@@ -932,6 +933,17 @@ button {
   .tab-sb-active:hover {
     background: rgb(33 33 33);
   }
+
+  .suggestion {
+    width: 160px;
+    display: flex;
+    gap: 14px;
+  }
+
+  .suggestion-image {
+    max-height: 80px;
+    width: auto;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1555,6 +1567,17 @@ button {
   .tab-sb-active:hover {
     background: rgb(33 33 33);
   }
+
+  .suggestion {
+    width: 160px;
+    display: flex;
+    gap: 14px;
+  }
+
+  .suggestion-image {
+    max-height: 80px;
+    width: auto;
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -2147,6 +2170,22 @@ button {
     background: rgb(33 33 33);
   }
 
+  .suggestion {
+    width: 150px;
+    display: flex;
+    gap: 10px;
+    padding: 10px !important;
+  }
+
+  .suggestion-image {
+    max-height: 50px;
+    width: auto;
+  }
+
+  .mobile-padding-left-feed {
+    padding-left: var(--feed-spacing);
+  }
+
   * {
     cursor: default !important;
   }
@@ -2571,6 +2610,11 @@ nav {
 
 .image-height-15 {
   max-height: 15px;
+  width: auto;
+}
+
+.image-height-80 {
+  max-height: 80px;
   width: auto;
 }
 
@@ -3012,9 +3056,8 @@ button:disabled {
 
 .alpha-bg-element {
   border-radius: var(--main-border-radius);
-  background: var(--sec-bg);
+  background: var(--alpha-bg);
   border: none;
-  padding: 20px;
 }
 
 .post-hidden-dialog {
@@ -3057,6 +3100,11 @@ button:disabled {
 .gap-10 {
   display: flex;
   gap: 10px;
+}
+
+.gap-14 {
+  display: flex;
+  gap: 14px;
 }
 
 .tab-desc-wrp {
@@ -3142,4 +3190,40 @@ button:disabled {
 
 .saved-icon path {
   stroke: url("#saved-gradient") !important;
+}
+
+.padding-20 {
+  padding: 20px;
+}
+
+.padding-14 {
+  padding: 14px;
+}
+
+.suggestions-content {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: scroll;
+  margin-block: var(--feed-spacing);
+}
+
+.suggestions-content::-webkit-scrollbar {
+  display: none;
+}
+
+.gap-20 {
+  display: flex;
+  gap: 20px;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+.suggestion * {
+  text-align: center;
+}
+
+.padding-block-6 {
+  padding-block: 6px;
 }

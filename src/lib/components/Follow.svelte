@@ -2,9 +2,10 @@
   import { supabase } from "$lib/supabaseClient";
   import type { AuthUser } from "$lib/types/auth";
   import type { DBUserData } from "$lib/types/db";
-  export let uid: string;
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/user-db-data";
+
+  export let uid: string;
   export let btnClass: string;
   export let unfollowText: string = "Unfollow";
   export let followText: string = "Follow";

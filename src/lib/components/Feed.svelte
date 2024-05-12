@@ -1,13 +1,20 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
-  import type { DBPost } from "$lib/types/db";
+  import type { DBPost, DBUserData } from "$lib/types/db";
   import { onMount } from "svelte";
   import Post from "./Post.svelte";
   import FeedEnd from "./FeedEnd.svelte";
+  import Suggestions from "./Suggestions.svelte";
+  import userDbData from "$lib/stores/user-db-data";
 
   let posts: DBPost[] = [];
   let isReachedFeedEnd = false;
   let isLoading = false;
+  let currDbUser: DBUserData;
+
+  userDbData.subscribe((val: any) => {
+    currDbUser = val;
+  });
 
   async function getData() {
     if (isLoading) return;
@@ -46,15 +53,18 @@
 <main class="feed-main desktop-nav-margin">
   <div class="posts-inline-spacing">
     {#if posts.length > 0}
-      {#each posts as { id, created_at, image_url, title, description, likes, user_id }}
+      {#each posts as post}
+        {#if currDbUser && posts.indexOf(post) === 1}
+          <Suggestions />
+        {/if}
         <Post
-          {id}
-          {user_id}
-          {created_at}
-          {image_url}
-          {title}
-          {description}
-          {likes}
+          id={post.id}
+          user_id={post.user_id}
+          created_at={post.created_at}
+          image_url={post.image_url}
+          title={post.title}
+          description={post.description}
+          likes={post.likes}
           feedPost
         />
       {/each}
