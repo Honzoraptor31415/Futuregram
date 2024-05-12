@@ -10,7 +10,7 @@
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
-  import type { DBUserData, DBComment } from "$lib/types/db";
+  import type { DBUserData, DBComment, DBPost } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   import CommentIcon from "./icons/CommentIcon.svelte";
@@ -220,6 +220,7 @@
     if (val) {
       currDbUser = val;
       getLikes(val.id);
+      getIsSaved();
       likesListener();
     }
   });
@@ -368,9 +369,56 @@
     postShown = !postShown;
   }
 
-  function save() {
-    console.log("Save function");
-    saved = !saved;
+  async function getIsSaved() {
+    if (currDbUser) {
+      const { data } = await supabase
+        .from("users")
+        .select()
+        .eq("id", currDbUser.id)
+        .single();
+      if (data.saved) {
+        saved = data.saved.includes(id);
+      }
+    }
+  }
+
+  async function save() {
+    if (currDbUser) {
+      saved = !saved;
+
+      let allSavedPosts: string[];
+      const { data: allSavedPostsData } = await supabase
+        .from("users")
+        .select()
+        .eq("id", currDbUser.id)
+        .single();
+
+      if (allSavedPostsData.saved) {
+        allSavedPosts = allSavedPostsData.saved;
+
+        if (allSavedPosts.includes(id)) {
+          allSavedPosts = allSavedPosts.filter((postId: string) => {
+            return postId !== id;
+          });
+        } else {
+          allSavedPosts.push(id);
+        }
+        const { error } = await supabase
+          .from("users")
+          .update({
+            saved: allSavedPosts,
+          })
+          .eq("id", currDbUser.id);
+      } else {
+        allSavedPosts = [id];
+        const { error } = await supabase
+          .from("users")
+          .update({
+            saved: allSavedPosts,
+          })
+          .eq("id", currDbUser.id);
+      }
+    }
   }
 </script>
 

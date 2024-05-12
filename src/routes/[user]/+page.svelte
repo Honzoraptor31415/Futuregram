@@ -12,6 +12,7 @@
   import Follow from "$lib/components/Follow.svelte";
   import SearchResult from "$lib/components/SearchResult.svelte";
   import { supabase } from "$lib/supabaseClient";
+  import PostPreview from "$lib/components/PostPreview.svelte";
 
   let pageUser = data.user;
   let user: DBUserData | null;
@@ -190,7 +191,7 @@
     class="user-page-wrp desktop-nav-margin bottom-padding-nav mobile-nav-padding nav-top-space"
   >
     <TopPostNav {user} />
-    <main class="user-page sec-bg-element">
+    <main class="user-page">
       <div class="user-page-top">
         <div class="basic-user-info">
           <div class="user-text-info">
@@ -373,14 +374,12 @@
         <h2 class="posts-heading">Posts:</h2>
         <div class="user-posts">
           {#if posts}
-            <div class="user-posts-content">
+            <div class="post-prevs-grid">
               {#each posts as post}
-                <a href={`/posts/${post.id}`} class="post-prew">
-                  <div class="post-prew-overlay-wrp">
-                    <img src={post.image_url} alt="" class="prew-image" />
-                    <p class="post-prew-text">View 👉</p>
-                  </div>
-                </a>
+                <PostPreview
+                  imageUrl={post.image_url}
+                  linkHref={`/posts/${post.id}`}
+                />
               {/each}
             </div>
           {:else}

@@ -318,8 +318,8 @@ button {
   }
 
   .user-page {
-    width: 900px;
-    margin-bottom: 10px;
+    width: 800px;
+    margin-block: 20px 14px;
   }
 
   .user-posts {
@@ -394,7 +394,7 @@ button {
     margin-top: 27px;
   }
 
-  .user-posts-content {
+  .post-prevs-grid {
     display: grid;
     grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     justify-content: flex-start;
@@ -946,7 +946,7 @@ button {
 
   .user-page {
     width: calc(100% - 60px);
-    margin-bottom: 10px;
+    margin-block: 10px;
   }
 
   .user-posts {
@@ -1017,7 +1017,7 @@ button {
     margin-top: 27px;
   }
 
-  .user-posts-content {
+  .post-prevs-grid {
     display: grid;
     grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     justify-content: flex-start;
@@ -1610,7 +1610,6 @@ button {
     align-items: center;
     flex-direction: column-reverse;
     width: 100%;
-    margin-top: 20px;
   }
 
   .user-page-pfp {
@@ -1651,7 +1650,7 @@ button {
     margin-top: 20px;
   }
 
-  .user-posts-content {
+  .post-prevs-grid {
     display: grid;
     grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     justify-content: flex-start;
