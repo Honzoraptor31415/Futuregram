@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { page } from "$app/stores";
   import PostPreview from "$lib/components/PostPreview.svelte";
   import userDbData from "$lib/stores/user-db-data";
   import { supabase } from "$lib/supabaseClient";
   import type { DBPost, DBUserData } from "$lib/types/db";
+  import { onMount } from "svelte";
 
   let currDbUser: DBUserData;
   let savedPosts: DBPost[] = [];
@@ -17,30 +17,39 @@
     }
   });
 
-  page.subscribe((val: any) => {
-    getSavedPosts();
-  });
-
   async function getSavedPosts() {
     if (functionLoading) return;
     functionLoading = true;
     if (currDbUser) {
-      if (currDbUser.saved) {
-        for (let i = 0; i < currDbUser.saved.length; i++) {
-          const { data } = await supabase
-            .from("posts")
-            .select()
-            .eq("id", currDbUser.saved[i])
-            .single();
-          console.log(data);
+      const { data: user } = await supabase
+        .from("users")
+        .select()
+        .eq("id", currDbUser.id)
+        .single();
 
-          savedPosts = [...savedPosts, data];
-          if (i === currDbUser.saved.length - 1) loading = false;
+      if (user) {
+        if (user.saved) {
+          savedPosts = [];
+          for (let i = 0; i < user.saved.length; i++) {
+            const { data } = await supabase
+              .from("posts")
+              .select()
+              .eq("id", user.saved[i])
+              .single();
+            console.log(data);
+
+            savedPosts = [...savedPosts, data];
+            if (i === user.saved.length - 1) loading = false;
+          }
         }
       }
     }
     functionLoading = false;
   }
+
+  onMount(() => {
+    getSavedPosts();
+  });
 </script>
 
 <svelte:head>
