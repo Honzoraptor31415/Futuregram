@@ -30,7 +30,7 @@
 
 <div class="feed-page-post-wrp">
   <p class="mobile-padding-left-feed"><b>Who you may know</b></p>
-  <div class="suggestions-content gap-5 mobile-padding-left-feed">
+  <div class="suggestions-content gap-10 mobile-padding-left-feed">
     {#if suggestions.length > 0}
       {#each suggestions as user}
         <Suggestion

@@ -7,12 +7,13 @@
   import type { DBUserData, DBPost } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
-  export let data;
   import CrossIcon from "$lib/components/icons/CrossIcon.svelte";
   import Follow from "$lib/components/Follow.svelte";
   import SearchResult from "$lib/components/SearchResult.svelte";
   import { supabase } from "$lib/supabaseClient";
   import PostPreview from "$lib/components/PostPreview.svelte";
+
+  export let data;
 
   let pageUser = data.user;
   let user: DBUserData | null;
@@ -32,6 +33,8 @@
   let renderedDialog: "followers" | "following" | null = "followers";
   let followers: DBUserData[] = [];
   let follows: DBUserData[] = [];
+  let loading = true;
+  let functionLoading = false;
 
   loggedInUser.subscribe((val: any) => {
     currLoggedInUser = val;
@@ -80,18 +83,27 @@
   }
 
   async function getPosts(id: string) {
+    if (functionLoading) return;
+
+    functionLoading = true;
+
     const { data, error } = await supabase
       .from("posts")
       .select()
       .eq("user_id", id);
-    if (data && data.length > 0) {
-      data
-        .sort((a, b) => {
-          return a.created_at - b.created_at;
-        })
-        .reverse();
-      posts = data;
+    if (data) {
+      if (data.length > 0) {
+        data
+          .sort((a, b) => {
+            return a.created_at - b.created_at;
+          })
+          .reverse();
+        posts = data;
+      }
+      loading = false;
     }
+
+    functionLoading = false;
   }
 
   function editProfile() {
@@ -373,23 +385,27 @@
       <div class="user-posts-wrp">
         <h2 class="posts-heading">Posts:</h2>
         <div class="user-posts">
-          {#if posts}
-            <div class="post-prevs-grid">
-              {#each posts as post}
-                <PostPreview
-                  imageUrl={post.image_url}
-                  linkHref={`/posts/${post.id}`}
-                />
-              {/each}
-            </div>
-          {:else}
-            <p class="no-posts less">
-              <b>
-                {#if currDbUser}
-                  {currDbUser.id === user.id ? "You" : data.user}
-                {/if}
-              </b> didn't post yet.
-            </p>
+          {#if loading}
+            <p>Loading...</p>
+          {:else if !loading && posts}
+            {#if posts.length > 0}
+              <div class="post-prevs-grid">
+                {#each posts as post}
+                  <PostPreview
+                    imageUrl={post.image_url}
+                    linkHref={`/posts/${post.id}`}
+                  />
+                {/each}
+              </div>
+            {:else}
+              <p class="no-posts less">
+                <b>
+                  {#if currDbUser}
+                    {currDbUser.id === user.id ? "You" : data.user}
+                  {/if}
+                </b> didn't post yet.
+              </p>
+            {/if}
           {/if}
         </div>
       </div>
