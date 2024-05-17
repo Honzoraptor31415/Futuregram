@@ -1,9 +1,11 @@
+import { supabase } from "$lib/supabaseClient";
+
 export function emailCheck(email: string) {
   if (email.length < 1) {
     return "Email can't be empty";
   } else if (
     !email.match(
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     ) ||
     email.length > 255
   ) {
@@ -19,11 +21,18 @@ export function passwordCheck(password: string) {
   } else if (password.length < 6) {
     return "Password is too short";
   } else {
-    return ""
+    return "";
   }
 }
 
-export function usernameCheck(username: string, takenUsernames: string[]) {
+export async function usernameCheck(username: string) {
+  const { data: dbUsers } = await supabase.from("users").select();
+  let takenUsernames: string[] = [];
+
+  if (dbUsers) {
+    takenUsernames = dbUsers.map(({ url_username }) => url_username);
+  }
+
   const allowedUsernameChars = "abcdefghijklmnopqrstuvwxyz1234567890.-";
   const disallowedUsernames = [
     "feed",
@@ -37,7 +46,7 @@ export function usernameCheck(username: string, takenUsernames: string[]) {
     .toLocaleLowerCase()
     .match(`^[${allowedUsernameChars}]+$`);
   const isDisallowedUsername = disallowedUsernames.includes(
-    username.toLocaleLowerCase(),
+    username.toLocaleLowerCase()
   );
 
   if (username.length < 1) {
@@ -48,10 +57,8 @@ export function usernameCheck(username: string, takenUsernames: string[]) {
     return "Username is too long";
   } else if (takenUsernames.includes(username)) {
     return "Username already taken";
-  } else if (containsOnlyAllowedChars && !isDisallowedUsername) {
-    return ""
   } else {
-    return ""
+    return "";
   }
 }
 
@@ -61,7 +68,7 @@ export function displayedNameCheck(displayedName: string) {
   } else if (displayedName.length > 30) {
     return "Name is too long";
   } else {
-    return ""
+    return "";
   }
 }
 
@@ -104,13 +111,13 @@ export function editingValueCheck(editingValue: string) {
   } else if (editingValue.length > 500) {
     return "Text is too long";
   } else {
-    return ""
+    return "";
   }
 }
 
 export function commentCheck(comment: string) {
   if (comment.length < 1) {
-    return "Comment can't be empty"
+    return "Comment can't be empty";
   } else if (comment.length > 600) {
     return "Comment is too long";
   } else {

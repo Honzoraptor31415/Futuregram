@@ -3,7 +3,6 @@
   import loggedInUser from "$lib/stores/user";
   import type { DBUserData } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
-  export let data;
   import Feed from "$lib/components/Feed.svelte";
   import * as validation from "$lib/helper/form-validation";
   import FormElement from "$lib/components/FormElement.svelte";
@@ -31,14 +30,10 @@
   });
 
   async function finishSignup() {
-    usernameLabel = validation.usernameCheck(username, data.usernames);
+    usernameLabel = await validation.usernameCheck(username);
     displayedNameLabel = validation.displayedNameCheck(displayedName);
     bioLabel = validation.bioCheck(bio);
-    if (
-      validation.usernameCheck(username, data.usernames) === "" &&
-      validation.displayedNameCheck(displayedName) === "" &&
-      validation.bioCheck(bio) === ""
-    ) {
+    if (usernameLabel === "" && displayedNameLabel === "" && bioLabel === "") {
       const { data } = await supabase
         .from("users")
         .insert({

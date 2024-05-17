@@ -1,5 +1,4 @@
 <script lang="ts">
-  export let data;
   import * as validation from "$lib/helper/form-validation";
   import FormElement from "$lib/components/FormElement.svelte";
   import { supabase } from "$lib/supabaseClient";
@@ -22,7 +21,7 @@
     email = email.trim().toLowerCase();
     bio = bio.trim();
 
-    usernameLabel = validation.usernameCheck(username, data.usernames);
+    usernameLabel = await validation.usernameCheck(username);
     displayedNameLabel = validation.displayedNameCheck(displayedName);
     emailLabel = validation.emailCheck(email);
     passwordLabel = validation.passwordCheck(password);
