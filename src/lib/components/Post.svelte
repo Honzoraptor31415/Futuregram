@@ -58,6 +58,12 @@
   let replying: ReplyingToComment;
   let repliesShown: boolean = false;
   let postShown = true;
+  let animationRunning = false;
+  let heartX = 0;
+  let heartY = 0;
+
+  const dbClickAnimationTimeout = 400;
+  const heartSize = 70;
 
   const defaultPostOpts = feedPost
     ? [
@@ -192,7 +198,7 @@
   }
   getPostCreator(user_id);
 
-  async function dbClickLike() {
+  async function dbClickLike(e: any) {
     if (currUser) {
       let likes = [];
       const { data, error } = await supabase
@@ -200,6 +206,18 @@
         .select()
         .eq("id", id);
       data && data[0].likes && (likes = data[0].likes);
+
+      animationRunning = true;
+
+      console.log(e, e.clientX);
+
+      heartX = e.offsetX;
+      heartY = e.offsetY;
+
+      setTimeout(() => {
+        animationRunning = false;
+      }, dbClickAnimationTimeout);
+
       if (likes && !likes.includes(currDbUser.id)) {
         likes.push(currDbUser.id);
         likes = likes;
@@ -494,23 +512,29 @@
               </p>
             </div>
           </div>
-          {#if feedPost}
-            <a href={`posts/${id}`} class="grid-wrp">
-              <img
-                src={image_url}
-                alt={title}
-                class="post-image"
-                on:dblclick={dbClickLike}
-              /></a
-            >
-          {:else}
-            <img
-              src={image_url}
-              alt={title}
-              class="post-image"
-              on:dblclick={dbClickLike}
-            />
-          {/if}
+          <!-- svelte-ignore a11y-no-static-element-interactions -->
+          <div
+            class="grid-wrp relative dbclick-heart-wrp"
+            on:dblclick={(e) => {
+              dbClickLike(e);
+            }}
+          >
+            {#if animationRunning}
+              <div
+                style={`transform: rotate(${Math.floor(Math.random() * 2) === 0 ? Math.floor(Math.random() * 30) : -1 * Math.floor(Math.random() * 30)}deg);left:${heartX - heartSize / 2}px;top:${heartY - heartSize / 2}px`}
+                class="grid-wrp absolute"
+              >
+                <HeartIcon iconClass="dbclick-heart-fade liked-heart-icon" />
+              </div>
+            {/if}
+            {#if feedPost}
+              <a href={`posts/${id}`} class="grid-wrp">
+                <img src={image_url} alt={title} class="post-image" /></a
+              >
+            {:else}
+              <img src={image_url} alt={title} class="post-image" />
+            {/if}
+          </div>
           <div class={currDbUser ? "post-bottom" : "post-bottom-no-auth"}>
             {#if currUser && currDbUser}
               <div class="flex-between">

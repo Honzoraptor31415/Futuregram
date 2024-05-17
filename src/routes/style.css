@@ -32,6 +32,7 @@
   --action-icon-size: 22px;
   --alpha-bg: rgba(255, 255, 255, 0.051);
   --suggestions-scroll-padding: 10px;
+  --dbclick-heart-icon-size: 70px;
 }
 
 * {
@@ -3236,4 +3237,31 @@ button:disabled {
 
 .suggestion {
   scroll-snap-align: start;
+}
+
+.dbclick-heart-fade {
+  animation: heart-fade 400ms forwards;
+  width: var(--dbclick-heart-icon-size);
+  height: var(--dbclick-heart-icon-size);
+}
+
+@keyframes heart-fade {
+  50% {
+    opacity: .9;
+    transform: scale(1.1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.absolute {
+  position: absolute;
+}
+
+.dbclick-heart-wrp {
+  max-width: 100svw;
+  overflow: hidden;
 }
