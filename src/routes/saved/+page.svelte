@@ -1,5 +1,6 @@
 <script lang="ts">
   import PostPreview from "$lib/components/PostPreview.svelte";
+  import TopPostNav from "$lib/components/TopPostNav.svelte";
   import userDbData from "$lib/stores/user-db-data";
   import { supabase } from "$lib/supabaseClient";
   import type { DBPost, DBUserData } from "$lib/types/db";
@@ -57,6 +58,7 @@
 </svelte:head>
 
 <main class="desktop-nav-margin user-page-wrp">
+  <TopPostNav />
   <div class="user-page">
     <h2 class="posts-heading">Saved posts</h2>
     <div class="user-posts">

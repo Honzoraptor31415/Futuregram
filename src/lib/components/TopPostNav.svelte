@@ -7,8 +7,9 @@
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/user-db-data";
-  export let user: DBUserData | null = null;
   import { browser } from "$app/environment";
+
+  export let showMenu = false;
 
   let currUser: AuthUser;
   let currDbUser: DBUserData;
@@ -95,7 +96,7 @@
     <ArrowLeftIcon iconClass="top-nav-icon" />
   </button>
 
-  {#if user}
+  {#if showMenu}
     <HiddenMenu
       btnClass="grid-wrp no-style mobile-top-btn btn-active-opacity"
       icon={MenuIcon}

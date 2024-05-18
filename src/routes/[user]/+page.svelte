@@ -202,7 +202,7 @@
   <div
     class="user-page-wrp desktop-nav-margin bottom-padding-nav mobile-nav-padding nav-top-space"
   >
-    <TopPostNav {user} />
+    <TopPostNav showMenu={currDbUser === null || currDbUser?.id === user.id} />
     <main class="user-page">
       <div class="user-page-top">
         <div class="basic-user-info">
@@ -401,9 +401,7 @@
           {:else}
             <p class="no-posts less">
               <b>
-                {#if currDbUser}
-                  {currDbUser.id === user.id ? "You" : data.user}
-                {/if}
+                {currDbUser?.id === user.id ? "You" : data.user}
               </b> didn't post yet.
             </p>
           {/if}

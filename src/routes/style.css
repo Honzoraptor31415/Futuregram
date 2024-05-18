@@ -322,13 +322,13 @@ button {
 
   .user-page {
     width: 800px;
-    margin-block: 20px 14px;
+    margin-block: var(--feed-spacing) 14px;
   }
 
   .user-posts {
     display: flex;
     justify-content: center;
-    margin: 30px auto auto auto;
+    margin: var(--feed-spacing) auto auto auto;
     flex-wrap: wrap;
     max-width: fit-content;
     gap: 20px;
@@ -1605,12 +1605,8 @@ button {
   .user-page {
     margin-bottom: 10px;
     width: calc(100% - 20px);
-    padding: 10px;
+    padding-inline: 10px;
     height: 100%;
-  }
-
-  .user-page:not(:has(.no-posts)) {
-    border-radius: 27px 27px 7px 7px;
   }
 
   .user-posts {
