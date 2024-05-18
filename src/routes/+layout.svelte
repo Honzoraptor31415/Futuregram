@@ -6,7 +6,7 @@
   import { page } from "$app/stores";
   import { disableScrollHandling, invalidate } from "$app/navigation";
   import { onMount } from "svelte";
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
   import loggedInUser from "$lib/stores/user";
   import { appNotifications } from "$lib/stores/app";
 

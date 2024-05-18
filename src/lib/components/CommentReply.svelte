@@ -1,7 +1,7 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
   import HeartIcon from "$lib/components/icons/HeartIcon.svelte";
   import CommentIcon from "$lib/components/icons/CommentIcon.svelte";
   import dayjs from "dayjs";
@@ -10,7 +10,7 @@
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
   import type { DBUserData, DBComment, DBPost } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
-  import * as validation from "$lib/helper/form-validation";
+  import * as validation from "$lib/helper/formValidation";
   dayjs.extend(relativeTime);
   dayjs().format();
   export let id: string;

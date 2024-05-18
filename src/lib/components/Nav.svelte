@@ -6,7 +6,7 @@
   import MenuIcon from "$lib/components/icons/MenuIcon.svelte";
   import NewIcon from "$lib/components/icons/NewIcon.svelte";
   import UserIcon from "$lib/components/icons/UserIcon.svelte";
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
   import { page } from "$app/stores";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
   import type { DBUserData } from "$lib/types/db";

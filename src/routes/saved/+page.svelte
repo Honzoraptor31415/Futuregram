@@ -1,7 +1,7 @@
 <script lang="ts">
   import PostPreview from "$lib/components/PostPreview.svelte";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
   import { supabase } from "$lib/supabaseClient";
   import type { DBPost, DBUserData } from "$lib/types/db";
   import { onMount } from "svelte";

@@ -4,7 +4,7 @@
   import type { DBUserData } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import Feed from "$lib/components/Feed.svelte";
-  import * as validation from "$lib/helper/form-validation";
+  import * as validation from "$lib/helper/formValidation";
   import FormElement from "$lib/components/FormElement.svelte";
   import { supabase } from "$lib/supabaseClient";
 

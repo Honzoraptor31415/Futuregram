@@ -1,5 +1,5 @@
 <script lang="ts">
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
   import { supabase } from "$lib/supabaseClient";
   import type { DBUserData } from "$lib/types/db";
   import { onMount } from "svelte";

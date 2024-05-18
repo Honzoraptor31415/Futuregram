@@ -3,7 +3,7 @@
   import type { AuthUser } from "$lib/types/auth";
   import type { DBUserData } from "$lib/types/db";
   import loggedInUser from "$lib/stores/user";
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
 
   export let uid: string;
   export let btnClass: string;

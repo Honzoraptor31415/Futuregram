@@ -1,6 +1,6 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import * as validation from "$lib/helper/form-validation";
+  import * as validation from "$lib/helper/formValidation";
   import FormElement from "$lib/components/FormElement.svelte";
   import { supabase } from "$lib/supabaseClient";
 

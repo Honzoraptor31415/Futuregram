@@ -2,7 +2,7 @@
   import { browser } from "$app/environment";
   import type { MenuElement } from "$lib/types/app";
   import type { DBUserData } from "$lib/types/db";
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
   import { getRandomHash } from "$lib/helper/random";
 
   export let icon: any;

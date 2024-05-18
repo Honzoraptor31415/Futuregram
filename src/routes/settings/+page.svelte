@@ -1,7 +1,7 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
   import { browser } from "$app/environment";
   import type { AuthUser } from "$lib/types/auth";
   import type { DBUserData } from "$lib/types/db";

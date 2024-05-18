@@ -5,7 +5,7 @@
   import type { DBPost, DBUserData } from "$lib/types/db";
   import Fuse from "fuse.js";
   import NoSearchResultDialog from "$lib/components/NoSearchResult.svelte";
-  import userDbData from "$lib/stores/user-db-data.js";
+  import userDbData from "$lib/stores/userDbData.js";
 
   export let data;
 

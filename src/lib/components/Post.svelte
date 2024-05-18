@@ -5,7 +5,7 @@
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
   import loggedInUser from "$lib/stores/user";
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
   import Comment from "$lib/components/Comment.svelte";
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
@@ -16,11 +16,11 @@
   import CommentIcon from "./icons/CommentIcon.svelte";
   import type { MenuElement, ReplyingToComment } from "$lib/types/app";
   import CrossIcon from "./icons/CrossIcon.svelte";
-  import { commentCheck } from "$lib/helper/form-validation";
+  import { commentCheck } from "$lib/helper/formValidation";
   import { supabase } from "$lib/supabaseClient";
   import HiddenMenu from "./HiddenMenu.svelte";
   import ThreeDotsHoriz from "./icons/ThreeDotsHoriz.svelte";
-  import { blockUser, report } from "$lib/helper/feed-advanced";
+  import { blockUser, report } from "$lib/helper/feedAdvanced";
   import { onMount } from "svelte";
   import SaveIcon from "./icons/SaveIcon.svelte";
   import setNotification from "$lib/helper/appNotifications";

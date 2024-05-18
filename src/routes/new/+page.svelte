@@ -1,10 +1,10 @@
 <script lang="ts">
   import PlusIcon from "$lib/components/icons/PlusIcon.svelte";
   import RedFormStar from "$lib/components/RedFormStar.svelte";
-  import userDbData from "$lib/stores/user-db-data";
+  import userDbData from "$lib/stores/userDbData";
   import type { DBUserData } from "$lib/types/db";
   import type { StorageResponse } from "$lib/types/storage";
-  import * as validation from "$lib/helper/form-validation";
+  import * as validation from "$lib/helper/formValidation";
   import type { AuthUser } from "$lib/types/auth.js";
   import loggedInUser from "$lib/stores/user.js";
   import { supabase } from "$lib/supabaseClient.js";

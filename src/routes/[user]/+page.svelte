@@ -3,7 +3,7 @@
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
-  import userDbData from "$lib/stores/user-db-data.js";
+  import userDbData from "$lib/stores/userDbData.js";
   import type { DBUserData, DBPost } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
