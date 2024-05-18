@@ -4,10 +4,11 @@
   import Footer from "$lib/components/Footer.svelte";
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
-  import { invalidate } from "$app/navigation";
+  import { disableScrollHandling, invalidate } from "$app/navigation";
   import { onMount } from "svelte";
   import userDbData from "$lib/stores/user-db-data";
   import loggedInUser from "$lib/stores/user";
+  import { appNotifications } from "$lib/stores/app";
 
   export let data;
 
@@ -54,4 +55,20 @@
   <Nav />
 {/if}
 <slot />
+
+{#if $appNotifications.length > 0}
+  <div class="app-notifications-wrp flex-center-all flex-column feed-gap">
+    {#each $appNotifications as { text, disappearing, linkHref, linkText }}
+      <div
+        class={`app-notification ${linkHref ? "flex-between" : ""} ${disappearing ? "app-notification-hide" : ""}`}
+      >
+        <p>{text}</p>
+        {#if linkHref}
+          <a class="hover-underline" href={linkHref}>{linkText ?? "View"}</a>
+        {/if}
+      </div>
+    {/each}
+  </div>
+{/if}
+
 <Footer />

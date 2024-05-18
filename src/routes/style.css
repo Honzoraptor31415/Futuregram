@@ -1,5 +1,6 @@
 :root {
-  --main-bg: 20, 20, 20;
+  --main-bg: rgb(20, 20, 20);
+  --main-bg-num: 20, 20, 20;
   --sec-bg: rgb(40 40 40);
   --accent: 0, 255, 190;
   --accent2: 0, 208, 255;
@@ -33,6 +34,8 @@
   --alpha-bg: rgba(255, 255, 255, 0.051);
   --suggestions-scroll-padding: 10px;
   --dbclick-heart-icon-size: 70px;
+  --notification-animation-duration: 200ms;
+  --notification-anim-translate-y: 150%;
 }
 
 * {
@@ -70,7 +73,7 @@ header {
 }
 
 body {
-  background: rgb(var(--main-bg));
+  background: var(--main-bg);
   min-height: 100svh;
 }
 
@@ -947,6 +950,18 @@ button {
     max-height: 80px;
     width: auto;
   }
+
+  .app-notifications-wrp {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: var(--feed-spacing);
+  }
+
+  .app-notification {
+    width: 360px;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1582,6 +1597,18 @@ button {
     max-height: 70px;
     width: auto;
   }
+
+  .app-notifications-wrp {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: var(--feed-spacing);
+  }
+
+  .app-notification {
+    width: 360px;
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -1591,6 +1618,7 @@ button {
     --nav-icon-fill: rgb(160, 160, 160);
     --nav-height: 50px;
     --feed-spacing: 13px;
+    --notification-anim-translate-y: -150%;
   }
 
   .form {
@@ -1943,6 +1971,7 @@ button {
     justify-content: space-between;
     align-items: center;
     padding-inline: 6px;
+    z-index: 98;
   }
 
   main:has(.mobile-top-nav) {
@@ -2187,6 +2216,22 @@ button {
     padding-left: var(--feed-spacing);
   }
 
+  .app-notifications-wrp {
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  body:has(.mobile-top-nav) .app-notifications-wrp {
+    margin-top: calc(var(--nav-height) + 10px);
+  }
+
+  .app-notification {
+    width: calc(100% - 20px);
+  }
+
   * {
     cursor: default !important;
   }
@@ -2225,7 +2270,7 @@ img.no-select,
 }
 
 nav {
-  background: rgba(var(--main-bg), .9);
+  background: rgba(var(--main-bg-num), .9);
   z-index: 999;
   width: 100%;
   backdrop-filter: blur(12px);
@@ -2785,7 +2830,7 @@ nav {
 }
 
 .main-bg-blurry {
-  background: rgba(var(--main-bg), .8);
+  background: rgba(var(--main-bg-num), .8);
   backdrop-filter: blur(5px);
 }
 
@@ -3095,7 +3140,7 @@ button:disabled {
 }
 
 .tab-sb-active {
-  background: rgb(var(--main-bg));
+  background: var(--main-bg);
 }
 
 .gap-10 {
@@ -3260,4 +3305,51 @@ button:disabled {
 .dbclick-heart-wrp {
   max-width: 100svw;
   overflow: hidden;
+}
+
+.app-notification {
+  color: var(--main-bg);
+  border-radius: var(--main-border-radius);
+  background: var(--sec-bg);
+  border: 1px var(--terc-border-color) solid;
+  padding: 20px;
+  animation: var(--notification-animation-duration) notification-appear forwards ease-in-out;
+  transition: var(--notification-animation-duration);
+}
+
+.app-notifications-wrp {
+  z-index: 500;
+}
+
+.feed-gap {
+  gap: var(--feed-spacing);
+}
+
+@keyframes notification-appear {
+  0% {
+    transform: translateY(var(--notification-anim-translate-y));
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.app-notification-hide {
+  animation: var(--notification-animation-duration) notification-hide forwards ease-in-out;
+}
+
+@keyframes notification-hide {
+  100% {
+    transform: translateY(var(--notification-anim-translate-y));
+    opacity: .5;
+  }
+}
+
+.hover-underline:hover {
+  text-decoration: underline;
+}
+
+.hidden-menu-button {
+  z-index: 97;
 }

@@ -41,7 +41,7 @@
   <button
     {id}
     disabled={btnDisabled}
-    class={`${menuVisible ? "hidden-menu-active" : ""} rounded ${btnClass}`}
+    class={`hidden-menu-button ${menuVisible ? "hidden-menu-active" : ""} rounded ${btnClass}`}
   >
     <svelte:component this={icon} iconClass={`p-events-none ${iconClass}`}
     ></svelte:component>

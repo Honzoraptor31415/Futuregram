@@ -23,6 +23,7 @@
   import { blockUser, report } from "$lib/helper/feed-advanced";
   import { onMount } from "svelte";
   import SaveIcon from "./icons/SaveIcon.svelte";
+  import setNotification from "$lib/helper/appNotifications";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -403,6 +404,10 @@
   async function save() {
     if (currDbUser) {
       saved = !saved;
+
+      saved
+        ? setNotification("Post saved", `/saved`, "View all")
+        : setNotification("Removed from saved");
 
       let allSavedPosts: string[];
       const { data: allSavedPostsData } = await supabase

@@ -105,16 +105,6 @@ export function imageCheck() {
   return "";
 }
 
-export function editingValueCheck(editingValue: string) {
-  if (editingValue.length < 1) {
-    return "Text can't be empty";
-  } else if (editingValue.length > 500) {
-    return "Text is too long";
-  } else {
-    return "";
-  }
-}
-
 export function commentCheck(comment: string) {
   if (comment.length < 1) {
     return "Comment can't be empty";
