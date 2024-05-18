@@ -1618,7 +1618,6 @@ button {
     --nav-icon-fill: rgb(160, 160, 160);
     --nav-height: 50px;
     --feed-spacing: 13px;
-    --notification-anim-translate-y: -150%;
   }
 
   .form {
@@ -2218,14 +2217,10 @@ button {
 
   .app-notifications-wrp {
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
-    margin-top: 10px;
+    margin-bottom: calc(var(--nav-height) + 10px);
     width: 100%;
-  }
-
-  body:has(.mobile-top-nav) .app-notifications-wrp {
-    margin-top: calc(var(--nav-height) + 10px);
   }
 
   .app-notification {

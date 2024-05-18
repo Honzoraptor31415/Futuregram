@@ -15,6 +15,7 @@
   import type { ReplyingToComment } from "$lib/types/app";
   import { browser } from "$app/environment";
   import { blockUser, report } from "$lib/helper/feed-advanced";
+  import setNotification from "$lib/helper/appNotifications";
 
   export let id: string;
   export let feedComment: boolean = true;
@@ -220,6 +221,7 @@
         .select()
         .eq("id", comment.id);
       data && (comment = data[0]);
+      setNotification("Comment deleted");
     }
   }
 
@@ -237,6 +239,7 @@
         .select()
         .eq("id", comment.id);
       data && (comment = data[0]);
+      setNotification("Comment saved!");
     }
   }
 

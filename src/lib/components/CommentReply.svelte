@@ -15,6 +15,7 @@
   dayjs().format();
   export let id: string;
   import { browser } from "$app/environment";
+  import setNotification from "$lib/helper/appNotifications";
 
   let currUser: AuthUser;
   let currDbUser: DBUserData;
@@ -177,6 +178,7 @@
         .select()
         .eq("id", reply.id);
       data && (reply = data[0]);
+      setNotification("Comment deleted");
     }
   }
 
@@ -194,6 +196,7 @@
         .select()
         .eq("id", reply.id);
       data && (reply = data[0]);
+      setNotification("Comment saved!");
     }
   }
 </script>
