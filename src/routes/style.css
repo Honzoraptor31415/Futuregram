@@ -3410,6 +3410,10 @@ button:disabled {
 }
 
 .new-post-ctrls {
-  max-width: fit-content;
   margin: 6px var(--new-post-field-spacing) var(--new-post-field-spacing) var(--new-post-field-spacing);
+}
+
+.align-end {
+  display: flex;
+  align-items: flex-end;
 }

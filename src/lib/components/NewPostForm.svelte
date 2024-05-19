@@ -15,12 +15,10 @@
   import ShareIcon from "$lib/components/icons/ShareIcon.svelte";
   import SaveIcon from "$lib/components/icons/SaveIcon.svelte";
   import NewPostField from "$lib/components/NewPostField.svelte";
+  import { getRandomHash } from "$lib/helper/random";
 
-  let title = "";
   let description = "";
-  let titleLabel = "";
   let descriptionLabel = "";
-  let photo: string | any;
   let photoFile: any;
   let files: any;
   let currDbUser: DBUserData;
@@ -41,25 +39,45 @@
   }
 
   const onFileSelected = (e: any) => {
-    image = e.target.files[0];
-    let reader = new FileReader();
-    reader.readAsDataURL(image);
-    reader.onload = (e) => {
-      photo = e.target!.result;
-      console.log(e.target);
-    };
+    for (let i = 0; i < e.target.files.length; i++) {
+      image = e.target.files[0];
+      let reader = new FileReader();
+      reader.readAsDataURL(image);
+      reader.onload = (e) => {
+        images.push(e.target!.result);
+        console.log(e.target);
+      };
+    }
   };
 
-  async function uploadImage() {
+  async function uploadImages() {
+    let urls: string[] = [];
+    for (let i = 0; i < files.length; i++) {
+      const { imageUrl } = await uploadImage(
+        files[i],
+        images[i].name,
+        images[i].type
+      );
+      urls = [...urls, imageUrl];
+
+      if (i === files.length - 1) {
+        return {
+          imageUrls: urls,
+        };
+      }
+    }
+  }
+
+  async function uploadImage(imageData: any, name: any, type: string) {
     const uploadImageResponse: StorageResponse = await supabase.storage
       .from("post_images")
       .upload(
-        `${title.trim().replaceAll(" ", "-") + new Date().getTime()}-.png`,
-        image,
+        `${new Date().getTime()}-${getRandomHash(10)}-${name}`,
+        imageData,
         {
           cacheControl: "3600",
           upsert: false,
-          contentType: files[0].type,
+          contentType: type,
         }
       );
 
@@ -70,50 +88,47 @@
 
       console.log(getImageURLResponse.data.publicUrl);
       return {
-        imageURL: getImageURLResponse.data.publicUrl,
+        imageUrl: getImageURLResponse.data.publicUrl,
+      };
+    } else {
+      return {
+        imageUrl: "",
       };
     }
   }
 
   function newPost() {
-    title = title.trim();
     description = description.trim();
 
-    titleLabel = validation.titleCheck(title);
     descriptionLabel = validation.descriptionCheck(description);
-    if (
-      descriptionLabel === "" &&
-      titleLabel === "" &&
-      validation.imageCheck() === ""
-    ) {
-      uploadImage().then((data) => {
+    if (descriptionLabel === "" && validation.imageCheck() === "") {
+      uploadImages().then((data) => {
         if (data) {
-          insertPost(data.imageURL);
+          insertPost(data.imageUrls);
         }
       });
     }
   }
 
-  async function insertPost(imgURL: string) {
+  async function insertPost(imgUrls: string[]) {
     if (currDbUser && currUser) {
       const { data, error } = await supabase
         .from("posts")
         .insert({
           created_at: new Date().getTime(),
-          image_url: imgURL,
+          image_urls: imgUrls,
           user_id: currDbUser.id,
           description: description,
-          title: title,
         })
         .select()
         .single();
-      if (data && !error && browser) {
-        location.href = `/posts/${data.id}`;
-      }
+      console.log(data, error);
     } else {
       console.error("Error while uploading: user ain't logged in.");
     }
   }
+
+  $: console.log(photoFile, files, images);
 </script>
 
 <svelte:head>
@@ -173,12 +188,18 @@
               </div>
             </div>
             <NewPostField
+              submit={newPost}
+              bind:files
+              bind:photoFile
               onChange={(e) => onFileSelected(e)}
               bind:value={description}
             />
           </div>
         </div>
         <NewPostField
+          submit={newPost}
+          bind:files
+          bind:photoFile
           onChange={(e) => onFileSelected(e)}
           wrpClass="mobile"
           bind:value={description}
