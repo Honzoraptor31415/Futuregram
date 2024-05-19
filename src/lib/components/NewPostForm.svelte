@@ -16,6 +16,7 @@
   import SaveIcon from "$lib/components/icons/SaveIcon.svelte";
   import NewPostField from "$lib/components/NewPostField.svelte";
   import { getRandomHash } from "$lib/helper/random";
+  import setNotification from "$lib/helper/appNotifications";
 
   let description = "";
   let descriptionLabel = "";
@@ -25,6 +26,7 @@
   let image: any;
   let currUser: AuthUser;
   let images: any[] = [];
+  let readerLoading = false;
 
   userDbData.subscribe((val: any) => {
     val && (currDbUser = val);
@@ -39,6 +41,10 @@
   }
 
   const onFileSelected = (e: any) => {
+    if (readerLoading) return;
+
+    readerLoading = true;
+
     for (let i = 0; i < e.target.files.length; i++) {
       image = e.target.files[0];
       let reader = new FileReader();
@@ -46,24 +52,47 @@
       reader.onload = (e) => {
         images.push(e.target!.result);
         console.log(e.target);
+
+        let imageCheck = validation.imageCheck(
+          images[i],
+          files[i].type,
+          files[i].size < 1000
+            ? files[i].size
+            : Math.round(files[i].size / 1000)
+        );
+
+        if (!imageCheck.isValid) {
+          setNotification(imageCheck.message);
+        }
+        console.log("READER loaded and everything in it ran");
       };
     }
+
+    readerLoading = false;
   };
 
   async function uploadImages() {
     let urls: string[] = [];
     for (let i = 0; i < files.length; i++) {
-      const { imageUrl } = await uploadImage(
-        files[i],
-        images[i].name,
-        images[i].type
+      let imageCheck = validation.imageCheck(
+        images[i],
+        files[i].type,
+        files[i].size < 1000 ? files[i].size : Math.round(files[i].size / 1000)
       );
-      urls = [...urls, imageUrl];
+      console.log(imageCheck);
+      if (imageCheck.isValid) {
+        const { imageUrl } = await uploadImage(
+          files[i],
+          images[i].name,
+          images[i].type
+        );
+        urls = [...urls, imageUrl];
 
-      if (i === files.length - 1) {
-        return {
-          imageUrls: urls,
-        };
+        if (i === files.length - 1) {
+          return {
+            imageUrls: urls,
+          };
+        }
       }
     }
   }
@@ -107,7 +136,7 @@
         insertPost();
       }
     } else {
-      if (descriptionLabel === "" && validation.imageCheck() === "") {
+      if (descriptionLabel === "") {
         uploadImages().then((data) => {
           if (data) {
             insertPost(data.imageUrls);
@@ -134,8 +163,6 @@
       console.error("Error while uploading: user ain't logged in.");
     }
   }
-
-  $: console.log(photoFile, files, images);
 </script>
 
 <svelte:head>
@@ -194,13 +221,6 @@
                 />
               </div>
             </div>
-            <NewPostField
-              submit={newPost}
-              bind:files
-              bind:photoFile
-              onChange={(e) => onFileSelected(e)}
-              bind:value={description}
-            />
           </div>
         </div>
         <NewPostField
@@ -208,7 +228,6 @@
           bind:files
           bind:photoFile
           onChange={(e) => onFileSelected(e)}
-          wrpClass="mobile"
           bind:value={description}
         />
         <div class="post-bottom">

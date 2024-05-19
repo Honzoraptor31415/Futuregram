@@ -100,9 +100,24 @@ export function descriptionCheck(description: string) {
   }
 }
 
-export function imageCheck() {
-  // some logic, that I'll make later :D
-  return "";
+export function imageCheck(imageData: string, type: string, size: number) {
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+  const maxImageSize = 10_000;
+
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
+  if (!allowedTypes.includes(type)) {
+    check.message = "Invalid file type";
+    check.isValid = false;
+  } else if (size > maxImageSize) {
+    check.message = "Image is too big";
+    check.isValid = false;
+  }
+
+  return check;
 }
 
 export function commentCheck(comment: string) {
