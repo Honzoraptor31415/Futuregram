@@ -25,7 +25,7 @@
       title={data.title}
       description={data.description}
       likes={data.likes}
-      image_url={data.image_url}
+      image_urls={data.image_urls}
       created_at={data.created_at}
       {commentActive}
     />

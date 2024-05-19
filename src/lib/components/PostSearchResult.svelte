@@ -41,7 +41,7 @@
       </div>
     </div>
     <img
-      src={post.image_url}
+      src={post.image_urls[0]}
       alt={post.title}
       class="post-search-result-image"
     />

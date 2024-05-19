@@ -31,7 +31,7 @@
   export let id: string;
   export let title: string;
   export let created_at: number;
-  export let image_url: string;
+  export let image_urls: string[];
   export let description: string;
   export let likes: string[];
   export let user_id: string;
@@ -517,29 +517,47 @@
               </p>
             </div>
           </div>
-          <!-- svelte-ignore a11y-no-static-element-interactions -->
-          <div
-            class="grid-wrp relative dbclick-heart-wrp"
-            on:dblclick={(e) => {
-              dbClickLike(e);
-            }}
-          >
-            {#if animationRunning}
-              <div
-                style={`transform: rotate(${Math.floor(Math.random() * 2) === 0 ? Math.floor(Math.random() * 30) : -1 * Math.floor(Math.random() * 30)}deg);left:${heartX - heartSize / 2}px;top:${heartY - heartSize / 2}px`}
-                class="grid-wrp absolute"
-              >
-                <HeartIcon iconClass="dbclick-heart-fade liked-heart-icon" />
-              </div>
-            {/if}
-            {#if feedPost}
-              <a href={`posts/${id}`} class="grid-wrp">
-                <img src={image_url} alt={title} class="post-image" /></a
-              >
-            {:else}
-              <img src={image_url} alt={title} class="post-image" />
-            {/if}
-          </div>
+          {#if image_urls && image_urls.length > 0}
+            <!-- svelte-ignore a11y-no-static-element-interactions -->
+            <div
+              class="grid-wrp relative dbclick-heart-wrp"
+              on:dblclick={(e) => {
+                dbClickLike(e);
+              }}
+            >
+              {#if animationRunning}
+                <div
+                  style={`transform: rotate(${Math.floor(Math.random() * 2) === 0 ? Math.floor(Math.random() * 30) : -1 * Math.floor(Math.random() * 30)}deg);left:${heartX - heartSize / 2}px;top:${heartY - heartSize / 2}px`}
+                  class="grid-wrp absolute"
+                >
+                  <HeartIcon iconClass="dbclick-heart-fade liked-heart-icon" />
+                </div>
+              {/if}
+              {#if feedPost}
+                <a href={`posts/${id}`} class="grid-wrp">
+                  <div class="snap-swiper-x gap-10">
+                    {#each image_urls as image}
+                      <img
+                        src={image}
+                        alt={title}
+                        class="post-image snap-swiper-item"
+                      />
+                    {/each}
+                  </div>
+                </a>
+              {:else}
+                <div class="snap-swiper-x gap-10">
+                  {#each image_urls as image}
+                    <img
+                      src={image}
+                      alt={title}
+                      class="post-image snap-swiper-item"
+                    />
+                  {/each}
+                </div>
+              {/if}
+            </div>
+          {/if}
           <div class={currDbUser ? "post-bottom" : "post-bottom-no-auth"}>
             {#if currUser && currDbUser}
               <div class="flex-between">

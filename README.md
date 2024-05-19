@@ -43,7 +43,7 @@ Btw I'm using supabase's database, which means it's Postgres.
 | id          | `uuid`    | Post's ID                             |
 | created_at  | `int8`    | Post creation time (milliseconds)     |
 | likes       | `jsonb[]` | An array of IDs of users who liked it |
-| image_url   | `text`    | The post's image URL                  |
+| image_urls  | `text[]`  | The post's image URL                  |
 | user_id     | `uuid`    | ID of the user who made the post      |
 | description | `text`    | Post description                      |
 | title       | `text`    | Post title                            |

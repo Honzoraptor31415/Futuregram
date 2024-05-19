@@ -69,7 +69,7 @@
           <div class="post-prevs-grid">
             {#each savedPosts as post}
               <PostPreview
-                imageUrl={post.image_url}
+                imageUrl={post.image_urls[0]}
                 linkHref={`/posts/${post.id}`}
               />
             {/each}

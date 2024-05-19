@@ -58,14 +58,14 @@
     {/if}
     {#if posts.length > 0}
       {#each posts as post}
-        {#if currDbUser && posts.indexOf(post) === 1}
+        {#if currDbUser && posts.indexOf(post) === 5}
           <Suggestions />
         {/if}
         <Post
           id={post.id}
           user_id={post.user_id}
           created_at={post.created_at}
-          image_url={post.image_url}
+          image_urls={post.image_urls}
           title={post.title}
           description={post.description}
           likes={post.likes}

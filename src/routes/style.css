@@ -37,6 +37,8 @@
   --notification-animation-duration: 200ms;
   --notification-anim-translate-y: 150%;
   --new-post-field-spacing: 13px;
+  --scroll-padding: 0;
+  --post-image-width: calc(100% - 20svw);
 }
 
 * {
@@ -2324,9 +2326,9 @@ nav {
 }
 
 .post-image {
-  max-width: 100%;
+  max-width: var(--post-image-width);
+  min-width: var(--post-image-width);
   object-fit: cover;
-  min-width: 100%;
   border-radius: var(--main-border-radius);
   height: auto;
   border: 1px var(--image-border-color) solid;
@@ -3251,13 +3253,21 @@ button:disabled {
 .suggestions-content {
   width: 100%;
   max-width: 100%;
-  overflow-x: scroll;
   margin-block: var(--feed-spacing);
-  scroll-snap-type: x mandatory;
-  scroll-padding-left: var(--suggestions-scroll-padding);
+  --scroll-padding: var(--suggestions-scroll-padding);
 }
 
-.suggestions-content::-webkit-scrollbar {
+.snap-swiper-x {
+  scroll-padding-left: var(--scroll-padding);
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+}
+
+.snap-swiper-item {
+  scroll-snap-align: start;
+}
+
+.snap-swiper-x::-webkit-scrollbar {
   display: none;
 }
 
@@ -3276,10 +3286,6 @@ button:disabled {
 
 .padding-block-6 {
   padding-block: 6px;
-}
-
-.suggestion {
-  scroll-snap-align: start;
 }
 
 .dbclick-heart-fade {

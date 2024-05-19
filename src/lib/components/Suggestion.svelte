@@ -10,7 +10,7 @@
 
 <a
   href={`/${username}`}
-  class="alpha-bg-element padding-14 flex-column align-center suggestion flex-between"
+  class="alpha-bg-element padding-14 flex-column align-center suggestion snap-swiper-item flex-between"
 >
   <img
     src={imageUrl}
