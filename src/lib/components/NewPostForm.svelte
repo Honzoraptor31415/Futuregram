@@ -101,22 +101,29 @@
     description = description.trim();
 
     descriptionLabel = validation.descriptionCheck(description);
-    if (descriptionLabel === "" && validation.imageCheck() === "") {
-      uploadImages().then((data) => {
-        if (data) {
-          insertPost(data.imageUrls);
-        }
-      });
+
+    if (images.length < 1) {
+      if (descriptionLabel === "") {
+        insertPost();
+      }
+    } else {
+      if (descriptionLabel === "" && validation.imageCheck() === "") {
+        uploadImages().then((data) => {
+          if (data) {
+            insertPost(data.imageUrls);
+          }
+        });
+      }
     }
   }
 
-  async function insertPost(imgUrls: string[]) {
+  async function insertPost(imgUrls?: string[]) {
     if (currDbUser && currUser) {
       const { data, error } = await supabase
         .from("posts")
         .insert({
           created_at: new Date().getTime(),
-          image_urls: imgUrls,
+          image_urls: imgUrls ?? [],
           user_id: currDbUser.id,
           description: description,
         })

@@ -12,6 +12,8 @@
 
   const areaId = `post-input-${getRandomHash(10)}`;
   const inputId = `image-input-${getRandomHash(10)}`;
+
+  $: console.log(files, photoFile);
 </script>
 
 <div class={`new-post-input-wrp rounded-main flex-column ${wrpClass}`}>
@@ -40,7 +42,7 @@
       <ImageIcon iconClass="action-icon image-height-20 np-image-icon" />
     </label>
     <button
-      disabled={!value}
+      disabled={!files && !value}
       on:click={submit}
       class="primary-button button-element user-page-input">Create!</button
     >

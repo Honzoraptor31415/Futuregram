@@ -91,6 +91,7 @@
       .from("posts")
       .select()
       .eq("user_id", id);
+
     if (data) {
       if (data.length > 0) {
         data
@@ -391,10 +392,13 @@
             {#if posts.length > 0}
               <div class="post-prevs-grid">
                 {#each posts as post}
-                  <PostPreview
-                    imageUrl={post.image_urls[0]}
-                    linkHref={`/posts/${post.id}`}
-                  />
+                  <!-- I have to use conditional rendering instead of .neq(), because for some reason it returns a 400. Also on the supabase dashboard you can currentely (1716127109416) see the lil "We're facing a tech issue rn" dialog, so I think that might be the cause. -->
+                  {#if post.image_urls.length > 0}
+                    <PostPreview
+                      imageUrl={post.image_urls[0]}
+                      linkHref={`/posts/${post.id}`}
+                    />
+                  {/if}
                 {/each}
               </div>
             {/if}
