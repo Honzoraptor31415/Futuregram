@@ -66,7 +66,6 @@
           user_id={post.user_id}
           created_at={post.created_at}
           image_urls={post.image_urls}
-          title={post.title}
           description={post.description}
           likes={post.likes}
           feedPost

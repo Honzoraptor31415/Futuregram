@@ -10,7 +10,7 @@
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
-  import type { DBUserData, DBComment, DBPost } from "$lib/types/db";
+  import type { DBUserData, DBComment } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   import CommentIcon from "./icons/CommentIcon.svelte";
@@ -29,7 +29,6 @@
   dayjs().format();
 
   export let id: string;
-  export let title: string;
   export let created_at: number;
   export let image_urls: string[];
   export let description: string;
@@ -539,7 +538,7 @@
                     {#each image_urls as image}
                       <img
                         src={image}
-                        alt={title}
+                        alt="Post"
                         class="post-image snap-swiper-item"
                       />
                     {/each}
@@ -550,7 +549,7 @@
                   {#each image_urls as image}
                     <img
                       src={image}
-                      alt={title}
+                      alt="Post"
                       class="post-image snap-swiper-item"
                     />
                   {/each}

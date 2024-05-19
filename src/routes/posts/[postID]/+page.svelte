@@ -22,7 +22,6 @@
     <Post
       user_id={data.user_id}
       id={data.id}
-      title={data.title}
       description={data.description}
       likes={data.likes}
       image_urls={data.image_urls}

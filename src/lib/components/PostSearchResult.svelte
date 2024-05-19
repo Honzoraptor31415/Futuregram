@@ -9,10 +9,10 @@
 
 <a href={`/posts/${post.id}`} class="search-result post-search-result">
   <div class="post-result-content flex-between">
-    <div class="result-info gap-5 justify-center">
-      <p class="result-displayed-username post-username">
+    <div class="result-info gap-10 justify-center">
+      <!-- <p class="result-displayed-username post-username">
         {post.title}
-      </p>
+      </p> -->
       <p class="even-less font-weight-normal">
         <LongHiddenText
           text={post.description}
@@ -27,7 +27,7 @@
           />
         </button>
         <span class="even-less font-weight-normal">
-          {#if post.likes.length >= 1}
+          {#if post.likes && post.likes.length >= 1}
             <span class="text-dot">·</span>
           {/if}
           {#if post.likes}
@@ -42,7 +42,7 @@
     </div>
     <img
       src={post.image_urls[0]}
-      alt={post.title}
+      alt="Result"
       class="post-search-result-image"
     />
   </div>

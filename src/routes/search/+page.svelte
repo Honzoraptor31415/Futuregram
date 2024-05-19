@@ -31,7 +31,7 @@
       });
     } else {
       const fuse = new Fuse(data.posts as any[], {
-        keys: ["title", "description"],
+        keys: ["description"],
       });
       const postsResult = fuse.search(searchValue.trim());
       console.log(postsResult);

@@ -17,7 +17,6 @@ export type DBPost = {
   id: string;
   image_urls: string[];
   likes: string[];
-  title: string;
   user_id: string;
 };
 

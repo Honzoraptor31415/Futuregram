@@ -3417,3 +3417,7 @@ button:disabled {
   display: flex;
   align-items: flex-end;
 }
+
+.search-results .text-dot {
+  margin-left: 6px;
+}
