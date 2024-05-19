@@ -6,11 +6,11 @@
   import { getRandomHash } from "$lib/helper/random";
 
   export let icon: any;
-  export let elements: MenuElement[];
+  export let elements: MenuElement[] = [];
   export let btnClass: string;
-  export let wrpClass: string;
-  export let wrpClassHid: string;
-  export let wrpClassVis: string;
+  export let wrpClass: string = "dots-menu";
+  export let wrpClassHid: string = "";
+  export let wrpClassVis: string = "dots-menu-visible";
   export let iconClass: string;
   export let btnDisabled: boolean = false;
   export let authOnly: boolean = false;

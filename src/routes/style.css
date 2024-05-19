@@ -36,6 +36,7 @@
   --dbclick-heart-icon-size: 70px;
   --notification-animation-duration: 200ms;
   --notification-anim-translate-y: 150%;
+  --new-post-field-spacing: 13px;
 }
 
 * {
@@ -2654,6 +2655,11 @@ nav {
   width: auto;
 }
 
+.image-height-10 {
+  max-height: 10px;
+  width: auto;
+}
+
 .image-height-80 {
   max-height: 80px;
   width: auto;
@@ -2841,6 +2847,7 @@ nav {
 .comment-edit-input {
   width: 100%;
   font-size: 1rem;
+  transition: .2s;
 }
 
 .post-comments-wrp:has(.post-comment) {
@@ -3347,4 +3354,56 @@ button:disabled {
 
 .hidden-menu-button {
   z-index: 97;
+}
+
+.height-80 {
+  height: 80px;
+}
+
+.post-right {
+  width: 100%;
+}
+
+.rounded-main {
+  border-radius: var(--main-border-radius);
+}
+
+.new-post-input-wrp {
+  background: var(--alpha-bg);
+  margin-top: 7px;
+  transition: .2s;
+  border: 1px transparent solid;
+  height: 120px;
+}
+
+.new-post-input {
+  line-height: 1.2;
+  height: 100%;
+  padding: var(--new-post-field-spacing);
+}
+
+.new-post-input-wrp:has(.new-post-input:focus) {
+  border-color: var(--sec-border-color);
+}
+
+.new-post-input:focus::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.margin-block-7 {
+  margin-block: 7px !important;
+}
+
+.np-image-icon path,
+.np-image-icon rect {
+  stroke: grey;
+}
+
+.np-image-icon circle {
+  fill: grey;
+}
+
+.new-post-ctrls {
+  max-width: fit-content;
+  margin: 6px var(--new-post-field-spacing) var(--new-post-field-spacing) var(--new-post-field-spacing);
 }

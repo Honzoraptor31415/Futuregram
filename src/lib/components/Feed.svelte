@@ -6,6 +6,7 @@
   import FeedEnd from "./FeedEnd.svelte";
   import Suggestions from "./Suggestions.svelte";
   import userDbData from "$lib/stores/userDbData";
+  import NewPostForm from "./NewPostForm.svelte";
 
   let posts: DBPost[] = [];
   let isReachedFeedEnd = false;
@@ -52,6 +53,9 @@
 
 <main class="feed-main desktop-nav-margin">
   <div class="posts-inline-spacing">
+    {#if currDbUser}
+      <NewPostForm />
+    {/if}
     {#if posts.length > 0}
       {#each posts as post}
         {#if currDbUser && posts.indexOf(post) === 1}
