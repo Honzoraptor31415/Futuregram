@@ -42,7 +42,7 @@
             savedPosts = [...savedPosts, data];
             if (i === user.saved.length - 1) loading = false;
           }
-        }
+        } else loading = false;
       }
     }
     functionLoading = false;
@@ -68,10 +68,12 @@
         {#if savedPosts.length > 0}
           <div class="post-prevs-grid">
             {#each savedPosts as post}
-              <PostPreview
-                imageUrl={post.image_urls[0]}
-                linkHref={`/posts/${post.id}`}
-              />
+              {#if post.image_urls.length > 0}
+                <PostPreview
+                  imageUrl={post.image_urls[0]}
+                  linkHref={`/posts/${post.id}`}
+                />
+              {/if}
             {/each}
           </div>
         {:else}
