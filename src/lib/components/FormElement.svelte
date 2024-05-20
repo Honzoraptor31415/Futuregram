@@ -14,6 +14,7 @@
   export let labelClass = "";
   export let label: string;
   export let value = "";
+  export let isValid: boolean;
 
   let pwdBtnType = "password";
 
@@ -29,11 +30,13 @@
   const handleInput = (e: any) => {
     value = type.match(/^(number|range)$/) ? +e.target.value : e.target.value;
   };
+
+  $: console.log(label, initLabel);
 </script>
 
 <div class={`form-element ${wrpClass}`}>
   <label for={id} class={`${labelClass} ${label !== "" ? "form-error" : ""}`}>
-    {#if label === ""}
+    {#if isValid}
       {initLabel}
       {#if required}
         <RedFormStar {starClass} />

@@ -21,18 +21,20 @@
     email = email.trim().toLowerCase();
     bio = bio.trim();
 
-    usernameLabel = await validation.usernameCheck(username);
-    displayedNameLabel = validation.displayedNameCheck(displayedName);
-    emailLabel = validation.emailCheck(email);
-    passwordLabel = validation.passwordCheck(password);
-    bioLabel = validation.bioCheck(bio);
+    const usernameCheckResponse = await validation.usernameCheck(username);
+
+    usernameLabel = usernameCheckResponse.message;
+    displayedNameLabel = validation.displayedNameCheck(displayedName).message;
+    emailLabel = validation.emailCheck(email).message;
+    passwordLabel = validation.passwordCheck(password).message;
+    bioLabel = validation.bioCheck(bio).message;
 
     if (
-      usernameLabel === "" &&
-      displayedNameLabel === "" &&
-      emailLabel === "" &&
-      passwordLabel === "" &&
-      bioLabel === ""
+      usernameCheckResponse.isValid &&
+      validation.displayedNameCheck(displayedName).isValid &&
+      validation.emailCheck(email).isValid &&
+      validation.passwordCheck(password).isValid &&
+      validation.bioCheck(bio).isValid
     ) {
       createUserInDB();
       verifyEmail = true;
@@ -133,6 +135,7 @@
           placeholder="Username"
           label={usernameLabel}
           bind:value={username}
+          isValid={usernameLabel === ""}
         />
         <FormElement
           id="displayed-name"
@@ -143,6 +146,7 @@
           placeholder="Displayed name"
           label={displayedNameLabel}
           bind:value={displayedName}
+          isValid={displayedNameLabel === ""}
         />
         <FormElement
           id="email"
@@ -152,6 +156,7 @@
           placeholder="Email"
           label={emailLabel}
           bind:value={email}
+          isValid={emailLabel === ""}
         />
         <FormElement
           id="password"
@@ -162,6 +167,7 @@
           label={passwordLabel}
           bind:value={password}
           type="password"
+          isValid={passwordLabel === ""}
         />
       </div>
       <FormElement
@@ -174,6 +180,7 @@
         bind:value={bio}
         wrpClass="w-full"
         type="textarea"
+        isValid={bioLabel === ""}
       />
       <p class="less">
         Already have an account? <a href="/login">Login</a>.

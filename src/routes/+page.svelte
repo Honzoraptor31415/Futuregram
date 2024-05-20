@@ -30,10 +30,15 @@
   });
 
   async function finishSignup() {
-    usernameLabel = await validation.usernameCheck(username);
-    displayedNameLabel = validation.displayedNameCheck(displayedName);
-    bioLabel = validation.bioCheck(bio);
-    if (usernameLabel === "" && displayedNameLabel === "" && bioLabel === "") {
+    const usernameCheckResponse = await validation.usernameCheck(username);
+    usernameLabel = usernameCheckResponse.message;
+    displayedNameLabel = validation.displayedNameCheck(displayedName).message;
+    bioLabel = validation.bioCheck(bio).message;
+    if (
+      usernameCheckResponse.isValid &&
+      validation.displayedNameCheck(displayedName).isValid &&
+      validation.bioCheck(bio).isValid
+    ) {
       const { data } = await supabase
         .from("users")
         .insert({
@@ -74,6 +79,7 @@
           label={usernameLabel}
           bind:value={username}
           type="text"
+          isValid={usernameLabel === ""}
         />
         <FormElement
           id="displayed-name"
@@ -84,6 +90,7 @@
           label={displayedNameLabel}
           bind:value={displayedName}
           type="text"
+          isValid={displayedNameLabel === ""}
         />
       </div>
       <FormElement
@@ -96,6 +103,7 @@
         label={bioLabel}
         bind:value={bio}
         type="textarea"
+        isValid={bioLabel === ""}
       />
       <button type="submit" class="user-input button-element primary-button"
         >Finish!</button

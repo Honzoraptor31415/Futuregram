@@ -7,6 +7,7 @@
   import type { DBUserData } from "$lib/types/db";
   import RedFormStar from "$lib/components/RedFormStar.svelte";
   import FormElement from "$lib/components/FormElement.svelte";
+  import * as validation from "$lib/helper/formValidation";
 
   let currLoggedInUser: AuthUser;
   let currUserDbData: DBUserData;
@@ -45,6 +46,7 @@
             placeholder="Username"
             label="Username"
             bind:value={username}
+            isValid={usernameLabel === ""}
           />
           <button class="user-input button-element primary-button"
             >Submit</button

@@ -184,8 +184,8 @@
 
   async function finishEditing() {
     editingValue = editingValue.trim();
-    editingValueLabel = validation.commentCheck(editingValue);
-    if (validation.commentCheck(editingValue) === "") {
+    editingValueLabel = validation.commentCheck(editingValue).message;
+    if (validation.commentCheck(editingValue).isValid) {
       editing = false;
       await supabase
         .from("replies")

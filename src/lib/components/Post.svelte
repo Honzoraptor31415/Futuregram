@@ -335,9 +335,9 @@
     } = await supabase.auth.getSession();
     console.log(session);
 
-    commentPlaceholder = commentCheck(commentText);
+    commentPlaceholder = commentCheck(commentText).message;
     if (currUser) {
-      if (commentPlaceholder === "") {
+      if (commentCheck(commentText).isValid) {
         if (replying) {
           await supabase.from("replies").insert({
             created_at: new Date().getTime(),
@@ -658,7 +658,7 @@
         </div>
         {#if !feedPost && currDbUser}
           <form
-            class={`comment-input-wrp user-input-text main-bg-blurry ${commentPlaceholder === "" ? "" : "form-error-input"}`}
+            class={`comment-input-wrp user-input-text main-bg-blurry ${commentCheck(commentText).isValid ? "" : "form-error-input"}`}
             on:submit={(e) => {
               e.preventDefault();
               comment();
@@ -685,7 +685,7 @@
               placeholder={replying
                 ? `Replying to ${replying.commentCreator.id === currDbUser.id ? "your" : `${replying.commentCreator.url_username}'s`} comment`
                 : "Comment your thoughts!"}
-              class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
+              class={`no-style w-full comment-input ${commentCheck(commentText).isValid ? "" : "comment-input-error"}`}
               bind:value={commentText}
             />
             <button

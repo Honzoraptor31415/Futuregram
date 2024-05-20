@@ -1,28 +1,42 @@
 import { supabase } from "$lib/supabaseClient";
 
 export function emailCheck(email: string) {
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
   if (email.length < 1) {
-    return "Email can't be empty";
+    check.message = "Email can't be empty";
+    check.isValid = false;
   } else if (
     !email.match(
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     ) ||
     email.length > 255
   ) {
-    return "Invalid email";
-  } else {
-    return "";
+    check.message = "Invalid email";
+    check.isValid = false;
   }
+
+  return check;
 }
 
 export function passwordCheck(password: string) {
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
   if (password.length < 1) {
-    return "Password can't be empty";
+    check.message = "Password can't be empty";
+    check.isValid = false;
   } else if (password.length < 6) {
-    return "Password is too short";
-  } else {
-    return "";
+    check.message = "Password is too short";
+    check.isValid = false;
   }
+
+  return check;
 }
 
 export async function usernameCheck(username: string) {
@@ -49,55 +63,91 @@ export async function usernameCheck(username: string) {
     username.toLocaleLowerCase()
   );
 
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
   if (username.length < 1) {
-    return "Username can't be empty";
+    check.message = "Username can't be empty";
+    check.isValid = false;
   } else if (!containsOnlyAllowedChars || isDisallowedUsername) {
-    return "Invalid username";
+    check.message = "Invalid username";
+    check.isValid = false;
   } else if (username.length > 30) {
-    return "Username is too long";
+    check.message = "Username is too long";
+    check.isValid = false;
   } else if (takenUsernames.includes(username)) {
-    return "Username already taken";
-  } else {
-    return "";
+    check.message = "Username already taken";
+    check.isValid = false;
   }
+
+  return check;
 }
 
 export function displayedNameCheck(displayedName: string) {
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
   if (displayedName.length < 1) {
-    return "Name can't be empty";
+    check.message = "Name can't be empty";
+    check.isValid = false;
   } else if (displayedName.length > 30) {
-    return "Name is too long";
-  } else {
-    return "";
+    check.message = "Name is too long";
+    check.isValid = false;
   }
+
+  return check;
 }
 
 export function bioCheck(bio: string) {
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
   if (bio.length < 1) {
-    return "Bio can't be empty";
+    check.message = "Bio can't be empty";
+    check.isValid = false;
   } else if (bio.length > 200) {
-    return "Bio is too long";
-  } else {
-    return "";
+    check.message = "Bio is too long";
+    check.isValid = false;
   }
+
+  return check;
 }
 
 export function titleCheck(title: string) {
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
   if (title.length < 1) {
-    return "Title can't be empty";
+    check.message = "Title can't be empty";
+    check.isValid = false;
   } else if (title.length > 200) {
-    return "Title is too long";
-  } else {
-    return "";
+    check.message = "Title is too long";
+    check.isValid = false;
   }
+
+  return check;
 }
 
 export function descriptionCheck(description: string) {
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
   if (description.length > 500) {
-    return "Description is too long";
-  } else {
-    return "";
+    check.message = "Description is too long";
+    check.isValid = false;
   }
+
+  return check;
 }
 
 export function imageCheck(imageData: string, type: string, size: number) {
@@ -121,11 +171,18 @@ export function imageCheck(imageData: string, type: string, size: number) {
 }
 
 export function commentCheck(comment: string) {
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
   if (comment.length < 1) {
-    return "Comment can't be empty";
+    check.message = "Comment can't be empty";
+    check.isValid = false;
   } else if (comment.length > 600) {
-    return "Comment is too long";
-  } else {
-    return "";
+    check.message = "Comment is too long";
+    check.isValid = false;
   }
+
+  return check;
 }

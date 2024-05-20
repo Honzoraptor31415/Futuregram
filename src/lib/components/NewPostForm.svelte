@@ -6,8 +6,6 @@
   import type { AuthUser } from "$lib/types/auth.js";
   import loggedInUser from "$lib/stores/user.js";
   import { supabase } from "$lib/supabaseClient.js";
-  import { browser } from "$app/environment";
-  import FormElement from "$lib/components/FormElement.svelte";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
   import HeartIcon from "$lib/components/icons/HeartIcon.svelte";
@@ -129,14 +127,14 @@
   function newPost() {
     description = description.trim();
 
-    descriptionLabel = validation.descriptionCheck(description);
+    descriptionLabel = validation.descriptionCheck(description).message;
 
     if (images.length < 1) {
-      if (descriptionLabel === "") {
+      if (validation.descriptionCheck(description).isValid) {
         insertPost();
       }
     } else {
-      if (descriptionLabel === "") {
+      if (validation.descriptionCheck(description).isValid) {
         uploadImages().then((data) => {
           if (data) {
             insertPost(data.imageUrls);

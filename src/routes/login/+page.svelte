@@ -12,10 +12,13 @@
   async function emailPassworLogin() {
     email = email.trim().toLowerCase();
 
-    emailLabel = validation.emailCheck(email);
-    passwordLabel = validation.passwordCheck(password);
+    emailLabel = validation.emailCheck(email).message;
+    passwordLabel = validation.passwordCheck(password).message;
 
-    if (emailLabel === "" && passwordLabel === "") {
+    if (
+      validation.emailCheck(email).isValid &&
+      validation.passwordCheck(password).isValid
+    ) {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
         password: password,
@@ -92,6 +95,7 @@
       placeholder="Email"
       label={emailLabel}
       bind:value={email}
+      isValid={emailLabel === ""}
     />
     <FormElement
       id="password"
@@ -100,6 +104,7 @@
       type="password"
       label={passwordLabel}
       bind:value={password}
+      isValid={passwordLabel === ""}
     />
     <p class="less">
       Don't have an account yet? <a href="/signup">Sign up</a> for one.
