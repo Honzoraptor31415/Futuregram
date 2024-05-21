@@ -1617,6 +1617,10 @@ button {
 /* SMALLEST - MOBILE */
 
 @media (max-width:630px) {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     --nav-icon-fill: rgb(160, 160, 160);
     --nav-height: 50px;
@@ -2228,10 +2232,6 @@ button {
 
   .app-notification {
     width: calc(100% - 20px);
-  }
-
-  * {
-    cursor: default !important;
   }
 }
 
