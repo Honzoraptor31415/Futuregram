@@ -58,11 +58,10 @@
 ::-webkit-scrollbar-thumb {
   background: var(--sec-bg);
   border-radius: 3px;
-  border: 1px var(--main-border-color) solid;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  border: 1px rgb(150, 150, 150) solid;
+  background: var(--terc-bg);
 }
 
 header {
@@ -611,20 +610,6 @@ button {
 
   .before-hover-anim:hover::before,
   .hidden-menu-active::before {
-    transform: scale(1.3) !important;
-    opacity: 1 !important;
-  }
-
-  .before-hover-anim.bha-keep-scale:hover::before,
-  .hidden-menu-active.bha-keep-scale::before {
-    inset: var(--action-bh-inset);
-    transform: scale(1) !important;
-    opacity: 1 !important;
-  }
-
-  .before-hover-anim.bha-keep-scale:has(span):hover::before,
-  .hidden-menu-active.bha-keep-scale:has(span)::before {
-    inset: var(--action-bh-inset) var(--action-bh-inset-big);
     transform: scale(1) !important;
     opacity: 1 !important;
   }
@@ -864,7 +849,8 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-inline: 20px;
+    margin-inline: 2px;
+    padding: 10px 23px;
     min-width: 100px;
     gap: 4px;
   }
@@ -1266,20 +1252,6 @@ button {
 
   .before-hover-anim:hover::before,
   .hidden-menu-active::before {
-    transform: scale(1.3) !important;
-    opacity: 1 !important;
-  }
-
-  .before-hover-anim.bha-keep-scale:hover::before,
-  .hidden-menu-active.bha-keep-scale::before {
-    inset: var(--action-bh-inset);
-    transform: scale(1) !important;
-    opacity: 1 !important;
-  }
-
-  .before-hover-anim.bha-keep-scale:has(span):hover::before,
-  .hidden-menu-active.bha-keep-scale:has(span)::before {
-    inset: var(--action-bh-inset) var(--action-bh-inset-big);
     transform: scale(1) !important;
     opacity: 1 !important;
   }
@@ -1520,7 +1492,8 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-inline: 20px;
+    margin-inline: 2px;
+    padding: 10px 23px;
     min-width: 100px;
     gap: 4px;
   }
@@ -1869,20 +1842,6 @@ button {
 
   .before-hover-anim:active::before,
   .hidden-menu-active::before {
-    transform: scale(1.3) !important;
-    opacity: 1 !important;
-  }
-
-  .before-hover-anim.bha-keep-scale:active::before,
-  .hidden-menu-active.bha-keep-scale::before {
-    inset: var(--action-bh-inset);
-    transform: scale(1) !important;
-    opacity: 1 !important;
-  }
-
-  .before-hover-anim.bha-keep-scale:has(span):active::before,
-  .hidden-menu-active.bha-keep-scale:has(span)::before {
-    inset: var(--action-bh-inset) var(--action-bh-inset-big);
     transform: scale(1) !important;
     opacity: 1 !important;
   }
@@ -2345,7 +2304,7 @@ nav {
 
 .post-actions {
   display: flex;
-  margin-block: 15px;
+  margin-block: 7px;
 }
 
 .before-hover-anim::before {
@@ -2515,15 +2474,16 @@ nav {
 
 /* .comment-user-image {} */
 
-.comments-menu {
+.post-menu {
   width: 20px;
   height: 20px;
   box-sizing: content-box;
-  padding: 4px;
+  padding: var(--post-action-padding-big);
   margin-left: 4px;
   transition: .1s;
   cursor: pointer;
   position: relative;
+  margin-right: calc(-1 * var(--post-action-padding-big));
 }
 
 .comment-date {
@@ -2864,8 +2824,9 @@ nav {
 }
 
 button:disabled {
-  opacity: .5;
-  cursor: not-allowed;
+  opacity: .4;
+  cursor: default;
+  pointer-events: none;
 }
 
 .password-input-wrp:has(input:focus) input::placeholder {
@@ -3060,7 +3021,6 @@ button:disabled {
   overflow: hidden;
 }
 
-.post-action:first-child,
 .m-left-0 {
   margin-left: 0 !important;
 }
@@ -3210,7 +3170,7 @@ button:disabled {
 }
 
 .post-comment {
-  padding-block: 17px;
+  padding-block: 7px;
 }
 
 .padding-0 {
@@ -3420,4 +3380,12 @@ button:disabled {
 
 .search-results .text-dot {
   margin-left: 6px;
+}
+
+.post-action {
+  padding: var(--post-action-padding-default);
+}
+
+.post-action:first-child {
+  margin-left: calc(-1 * var(--post-action-padding-default));
 }

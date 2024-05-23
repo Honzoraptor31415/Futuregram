@@ -226,7 +226,7 @@
               {reply.edited ? "(edited)" : ""}
             </p>
             <HiddenMenu
-              btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
+              btnClass="no-style post-menu flex-center-all button-element before-hover-anim"
               icon={ThreeDotsHoriz}
               iconClass="small-post-icon"
               wrpClass="dots-menu"
@@ -275,7 +275,7 @@
           <div class="post-actions gap-15 reply-actions">
             {#if currUser && currDbUser}
               <button
-                class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
+                class="post-action before-hover-anim rounded gap-3 align-center "
                 on:click={like}
               >
                 <HeartIcon
@@ -288,7 +288,7 @@
                 {/if}
               </button>
               <button
-                class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
+                class="post-action before-hover-anim rounded gap-3 align-center "
                 on:click={replyFunc}
               >
                 <CommentIcon

@@ -195,7 +195,7 @@
             >
             <div class="align-center">
               <HiddenMenu
-                btnClass="no-style flex-center-all button-element before-hover-anim comments-menu"
+                btnClass="no-style flex-center-all button-element before-hover-anim post-menu"
                 icon={ThreeDotsHoriz}
                 iconClass="small-post-icon"
                 btnDisabled
@@ -212,7 +212,7 @@
               >
               <div class="align-center">
                 <HiddenMenu
-                  btnClass="no-style flex-center-all button-element before-hover-anim comments-menu"
+                  btnClass="no-style flex-center-all button-element before-hover-anim post-menu"
                   icon={ThreeDotsHoriz}
                   iconClass="small-post-icon"
                   btnDisabled
@@ -233,19 +233,19 @@
             <div class="post-actions gap-15">
               <button
                 disabled
-                class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
+                class="post-action before-hover-anim rounded gap-3 align-center "
               >
                 <HeartIcon iconClass="action-icon heart-icon" />
               </button>
               <button
                 disabled
-                class="post-action before-hover-anim bha-keep-scale align-center gap-3 rounded button-link font-weight-normal"
+                class="post-action before-hover-anim  align-center gap-3 rounded button-link font-weight-normal"
               >
                 <CommentIcon iconClass="action-icon comment-icon" />
               </button>
               <button
                 disabled
-                class="post-action before-hover-anim bha-keep-scale rounded"
+                class="post-action before-hover-anim  rounded"
               >
                 <ShareIcon iconClass="action-icon share-icon" />
               </button>
@@ -253,7 +253,7 @@
             <div class="post-actions">
               <button
                 disabled
-                class="post-action before-hover-anim bha-keep-scale rounded"
+                class="post-action before-hover-anim  rounded"
               >
                 <SaveIcon iconClass="action-icon save-icon" />
               </button>

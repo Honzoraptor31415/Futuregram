@@ -474,7 +474,7 @@
               <div class="align-center">
                 <p class="even-less">{dayjs(created_at).fromNow()}</p>
                 <HiddenMenu
-                  btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
+                  btnClass="no-style post-menu flex-center-all button-element before-hover-anim"
                   icon={ThreeDotsHoriz}
                   iconClass="small-post-icon"
                   wrpClass="dots-menu"
@@ -500,7 +500,7 @@
                 <div class="align-center">
                   <p class="even-less">{dayjs(created_at).fromNow()}</p>
                   <HiddenMenu
-                    btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
+                    btnClass="no-style post-menu flex-center-all button-element before-hover-anim"
                     icon={ThreeDotsHoriz}
                     iconClass="small-post-icon"
                     wrpClass="dots-menu"
@@ -562,7 +562,7 @@
               <div class="flex-between">
                 <div class="post-actions gap-15">
                   <button
-                    class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
+                    class="post-action before-hover-anim rounded gap-3 align-center "
                     on:click={like}
                   >
                     <HeartIcon
@@ -577,7 +577,7 @@
                   {#if feedPost}
                     <a
                       href={`/posts/${id}?comment`}
-                      class="post-action before-hover-anim bha-keep-scale align-center gap-3 rounded button-link font-weight-normal"
+                      class="post-action before-hover-anim  align-center gap-3 rounded button-link font-weight-normal"
                     >
                       <CommentIcon iconClass="action-icon comment-icon" />
                       {#if postComments?.length}
@@ -588,7 +588,7 @@
                     </a>
                   {/if}
                   <button
-                    class="post-action before-hover-anim bha-keep-scale rounded"
+                    class="post-action before-hover-anim  rounded"
                     on:click={() => {
                       share("slkadfjhalskjdfhlakjshdljah123456");
                     }}
@@ -598,7 +598,7 @@
                 </div>
                 <div class="post-actions">
                   <button
-                    class="post-action before-hover-anim bha-keep-scale rounded"
+                    class="post-action before-hover-anim  rounded"
                     on:click={save}
                   >
                     <SaveIcon

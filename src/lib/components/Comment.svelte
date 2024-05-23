@@ -16,6 +16,7 @@
   import { browser } from "$app/environment";
   import { blockUser, report } from "$lib/helper/feedAdvanced";
   import setNotification from "$lib/helper/appNotifications";
+  import Post from "./Post.svelte";
 
   export let id: string;
   export let feedComment: boolean = true;
@@ -310,7 +311,7 @@
               {comment.edited ? "(edited)" : ""}
             </p>
             <HiddenMenu
-              btnClass="no-style comments-menu flex-center-all button-element before-hover-anim"
+              btnClass="no-style post-menu flex-center-all button-element before-hover-anim"
               icon={ThreeDotsHoriz}
               iconClass="small-post-icon"
               wrpClass="dots-menu"
@@ -353,13 +354,14 @@
         {:else}
           <p class="comment-text pl-text">{comment.text}</p>
         {/if}
-        <div class="flex-between">
-          <div
-            class={`post-actions comment-actions gap-15 ${!currDbUser ? "no-auth-c-reactions-count" : ""}`}
-          >
-            {#if currUser && currDbUser}
+
+        {#if currUser && currDbUser}
+          <div class="flex-between">
+            <div
+              class={`post-actions comment-actions gap-15 ${!currDbUser ? "no-auth-c-reactions-count" : ""}`}
+            >
               <button
-                class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
+                class="post-action before-hover-anim rounded gap-3 align-center"
                 on:click={like}
               >
                 <HeartIcon
@@ -372,7 +374,7 @@
                 {/if}
               </button>
               <button
-                class="post-action before-hover-anim rounded gap-3 align-center bha-keep-scale"
+                class="post-action before-hover-anim rounded gap-3 align-center"
                 on:click={reply}
               >
                 <CommentIcon
@@ -384,8 +386,13 @@
                   </span>
                 {/if}
               </button>
-            {/if}
-            {#if !currDbUser}
+            </div>
+          </div>
+        {:else if (!currDbUser && comment.likes.length) || (!currDbUser && replies.length)}
+          <div class="flex-between">
+            <div
+              class={`post-actions comment-actions gap-15 ${!currDbUser ? "no-auth-c-reactions-count" : ""}`}
+            >
               <p
                 class={`even-less align-center comment-reactions-count ${!currDbUser ? "m-left-0" : ""}`}
               >
@@ -407,9 +414,9 @@
                     : ""}
                 {/if}
               </p>
-            {/if}
+            </div>
           </div>
-        </div>
+        {/if}
         {#if !feedComment}
           {#if replies.length > 0}
             {#if !repliesShown}
