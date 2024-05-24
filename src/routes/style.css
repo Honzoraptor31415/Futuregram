@@ -951,6 +951,16 @@ button {
   .app-notification {
     width: 360px;
   }
+
+  .user-image-wrp {
+    z-index: 8;
+  }
+
+  .user-hover-info {
+    width: 300px;
+    min-height: 150px;
+    z-index: 9;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1584,6 +1594,16 @@ button {
 
   .app-notification {
     width: 360px;
+  }
+
+  .user-image-wrp {
+    z-index: 8;
+  }
+
+  .user-hover-info {
+    width: 300px;
+    min-height: 150px;
+    z-index: 9;
   }
 }
 
@@ -3388,4 +3408,12 @@ button:disabled {
 
 .post-action:first-child {
   margin-left: calc(-1 * var(--post-action-padding-default));
+}
+
+.post-action-m-bottom {
+  margin-bottom: calc(-1 * var(--post-action-padding-default));
+}
+
+.post-left {
+  z-index: 4;
 }

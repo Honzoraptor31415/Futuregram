@@ -17,6 +17,7 @@
   import { blockUser, report } from "$lib/helper/feedAdvanced";
   import setNotification from "$lib/helper/appNotifications";
   import Post from "./Post.svelte";
+  import UserImage from "./UserImage.svelte";
 
   export let id: string;
   export let feedComment: boolean = true;
@@ -290,13 +291,15 @@
   {#if commentCreator && postCreator}
     <div class={`post-comment ${feedComment ? "comment" : ""}`}>
       <div class="comment-left">
-        <a href={`/${commentCreator.url_username}`} class="grid-wrp">
-          <img
-            src={commentCreator.image_url}
-            alt="Comment pfp"
-            class="comment-user-image rounded image-height-30 margin-top-4"
-          /></a
-        >
+        <UserImage
+          imageUrl={commentCreator.image_url}
+          uid={commentCreator.id}
+          imageClass="image-height-30"
+          href={`/${commentCreator.url_username}`}
+          username={commentCreator.url_username}
+          displayedUsername={commentCreator.displayed_username}
+          userBio={commentCreator.bio}
+        />
       </div>
       <div class="comment-right">
         <div class="comment-top flex-between">

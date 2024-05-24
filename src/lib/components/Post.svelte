@@ -24,6 +24,7 @@
   import { onMount } from "svelte";
   import SaveIcon from "./icons/SaveIcon.svelte";
   import setNotification from "$lib/helper/appNotifications";
+  import UserImage from "./UserImage.svelte";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -449,13 +450,14 @@
     <div class={feedPost ? "feed-page-post-wrp" : ""}>
       <div class="post">
         <div class="post-left">
-          <a href={`/${postCreator.url_username}`} class="grid-wrp">
-            <img
-              src={postCreator.image_url}
-              alt={postCreator.url_username}
-              class="post-user-image image-height-40 rounded margin-top-4"
-            />
-          </a>
+          <UserImage
+            imageUrl={postCreator.image_url}
+            uid={postCreator.id}
+            href={`/${postCreator.url_username}`}
+            username={postCreator.url_username}
+            displayedUsername={postCreator.displayed_username}
+            userBio={postCreator.bio}
+          />
         </div>
         <div class="post-right grid-wrp">
           <div class="post-top mobile">
@@ -562,7 +564,7 @@
               <div class="flex-between">
                 <div class="post-actions gap-15">
                   <button
-                    class="post-action before-hover-anim rounded gap-3 align-center "
+                    class="post-action before-hover-anim rounded gap-3 align-center"
                     on:click={like}
                   >
                     <HeartIcon
@@ -577,7 +579,7 @@
                   {#if feedPost}
                     <a
                       href={`/posts/${id}?comment`}
-                      class="post-action before-hover-anim  align-center gap-3 rounded button-link font-weight-normal"
+                      class="post-action before-hover-anim align-center gap-3 rounded button-link font-weight-normal"
                     >
                       <CommentIcon iconClass="action-icon comment-icon" />
                       {#if postComments?.length}
@@ -588,7 +590,7 @@
                     </a>
                   {/if}
                   <button
-                    class="post-action before-hover-anim  rounded"
+                    class="post-action before-hover-anim rounded"
                     on:click={() => {
                       share("slkadfjhalskjdfhlakjshdljah123456");
                     }}
@@ -598,7 +600,7 @@
                 </div>
                 <div class="post-actions">
                   <button
-                    class="post-action before-hover-anim  rounded"
+                    class="post-action before-hover-anim rounded"
                     on:click={save}
                   >
                     <SaveIcon

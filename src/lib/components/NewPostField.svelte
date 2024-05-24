@@ -25,7 +25,7 @@
   ></textarea>
   <div class="new-post-ctrls flex-between align-end">
     <label
-      class="post-action before-hover-anim rounded gap-3 align-center "
+      class="post-action before-hover-anim rounded gap-3 align-center post-action-m-bottom"
       for={inputId}
     >
       <input

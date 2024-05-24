@@ -16,6 +16,7 @@
   export let id: string;
   import { browser } from "$app/environment";
   import setNotification from "$lib/helper/appNotifications";
+  import UserImage from "./UserImage.svelte";
 
   let currUser: AuthUser;
   let currDbUser: DBUserData;
@@ -205,13 +206,15 @@
   {#if replyCreator && postCreator}
     <div class="post-comment comment-reply">
       <div class="comment-left">
-        <a href={`/${replyCreator.url_username}`} class="grid-wrp">
-          <img
-            src={replyCreator.image_url}
-            alt="Comment pfp"
-            class="comment-user-image rounded image-height-30 margin-top-4"
-          /></a
-        >
+        <UserImage
+          imageUrl={replyCreator.image_url}
+          uid={replyCreator.id}
+          imageClass="image-height-30"
+          href={`/${replyCreator.url_username}`}
+          username={replyCreator.url_username}
+          displayedUsername={replyCreator.displayed_username}
+          userBio={replyCreator.bio}
+        />
       </div>
       <div class="comment-right">
         <div class="comment-top flex-between">
@@ -275,7 +278,7 @@
           <div class="post-actions gap-15 reply-actions">
             {#if currUser && currDbUser}
               <button
-                class="post-action before-hover-anim rounded gap-3 align-center "
+                class="post-action before-hover-anim rounded gap-3 align-center"
                 on:click={like}
               >
                 <HeartIcon
@@ -288,7 +291,7 @@
                 {/if}
               </button>
               <button
-                class="post-action before-hover-anim rounded gap-3 align-center "
+                class="post-action before-hover-anim rounded gap-3 align-center"
                 on:click={replyFunc}
               >
                 <CommentIcon

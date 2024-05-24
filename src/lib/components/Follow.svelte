@@ -10,6 +10,9 @@
   export let unfollowText: string = "Unfollow";
   export let followText: string = "Follow";
   export let unfollowClass: string = "less";
+  export let strictClasses = false;
+  export let exportedFollowers: string[] = [];
+  export let showEditingButtonWhenCurrUser = false;
 
   let user: DBUserData;
   let currDbUser: DBUserData;
@@ -28,8 +31,12 @@
   });
 
   async function getFollowed(funcUid: string) {
-    const { data, error } = await supabase.from("users").select().eq("id", uid);
-    if (data && data[0].followers && data[0].followers.includes(funcUid)) {
+    const { data, error } = await supabase
+      .from("users")
+      .select()
+      .eq("id", uid)
+      .single();
+    if (data && data.followers && data.followers.includes(funcUid)) {
       followed = true;
       console.log("User is followed");
     } else {
@@ -62,6 +69,7 @@
         followers.push(currDbUser.id);
         currUserFollows.push(user.id);
         user.followers = followers;
+        exportedFollowers = followers;
         updateFollowers(followers, user.id);
         updateFollows(currUserFollows, currDbUser.id);
       } else {
@@ -74,6 +82,7 @@
             return uid !== user.id;
           }));
         user.followers = followers;
+        exportedFollowers = followers;
         updateFollowers(followers, user.id);
         updateFollows(currUserFollows, currDbUser.id);
       }
@@ -102,11 +111,17 @@
 {#if currDbUser && user}
   {#if user.id !== currDbUser.id}
     <button
-      class={`${btnClass} ${followed ? unfollowClass : ""}`}
+      class={strictClasses
+        ? followed
+          ? unfollowClass
+          : btnClass
+        : `${btnClass} ${followed ? unfollowClass : ""}`}
       on:click={(e) => {
         e.preventDefault();
         follow();
       }}>{followed ? unfollowText : followText}</button
     >
+  {:else if showEditingButtonWhenCurrUser}
+    <a href={`/${user.url_username}?edit`} class={btnClass}>Edit</a>
   {/if}
 {/if}
