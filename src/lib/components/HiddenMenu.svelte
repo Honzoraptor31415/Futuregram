@@ -1,7 +1,7 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import type { MenuElement } from "$lib/types/app";
-  import type { DBUserData } from "$lib/types/db";
+  import type { DbUser } from "$lib/types/db";
   import userDbData from "$lib/stores/userDbData";
   import { getRandomHash } from "$lib/helper/random";
 
@@ -16,7 +16,7 @@
   export let authOnly: boolean = false;
 
   let menuVisible = false;
-  let currDbUser: DBUserData;
+  let currDbUser: DbUser;
   let id = `hidden-menu-${getRandomHash(70)}`;
 
   browser &&

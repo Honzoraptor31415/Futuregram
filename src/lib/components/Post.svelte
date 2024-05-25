@@ -10,7 +10,7 @@
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
-  import type { DBUserData, DBComment } from "$lib/types/db";
+  import type { DbUser, DbComment } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   import CommentIcon from "./icons/CommentIcon.svelte";
@@ -40,10 +40,10 @@
   export let saved: boolean = false;
 
   let currUser: AuthUser;
-  let postComments: DBComment[] = [];
-  let postCreator: DBUserData;
+  let postComments: DbComment[] = [];
+  let postCreator: DbUser;
   let liked = false;
-  let currDbUser: DBUserData;
+  let currDbUser: DbUser;
   let maxChars = browser
     ? self.innerWidth > 970
       ? 69
@@ -55,7 +55,7 @@
     : 0;
   let commentText = "";
   let commentPlaceholder = "";
-  let firstID: string;
+  let firstId: string;
   let replying: ReplyingToComment;
   let repliesShown: boolean = false;
   let postShown = true;
@@ -180,7 +180,7 @@
           return a.likes.length - b.likes.length;
         })
         .reverse();
-      firstID = postComments[0].id;
+      firstId = postComments[0].id;
     }
     commentsListener();
 
@@ -345,7 +345,7 @@
             post_id: id,
             user_id: currDbUser.id,
             text: commentText,
-            comment_id: replying.commentID,
+            comment_id: replying.commentId,
           });
           commentText = "";
           replying = null;
@@ -638,11 +638,11 @@
         <div class="post-comments-wrp" id="comments">
           {#if postComments}
             {#if feedPost}
-              {#if firstID}
+              {#if firstId}
                 <Comment
                   bind:replying
                   {repliesShown}
-                  id={firstID}
+                  id={firstId}
                   feedComment={true}
                 />
               {/if}

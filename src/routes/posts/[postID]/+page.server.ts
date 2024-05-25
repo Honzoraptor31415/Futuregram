@@ -5,7 +5,7 @@ export const load: PageServerLoad = async ({ params }: any) => {
   const { data } = await supabase
     .from("posts")
     .select()
-    .eq("id", params.postID);
+    .eq("id", params.postId);
 
   if (data) {
     return {

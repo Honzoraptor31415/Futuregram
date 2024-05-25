@@ -1,12 +1,12 @@
 <script lang="ts">
   import userDbData from "$lib/stores/userDbData";
   import { supabase } from "$lib/supabaseClient";
-  import type { DBUserData } from "$lib/types/db";
+  import type { DbUser } from "$lib/types/db";
   import { onMount } from "svelte";
   import Suggestion from "./Suggestion.svelte";
 
-  let suggestions: DBUserData[] = [];
-  let currDbUser: DBUserData;
+  let suggestions: DbUser[] = [];
+  let currDbUser: DbUser;
 
   userDbData.subscribe((val: any) => {
     if (val) {

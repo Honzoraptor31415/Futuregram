@@ -3,7 +3,7 @@
   import MenuIcon from "./icons/MenuIcon.svelte";
   import HiddenMenu from "./HiddenMenu.svelte";
   import type { AuthUser } from "$lib/types/auth";
-  import type { DBUserData } from "$lib/types/db";
+  import type { DbUser } from "$lib/types/db";
   import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/userDbData";
@@ -12,7 +12,7 @@
   export let showMenu = false;
 
   let currUser: AuthUser;
-  let currDbUser: DBUserData;
+  let currDbUser: DbUser;
 
   loggedInUser.subscribe((val: any) => {
     val !== null && (currUser = val);

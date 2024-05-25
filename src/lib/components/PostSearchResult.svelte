@@ -1,14 +1,14 @@
 <script lang="ts">
-  import type { DBPost, DBUserData } from "$lib/types/db";
+  import type { DbPost, DbUser } from "$lib/types/db";
   import { onMount } from "svelte";
   import LongHiddenText from "./LongHiddenText.svelte";
   import HeartIcon from "./icons/HeartIcon.svelte";
   import { supabase } from "$lib/supabaseClient";
 
-  export let post: DBPost;
+  export let post: DbPost;
   export let liked: boolean;
 
-  let user: DBUserData;
+  let user: DbUser;
 
   async function getUser() {
     const { data } = await supabase

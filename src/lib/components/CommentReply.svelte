@@ -8,7 +8,7 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
-  import type { DBUserData, DBComment, DBPost } from "$lib/types/db";
+  import type { DbUser, DbComment, DbPost } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import * as validation from "$lib/helper/formValidation";
   dayjs.extend(relativeTime);
@@ -19,10 +19,10 @@
   import UserImage from "./UserImage.svelte";
 
   let currUser: AuthUser;
-  let currDbUser: DBUserData;
-  let reply: DBComment;
+  let currDbUser: DbUser;
+  let reply: DbComment;
   let liked = false;
-  let replyCreator: DBUserData;
+  let replyCreator: DbUser;
   let postCreator: string;
   const defaultCommentOpts = [
     {

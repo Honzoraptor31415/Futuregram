@@ -1,4 +1,4 @@
-export type DBUserData = {
+export type DbUser = {
   bio: string;
   displayed_username: string;
   followers: string[];
@@ -11,7 +11,7 @@ export type DBUserData = {
   saved: string[];
 };
 
-export type DBPost = {
+export type DbPost = {
   created_at: number;
   description: string;
   id: string;
@@ -20,7 +20,7 @@ export type DBPost = {
   user_id: string;
 };
 
-export type DBComment = {
+export type DbComment = {
   created_at: number;
   id: string;
   likes: string[];
@@ -30,6 +30,6 @@ export type DBComment = {
   edited: boolean | null;
 };
 
-export interface DBReply extends DBComment {
+export interface DbReply extends DbComment {
   comment_id: string;
 }

@@ -1,6 +1,6 @@
 <script lang="ts">
   import userDbData from "$lib/stores/userDbData";
-  import type { DBUserData } from "$lib/types/db";
+  import type { DbUser } from "$lib/types/db";
   import type { StorageResponse } from "$lib/types/storage";
   import * as validation from "$lib/helper/formValidation";
   import type { AuthUser } from "$lib/types/auth.js";
@@ -20,7 +20,7 @@
   let descriptionLabel = "";
   let photoFile: any;
   let files: any;
-  let currDbUser: DBUserData;
+  let currDbUser: DbUser;
   let image: any;
   let currUser: AuthUser;
   let images: any[] = [];
@@ -109,13 +109,13 @@
       );
 
     if (uploadImageResponse.data.path) {
-      const getImageURLResponse = supabase.storage
+      const getImageUrlResponse = supabase.storage
         .from("post_images")
         .getPublicUrl(uploadImageResponse.data.path);
 
-      console.log(getImageURLResponse.data.publicUrl);
+      console.log(getImageUrlResponse.data.publicUrl);
       return {
-        imageUrl: getImageURLResponse.data.publicUrl,
+        imageUrl: getImageUrlResponse.data.publicUrl,
       };
     } else {
       return {
@@ -233,28 +233,22 @@
             <div class="post-actions gap-15">
               <button
                 disabled
-                class="post-action before-hover-anim rounded gap-3 align-center "
+                class="post-action before-hover-anim rounded gap-3 align-center"
               >
                 <HeartIcon iconClass="action-icon heart-icon" />
               </button>
               <button
                 disabled
-                class="post-action before-hover-anim  align-center gap-3 rounded button-link font-weight-normal"
+                class="post-action before-hover-anim align-center gap-3 rounded button-link font-weight-normal"
               >
                 <CommentIcon iconClass="action-icon comment-icon" />
               </button>
-              <button
-                disabled
-                class="post-action before-hover-anim  rounded"
-              >
+              <button disabled class="post-action before-hover-anim rounded">
                 <ShareIcon iconClass="action-icon share-icon" />
               </button>
             </div>
             <div class="post-actions">
-              <button
-                disabled
-                class="post-action before-hover-anim  rounded"
-              >
+              <button disabled class="post-action before-hover-anim rounded">
                 <SaveIcon iconClass="action-icon save-icon" />
               </button>
             </div>

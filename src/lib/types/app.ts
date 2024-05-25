@@ -1,4 +1,4 @@
-import type { DBUserData } from "$lib/types/db";
+import type { DbUser } from "$lib/types/db";
 
 export type MenuElement = {
   class: string;
@@ -9,8 +9,8 @@ export type MenuElement = {
 };
 
 export type ReplyingToComment = {
-  commentID: string;
-  commentCreator: DBUserData;
+  commentId: string;
+  commentCreator: DbUser;
 } | null;
 
 export type AppNotification = {

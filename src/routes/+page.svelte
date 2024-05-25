@@ -1,7 +1,7 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import loggedInUser from "$lib/stores/user";
-  import type { DBUserData } from "$lib/types/db";
+  import type { DbUser } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import Feed from "$lib/components/Feed.svelte";
   import * as validation from "$lib/helper/formValidation";
@@ -12,24 +12,24 @@
   import { imageUrl } from "$lib/constants";
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
-  let userInDB: string | boolean = "waiting";
+  let userInDb: string | boolean = "waiting";
   let username = "";
   let displayedName = "";
   let bio = "";
   let usernameLabel = "";
   let displayedNameLabel = "";
   let bioLabel = "";
-  let currUser: DBUserData;
+  let currUser: DbUser;
 
-  async function getUserDBID(user: AuthUser) {
+  async function getUserDbId(user: AuthUser) {
     if (user) {
-      browser && !user.user_metadata.db_id && (userInDB = false);
+      browser && !user.user_metadata.db_id && (userInDb = false);
     }
   }
 
   loggedInUser.subscribe((val: any) => {
     currUser = val;
-    val && getUserDBID(val);
+    val && getUserDbId(val);
   });
 
   async function finishSignup() {
@@ -76,7 +76,7 @@
   <meta property="og:image:height" content="500" />
 </svelte:head>
 
-{#if currUser && !userInDB}
+{#if currUser && !userInDb}
   <header
     class="flex-center-all finish-signup mobile-nav-padding desktop-nav-margin"
   >

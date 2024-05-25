@@ -1,11 +1,11 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
-  import type { DBUserData } from "$lib/types/db";
+  import type { DbUser } from "$lib/types/db";
   export let uid: string;
   export let followDialog: boolean = false;
   import Follow from "$lib/components/Follow.svelte";
 
-  let user: DBUserData;
+  let user: DbUser;
 
   async function getUser() {
     const { data } = await supabase.from("users").select().eq("id", uid);

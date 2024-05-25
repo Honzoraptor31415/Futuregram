@@ -1,6 +1,6 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
-  import type { DBPost, DBUserData } from "$lib/types/db";
+  import type { DbPost, DbUser } from "$lib/types/db";
   import { onMount } from "svelte";
   import Post from "./Post.svelte";
   import FeedEnd from "./FeedEnd.svelte";
@@ -8,10 +8,10 @@
   import userDbData from "$lib/stores/userDbData";
   import NewPostForm from "./NewPostForm.svelte";
 
-  let posts: DBPost[] = [];
+  let posts: DbPost[] = [];
   let isReachedFeedEnd = false;
   let isLoading = false;
-  let currDbUser: DBUserData;
+  let currDbUser: DbUser;
 
   userDbData.subscribe((val: any) => {
     currDbUser = val;

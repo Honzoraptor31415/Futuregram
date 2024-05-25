@@ -4,7 +4,7 @@
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
   import userDbData from "$lib/stores/userDbData.js";
-  import type { DBUserData, DBPost } from "$lib/types/db";
+  import type { DbUser, DbPost } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import TopPostNav from "$lib/components/TopPostNav.svelte";
   import CrossIcon from "$lib/components/icons/CrossIcon.svelte";
@@ -16,9 +16,9 @@
   export let data;
 
   let pageUser = data.user;
-  let user: DBUserData | null;
+  let user: DbUser | null;
   let pageError = "";
-  let posts: DBPost[] | null;
+  let posts: DbPost[] | null;
   let currLoggedInUser: AuthUser;
   let maxChars = browser
     ? self.innerWidth > 970
@@ -29,10 +29,10 @@
           ? 37
           : 0
     : 0;
-  let currDbUser: DBUserData;
+  let currDbUser: DbUser;
   let renderedDialog: "followers" | "following" | null = "followers";
-  let followers: DBUserData[] = [];
-  let follows: DBUserData[] = [];
+  let followers: DbUser[] = [];
+  let follows: DbUser[] = [];
   let loading = true;
   let functionLoading = false;
 
@@ -119,11 +119,11 @@
 
   async function getFollowers() {
     if (user && user.followers) {
-      user.followers.forEach(async (followerID: string) => {
+      user.followers.forEach(async (followerId: string) => {
         const { data } = await supabase
           .from("users")
           .select()
-          .eq("id", followerID);
+          .eq("id", followerId);
         if (data) {
           followers = [...followers, data[0]];
         }
@@ -133,11 +133,11 @@
 
   async function getFollows() {
     if (user && user.follows) {
-      user.follows.forEach(async (followID: string) => {
+      user.follows.forEach(async (followId: string) => {
         const { data } = await supabase
           .from("users")
           .select()
-          .eq("id", followID);
+          .eq("id", followId);
         if (data) {
           follows = [...follows, data[0]];
         }

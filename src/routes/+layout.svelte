@@ -41,11 +41,11 @@
     } = await supabase.auth.getUser();
     if (user) {
       loggedInUser.set(user);
-      getUserDBData(user.user_metadata.db_id);
+      getUserDbData(user.user_metadata.db_id);
     }
   }
   getAuthUser();
-  async function getUserDBData(id: string) {
+  async function getUserDbData(id: string) {
     const { data } = await supabase.from("users").select().eq("id", id);
     data ? userDbData.set(data[0]) : userDbData.set(null);
   }

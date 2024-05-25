@@ -3,11 +3,11 @@
   import TopPostNav from "$lib/components/TopPostNav.svelte";
   import userDbData from "$lib/stores/userDbData";
   import { supabase } from "$lib/supabaseClient";
-  import type { DBPost, DBUserData } from "$lib/types/db";
+  import type { DbPost, DbUser } from "$lib/types/db";
   import { onMount } from "svelte";
 
-  let currDbUser: DBUserData;
-  let savedPosts: DBPost[] = [];
+  let currDbUser: DbUser;
+  let savedPosts: DbPost[] = [];
   let loading: boolean = true;
   let functionLoading = false;
 

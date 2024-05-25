@@ -2,19 +2,19 @@
   import SearchIcon from "$lib/components/icons/SearchIcon.svelte";
   import PostSearchResult from "$lib/components/PostSearchResult.svelte";
   import SearchResult from "$lib/components/SearchResult.svelte";
-  import type { DBPost, DBUserData } from "$lib/types/db";
+  import type { DbPost, DbUser } from "$lib/types/db";
   import Fuse from "fuse.js";
   import NoSearchResultDialog from "$lib/components/NoSearchResult.svelte";
   import userDbData from "$lib/stores/userDbData.js";
 
   export let data;
 
-  let userResults: DBUserData[] = [];
-  let postResults: DBPost[] = [];
+  let userResults: DbUser[] = [];
+  let postResults: DbPost[] = [];
   let searchValue = "";
-  let initialResults = data.users as DBUserData[];
+  let initialResults = data.users as DbUser[];
   let activeTab = "users";
-  let currDbUser: DBUserData;
+  let currDbUser: DbUser;
 
   userDbData.subscribe((val: any) => {
     currDbUser = val;

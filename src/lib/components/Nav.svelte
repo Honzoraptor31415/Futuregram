@@ -9,10 +9,10 @@
   import userDbData from "$lib/stores/userDbData";
   import { page } from "$app/stores";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
-  import type { DBUserData } from "$lib/types/db";
+  import type { DbUser } from "$lib/types/db";
   import { supabase } from "$lib/supabaseClient";
 
-  let currDbUser: DBUserData;
+  let currDbUser: DbUser;
   let locationHref = browser && location.pathname.replaceAll("/", "");
   const loggedInMenuElements = [
     {

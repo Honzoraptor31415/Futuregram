@@ -36,18 +36,18 @@
       validation.passwordCheck(password).isValid &&
       validation.bioCheck(bio).isValid
     ) {
-      createUserInDB();
+      createUserInDb();
       verifyEmail = true;
     }
   }
 
-  async function createUserAuth(dbID: string) {
+  async function createUserAuth(dbId: string) {
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
       options: {
         data: {
-          db_id: dbID,
+          db_id: dbId,
           name: displayedName,
         },
       },
@@ -56,7 +56,7 @@
     return error;
   }
 
-  async function createUserInDB() {
+  async function createUserInDb() {
     const { data, error } = await supabase
       .from("users")
       .insert({

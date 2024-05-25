@@ -1,7 +1,7 @@
 <script lang="ts">
   import { supabase } from "$lib/supabaseClient";
   import type { AuthUser } from "$lib/types/auth";
-  import type { DBUserData } from "$lib/types/db";
+  import type { DbUser } from "$lib/types/db";
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/userDbData";
 
@@ -14,8 +14,8 @@
   export let exportedFollowers: string[] = [];
   export let showEditingButtonWhenCurrUser = false;
 
-  let user: DBUserData;
-  let currDbUser: DBUserData;
+  let user: DbUser;
+  let currDbUser: DbUser;
   let currLoggedInUser: AuthUser;
   let followed = false;
 

@@ -8,7 +8,7 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
-  import type { DBUserData, DBComment, DBReply } from "$lib/types/db";
+  import type { DbUser, DbComment, DbReply } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import CommentReply from "$lib/components/CommentReply.svelte";
   import * as validation from "$lib/helper/formValidation";
@@ -28,11 +28,11 @@
   dayjs().format();
 
   let currUser: AuthUser;
-  let currDbUser: DBUserData;
-  let comment: DBComment;
+  let currDbUser: DbUser;
+  let comment: DbComment;
   let liked = false;
-  let commentCreator: DBUserData;
-  let postCreator: DBUserData;
+  let commentCreator: DbUser;
+  let postCreator: DbUser;
 
   const defaultCommentOpts = [
     {
@@ -92,7 +92,7 @@
   let editing = false;
   let editingValue = "";
   let editingValueLabel = "";
-  let replies: DBReply[];
+  let replies: DbReply[];
 
   loggedInUser.subscribe((val: any) => {
     val && (currUser = val);
@@ -193,7 +193,7 @@
   function reply() {
     if (commentCreator && comment) {
       replying = {
-        commentID: comment.id,
+        commentId: comment.id,
         commentCreator: commentCreator,
       };
     } else {
