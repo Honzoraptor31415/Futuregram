@@ -7,6 +7,9 @@
   import * as validation from "$lib/helper/formValidation";
   import FormElement from "$lib/components/FormElement.svelte";
   import { supabase } from "$lib/supabaseClient";
+  import { title } from "$lib/constants";
+  import { description } from "$lib/constants";
+  import { imageUrl } from "$lib/constants";
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
   let userInDB: string | boolean = "waiting";
@@ -60,7 +63,17 @@
 </script>
 
 <svelte:head>
-  <title>Futuregram</title>
+  <title>{title}</title>
+
+  <meta property="og:title" content={title} />
+
+  <meta name="description" content={description} />
+  <meta property="og:description" content={description} />
+
+  <!-- I'm using the logo as an og image, just because I suck at designing, so I'm rather gonna use the logo, than a terribly designed banner -->
+  <meta property="og:image" content={imageUrl} />
+  <meta property="og:image:width" content="800" />
+  <meta property="og:image:height" content="500" />
 </svelte:head>
 
 {#if currUser && !userInDB}

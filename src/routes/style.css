@@ -3406,7 +3406,8 @@ button:disabled {
   padding: var(--post-action-padding-default);
 }
 
-.post-action:first-child {
+.post-action:first-child,
+.post-action-m-left {
   margin-left: calc(-1 * var(--post-action-padding-default));
 }
 
@@ -3416,4 +3417,19 @@ button:disabled {
 
 .post-left {
   z-index: 4;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.word-break {
+  word-wrap: break-word;
+}
+
+.post-result-w-pfp {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  width: 100%;
 }
