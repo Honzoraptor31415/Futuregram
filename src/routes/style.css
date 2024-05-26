@@ -41,6 +41,7 @@
   --post-image-width: calc(100% - 20svw);
   --post-spacing-small: 7px;
   --border-radius-small: 10px;
+  --post-image-height: 340px;
 }
 
 * {
@@ -963,11 +964,6 @@ button {
     min-height: 150px;
     z-index: 9;
   }
-
-  .post-image {
-    max-width: var(--post-image-width);
-    min-width: var(--post-image-width);
-  }
 }
 
 /* SMALLER - TABLET */
@@ -1612,11 +1608,6 @@ button {
     min-height: 150px;
     z-index: 9;
   }
-
-  .post-image {
-    max-width: var(--post-image-width);
-    min-width: var(--post-image-width);
-  }
 }
 
 /* SMALLEST - MOBILE */
@@ -2220,10 +2211,17 @@ button {
     width: calc(100% - 20px);
   }
 
-
-  .post-image {
+  .post-image:not(.post-image-has-sibling) {
     max-width: 100%;
     min-width: 100%;
+    height: auto;
+  }
+
+  .post-image-has-sibling {
+    max-height: var(--post-image-height);
+    min-height: var(--post-image-height);
+    max-width: auto;
+    min-width: auto;
   }
 }
 
@@ -2320,13 +2318,10 @@ nav {
 .post-image {
   object-fit: cover;
   border-radius: var(--main-border-radius);
-  height: auto;
+  max-height: var(--post-image-height);
+  min-height: var(--post-image-height);
   border: 1px var(--image-border-color) solid;
-}
-
-.post-image-has-sibling {
-  max-width: var(--post-image-width);
-  min-width: var(--post-image-width);
+  width: auto;
 }
 
 .post-bottom-no-auth {
@@ -3320,7 +3315,7 @@ button:disabled {
   color: var(--main-bg);
   border-radius: var(--border-radius-small);
   background: var(--sec-bg);
-  padding: 20px;
+  padding: 15px;
   animation: var(--notification-animation-duration) notification-appear forwards ease-in-out;
   transition: var(--notification-animation-duration);
 }
@@ -3344,13 +3339,13 @@ button:disabled {
 }
 
 .app-notification-hide {
-  animation: var(--notification-animation-duration) notification-hide forwards ease-in-out;
+  animation: 3s notification-hide forwards linear;
 }
 
 @keyframes notification-hide {
   100% {
-    transform: translateY(var(--notification-anim-translate-y));
-    opacity: .5;
+    transform: translateY(100vh);
+    opacity: 0;
   }
 }
 
@@ -3464,4 +3459,8 @@ button:disabled {
 
 .replies-wrp {
   margin-top: var(--post-spacing-small);
+}
+
+.weight-500 {
+  font-weight: 500;
 }
