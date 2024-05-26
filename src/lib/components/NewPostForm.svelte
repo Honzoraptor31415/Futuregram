@@ -165,10 +165,6 @@
   $: console.log(currDbUser);
 </script>
 
-<svelte:head>
-  <title>Create a post on Futuregram</title>
-</svelte:head>
-
 {#if currDbUser}
   <div class="feed-page-post-wrp">
     <div class="post">

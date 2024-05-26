@@ -6,7 +6,7 @@ export default function setNotification(
   linkHref?: string,
   linkText?: string
 ) {
-  const fullShowTime = 2000;
+  const fullShowTime = 3000;
   const animationDuration = 200;
 
   const notif: AppNotification = {

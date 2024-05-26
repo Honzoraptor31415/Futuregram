@@ -14,6 +14,7 @@
 
   const navDisallowedLocations = ["login", "signup"];
   let nav = true;
+
   page.subscribe((val: any) => {
     if (browser) {
       nav = !navDisallowedLocations.includes(
@@ -72,7 +73,9 @@
       >
         <p>{text}</p>
         {#if linkHref}
-          <a class="hover-underline" href={linkHref}>{linkText ?? "View"}</a>
+          <a class="hover-underline weight-500" href={linkHref}
+            >{linkText ?? "View"}</a
+          >
         {/if}
       </div>
     {/each}

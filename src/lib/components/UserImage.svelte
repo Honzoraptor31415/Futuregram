@@ -1,8 +1,7 @@
 <script lang="ts">
-  import { supabase } from "$lib/supabaseClient";
-  import { onMount } from "svelte";
   import Follow from "./Follow.svelte";
   import LongHiddenText from "./LongHiddenText.svelte";
+  import type { DbUser } from "$lib/types/db";
 
   export let imageUrl: string;
   export let imageClass = "image-height-40";
@@ -11,27 +10,10 @@
   export let displayedUsername: string;
   export let userBio: string;
   export let uid: string;
-  export let followers: string[] = [];
+  export let followers: DbUser[] = [];
   export let wrpClass = "user-image-wrp";
 
   let show = false;
-
-  async function getFollowers() {
-    const { data } = await supabase
-      .from("users")
-      .select()
-      .eq("id", uid)
-      .single();
-
-    data &&
-      data.followers &&
-      data.followers.length &&
-      (followers.length = data.followers.length);
-  }
-
-  onMount(() => {
-    followers.length === 0 && getFollowers();
-  });
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -78,7 +60,7 @@
         strictClasses
         btnClass="button-element user-page-input primary-button text-center"
         unfollowClass="button-element user-page-input secondary-button white"
-        bind:exportedFollowers={followers}
+        bind:followersAsUsers={followers}
         showEditingButtonWhenCurrUser
       />
     </div>

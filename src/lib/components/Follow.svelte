@@ -4,6 +4,7 @@
   import type { DbUser } from "$lib/types/db";
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/userDbData";
+  import { onMount } from "svelte";
 
   export let uid: string;
   export let btnClass: string;
@@ -11,7 +12,7 @@
   export let followText: string = "Follow";
   export let unfollowClass: string = "less";
   export let strictClasses = false;
-  export let exportedFollowers: string[] = [];
+  export let followersAsUsers: DbUser[] = [];
   export let showEditingButtonWhenCurrUser = false;
 
   let user: DbUser;
@@ -38,16 +39,17 @@
       .single();
     if (data && data.followers && data.followers.includes(funcUid)) {
       followed = true;
-      console.log("User is followed");
-    } else {
-      console.log("You don't follow this user");
     }
   }
 
   async function getUser() {
-    const { data } = await supabase.from("users").select().eq("id", uid);
+    const { data } = await supabase
+      .from("users")
+      .select()
+      .eq("id", uid)
+      .single();
 
-    data && (user = data[0]);
+    data && (user = data);
   }
   getUser();
 
@@ -69,7 +71,7 @@
         followers.push(currDbUser.id);
         currUserFollows.push(user.id);
         user.followers = followers;
-        exportedFollowers = followers;
+        updateExportedFollowersById(followers);
         updateFollowers(followers, user.id);
         updateFollows(currUserFollows, currDbUser.id);
       } else {
@@ -82,7 +84,7 @@
             return uid !== user.id;
           }));
         user.followers = followers;
-        exportedFollowers = followers;
+        updateExportedFollowersById(followers);
         updateFollowers(followers, user.id);
         updateFollows(currUserFollows, currDbUser.id);
       }
@@ -96,7 +98,6 @@
       .from("users")
       .update({ follows: value })
       .eq("id", uid);
-    console.log(error);
   }
 
   async function updateFollowers(value: string[], uid: string) {
@@ -104,8 +105,54 @@
       .from("users")
       .update({ followers: value })
       .eq("id", uid);
-    console.log(error);
   }
+
+  async function updateExportedFollowersById(ids: string[]) {
+    let funcFollowers: DbUser[] = [];
+    for (let i = 0; i < ids.length; i++) {
+      const { data } = await supabase
+        .from("users")
+        .select()
+        .eq("id", ids[i])
+        .single();
+
+      if (data) {
+        funcFollowers = [...funcFollowers, data];
+        if (i === ids.length - 1) {
+          followersAsUsers = funcFollowers;
+        }
+      }
+    }
+  }
+
+  async function getFollowers() {
+    const { data: thisUser } = await supabase
+      .from("users")
+      .select()
+      .eq("id", uid)
+      .single();
+
+    if (thisUser) {
+      let funcFollowers: DbUser[] = [];
+      for (let i = 0; i < thisUser.followers.length; i++) {
+        const { data: follower } = await supabase
+          .from("users")
+          .select()
+          .eq("id", thisUser.followers[i])
+          .single();
+
+        follower && funcFollowers.push(follower);
+
+        thisUser.followers.length === funcFollowers.length &&
+          i === thisUser.followers.length - 1 &&
+          (followersAsUsers = funcFollowers);
+      }
+    }
+  }
+
+  onMount(() => {
+    getFollowers();
+  });
 </script>
 
 {#if currDbUser && user}

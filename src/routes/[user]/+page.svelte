@@ -144,6 +144,10 @@
       });
     }
   }
+
+  $: if (user && followers.length > 0) {
+    user.followers = followers.map(({ id }) => id);
+  }
 </script>
 
 <svelte:head>
@@ -212,6 +216,7 @@
             <p class="user-page-username less">@{user.url_username}</p>
             <div class="user-buttons-desktop">
               <Follow
+                bind:followersAsUsers={followers}
                 uid={user.id}
                 btnClass="button-element user-page-input primary-button"
                 unfollowClass="button-element user-page-input red-bright-button"
@@ -364,6 +369,7 @@
         <div class="user-buttons-mobile">
           <Follow
             uid={user.id}
+            bind:followersAsUsers={followers}
             btnClass="button-element user-page-input primary-button"
             unfollowClass="button-element user-page-input red-bright-button"
           />

@@ -11,6 +11,8 @@
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
   import type { DbUser } from "$lib/types/db";
   import { supabase } from "$lib/supabaseClient";
+  import { goto } from "$app/navigation";
+  import { signOut } from "$lib/helper/supabase";
 
   let currDbUser: DbUser;
   let locationHref = browser && location.pathname.replaceAll("/", "");
@@ -63,21 +65,12 @@
   });
 
   userDbData.subscribe((val: any) => {
-    console.log(val);
-
     currDbUser = val;
   });
 
   userLoaded.subscribe((val: any) => {
     userIsLoaded = val;
   });
-
-  async function signOut() {
-    const { error } = await supabase.auth.signOut();
-    if (browser) {
-      window.location.href = "/login";
-    }
-  }
 </script>
 
 {#if userIsLoaded && currDbUser}

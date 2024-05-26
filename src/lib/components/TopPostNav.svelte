@@ -4,10 +4,9 @@
   import HiddenMenu from "./HiddenMenu.svelte";
   import type { AuthUser } from "$lib/types/auth";
   import type { DbUser } from "$lib/types/db";
-  import { supabase } from "$lib/supabaseClient";
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/userDbData";
-  import { browser } from "$app/environment";
+  import { signOut } from "$lib/helper/supabase";
 
   export let showMenu = false;
 
@@ -63,15 +62,6 @@
       href: "/login",
     },
   ];
-
-  async function reportUser() {
-    console.log("Report user function");
-  }
-
-  async function signOut() {
-    const { error } = await supabase.auth.signOut();
-    !error && browser && (location.href = "/login");
-  }
 </script>
 
 <nav class="mobile-top-nav">
