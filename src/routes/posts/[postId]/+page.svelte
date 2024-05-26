@@ -3,17 +3,17 @@
   import TopPostNav from "$lib/components/TopPostNav.svelte";
   import { page } from "$app/stores";
 
+  export let data;
+
   let commentActive = false;
 
   page.subscribe((val: any) => {
     commentActive = val.url.search === "?comment";
   });
-
-  export let data;
 </script>
 
 <svelte:head>
-  <title>{data ? `${data.title} - Futuregram` : "Loading post..."}</title>
+  <title>{`${data.description.slice(0, 19)}... - Futuregram`}</title>
 </svelte:head>
 
 <main class="feed-main desktop-nav-margin">

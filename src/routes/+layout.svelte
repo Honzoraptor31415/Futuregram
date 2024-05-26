@@ -6,7 +6,7 @@
   import { page } from "$app/stores";
   import { disableScrollHandling, invalidate } from "$app/navigation";
   import { onMount } from "svelte";
-  import userDbData from "$lib/stores/userDbData";
+  import userDbData, { userLoaded } from "$lib/stores/userDbData";
   import loggedInUser from "$lib/stores/user";
   import { appNotifications } from "$lib/stores/app";
 
@@ -36,18 +36,26 @@
   });
 
   async function getAuthUser() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    if (user) {
-      loggedInUser.set(user);
-      getUserDbData(user.user_metadata.db_id);
+    const { data } = await supabase.auth.getUser();
+    if (data.user) {
+      loggedInUser.set(data.user);
+      getUserDbData(data.user.user_metadata.db_id);
+    } else {
+      userDbData.set(null);
+    }
+
+    if (data) {
+      userLoaded.set(true);
     }
   }
   getAuthUser();
   async function getUserDbData(id: string) {
-    const { data } = await supabase.from("users").select().eq("id", id);
-    data ? userDbData.set(data[0]) : userDbData.set(null);
+    const { data } = await supabase
+      .from("users")
+      .select()
+      .eq("id", id)
+      .single();
+    data ? userDbData.set(data) : userDbData.set(null);
   }
 </script>
 

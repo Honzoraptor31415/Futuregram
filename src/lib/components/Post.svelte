@@ -476,7 +476,7 @@
               <div class="align-center">
                 <p class="even-less">{dayjs(created_at).fromNow()}</p>
                 <HiddenMenu
-                  btnClass="no-style post-menu flex-center-all button-element before-hover-anim"
+                  btnClass="no-style post-menu flex-center-all button-element before-hover-anim post-action-m-block"
                   icon={ThreeDotsHoriz}
                   iconClass="small-post-icon"
                   wrpClass="dots-menu"
@@ -488,7 +488,9 @@
               </div>
             </div>
           </div>
-          <p class="post-description mobile pl-text">
+          <p
+            class={`post-description mobile pl-text ${image_urls.length > 0 ? "post-description-w-img" : ""}`}
+          >
             <LongHiddenText text={description} maxLength={maxChars} />
           </p>
           <div class="post-top desktop">
@@ -502,7 +504,7 @@
                 <div class="align-center">
                   <p class="even-less">{dayjs(created_at).fromNow()}</p>
                   <HiddenMenu
-                    btnClass="no-style post-menu flex-center-all button-element before-hover-anim"
+                    btnClass="no-style post-menu flex-center-all button-element before-hover-anim post-action-m-block"
                     icon={ThreeDotsHoriz}
                     iconClass="small-post-icon"
                     wrpClass="dots-menu"
@@ -513,7 +515,9 @@
                   />
                 </div>
               </div>
-              <p class="post-description pl-text">
+              <p
+                class={`post-description pl-text ${image_urls.length > 0 ? "post-description-w-img" : ""}`}
+              >
                 <LongHiddenText text={description} maxLength={maxChars} />
               </p>
             </div>
@@ -541,7 +545,7 @@
                       <img
                         src={image}
                         alt="Post"
-                        class="post-image snap-swiper-item"
+                        class={`post-image snap-swiper-item ${image_urls.length > 1 ? "post-image-has-sibling" : ""}`}
                       />
                     {/each}
                   </div>
@@ -552,7 +556,9 @@
                     <img
                       src={image}
                       alt="Post"
-                      class="post-image snap-swiper-item"
+                      class="post-image snap-swiper-item {image_urls.length > 0
+                        ? 'post-image-has-sibling'
+                        : ''}"
                     />
                   {/each}
                 </div>
@@ -635,29 +641,6 @@
         </div>
       </div>
       <div>
-        <div class="post-comments-wrp" id="comments">
-          {#if postComments}
-            {#if feedPost}
-              {#if firstId}
-                <Comment
-                  bind:replying
-                  {repliesShown}
-                  id={firstId}
-                  feedComment={true}
-                />
-              {/if}
-            {:else}
-              {#each postComments as comment}
-                <Comment
-                  bind:replying
-                  {repliesShown}
-                  id={comment.id}
-                  feedComment={false}
-                />
-              {/each}
-            {/if}
-          {/if}
-        </div>
         {#if !feedPost && currDbUser}
           <form
             class={`comment-input-wrp user-input-text main-bg-blurry ${commentPlaceholder === "" ? "" : "form-error-input"}`}
@@ -698,6 +681,29 @@
             </button>
           </form>
         {/if}
+        <div class="post-comments-wrp" id="comments">
+          {#if postComments}
+            {#if feedPost}
+              {#if firstId}
+                <Comment
+                  bind:replying
+                  {repliesShown}
+                  id={firstId}
+                  feedComment={true}
+                />
+              {/if}
+            {:else}
+              {#each postComments as comment}
+                <Comment
+                  bind:replying
+                  {repliesShown}
+                  id={comment.id}
+                  feedComment={false}
+                />
+              {/each}
+            {/if}
+          {/if}
+        </div>
       </div>
     </div>
   {:else}

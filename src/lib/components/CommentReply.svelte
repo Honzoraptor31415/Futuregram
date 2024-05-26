@@ -229,7 +229,7 @@
               {reply.edited ? "(edited)" : ""}
             </p>
             <HiddenMenu
-              btnClass="no-style post-menu flex-center-all button-element before-hover-anim"
+              btnClass="no-style post-menu flex-center-all button-element before-hover-anim post-action-m-block"
               icon={ThreeDotsHoriz}
               iconClass="small-post-icon"
               wrpClass="dots-menu"
@@ -272,7 +272,9 @@
             </div>
           </form>
         {:else}
-          <p class="comment-text pl-text">{reply.text}</p>
+          <p class={`comment-text pl-text ${!currDbUser ? "desc-m-top" : ""}`}>
+            {reply.text}
+          </p>
         {/if}
         <div class="flex-between">
           <div class="post-actions gap-15 reply-actions">

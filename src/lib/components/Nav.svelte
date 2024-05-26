@@ -6,7 +6,7 @@
   import MenuIcon from "$lib/components/icons/MenuIcon.svelte";
   import NewIcon from "$lib/components/icons/NewIcon.svelte";
   import UserIcon from "$lib/components/icons/UserIcon.svelte";
-  import userDbData from "$lib/stores/userDbData";
+  import userDbData, { userLoaded } from "$lib/stores/userDbData";
   import { page } from "$app/stores";
   import HiddenMenu from "$lib/components/HiddenMenu.svelte";
   import type { DbUser } from "$lib/types/db";
@@ -14,6 +14,8 @@
 
   let currDbUser: DbUser;
   let locationHref = browser && location.pathname.replaceAll("/", "");
+  let userIsLoaded = false;
+
   const loggedInMenuElements = [
     {
       class: "menu-link",
@@ -60,21 +62,25 @@
     locationHref = val.url.pathname.replaceAll("/", "");
   });
 
+  userDbData.subscribe((val: any) => {
+    console.log(val);
+
+    currDbUser = val;
+  });
+
+  userLoaded.subscribe((val: any) => {
+    userIsLoaded = val;
+  });
+
   async function signOut() {
     const { error } = await supabase.auth.signOut();
     if (browser) {
       window.location.href = "/login";
     }
   }
-
-  userDbData.subscribe((val: any) => {
-    console.log(val);
-
-    currDbUser = val;
-  });
 </script>
 
-{#if currDbUser}
+{#if userIsLoaded && currDbUser}
   <!-- DESKTOP USER -->
   <nav class="desktop-nav">
     <div class="nav-side grid-parent">
@@ -153,7 +159,7 @@
       />
     </a>
   </nav>
-{:else}
+{:else if userIsLoaded}
   <!-- DESKTOP GUEST -->
   <nav class="desktop-nav">
     <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>

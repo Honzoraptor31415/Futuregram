@@ -72,24 +72,12 @@
     const { error } = await supabase.auth.signOut();
     !error && browser && (location.href = "/login");
   }
-
-  function historyStep(step: string) {
-    switch (step) {
-      case "back":
-        history.back();
-        break;
-
-      default:
-        console.log("Invalid step");
-        break;
-    }
-  }
 </script>
 
 <nav class="mobile-top-nav">
   <button
     on:click={() => {
-      historyStep("back");
+      history.back();
     }}
     class="grid-wrp no-style mobile-top-btn btn-active-opacity"
   >

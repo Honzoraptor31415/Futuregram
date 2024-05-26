@@ -49,11 +49,13 @@
       console.log("Scroll listener removed");
     };
   });
+
+  $: console.log(currDbUser);
 </script>
 
 <main class="feed-main desktop-nav-margin">
   <div class="posts-inline-spacing">
-    {#if currDbUser}
+    {#if currDbUser !== undefined}
       <NewPostForm />
     {/if}
     {#if posts.length > 0}

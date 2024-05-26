@@ -161,14 +161,16 @@
       console.error("Error while uploading: user ain't logged in.");
     }
   }
+
+  $: console.log(currDbUser);
 </script>
 
 <svelte:head>
   <title>Create a post on Futuregram</title>
 </svelte:head>
 
-<div class="feed-page-post-wrp">
-  {#if currDbUser}
+{#if currDbUser}
+  <div class="feed-page-post-wrp">
     <div class="post">
       <div class="post-left">
         <a href={`/${currDbUser.url_username}`} class="grid-wrp"
@@ -256,5 +258,5 @@
         </div>
       </div>
     </div>
-  {/if}
-</div>
+  </div>
+{/if}

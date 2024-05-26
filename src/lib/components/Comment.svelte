@@ -314,7 +314,7 @@
               {comment.edited ? "(edited)" : ""}
             </p>
             <HiddenMenu
-              btnClass="no-style post-menu flex-center-all button-element before-hover-anim"
+              btnClass="no-style post-menu flex-center-all button-element before-hover-anim post-action-m-block"
               icon={ThreeDotsHoriz}
               iconClass="small-post-icon"
               wrpClass="dots-menu"
@@ -355,7 +355,9 @@
             </div>
           </form>
         {:else}
-          <p class="comment-text pl-text">{comment.text}</p>
+          <p class={`comment-text pl-text ${!currDbUser ? "desc-m-top" : ""}`}>
+            {comment.text}
+          </p>
         {/if}
 
         {#if currUser && currDbUser}
