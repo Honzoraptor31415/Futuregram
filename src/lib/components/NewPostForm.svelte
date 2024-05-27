@@ -49,20 +49,6 @@
       reader.readAsDataURL(image);
       reader.onload = (e) => {
         images.push(e.target!.result);
-        console.log(e.target);
-
-        let imageCheck = validation.imageCheck(
-          images[i],
-          files[i].type,
-          files[i].size < 1000
-            ? files[i].size
-            : Math.round(files[i].size / 1000)
-        );
-
-        if (!imageCheck.isValid) {
-          setNotification(imageCheck.message);
-        }
-        console.log("READER loaded and everything in it ran");
       };
     }
 
@@ -72,25 +58,36 @@
   async function uploadImages() {
     let urls: string[] = [];
     for (let i = 0; i < files.length; i++) {
-      let imageCheck = validation.imageCheck(
-        images[i],
-        files[i].type,
-        files[i].size < 1000 ? files[i].size : Math.round(files[i].size / 1000)
-      );
-      console.log(imageCheck);
-      if (imageCheck.isValid) {
-        const { imageUrl } = await uploadImage(
-          files[i],
-          images[i].name,
-          images[i].type
-        );
-        urls = [...urls, imageUrl];
+      const image = new Image();
+      image.src = images[i];
 
-        if (i === files.length - 1) {
-          return {
-            imageUrls: urls,
-          };
+      image.onload = () => {
+        let imageCheck = validation.imageCheck(
+          files[i].type,
+          files[i].size < 1000
+            ? files[i].size
+            : Math.round(files[i].size / 1000),
+          image.width,
+          image.height
+        );
+
+        if (!imageCheck.isValid) {
+          setNotification(imageCheck.message);
+          return;
         }
+      };
+
+      const { imageUrl } = await uploadImage(
+        files[i],
+        images[i].name,
+        images[i].type
+      );
+      urls = [...urls, imageUrl];
+
+      if (i === files.length - 1) {
+        return {
+          imageUrls: urls,
+        };
       }
     }
   }

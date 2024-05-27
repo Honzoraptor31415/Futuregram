@@ -150,9 +150,18 @@ export function descriptionCheck(description: string) {
   return check;
 }
 
-export function imageCheck(imageData: string, type: string, size: number) {
+export function imageCheck(
+  type: string,
+  size: number,
+  width: number,
+  height: number
+) {
   const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
   const maxImageSize = 10_000;
+  const minWidth = 200;
+  const minHeight = 200;
+  const maxWidth = 5000;
+  const maxHeight = 5000;
 
   const check = {
     message: "",
@@ -164,6 +173,18 @@ export function imageCheck(imageData: string, type: string, size: number) {
     check.isValid = false;
   } else if (size > maxImageSize) {
     check.message = "Image is too big";
+    check.isValid = false;
+  } else if (width < minWidth) {
+    check.message = "Image isn't wide enough";
+    check.isValid = false;
+  } else if (width > maxWidth) {
+    check.message = "Image is too wide";
+    check.isValid = false;
+  } else if (height < minHeight) {
+    check.message = "Image isn't tall enough";
+    check.isValid = false;
+  } else if (height > maxHeight) {
+    check.message = "Image is too tall";
     check.isValid = false;
   }
 
