@@ -42,6 +42,7 @@
   --post-spacing-small: 7px;
   --border-radius-small: 10px;
   --post-image-height: 340px;
+  --action-warning-outer-spacing: 20px;
 }
 
 * {
@@ -255,6 +256,7 @@ p a {
 
 button {
   border: none;
+  font-size: 1rem;
 }
 
 .other-login {
@@ -964,6 +966,14 @@ button {
     min-height: 150px;
     z-index: 9;
   }
+
+  .action-warning {
+    width: 350px;
+  }
+
+  .action-warning-button:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1060,10 +1070,6 @@ button {
     display: grid;
     gap: 16px;
     grid-template-columns: auto auto;
-  }
-
-  .w-full {
-    width: 100%;
   }
 
   .user-buttons-desktop {
@@ -1607,6 +1613,14 @@ button {
     width: 300px;
     min-height: 150px;
     z-index: 9;
+  }
+
+  .action-warning {
+    width: 350px;
+  }
+
+  .action-warning-button:hover {
+    background: rgba(255, 255, 255, 0.03);
   }
 }
 
@@ -2223,6 +2237,14 @@ button {
     max-width: auto;
     min-width: auto;
   }
+
+  .action-warning {
+    width: calc(100% - 30px);
+  }
+
+  .action-warning-button:active {
+    background: rgba(255, 255, 255, 0.03);
+  }
 }
 
 .no-select {
@@ -2318,10 +2340,19 @@ nav {
 .post-image {
   object-fit: cover;
   border-radius: var(--main-border-radius);
+  border: 1px var(--image-border-color) solid;
+}
+
+.post-image-has-sibling {
+  width: auto;
   max-height: var(--post-image-height);
   min-height: var(--post-image-height);
-  border: 1px var(--image-border-color) solid;
-  width: auto;
+}
+
+.post-image-no-sibling {
+  max-width: 100%;
+  min-width: 100%;
+  height: auto;
 }
 
 .post-bottom-no-auth {
@@ -3463,4 +3494,30 @@ button:disabled {
 
 .weight-500 {
   font-weight: 500;
+}
+
+.grid-col-half {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.action-warning {
+  padding: var(--action-warning-outer-spacing) 0 0 0;
+}
+
+.action-warning-m-inline {
+  margin-inline: var(--action-warning-outer-spacing);
+}
+
+.action-warning-button {
+  padding: var(--action-warning-outer-spacing);
+  transition: .2s;
+}
+
+.action-warning-button:first-child {
+  border-top-right-radius: 27px;
+}
+
+.action-warning-button:last-child {
+  border-top-left-radius: 27px;
 }

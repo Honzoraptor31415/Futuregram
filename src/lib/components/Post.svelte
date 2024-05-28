@@ -25,6 +25,8 @@
   import SaveIcon from "./icons/SaveIcon.svelte";
   import setNotification from "$lib/helper/appNotifications";
   import UserImage from "./UserImage.svelte";
+  import setActionWarning from "$lib/helper/actionWarning";
+  import { goto } from "$app/navigation";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -62,6 +64,7 @@
   let animationRunning = false;
   let heartX = 0;
   let heartY = 0;
+  let menuElements: MenuElement[];
 
   const dbClickAnimationTimeout = 400;
   const heartSize = 70;
@@ -241,6 +244,7 @@
       getLikes(val.id);
       getIsSaved();
       likesListener();
+      getMenuElements();
     }
   });
 
@@ -374,14 +378,28 @@
   }
 
   function remove() {
-    console.log("Delete post function");
-  }
+    setActionWarning(
+      "Delete post?",
+      "Deleting a post can't be undone",
+      async () => {
+        if (currDbUser && currDbUser.id === user_id) {
+          const { error } = await supabase.from("posts").delete().eq("id", id);
+          if (!error) {
+            setNotification("Post was deleted");
+            // using location.href instead of goto, because I need a refresh to happen
 
-  function getMenuElements() {
-    if (currDbUser && currDbUser.id === postCreator.id) {
-      return authorPostOpts;
-    }
-    return defaultPostOpts;
+            if ($page.route.id === "/posts/[postId]" && browser) {
+              location.href = "/";
+            } else if ($page.route.id !== "/posts/[postId]") {
+              location.href = location.href;
+            }
+          }
+        } else {
+          console.log("User validation check failed");
+        }
+      },
+      "Delete"
+    );
   }
 
   function togglePostVisibility() {
@@ -443,6 +461,14 @@
       }
     }
   }
+
+  function getMenuElements() {
+    if (currDbUser && currDbUser.id === user_id) {
+      menuElements = authorPostOpts;
+    } else {
+      menuElements = defaultPostOpts;
+    }
+  }
 </script>
 
 {#if id && postCreator}
@@ -482,7 +508,7 @@
                   wrpClass="dots-menu"
                   wrpClassVis="dots-menu-visible"
                   wrpClassHid=""
-                  elements={getMenuElements()}
+                  elements={menuElements}
                   authOnly
                 />
               </div>
@@ -510,7 +536,7 @@
                     wrpClass="dots-menu"
                     wrpClassVis="dots-menu-visible"
                     wrpClassHid=""
-                    elements={getMenuElements()}
+                    elements={menuElements}
                     authOnly
                   />
                 </div>
@@ -522,7 +548,7 @@
               </p>
             </div>
           </div>
-          {#if image_urls && image_urls.length > 0}
+          {#if image_urls?.length > 0}
             <!-- svelte-ignore a11y-no-static-element-interactions -->
             <div
               class="grid-wrp relative dbclick-heart-wrp"
@@ -538,19 +564,30 @@
                   <HeartIcon iconClass="dbclick-heart-fade liked-heart-icon" />
                 </div>
               {/if}
+
               {#if feedPost}
-                <a href={`posts/${id}`} class="grid-wrp">
-                  <div class="snap-swiper-x gap-10">
-                    {#each image_urls as image}
-                      <img
-                        src={image}
-                        alt="Post"
-                        class={`post-image snap-swiper-item ${image_urls.length > 1 ? "post-image-has-sibling" : ""}`}
-                      />
-                    {/each}
-                  </div>
-                </a>
-              {:else}
+                {#if image_urls.length > 1}
+                  <a href={`posts/${id}`} class="grid-wrp">
+                    <div class="snap-swiper-x gap-10">
+                      {#each image_urls as image}
+                        <img
+                          src={image}
+                          alt="Post"
+                          class={`post-image snap-swiper-item ${image_urls.length > 1 ? "post-image-has-sibling" : ""}`}
+                        />
+                      {/each}
+                    </div>
+                  </a>
+                {:else}
+                  <a href={`posts/${id}`} class="grid-wrp">
+                    <img
+                      src={image_urls[0]}
+                      alt="Post"
+                      class="post-image post-image-no-sibling"
+                    />
+                  </a>
+                {/if}
+              {:else if image_urls.length > 1}
                 <div class="snap-swiper-x gap-10">
                   {#each image_urls as image}
                     <img
@@ -562,6 +599,12 @@
                     />
                   {/each}
                 </div>
+              {:else}
+                <img
+                  src={image_urls[0]}
+                  alt="Post"
+                  class="post-image post-image-no-sibling"
+                />
               {/if}
             </div>
           {/if}

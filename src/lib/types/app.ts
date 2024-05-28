@@ -20,3 +20,10 @@ export type AppNotification = {
   linkHref?: string;
   linkText?: string;
 };
+
+export type ActionWarning = {
+  heading: string;
+  text: string;
+  func: () => void;
+  continueBtnText?: string;
+};

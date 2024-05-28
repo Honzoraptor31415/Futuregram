@@ -8,11 +8,12 @@
   import { onMount } from "svelte";
   import userDbData, { userLoaded } from "$lib/stores/userDbData";
   import loggedInUser from "$lib/stores/user";
-  import { appNotifications } from "$lib/stores/app";
+  import { actionWarning, appNotifications } from "$lib/stores/app";
 
   export let data;
 
   const navDisallowedLocations = ["login", "signup"];
+  const overlayId = "bg-overlay";
   let nav = true;
 
   page.subscribe((val: any) => {
@@ -58,11 +59,44 @@
       .single();
     data ? userDbData.set(data) : userDbData.set(null);
   }
+
+  function handleHideWarning(e: any) {
+    e.target.id === overlayId && actionWarning.set(null);
+  }
 </script>
 
 {#if browser && nav}
   <Nav />
 {/if}
+
+{#if $actionWarning}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
+  <div class="fullscreen-fixed-wrp" id={overlayId} on:click={handleHideWarning}>
+    <div class="sec-bg-element flex-column align-center gap-10 action-warning">
+      <h2 class="action-warning-m-inline">{$actionWarning.heading}</h2>
+      <p class="less action-warning-m-inline">{$actionWarning.text}</p>
+      <div class="w-full grid-col-half">
+        <button
+          class="no-style action-warning-button less pointer"
+          on:click={() => {
+            actionWarning.set(null);
+          }}>Cancel</button
+        >
+        <button
+          class="no-style action-warning-button pointer"
+          on:click={() => {
+            $actionWarning.func();
+            actionWarning.set(null);
+          }}
+          ><b class="red">{$actionWarning.continueBtnText ?? "Continue"}</b
+          ></button
+        >
+      </div>
+    </div>
+  </div>
+{/if}
+
 <slot />
 
 {#if $appNotifications.length > 0}
