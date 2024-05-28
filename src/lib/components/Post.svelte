@@ -1,7 +1,6 @@
 <script lang="ts">
   import HeartIcon from "$lib/components/icons/HeartIcon.svelte";
   import ShareIcon from "$lib/components/icons/ShareIcon.svelte";
-  import ReportIcon from "$lib/components/icons/ReportIcon.svelte";
   import dayjs from "dayjs";
   import relativeTime from "dayjs/plugin/relativeTime";
   import loggedInUser from "$lib/stores/user";
@@ -21,12 +20,10 @@
   import HiddenMenu from "./HiddenMenu.svelte";
   import ThreeDotsHoriz from "./icons/ThreeDotsHoriz.svelte";
   import { blockUser, report } from "$lib/helper/feedAdvanced";
-  import { onMount } from "svelte";
   import SaveIcon from "./icons/SaveIcon.svelte";
   import setNotification from "$lib/helper/appNotifications";
   import UserImage from "./UserImage.svelte";
-  import setActionWarning from "$lib/helper/actionWarning";
-  import { goto } from "$app/navigation";
+  import { actionWarning } from "$lib/stores/app";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -378,10 +375,10 @@
   }
 
   function remove() {
-    setActionWarning(
-      "Delete post?",
-      "Deleting a post can't be undone",
-      async () => {
+    actionWarning.set({
+      heading: "Delete post?",
+      text: "Deleting a post can't be undone",
+      func: async () => {
         if (currDbUser && currDbUser.id === user_id) {
           const { error } = await supabase.from("posts").delete().eq("id", id);
           if (!error) {
@@ -398,8 +395,8 @@
           console.log("User validation check failed");
         }
       },
-      "Delete"
-    );
+      continueBtnText: "Delete",
+    });
   }
 
   function togglePostVisibility() {
