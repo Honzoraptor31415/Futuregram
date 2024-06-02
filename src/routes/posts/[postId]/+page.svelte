@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Post from "$lib/components/Post.svelte";
-  import TopPostNav from "$lib/components/TopPostNav.svelte";
+  import Post from "$lib/components/feed/Post.svelte";
+  import TopPostNav from "$lib/components/feed/TopPostNav.svelte";
   import { page } from "$app/stores";
 
   export let data;

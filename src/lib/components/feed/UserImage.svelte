@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Follow from "./Follow.svelte";
-  import LongHiddenText from "./LongHiddenText.svelte";
+  import Follow from "../feed/Follow.svelte";
+  import LongHiddenText from "../ui/LongHiddenText.svelte";
   import type { DbUser } from "$lib/types/db";
 
   export let imageUrl: string;

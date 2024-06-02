@@ -1,6 +1,6 @@
 <script lang="ts">
-  import PostPreview from "$lib/components/PostPreview.svelte";
-  import TopPostNav from "$lib/components/TopPostNav.svelte";
+  import PostPreview from "$lib/components/feed/PostPreview.svelte";
+  import TopPostNav from "$lib/components/feed/TopPostNav.svelte";
   import userDbData from "$lib/stores/userDbData";
   import { supabase } from "$lib/supabaseClient";
   import type { DbPost, DbUser } from "$lib/types/db";
@@ -68,7 +68,7 @@
         {#if savedPosts.length > 0}
           <div class="post-prevs-grid">
             {#each savedPosts as post}
-              {#if post.image_urls.length > 0}
+              {#if post.image_urls && post.image_urls.length > 0}
                 <PostPreview
                   imageUrl={post.image_urls[0]}
                   linkHref={`/posts/${post.id}`}

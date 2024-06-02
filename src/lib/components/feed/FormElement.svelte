@@ -1,7 +1,7 @@
 <script lang="ts">
-  import RedFormStar from "./RedFormStar.svelte";
-  import HideIcon from "./icons/HideIcon.svelte";
-  import ShowIcon from "./icons/ShowIcon.svelte";
+  import RedFormStar from "../forms/RedFormStar.svelte";
+  import HideIcon from "../icons/HideIcon.svelte";
+  import ShowIcon from "../icons/ShowIcon.svelte";
 
   export let id: string;
   export let placeholder: string;

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { DbUser } from "$lib/types/db";
-  import Follow from "$lib/components/Follow.svelte";
+  import Follow from "$lib/components/feed/Follow.svelte";
 
   export let user: DbUser;
   export let followDialog: boolean = false;

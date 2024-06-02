@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getRandomHash } from "$lib/helper/random";
-  import ImageIcon from "./icons/ImageIcon.svelte";
+  import ImageIcon from "../icons/ImageIcon.svelte";
 
   export let value: string;
   export let placeholder = "What's going on?";

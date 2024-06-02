@@ -40,7 +40,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   const session = await event.locals.safeGetSession();
 
-  const protectedRoutes = ["/settings", "/chat", "/saved"];
+  const protectedRoutes = ["/settings", "/messages", "/saved"];
   const redirectAuthenticatedRoutes = ["/login", "/signup"];
 
   const url = new URL(event.request.url);

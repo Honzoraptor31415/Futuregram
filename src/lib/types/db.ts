@@ -38,7 +38,7 @@ export interface DbMessage {
   user_id: string;
 }
 
-export interface DbReports {
+export interface DbReport {
   created_at: number;
   created_by: string;
   id: string;

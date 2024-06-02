@@ -1,21 +1,22 @@
 <script lang="ts">
   import loggedInUser from "$lib/stores/user";
   import { page } from "$app/stores";
-  import LongHiddenText from "$lib/components/LongHiddenText.svelte";
+  import LongHiddenText from "$lib/components/ui/LongHiddenText.svelte";
   import { browser } from "$app/environment";
   import userDbData from "$lib/stores/userDbData.js";
   import type { DbUser, DbPost } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
-  import TopPostNav from "$lib/components/TopPostNav.svelte";
+  import TopPostNav from "$lib/components/feed/TopPostNav.svelte";
   import CrossIcon from "$lib/components/icons/CrossIcon.svelte";
-  import Follow from "$lib/components/Follow.svelte";
-  import SearchResult from "$lib/components/SearchResult.svelte";
+  import Follow from "$lib/components/feed/Follow.svelte";
+  import SearchResult from "$lib/components/ui/SearchResult.svelte";
   import { supabase } from "$lib/supabaseClient";
-  import PostPreview from "$lib/components/PostPreview.svelte";
+  import PostPreview from "$lib/components/feed/PostPreview.svelte";
+  import { checkMaybeCreateRoom } from "$lib/helper/chats.js";
 
   export let data;
 
-  let pageUser = data.user;
+  let pageUserUsername = data.user;
   let user: DbUser | null;
   let pageError = "";
   let posts: DbPost[] | null;
@@ -32,7 +33,7 @@
   let currDbUser: DbUser;
   let renderedDialog: "followers" | "following" | null = "followers";
   let followers: DbUser[] = [];
-  let follows: DbUser[] = [];
+  let following: DbUser[] = [];
   let loading = true;
   let functionLoading = false;
 
@@ -59,11 +60,11 @@
 
   page.subscribe((val: any) => {
     posts = null;
-    pageUser = val.data.user;
+    pageUserUsername = val.data.user;
     renderedDialog = null;
     user = null;
     followers = [];
-    follows = [];
+    following = [];
     getUser();
   });
 
@@ -71,14 +72,14 @@
     const { data, error } = await supabase
       .from("users")
       .select("*")
-      .eq("url_username", pageUser);
+      .eq("url_username", pageUserUsername);
     if (data?.length === 0) {
-      pageError = `User ${pageUser} doesn't exist`;
+      pageError = `User ${pageUserUsername} doesn't exist`;
     } else if (data) {
       user = data ? data[0] : "";
       getPosts(data[0].id);
       getFollowers();
-      getFollows();
+      getFollowing();
     }
   }
 
@@ -131,15 +132,15 @@
     }
   }
 
-  async function getFollows() {
-    if (user && user.follows) {
-      user.follows.forEach(async (followId: string) => {
+  async function getFollowing() {
+    if (user && user.following) {
+      user.following.forEach(async (followId: string) => {
         const { data } = await supabase
           .from("users")
           .select()
           .eq("id", followId);
         if (data) {
-          follows = [...follows, data[0]];
+          following = [...following, data[0]];
         }
       });
     }
@@ -194,7 +195,7 @@
               <SearchResult user={follower} followDialog={true} />
             {/each}
           {:else}
-            {#each follows as follow}
+            {#each following as follow}
               <SearchResult user={follow} followDialog={true} />
             {/each}
           {/if}
@@ -228,10 +229,12 @@
                     on:click={editProfile}>Edit profile</button
                   >
                 {:else}
-                  <a
-                    href="/chat?id=blabla12342069"
+                  <button
+                    on:click={() => {
+                      user && checkMaybeCreateRoom(user.id);
+                    }}
                     class="button-element user-page-input secondary-button button-link"
-                    >Message</a
+                    >Message</button
                   >
                 {/if}
               {/if}
@@ -301,7 +304,7 @@
             </div>
           {/if}
 
-          {#if user.follows && user.follows.length > 0}
+          {#if user.following && user.following.length > 0}
             <button
               on:click={() => {
                 setFollowDialog("following");
@@ -309,12 +312,12 @@
               class="user-follow-element no-style before-hover-anim button-element pointer"
             >
               <span class="user-follow-counter">
-                {#if user.follows}
-                  {user.follows.length <= 1
-                    ? user.follows.length === 0
+                {#if user.following}
+                  {user.following.length <= 1
+                    ? user.following.length === 0
                       ? "0"
-                      : user.follows.length
-                    : user.follows.length}
+                      : user.following.length
+                    : user.following.length}
                 {:else}
                   0
                 {/if}
@@ -324,12 +327,12 @@
           {:else}
             <div class="user-follow-element">
               <span class="user-follow-counter">
-                {#if user.follows}
-                  {user.follows.length <= 1
-                    ? user.follows.length === 0
+                {#if user.following}
+                  {user.following.length <= 1
+                    ? user.following.length === 0
                       ? "0"
-                      : user.follows.length
-                    : user.follows.length}
+                      : user.following.length
+                    : user.following.length}
                 {:else}
                   0
                 {/if}
@@ -380,10 +383,12 @@
                 on:click={editProfile}>Edit profile</button
               >
             {:else}
-              <a
-                href="/chat?id=blabla12342069"
+              <button
+                on:click={() => {
+                  checkMaybeCreateRoom(pageUserUsername);
+                }}
                 class="button-element user-page-input secondary-button button-link"
-                >Message</a
+                >Message</button
               >
             {/if}
           {/if}
@@ -399,7 +404,7 @@
               <div class="post-prevs-grid">
                 {#each posts as post}
                   <!-- I have to use conditional rendering instead of .neq(), because for some reason it returns a 400. Also on the supabase dashboard you can currentely (1716127109416) see the lil "We're facing a tech issue rn" dialog, so I think that might be the cause. -->
-                  {#if post.image_urls.length > 0}
+                  {#if post.image_urls && post.image_urls.length > 0}
                     <PostPreview
                       imageUrl={post.image_urls[0]}
                       linkHref={`/posts/${post.id}`}

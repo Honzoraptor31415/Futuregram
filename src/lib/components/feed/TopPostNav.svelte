@@ -1,7 +1,7 @@
 <script lang="ts">
   import ArrowLeftIcon from "$lib/components/icons/ArrowLeftIcon.svelte";
-  import MenuIcon from "./icons/MenuIcon.svelte";
-  import HiddenMenu from "./HiddenMenu.svelte";
+  import MenuIcon from "../icons/MenuIcon.svelte";
+  import HiddenMenu from "../ui/HiddenMenu.svelte";
   import type { AuthUser } from "$lib/types/auth";
   import type { DbUser } from "$lib/types/db";
   import loggedInUser from "$lib/stores/user";

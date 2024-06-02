@@ -1,6 +1,6 @@
 <script lang="ts">
   import Follow from "./Follow.svelte";
-  import LongHiddenText from "./LongHiddenText.svelte";
+  import LongHiddenText from "../ui/LongHiddenText.svelte";
 
   export let imageUrl: string;
   export let displayedUsername: string;

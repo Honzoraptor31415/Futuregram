@@ -2,7 +2,7 @@
   import type { DbPost, DbUser } from "$lib/types/db";
   import { onMount } from "svelte";
   import LongHiddenText from "./LongHiddenText.svelte";
-  import HeartIcon from "./icons/HeartIcon.svelte";
+  import HeartIcon from "../icons/HeartIcon.svelte";
   import { supabase } from "$lib/supabaseClient";
 
   export let post: DbPost;
@@ -27,16 +27,18 @@
 
 <a href={`/posts/${post.id}`} class="search-result post-search-result">
   <div
-    class={`${post.image_urls.length === 0 ? "post-result-w-pfp" : "post-result-content flex-between"}`}
+    class={`${post.image_urls && post.image_urls.length === 0 ? "post-result-w-pfp" : "post-result-content flex-between"}`}
   >
     <div class="result-info gap-5 justify-center">
-      <p class="font-weight-normal">
-        <LongHiddenText
-          text={post.description}
-          maxLength={60}
-          showButton={false}
-        />
-      </p>
+      {#if post.description}
+        <p class="font-weight-normal">
+          <LongHiddenText
+            text={post.description}
+            maxLength={60}
+            showButton={false}
+          />
+        </p>
+      {/if}
       <div class="post-actions m-block-0 align-center">
         <button
           class="post-action before-hover-anim rounded post-action-m-bottom"
@@ -61,7 +63,7 @@
         >
       </div>
     </div>
-    {#if post.image_urls.length === 0 && user}
+    {#if post.image_urls && post.image_urls.length === 0 && user}
       <div class="text-right gap-10">
         <div class="result-right flex-between">
           <div class="word-break">
@@ -84,7 +86,7 @@
           />
         </div>
       </div>
-    {:else if post.image_urls.length > 0}
+    {:else if post.image_urls && post.image_urls.length > 0}
       <img
         src={post.image_urls[0]}
         alt="Result"

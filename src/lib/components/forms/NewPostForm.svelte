@@ -7,12 +7,12 @@
   import loggedInUser from "$lib/stores/user.js";
   import { supabase } from "$lib/supabaseClient.js";
   import ThreeDotsHoriz from "$lib/components/icons/ThreeDotsHoriz.svelte";
-  import HiddenMenu from "$lib/components/HiddenMenu.svelte";
+  import HiddenMenu from "$lib/components/ui/HiddenMenu.svelte";
   import HeartIcon from "$lib/components/icons/HeartIcon.svelte";
   import CommentIcon from "$lib/components/icons/CommentIcon.svelte";
   import ShareIcon from "$lib/components/icons/ShareIcon.svelte";
   import SaveIcon from "$lib/components/icons/SaveIcon.svelte";
-  import NewPostField from "$lib/components/NewPostField.svelte";
+  import NewPostField from "$lib/components/forms/NewPostField.svelte";
   import { getRandomHash } from "$lib/helper/random";
   import setNotification from "$lib/helper/appNotifications";
 

@@ -3,7 +3,7 @@
   import type { DbUser } from "$lib/types/db";
   export let uid: string;
   export let followDialog: boolean = false;
-  import Follow from "$lib/components/Follow.svelte";
+  import Follow from "$lib/components/feed/Follow.svelte";
 
   let user: DbUser;
 

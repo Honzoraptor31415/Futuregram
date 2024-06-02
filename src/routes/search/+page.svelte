@@ -1,10 +1,10 @@
 <script lang="ts">
   import SearchIcon from "$lib/components/icons/SearchIcon.svelte";
-  import PostSearchResult from "$lib/components/PostSearchResult.svelte";
-  import SearchResult from "$lib/components/SearchResult.svelte";
+  import PostSearchResult from "$lib/components/ui/PostSearchResult.svelte";
+  import SearchResult from "$lib/components/ui/SearchResult.svelte";
   import type { DbPost, DbUser } from "$lib/types/db";
   import Fuse from "fuse.js";
-  import NoSearchResultDialog from "$lib/components/NoSearchResult.svelte";
+  import NoSearchResultDialog from "$lib/components/ui/NoSearchResult.svelte";
   import userDbData from "$lib/stores/userDbData.js";
 
   export let data;
@@ -101,7 +101,9 @@
           <PostSearchResult
             post={result}
             liked={currDbUser
-              ? result.likes && result.likes.includes(currDbUser.id)
+              ? result.likes?.includes(currDbUser.id)
+                ? true
+                : false
               : false}
           />
         {/each}

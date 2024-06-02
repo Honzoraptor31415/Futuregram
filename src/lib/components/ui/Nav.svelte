@@ -8,10 +8,8 @@
   import UserIcon from "$lib/components/icons/UserIcon.svelte";
   import userDbData, { userLoaded } from "$lib/stores/userDbData";
   import { page } from "$app/stores";
-  import HiddenMenu from "$lib/components/HiddenMenu.svelte";
+  import HiddenMenu from "$lib/components/ui/HiddenMenu.svelte";
   import type { DbUser } from "$lib/types/db";
-  import { supabase } from "$lib/supabaseClient";
-  import { goto } from "$app/navigation";
   import { signOut } from "$lib/helper/supabase";
 
   let currDbUser: DbUser;
@@ -95,9 +93,9 @@
           iconClass={`icon nav-menu-icon ${locationHref === "new" ? "nav-icon-current" : ""}`}
         />
       </a>
-      <a href="/chat" class="button-link nav-button">
+      <a href="/messages" class="button-link nav-button">
         <MessageIcon
-          iconClass={`icon nav-menu-icon ${locationHref === "chat" ? "nav-icon-current" : ""}`}
+          iconClass={`icon nav-menu-icon ${locationHref === "messages" ? "nav-icon-current" : ""}`}
         /></a
       >
       <a
@@ -138,9 +136,9 @@
         iconClass={`icon nav-menu-icon ${locationHref === "new" ? "nav-icon-current" : ""}`}
       />
     </a>
-    <a href="/chat" class="button-link nav-button">
+    <a href="/messages" class="button-link nav-button">
       <MessageIcon
-        iconClass={`icon nav-menu-icon ${locationHref === "chat" ? "nav-icon-current" : ""}`}
+        iconClass={`icon nav-menu-icon ${locationHref === "messages" ? "nav-icon-current" : ""}`}
       />
     </a>
     <a

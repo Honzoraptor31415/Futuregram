@@ -6,7 +6,7 @@
   import FeedEnd from "./FeedEnd.svelte";
   import Suggestions from "./Suggestions.svelte";
   import userDbData from "$lib/stores/userDbData";
-  import NewPostForm from "./NewPostForm.svelte";
+  import NewPostForm from "../forms/NewPostForm.svelte";
 
   let posts: DbPost[] = [];
   let isReachedFeedEnd = false;
