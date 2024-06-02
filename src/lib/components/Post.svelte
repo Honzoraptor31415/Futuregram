@@ -5,11 +5,10 @@
   import relativeTime from "dayjs/plugin/relativeTime";
   import loggedInUser from "$lib/stores/user";
   import userDbData from "$lib/stores/userDbData";
-  import Comment from "$lib/components/Comment.svelte";
   import { page } from "$app/stores";
   import LongHiddenText from "$lib/components/LongHiddenText.svelte";
   import { browser } from "$app/environment";
-  import type { DbUser, DbComment } from "$lib/types/db";
+  import type { DbPost, DbUser } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   import CommentIcon from "./icons/CommentIcon.svelte";
@@ -34,12 +33,13 @@
   export let description: string;
   export let likes: string[];
   export let user_id: string;
-  export let feedPost: boolean = false;
+  export let isFeedPost: boolean = false;
   export let commentActive: boolean = false;
   export let saved: boolean = false;
+  export let isChild = false;
 
   let currUser: AuthUser;
-  let postComments: DbComment[] = [];
+  let postComments: DbPost[] = [];
   let postCreator: DbUser;
   let liked = false;
   let currDbUser: DbUser;
@@ -56,7 +56,6 @@
   let commentPlaceholder = "";
   let firstId: string;
   let replying: ReplyingToComment;
-  let repliesShown: boolean = false;
   let postShown = true;
   let animationRunning = false;
   let heartX = 0;
@@ -66,7 +65,7 @@
   const dbClickAnimationTimeout = 400;
   const heartSize = 70;
 
-  const defaultPostOpts = feedPost
+  const defaultPostOpts = isFeedPost
     ? [
         {
           type: "button",
@@ -110,7 +109,7 @@
         },
       ];
 
-  const authorPostOpts: MenuElement[] = feedPost
+  const authorPostOpts: MenuElement[] = isFeedPost
     ? [
         {
           type: "button",
@@ -163,6 +162,7 @@
 
   page.subscribe((val: any) => {
     getComments();
+    postComments = [];
   });
 
   loggedInUser.subscribe((val: any) => {
@@ -171,9 +171,11 @@
 
   async function getComments() {
     const { data, error } = await supabase
-      .from("comments")
+      .from("posts")
       .select()
-      .eq("post_id", id);
+      .eq("replying_to", id);
+    console.log(data, error);
+
     if (data && data.length > 0) {
       postComments = data
         .sort((a: any, b: any) => {
@@ -340,26 +342,13 @@
     commentPlaceholder = commentCheck(commentText).message;
     if (currUser) {
       if (commentCheck(commentText).isValid) {
-        if (replying) {
-          await supabase.from("replies").insert({
-            created_at: new Date().getTime(),
-            post_id: id,
-            user_id: currDbUser.id,
-            text: commentText,
-            comment_id: replying.commentId,
-          });
-          commentText = "";
-          replying = null;
-          repliesShown = true;
-        } else {
-          await supabase.from("comments").insert({
-            created_at: new Date().getTime(),
-            post_id: id,
-            user_id: currDbUser.id,
-            text: commentText,
-          });
-          commentText = "";
-        }
+        await supabase.from("posts").insert({
+          created_at: new Date().getTime(),
+          replying_to: id,
+          user_id: currDbUser.id,
+          description: commentText,
+        });
+        commentText = "";
       }
     } else {
       console.log("You have to be logged in to comment");
@@ -410,7 +399,7 @@
         .select()
         .eq("id", currDbUser.id)
         .single();
-      if (data.saved) {
+      if (data?.saved) {
         saved = data.saved.includes(id);
       }
     }
@@ -470,8 +459,8 @@
 
 {#if id && postCreator}
   {#if postShown}
-    <div class={feedPost ? "feed-page-post-wrp" : ""}>
-      <div class="post">
+    <div class={isFeedPost ? "feed-page-post-wrp" : ""}>
+      <div class="post {isChild ? 'm-left-20' : ''}">
         <div class="post-left">
           <UserImage
             imageUrl={postCreator.image_url}
@@ -512,7 +501,7 @@
             </div>
           </div>
           <p
-            class={`post-description mobile pl-text ${image_urls.length > 0 ? "post-description-w-img" : ""}`}
+            class={`post-description mobile pl-text ${image_urls?.length > 0 ? "post-description-w-img" : ""}`}
           >
             <LongHiddenText text={description} maxLength={maxChars} />
           </p>
@@ -539,7 +528,7 @@
                 </div>
               </div>
               <p
-                class={`post-description pl-text ${image_urls.length > 0 ? "post-description-w-img" : ""}`}
+                class={`post-description pl-text ${image_urls?.length > 0 ? "post-description-w-img" : ""}`}
               >
                 <LongHiddenText text={description} maxLength={maxChars} />
               </p>
@@ -562,7 +551,7 @@
                 </div>
               {/if}
 
-              {#if feedPost}
+              {#if isFeedPost}
                 {#if image_urls.length > 1}
                   <a href={`posts/${id}`} class="grid-wrp">
                     <div class="snap-swiper-x gap-10">
@@ -622,19 +611,17 @@
                       </span>
                     {/if}
                   </button>
-                  {#if feedPost}
-                    <a
-                      href={`/posts/${id}?comment`}
-                      class="post-action before-hover-anim align-center gap-3 rounded button-link font-weight-normal"
-                    >
-                      <CommentIcon iconClass="action-icon comment-icon" />
-                      {#if postComments?.length}
-                        <span>
-                          {postComments.length}
-                        </span>
-                      {/if}
-                    </a>
-                  {/if}
+                  <a
+                    href={`/posts/${id}?comment`}
+                    class="post-action before-hover-anim align-center gap-3 rounded button-link font-weight-normal"
+                  >
+                    <CommentIcon iconClass="action-icon comment-icon" />
+                    {#if postComments?.length}
+                      <span>
+                        {postComments.length}
+                      </span>
+                    {/if}
+                  </a>
                   <button
                     class="post-action before-hover-anim rounded"
                     on:click={() => {
@@ -681,7 +668,7 @@
         </div>
       </div>
       <div>
-        {#if !feedPost && currDbUser}
+        {#if currDbUser && !isFeedPost && !isChild}
           <form
             class={`comment-input-wrp user-input-text main-bg-blurry ${commentPlaceholder === "" ? "" : "form-error-input"}`}
             on:submit={(e) => {
@@ -722,23 +709,17 @@
           </form>
         {/if}
         <div class="post-comments-wrp" id="comments">
-          {#if postComments}
-            {#if feedPost}
-              {#if firstId}
-                <Comment
-                  bind:replying
-                  {repliesShown}
-                  id={firstId}
-                  feedComment={true}
-                />
-              {/if}
-            {:else}
-              {#each postComments as comment}
-                <Comment
-                  bind:replying
-                  {repliesShown}
-                  id={comment.id}
-                  feedComment={false}
+          {#if !isChild}
+            {#if postComments && !isFeedPost}
+              {#each postComments as { id, created_at, image_urls, description, likes, user_id }}
+                <svelte:self
+                  isChild
+                  {id}
+                  {created_at}
+                  {image_urls}
+                  {description}
+                  {likes}
+                  {user_id}
                 />
               {/each}
             {/if}

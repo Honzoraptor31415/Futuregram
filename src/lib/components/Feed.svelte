@@ -24,6 +24,7 @@
     const { data } = await supabase
       .from("posts")
       .select()
+      .is("replying_to", null)
       .range(posts.length, posts.length + 3);
 
     console.log(data);
@@ -59,18 +60,18 @@
       <NewPostForm />
     {/if}
     {#if posts.length > 0}
-      {#each posts as post}
-        {#if currDbUser && posts.indexOf(post) === 5}
+      {#each posts as { id, user_id, created_at, image_urls, description, likes }, i}
+        {#if currDbUser && i === 5}
           <Suggestions />
         {/if}
         <Post
-          id={post.id}
-          user_id={post.user_id}
-          created_at={post.created_at}
-          image_urls={post.image_urls}
-          description={post.description}
-          likes={post.likes}
-          feedPost
+          {id}
+          {user_id}
+          {created_at}
+          image_urls={image_urls ?? []}
+          description={description ?? ""}
+          likes={likes ?? []}
+          isFeedPost
         />
       {/each}
     {/if}

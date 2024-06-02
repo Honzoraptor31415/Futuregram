@@ -134,7 +134,7 @@
 
     if (thisUser) {
       let funcFollowers: DbUser[] = [];
-      for (let i = 0; i < thisUser.followers.length; i++) {
+      for (let i = 0; i < thisUser.followers?.length; i++) {
         const { data: follower } = await supabase
           .from("users")
           .select()

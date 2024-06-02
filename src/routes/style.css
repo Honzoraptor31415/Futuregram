@@ -3521,3 +3521,7 @@ button:disabled {
 .action-warning-button:last-child {
   border-top-left-radius: 27px;
 }
+
+.m-left-20 {
+  margin-left: 20px;
+}
