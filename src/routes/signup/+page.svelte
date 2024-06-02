@@ -1,6 +1,6 @@
 <script lang="ts">
   import * as validation from "$lib/helper/formValidation";
-  import FormElement from "$lib/components/feed/FormElement.svelte";
+  import FormElement from "$lib/components/forms/FormElement.svelte";
   import { supabase } from "$lib/supabaseClient";
 
   let email = "";

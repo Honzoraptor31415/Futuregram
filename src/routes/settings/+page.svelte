@@ -6,7 +6,7 @@
   import type { AuthUser } from "$lib/types/auth";
   import type { DbUser } from "$lib/types/db";
   import RedFormStar from "$lib/components/forms/RedFormStar.svelte";
-  import FormElement from "$lib/components/feed/FormElement.svelte";
+  import FormElement from "$lib/components/forms/FormElement.svelte";
   import * as validation from "$lib/helper/formValidation";
 
   let currLoggedInUser: AuthUser;

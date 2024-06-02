@@ -5,7 +5,7 @@
   import type { AuthUser } from "$lib/types/auth";
   import Feed from "$lib/components/feed/Feed.svelte";
   import * as validation from "$lib/helper/formValidation";
-  import FormElement from "$lib/components/feed/FormElement.svelte";
+  import FormElement from "$lib/components/forms/FormElement.svelte";
   import { supabase } from "$lib/supabaseClient";
   import { title } from "$lib/constants";
   import { description } from "$lib/constants";
