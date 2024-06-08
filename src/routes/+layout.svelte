@@ -10,6 +10,7 @@
   import loggedInUser from "$lib/stores/user";
   import { actionWarning, appNotifications } from "$lib/stores/app";
   import Modal from "$lib/components/ui/Modal.svelte";
+  import AppNotification from "$lib/components/ui/AppNotification.svelte";
 
   export let data;
 
@@ -76,20 +77,11 @@
 <slot />
 
 {#if $appNotifications.length > 0}
-  <div class="app-notifications-wrp flex-center-all flex-column feed-gap">
-    {#each $appNotifications as { text, disappearing, linkHref, linkText }}
-      <div
-        class={`app-notification ${linkHref ? "flex-between" : ""} ${disappearing ? "app-notification-hide" : ""}`}
-      >
-        <p>{text}</p>
-        {#if linkHref}
-          <a class="hover-underline weight-500" href={linkHref}
-            >{linkText ?? "View"}</a
-          >
-        {/if}
-      </div>
-    {/each}
-  </div>
+  {#each $appNotifications as { text, disappearing, linkHref, linkText }}
+    <AppNotification {text} {disappearing} {linkHref} {linkText} />
+  {/each}
 {/if}
+
+<AppNotification text="Test notification" disappearing={false} />
 
 <Footer />

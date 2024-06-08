@@ -10,6 +10,7 @@
   import { title } from "$lib/constants";
   import { description } from "$lib/constants";
   import { imageUrl } from "$lib/constants";
+  import { onMount } from "svelte";
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
   let userInDb: string | boolean = "waiting";

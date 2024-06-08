@@ -945,14 +945,6 @@ button {
     width: auto;
   }
 
-  .app-notifications-wrp {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    margin-bottom: var(--feed-spacing);
-  }
-
   .app-notification {
     width: 360px;
   }
@@ -1593,14 +1585,6 @@ button {
     width: auto;
   }
 
-  .app-notifications-wrp {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    margin-bottom: var(--feed-spacing);
-  }
-
   .app-notification {
     width: 360px;
   }
@@ -2211,14 +2195,6 @@ button {
 
   .mobile-padding-left-feed {
     padding-left: var(--feed-spacing);
-  }
-
-  .app-notifications-wrp {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    margin-bottom: calc(var(--nav-height) + 10px);
-    width: 100%;
   }
 
   .app-notification {
@@ -3347,12 +3323,14 @@ button:disabled {
   border-radius: var(--border-radius-small);
   background: var(--sec-bg);
   padding: 15px;
-  animation: var(--notification-animation-duration) notification-appear forwards ease-in-out;
+  /* animation: var(--notification-animation-duration) notification-appear forwards ease-in-out; */
   transition: var(--notification-animation-duration);
-}
-
-.app-notifications-wrp {
-  z-index: 500;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  /* bottom: 10px; */
+  transform: translate(-50%, -50%);
+  z-index: 12;
 }
 
 .feed-gap {
@@ -3382,10 +3360,6 @@ button:disabled {
 
 .hover-underline:hover {
   text-decoration: underline;
-}
-
-.hidden-menu-button {
-  z-index: 97;
 }
 
 .height-80 {
