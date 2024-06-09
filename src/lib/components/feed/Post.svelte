@@ -20,7 +20,7 @@
   import ThreeDotsHoriz from "../icons/ThreeDotsHoriz.svelte";
   import { blockUser, report } from "$lib/helper/feedAdvanced";
   import SaveIcon from "../icons/SaveIcon.svelte";
-  import setNotification from "$lib/helper/appNotifications";
+  import { setNotification } from "$lib/helper/appNotifications";
   import UserImage from "../feed/UserImage.svelte";
   import { actionWarning } from "$lib/stores/app";
 

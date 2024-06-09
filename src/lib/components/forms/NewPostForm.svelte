@@ -14,7 +14,7 @@
   import SaveIcon from "$lib/components/icons/SaveIcon.svelte";
   import NewPostField from "$lib/components/forms/NewPostField.svelte";
   import { getRandomHash } from "$lib/helper/random";
-  import setNotification from "$lib/helper/appNotifications";
+  import { setNotification } from "$lib/helper/appNotifications";
 
   let description = "";
   let descriptionLabel = "";

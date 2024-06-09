@@ -3323,13 +3323,10 @@ button:disabled {
   border-radius: var(--border-radius-small);
   background: var(--sec-bg);
   padding: 15px;
-  /* animation: var(--notification-animation-duration) notification-appear forwards ease-in-out; */
-  transition: var(--notification-animation-duration);
   position: fixed;
   left: 50%;
-  top: 50%;
-  /* bottom: 10px; */
-  transform: translate(-50%, -50%);
+  bottom: 10px;
+  transform: translateX(-50%);
   z-index: 12;
 }
 
@@ -3337,7 +3334,7 @@ button:disabled {
   gap: var(--feed-spacing);
 }
 
-@keyframes notification-appear {
+/* @keyframes notification-appear {
   0% {
     transform: translateY(var(--notification-anim-translate-y));
   }
@@ -3345,18 +3342,7 @@ button:disabled {
   100% {
     transform: translateY(0);
   }
-}
-
-.app-notification-hide {
-  animation: 3s notification-hide forwards linear;
-}
-
-@keyframes notification-hide {
-  100% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
-}
+} */
 
 .hover-underline:hover {
   text-decoration: underline;

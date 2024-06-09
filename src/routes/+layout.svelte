@@ -11,6 +11,7 @@
   import { actionWarning, appNotifications } from "$lib/stores/app";
   import Modal from "$lib/components/ui/Modal.svelte";
   import AppNotification from "$lib/components/ui/AppNotification.svelte";
+  import { setNotification } from "$lib/helper/appNotifications";
 
   export let data;
 
@@ -77,11 +78,9 @@
 <slot />
 
 {#if $appNotifications.length > 0}
-  {#each $appNotifications as { text, disappearing, linkHref, linkText }}
-    <AppNotification {text} {disappearing} {linkHref} {linkText} />
+  {#each $appNotifications as { text, disappearing, linkHref, linkText, id }}
+    <AppNotification {text} {disappearing} {linkHref} {linkText} notifId={id} />
   {/each}
 {/if}
-
-<AppNotification text="Test notification" disappearing={false} />
 
 <Footer />

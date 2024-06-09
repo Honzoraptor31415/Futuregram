@@ -1,20 +1,23 @@
 <script lang="ts">
-  import { getRandomHash } from "$lib/helper/random";
+  import {
+    removeNotificationById,
+    setNotification,
+  } from "$lib/helper/appNotifications";
   import { onMount } from "svelte";
 
   export let linkHref = "";
   export let disappearing: boolean;
   export let text: string;
   export let linkText = "View";
+  export let notifId: number;
 
-  const id = `notification-${getRandomHash(10)}`;
   const touch = {
     isDown: false,
     x: 0,
     startPosX: 0,
   };
 
-  let notificationElement: any;
+  let moveNotifBy = "";
 
   function touchStartHandler(e: any) {
     console.log(touch);
@@ -25,6 +28,24 @@
   }
 
   function touchEndHandler(e: any) {
+    if (Math.abs(touch.startPosX - touch.x) > 100) {
+      console.log("Hiding and removing notification");
+
+      console.log(
+        touch.x < touch.startPosX
+          ? "Current touch X is less than the start touch X"
+          : "Current touch X is more than or equal to the start touch X"
+      );
+
+      moveNotifBy = touch.x < touch.startPosX ? " - 100vw" : " + 100vw";
+
+      disappearing = true;
+
+      setTimeout(() => {
+        removeNotificationById(notifId);
+      }, 300);
+    }
+
     touch.isDown = false;
     touch.x = 0;
     touch.startPosX = 0;
@@ -33,13 +54,10 @@
   function touchMoveHandler(e: any) {
     if (touch.isDown) {
       touch.x = e.clientX;
-      console.log(touch);
     }
   }
 
   onMount(() => {
-    notificationElement = document.getElementById(id);
-
     document.addEventListener("mouseup", touchEndHandler);
     document.addEventListener("touchend", touchEndHandler);
     document.addEventListener("touchmove", touchMoveHandler);
@@ -58,12 +76,23 @@
 <div
   on:touchstart={touchStartHandler}
   on:mousedown={touchStartHandler}
-  {id}
-  class="app-notification {linkHref ? 'flex-between' : ''} {disappearing
-    ? 'app-notification-hide'
-    : ''}"
-  style="transform: translateX(calc(-50% + {-1 *
-    (touch.startPosX - touch.x)}px))"
+  class="app-notification {linkHref ? 'flex-between' : ''}"
+  style="transform: translateX(calc(-50% {disappearing
+    ? moveNotifBy
+    : ` + ${-1 * (touch.startPosX - touch.x)}px`}
+      ));
+      
+      opacity:{(
+    touch.x < touch.startPosX
+      ? touch.x / touch.startPosX
+      : touch.startPosX / touch.x
+  )
+    ? touch.x < touch.startPosX
+      ? touch.x / touch.startPosX
+      : touch.startPosX / touch.x
+    : touch.isDown && touch.x === 0
+      ? 0
+      : 1};transition:{!touch.isDown ? '.3s' : ''}"
 >
   <p class="no-select">{text}</p>
   {#if linkHref}

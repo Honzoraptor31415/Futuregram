@@ -1,7 +1,7 @@
 import { appNotifications } from "$lib/stores/app";
 import type { AppNotification } from "$lib/types/app";
 
-export default function setNotification(
+export function setNotification(
   text: string,
   linkHref?: string,
   linkText?: string
@@ -48,4 +48,13 @@ export default function setNotification(
       return notifications;
     });
   }, fullShowTime);
+}
+
+export function removeNotificationById(id: number) {
+  appNotifications.update((notifications) => {
+    notifications = notifications.filter((notif) => {
+      return id !== notif.id;
+    });
+    return notifications;
+  });
 }
