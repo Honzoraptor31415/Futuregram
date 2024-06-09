@@ -15,7 +15,7 @@
   <img
     src={imageUrl}
     alt={displayedUsername}
-    class="rounded suggestion-image w-fit"
+    class="rounded suggestion-image"
   />
   <div class="flex-column align-center">
     <p class="post-username result-displayed-username">

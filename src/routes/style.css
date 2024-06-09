@@ -914,10 +914,6 @@ button {
     opacity: .4;
   }
 
-  .feed-page-post-wrp {
-    margin-block: var(--feed-spacing);
-  }
-
   .signup-form .password-input-wrp {
     max-width: 235.5px;
   }
@@ -1555,10 +1551,6 @@ button {
     opacity: .4;
   }
 
-  .feed-page-post-wrp {
-    margin-block: var(--feed-spacing);
-  }
-
   .signup-form .password-input-wrp {
     max-width: 235.5px;
   }
@@ -2161,10 +2153,6 @@ button {
 
   .mobile-nav-padding {
     padding-top: var(--nav-height);
-  }
-
-  .feed-page-post-wrp {
-    margin-block: var(--feed-spacing);
   }
 
   .ab-app-dialog {
@@ -3010,6 +2998,7 @@ button:disabled {
 
 .feed-page-post-wrp {
   border-bottom: 1px var(--post-border-color) solid;
+  margin-block: calc(var(--post-spacing-small) + var(--post-action-padding-default));
 }
 
 .feed-page-post-wrp:last-child {

@@ -11,8 +11,7 @@
   import type { DbPost, DbUser } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
   import CommentIcon from "../icons/CommentIcon.svelte";
-  import type { MenuElement, ReplyingToComment } from "$lib/types/app";
-  import { commentCheck } from "$lib/helper/formValidation";
+  import type { MenuElement } from "$lib/types/app";
   import { supabase } from "$lib/supabaseClient";
   import HiddenMenu from "$lib/components/ui/HiddenMenu.svelte";
   import ThreeDotsHoriz from "../icons/ThreeDotsHoriz.svelte";
@@ -436,7 +435,7 @@
             displayedUsername={postCreator.displayed_username}
             userBio={postCreator.bio}
           />
-          {#if !isChild}
+          {#if !isChild && !isFeedPost}
             <div class="line-vertical"></div>
           {/if}
         </div>
@@ -621,7 +620,7 @@
                       : `${likes.length} likes`
                     : ""}
                 {/if}
-                {#if postComments.length >= 1}
+                {#if postComments.length >= 1 && likes.length >= 1}
                   <span class="text-dot">·</span>
                 {/if}
                 {#if postComments}
@@ -639,7 +638,11 @@
     </div>
     <div>
       {#if currDbUser && !isFeedPost && !isChild}
-        <NewPostForm replyingTo={id} postIsChild />
+        <NewPostForm
+          replyingTo={id}
+          postIsChild
+          showUnclickableControlls={false}
+        />
       {/if}
       <div class="post-comments-wrp" id="comments">
         {#if !isChild}

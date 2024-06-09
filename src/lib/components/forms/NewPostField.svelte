@@ -8,14 +8,11 @@
   export let wrpClass = "";
   export let onChange: (e: any) => void;
   export let files: any;
-  export let photoFile: any;
   export let submit: () => void;
   export let postBeingInserted: boolean;
 
   const areaId = `post-input-${getRandomHash(10)}`;
   const inputId = `image-input-${getRandomHash(10)}`;
-
-  $: console.log(files, photoFile);
 </script>
 
 <div class={`new-post-input-wrp rounded-main flex-column ${wrpClass}`}>
@@ -37,7 +34,6 @@
         class="hidden"
         accept="image/jpeg,image/png,image/webp"
         on:change={onChange}
-        bind:this={photoFile}
         bind:files
         multiple
       />

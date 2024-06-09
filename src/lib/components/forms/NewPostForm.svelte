@@ -22,8 +22,6 @@
   export let postIsChild = false;
 
   let description = "";
-  let descriptionLabel = "";
-  let photoFile: any;
   let files: any;
   let currDbUser: DbUser;
   let image: any;
@@ -39,10 +37,6 @@
   loggedInUser.subscribe((val: any) => {
     val && (currUser = val);
   });
-
-  $: if (files) {
-    console.log(files);
-  }
 
   const onFileSelected = (e: any) => {
     if (readerLoading) return;
@@ -130,8 +124,6 @@
   function newPost() {
     description = description.trim();
 
-    descriptionLabel = validation.descriptionCheck(description).message;
-
     if (images.length < 1) {
       if (validation.descriptionCheck(description).isValid) {
         insertPost();
@@ -162,7 +154,11 @@
         .select()
         .single();
 
-      postBeingInserted = !error;
+      if (!error) {
+        postBeingInserted = false;
+        files = [];
+        description = "";
+      }
 
       data && !postIsChild && goto(`/posts/${data.id}`);
     } else {
@@ -174,7 +170,12 @@
 </script>
 
 {#if currDbUser}
-  <div class="feed-page-post-wrp">
+  <div
+    class="feed-page-post-wrp"
+    style={postIsChild
+      ? "padding-bottom: calc(var(--post-spacing-small) + var(--post-action-padding-default))"
+      : ""}
+  >
     <div class="post">
       <div class="post-left">
         <a href={`/${currDbUser.url_username}`} class="grid-wrp"
@@ -231,10 +232,11 @@
           {postBeingInserted}
           submit={newPost}
           bind:files
-          bind:photoFile
           onChange={(e) => onFileSelected(e)}
           bind:value={description}
-          placeholder="Comment your thoughts!"
+          placeholder={postIsChild
+            ? "Comment your thoughts!"
+            : "What's going on?"}
         />
         {#if showUnclickableControlls}
           <div class="post-bottom">
