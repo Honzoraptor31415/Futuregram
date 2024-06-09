@@ -288,7 +288,7 @@ button {
   align-items: center;
 }
 
-.line {
+.line-horizontal {
   height: 1px;
   background: var(--main-border-color);
   width: 100%;
@@ -339,9 +339,8 @@ button {
   .user-posts {
     display: flex;
     justify-content: center;
-    margin: var(--feed-spacing) auto auto auto;
+    margin: var(--feed-spacing) 0 0 0;
     flex-wrap: wrap;
-    max-width: fit-content;
     gap: 20px;
   }
 
@@ -363,9 +362,8 @@ button {
   .basic-user-info {
     display: flex;
     justify-content: space-between;
-    margin-inline: auto;
     gap: 50px;
-    width: 70%;
+    width: 100%;
   }
 
   .user-page-pfp {
@@ -964,6 +962,10 @@ button {
   .action-warning-button:hover {
     background: rgba(255, 255, 255, 0.03);
   }
+
+  .page-tab-button:hover::after {
+    background: rgba(255, 255, 255, 0.6);
+  }
 }
 
 /* SMALLER - TABLET */
@@ -986,8 +988,6 @@ button {
     margin-top: 30px;
     flex-wrap: wrap;
     justify-content: center;
-    max-width: fit-content;
-    margin-inline: auto;
     gap: 20px;
   }
 
@@ -1005,8 +1005,7 @@ button {
     display: flex;
     justify-content: space-between;
     gap: 50px;
-    margin-inline: auto;
-    width: 85%;
+    width: 100%;
   }
 
   .user-page-pfp {
@@ -1601,6 +1600,10 @@ button {
   .action-warning-button:hover {
     background: rgba(255, 255, 255, 0.03);
   }
+
+  .page-tab-button:hover::after {
+    background: rgba(255, 255, 255, 0.6);
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -1635,7 +1638,6 @@ button {
   .user-posts {
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
     margin-top: 20px;
     gap: 20px;
   }
@@ -2195,7 +2197,6 @@ button {
 
   .post-image:not(.post-image-has-sibling) {
     max-width: 100%;
-    min-width: 100%;
     height: auto;
   }
 
@@ -2212,6 +2213,14 @@ button {
 
   .action-warning-button:active {
     background: rgba(255, 255, 255, 0.03);
+  }
+
+  .page-tab-button:active::after {
+    background: rgba(255, 255, 255, 0.6);
+  }
+
+  .page-tabs-wrp {
+    margin-inline: 10px;
   }
 }
 
@@ -2319,7 +2328,6 @@ nav {
 
 .post-image-no-sibling {
   max-width: 100%;
-  min-width: 100%;
   height: auto;
 }
 
@@ -2575,6 +2583,7 @@ nav {
 
 .btn-active-opacity:active {
   opacity: .4;
+  transition: 0s opacity;
 }
 
 .button-element,
@@ -3484,4 +3493,34 @@ button:disabled {
 
 .m-left-20 {
   margin-left: 20px;
+}
+
+.page-tab-button {
+  transition: .2s;
+  font-weight: 700;
+}
+
+.page-tab-button::after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 1px;
+  bottom: 0;
+  left: 0;
+  transition: inherit;
+  right: 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.page-tab-button-current span {
+  color: white;
+}
+
+.page-tab-button-current::after {
+  background: white;
+}
+
+.btn-active-opacity-to:active span {
+  opacity: .6;
+  transition: 0s opacity;
 }

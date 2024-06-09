@@ -27,9 +27,9 @@
 
   export let id: string;
   export let created_at: number;
-  export let image_urls: string[];
-  export let description: string;
-  export let likes: string[];
+  export let image_urls: string[] | null;
+  export let description: string | null;
+  export let likes: string[] | null;
   export let user_id: string;
   export let isFeedPost: boolean = false;
   export let commentActive: boolean = false;
@@ -468,11 +468,13 @@
               </div>
             </div>
           </div>
-          <p
-            class={`post-description mobile pl-text ${image_urls?.length > 0 ? "post-description-w-img" : ""}`}
-          >
-            <LongHiddenText text={description} maxLength={maxChars} />
-          </p>
+          {#if description}
+            <p
+              class={`post-description mobile pl-text ${image_urls && image_urls.length > 0 ? "post-description-w-img" : ""}`}
+            >
+              <LongHiddenText text={description} maxLength={maxChars} />
+            </p>
+          {/if}
           <div class="post-top desktop">
             <div class="post-texts">
               <div class="post-texts-top flex-between">
@@ -495,14 +497,16 @@
                   />
                 </div>
               </div>
-              <p
-                class={`post-description pl-text ${image_urls?.length > 0 ? "post-description-w-img" : ""}`}
-              >
-                <LongHiddenText text={description} maxLength={maxChars} />
-              </p>
+              {#if description}
+                <p
+                  class={`post-description pl-text ${image_urls && image_urls?.length > 0 ? "post-description-w-img" : ""}`}
+                >
+                  <LongHiddenText text={description} maxLength={maxChars} />
+                </p>
+              {/if}
             </div>
           </div>
-          {#if image_urls?.length > 0}
+          {#if image_urls && image_urls?.length > 0}
             <!-- svelte-ignore a11y-no-static-element-interactions -->
             <div
               class="grid-wrp relative dbclick-heart-wrp"
@@ -620,7 +624,7 @@
                       : `${likes.length} likes`
                     : ""}
                 {/if}
-                {#if postComments.length >= 1 && likes.length >= 1}
+                {#if likes && postComments.length >= 1 && likes.length >= 1}
                   <span class="text-dot">·</span>
                 {/if}
                 {#if postComments}

@@ -11,8 +11,8 @@
   import Follow from "$lib/components/feed/Follow.svelte";
   import SearchResult from "$lib/components/ui/SearchResult.svelte";
   import { supabase } from "$lib/supabaseClient";
-  import PostPreview from "$lib/components/feed/PostPreview.svelte";
   import { checkMaybeCreateRoom } from "$lib/helper/chats.js";
+  import Post from "$lib/components/feed/Post.svelte";
 
   export let data;
 
@@ -36,6 +36,7 @@
   let following: DbUser[] = [];
   let loading = true;
   let functionLoading = false;
+  let currTab = "posts";
 
   loggedInUser.subscribe((val: any) => {
     currLoggedInUser = val;
@@ -209,7 +210,7 @@
     class="user-page-wrp desktop-nav-margin bottom-padding-nav mobile-nav-padding nav-top-space"
   >
     <TopPostNav showMenu={currDbUser === null || currDbUser?.id === user.id} />
-    <main class="user-page">
+    <main class="posts-inline-spacing">
       <div class="user-page-top">
         <div class="basic-user-info">
           <div class="user-text-info">
@@ -394,20 +395,57 @@
           {/if}
         </div>
       </div>
-      <div class="user-posts-wrp">
-        <h2 class="posts-heading">Posts:</h2>
-        <div class="user-posts">
+      <div class="user-posts-wrp w-full">
+        <div class="page-tabs-wrp grid-col-half">
+          <button
+            class="no-style page-tab-button pointer padding-14 btn-active-opacity-to relative {currTab ===
+            'posts'
+              ? 'page-tab-button-current'
+              : ''}"
+            on:click={() => {
+              currTab = "posts";
+            }}
+          >
+            <span class="less">Posts</span>
+          </button>
+          <button
+            class="no-style page-tab-button pointer padding-14 btn-active-opacity-to relative {currTab ===
+            'replies'
+              ? 'page-tab-button-current'
+              : ''}"
+            on:click={() => {
+              currTab = "replies";
+            }}
+          >
+            <span class="less">Replies</span>
+          </button>
+        </div>
+        <div class="user-posts w-full">
           {#if loading}
             <p>Loading...</p>
           {:else if !loading && posts}
             {#if posts.length > 0}
-              <div class="post-prevs-grid">
-                {#each posts as post}
-                  <!-- I have to use conditional rendering instead of .neq(), because for some reason it returns a 400. Also on the supabase dashboard you can currentely (1716127109416) see the lil "We're facing a tech issue rn" dialog, so I think that might be the cause. -->
-                  {#if post.image_urls && post.image_urls.length > 0}
-                    <PostPreview
-                      imageUrl={post.image_urls[0]}
-                      linkHref={`/posts/${post.id}`}
+              <div class="w-full">
+                {#each posts as { id, description, created_at, user_id, likes, image_urls, replying_to }}
+                  {#if currTab === "posts" && !replying_to}
+                    <Post
+                      {id}
+                      {description}
+                      {created_at}
+                      {user_id}
+                      {likes}
+                      {image_urls}
+                      isFeedPost
+                    />
+                  {:else if currTab === "replies" && replying_to}
+                    <Post
+                      {id}
+                      {description}
+                      {created_at}
+                      {user_id}
+                      {likes}
+                      {image_urls}
+                      isFeedPost
                     />
                   {/if}
                 {/each}
