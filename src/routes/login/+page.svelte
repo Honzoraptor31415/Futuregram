@@ -84,9 +84,9 @@
       >
     </div>
     <div class="login-line-wrp">
-      <div class="line"></div>
+      <div class="line-horizontal"></div>
       <p class="less login-or">or</p>
-      <div class="line"></div>
+      <div class="line-horizontal"></div>
     </div>
     <FormElement
       id="email"

@@ -121,9 +121,9 @@
         >
       </div>
       <div class="login-line-wrp">
-        <div class="line"></div>
+        <div class="line-horizontal"></div>
         <p class="less login-or">or</p>
-        <div class="line"></div>
+        <div class="line-horizontal"></div>
       </div>
       <div class="signup-form-elements">
         <FormElement
@@ -194,7 +194,7 @@
       <div class="flex-between">
         <h2>Check your email!</h2>
       </div>
-      <div class="line"></div>
+      <div class="line-horizontal"></div>
       <p class="less">
         We sent you an email at <b>{email}</b>. All you have to do is click the
         link in the email!

@@ -43,6 +43,7 @@
   --border-radius-small: 10px;
   --post-image-height: 340px;
   --action-warning-outer-spacing: 20px;
+  --post-border-color: rgba(128, 128, 128, 0.158);
 }
 
 * {
@@ -675,7 +676,7 @@ button {
   .post-comment {
     display: flex;
     width: 100%;
-    border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
+    border-bottom: 1px var(--post-border-color) solid;
   }
 
   .hover-before-height::before {
@@ -1325,7 +1326,7 @@ button {
   .post-comment {
     display: flex;
     width: 100%;
-    border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
+    border-bottom: 1px var(--post-border-color) solid;
   }
 
   .hover-before-height::before {
@@ -1924,7 +1925,7 @@ button {
     display: flex;
     width: 100%;
     padding-inline: var(--post-spacing-small);
-    border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
+    border-bottom: 1px var(--post-border-color) solid;
   }
 
   .hover-before-height::before {
@@ -2461,10 +2462,18 @@ nav {
   justify-content: flex-end;
 }
 
-.line-vertical-2px {
+.line-vertical {
   height: 100%;
-  width: 2px;
+  width: 1px;
   background: var(--main-border-color);
+}
+
+.post .line-vertical {
+  background: var(--post-border-color);
+  margin-top: calc(var(--feed-spacing) - 10px);
+  margin-bottom: calc(-1 * var(--feed-spacing) + 10px);
+  width: 3px;
+  border-radius: 99vw;
 }
 
 .post-line-vertical {
@@ -2859,7 +2868,7 @@ nav {
 }
 
 .post-comments-wrp:has(.post-comment) {
-  border-top: 1px rgba(128, 128, 128, 0.158) solid;
+  border-top: 1px var(--post-border-color) solid;
 }
 
 .editing-buttons {
@@ -3000,7 +3009,7 @@ button:disabled {
 }
 
 .feed-page-post-wrp {
-  border-bottom: 1px rgba(128, 128, 128, 0.158) solid;
+  border-bottom: 1px var(--post-border-color) solid;
 }
 
 .feed-page-post-wrp:last-child {

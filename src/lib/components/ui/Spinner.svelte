@@ -6,14 +6,14 @@
 
 <span
   class="loader"
-  style="--size:{size}px;--color:{color};--borderWidth:{borderWidth}px"
+  style="--size:{size}px;--color:{color};--border-width:{borderWidth}px"
 ></span>
 
 <style>
   .loader {
     width: var(--size);
     height: var(--size);
-    border: var(--borderWidth) solid var(--color);
+    border: var(--border-width) solid var(--color);
     border-bottom-color: transparent;
     border-radius: 50%;
     display: inline-block;

@@ -10,10 +10,8 @@
   import { browser } from "$app/environment";
   import type { DbPost, DbUser } from "$lib/types/db";
   import type { AuthUser } from "$lib/types/auth";
-  import MessageIcon from "$lib/components/icons/MessageIcon.svelte";
   import CommentIcon from "../icons/CommentIcon.svelte";
   import type { MenuElement, ReplyingToComment } from "$lib/types/app";
-  import CrossIcon from "../icons/CrossIcon.svelte";
   import { commentCheck } from "$lib/helper/formValidation";
   import { supabase } from "$lib/supabaseClient";
   import HiddenMenu from "$lib/components/ui/HiddenMenu.svelte";
@@ -23,6 +21,7 @@
   import { setNotification } from "$lib/helper/appNotifications";
   import UserImage from "../feed/UserImage.svelte";
   import { actionWarning } from "$lib/stores/app";
+  import NewPostForm from "../forms/NewPostForm.svelte";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -55,7 +54,6 @@
   let commentText = "";
   let commentPlaceholder = "";
   let firstId: string;
-  let replying: ReplyingToComment;
   let postShown = true;
   let animationRunning = false;
   let heartX = 0;
@@ -145,8 +143,6 @@
         },
       ];
 
-  $: replying && browser && document.getElementById("comment-input")?.focus();
-
   if (browser) {
     window.onresize = (e: object | Event) => {
       maxChars =
@@ -179,12 +175,13 @@
     if (data && data.length > 0) {
       postComments = data
         .sort((a: any, b: any) => {
-          return a.likes.length - b.likes.length;
+          return a.likes?.length - b.likes?.length;
         })
         .reverse();
       firstId = postComments[0].id;
     }
-    commentsListener();
+
+    // commentsListener();
 
     if (commentActive && browser) {
       document.getElementById("comment-input")?.focus();
@@ -310,57 +307,26 @@
       .subscribe();
   }
 
-  function commentsListener() {
-    const handleInserts = (payload: any) => {
-      console.log("Comment received!", payload);
-      if (payload.new.post_id === id) {
-        postComments = [...postComments, payload.new];
-      }
-    };
+  // function commentsListener() {
+  //   const handleInserts = (payload: any) => {
+  //     console.log("Comment received!", payload);
+  //     if (payload.new.post_id === id) {
+  //       postComments = [...postComments, payload.new];
+  //     }
+  //   };
 
-    supabase
-      .channel("comments")
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "comments" },
-        handleInserts
-      )
-      .subscribe();
-  }
-
-  async function comment() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    console.log(user);
-
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    console.log(session);
-
-    commentPlaceholder = commentCheck(commentText).message;
-    if (currUser) {
-      if (commentCheck(commentText).isValid) {
-        await supabase.from("posts").insert({
-          created_at: new Date().getTime(),
-          replying_to: id,
-          user_id: currDbUser.id,
-          description: commentText,
-        });
-        commentText = "";
-      }
-    } else {
-      console.log("You have to be logged in to comment");
-    }
-  }
+  //   supabase
+  //     .channel("comments")
+  //     .on(
+  //       "postgres_changes",
+  //       { event: "INSERT", schema: "public", table: "comments" },
+  //       handleInserts
+  //     )
+  //     .subscribe();
+  // }
 
   function share(id: string) {
     console.log(`Sharing post ${id}`);
-  }
-
-  function clearReplying() {
-    replying = null;
   }
 
   function remove() {
@@ -459,8 +425,8 @@
 
 {#if id && postCreator}
   {#if postShown}
-    <div class={isFeedPost ? "feed-page-post-wrp" : ""}>
-      <div class="post {isChild ? 'm-left-20' : ''}">
+    <div class="feed-page-post-wrp">
+      <div class="post">
         <div class="post-left">
           <UserImage
             imageUrl={postCreator.image_url}
@@ -470,6 +436,9 @@
             displayedUsername={postCreator.displayed_username}
             userBio={postCreator.bio}
           />
+          {#if !isChild}
+            <div class="line-vertical"></div>
+          {/if}
         </div>
         <div class="post-right grid-wrp">
           <div class="post-top mobile">
@@ -667,64 +636,27 @@
           </div>
         </div>
       </div>
-      <div>
-        {#if currDbUser && !isFeedPost && !isChild}
-          <form
-            class={`comment-input-wrp user-input-text main-bg-blurry ${commentPlaceholder === "" ? "" : "form-error-input"}`}
-            on:submit={(e) => {
-              e.preventDefault();
-              comment();
-            }}
-          >
-            {#if replying}
-              <span class="tagged-replying align-center min-w-fit">
-                <button
-                  type="button"
-                  on:click={clearReplying}
-                  class="no-style grid-wrp min-w-fit pointer button-element hover-opacity"
-                >
-                  <CrossIcon iconClass="image-height-15 white-icon" />
-                </button>
-                <span class="even-less">
-                  @{replying.commentCreator.url_username}
-                </span>
-              </span>
-            {/if}
-            <input
-              autocomplete="off"
-              type="text"
-              id="comment-input"
-              placeholder={replying
-                ? `Replying to ${replying.commentCreator.id === currDbUser.id ? "your" : `${replying.commentCreator.url_username}'s`} comment`
-                : "Comment your thoughts!"}
-              class={`no-style w-full comment-input ${commentPlaceholder === "" ? "" : "comment-input-error"}`}
-              bind:value={commentText}
-            />
-            <button
-              type="submit"
-              class="grid-wrp comment-button no-style button-element min-w-fit"
-            >
-              <MessageIcon iconClass="image-height-1.5rem comment-input-icon" />
-            </button>
-          </form>
-        {/if}
-        <div class="post-comments-wrp" id="comments">
-          {#if !isChild}
-            {#if postComments && !isFeedPost}
-              {#each postComments as { id, created_at, image_urls, description, likes, user_id }}
-                <svelte:self
-                  isChild
-                  {id}
-                  {created_at}
-                  {image_urls}
-                  {description}
-                  {likes}
-                  {user_id}
-                />
-              {/each}
-            {/if}
+    </div>
+    <div>
+      {#if currDbUser && !isFeedPost && !isChild}
+        <NewPostForm replyingTo={id} postIsChild />
+      {/if}
+      <div class="post-comments-wrp" id="comments">
+        {#if !isChild}
+          {#if postComments && !isFeedPost}
+            {#each postComments as { id, created_at, image_urls, description, likes, user_id }}
+              <svelte:self
+                isChild
+                {id}
+                {created_at}
+                {image_urls}
+                {description}
+                {likes}
+                {user_id}
+              />
+            {/each}
           {/if}
-        </div>
+        {/if}
       </div>
     </div>
   {:else}

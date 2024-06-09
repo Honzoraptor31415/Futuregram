@@ -17,6 +17,10 @@
   import { setNotification } from "$lib/helper/appNotifications";
   import { goto } from "$app/navigation";
 
+  export let replyingTo: null | string = null;
+  export let showUnclickableControlls = true;
+  export let postIsChild = false;
+
   let description = "";
   let descriptionLabel = "";
   let photoFile: any;
@@ -153,13 +157,14 @@
           image_urls: imgUrls ?? [],
           user_id: currDbUser.id,
           description: description,
+          replying_to: replyingTo,
         })
         .select()
         .single();
 
       postBeingInserted = !error;
 
-      data && goto(`posts/${data.id}`);
+      data && !postIsChild && goto(`/posts/${data.id}`);
     } else {
       console.error("Error while uploading: user ain't logged in.");
     }
@@ -196,7 +201,7 @@
             >
             <div class="align-center">
               <HiddenMenu
-                btnClass="no-style flex-center-all button-element before-hover-anim post-menu"
+                btnClass="no-style flex-center-all button-element before-hover-anim post-menu post-action-m-block"
                 icon={ThreeDotsHoriz}
                 iconClass="small-post-icon"
                 btnDisabled
@@ -213,7 +218,7 @@
               >
               <div class="align-center">
                 <HiddenMenu
-                  btnClass="no-style flex-center-all button-element before-hover-anim post-menu"
+                  btnClass="no-style flex-center-all button-element before-hover-anim post-menu post-action-m-block"
                   icon={ThreeDotsHoriz}
                   iconClass="small-post-icon"
                   btnDisabled
@@ -229,33 +234,36 @@
           bind:photoFile
           onChange={(e) => onFileSelected(e)}
           bind:value={description}
+          placeholder="Comment your thoughts!"
         />
-        <div class="post-bottom">
-          <div class="flex-between">
-            <div class="post-actions gap-15">
-              <button
-                disabled
-                class="post-action before-hover-anim rounded gap-3 align-center"
-              >
-                <HeartIcon iconClass="action-icon heart-icon" />
-              </button>
-              <button
-                disabled
-                class="post-action before-hover-anim align-center gap-3 rounded button-link font-weight-normal"
-              >
-                <CommentIcon iconClass="action-icon comment-icon" />
-              </button>
-              <button disabled class="post-action before-hover-anim rounded">
-                <ShareIcon iconClass="action-icon share-icon" />
-              </button>
-            </div>
-            <div class="post-actions">
-              <button disabled class="post-action before-hover-anim rounded">
-                <SaveIcon iconClass="action-icon save-icon" />
-              </button>
+        {#if showUnclickableControlls}
+          <div class="post-bottom">
+            <div class="flex-between">
+              <div class="post-actions gap-15">
+                <button
+                  disabled
+                  class="post-action before-hover-anim rounded gap-3 align-center"
+                >
+                  <HeartIcon iconClass="action-icon heart-icon" />
+                </button>
+                <button
+                  disabled
+                  class="post-action before-hover-anim align-center gap-3 rounded button-link font-weight-normal"
+                >
+                  <CommentIcon iconClass="action-icon comment-icon" />
+                </button>
+                <button disabled class="post-action before-hover-anim rounded">
+                  <ShareIcon iconClass="action-icon share-icon" />
+                </button>
+              </div>
+              <div class="post-actions">
+                <button disabled class="post-action before-hover-anim rounded">
+                  <SaveIcon iconClass="action-icon save-icon" />
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        {/if}
       </div>
     </div>
   </div>
