@@ -947,6 +947,7 @@ button {
 
   .app-notification {
     width: 360px;
+    bottom: 10px;
   }
 
   .user-image-wrp {
@@ -1587,6 +1588,7 @@ button {
 
   .app-notification {
     width: 360px;
+    bottom: 10px;
   }
 
   .user-image-wrp {
@@ -2199,6 +2201,7 @@ button {
 
   .app-notification {
     width: calc(100% - 20px);
+    bottom: calc(var(--nav-height) + 10px);
   }
 
   .post-image:not(.post-image-has-sibling) {
@@ -3325,7 +3328,6 @@ button:disabled {
   padding: 15px;
   position: fixed;
   left: 50%;
-  bottom: 10px;
   transform: translateX(-50%);
   z-index: 12;
 }

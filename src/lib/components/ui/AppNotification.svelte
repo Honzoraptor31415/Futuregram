@@ -1,8 +1,5 @@
 <script lang="ts">
-  import {
-    removeNotificationById,
-    setNotification,
-  } from "$lib/helper/appNotifications";
+  import { removeNotificationById } from "$lib/helper/appNotifications";
   import { onMount } from "svelte";
 
   export let linkHref = "";
@@ -20,23 +17,14 @@
   let moveNotifBy = "";
 
   function touchStartHandler(e: any) {
-    console.log(touch);
-
+    console.log(e);
     touch.isDown = true;
-    touch.x = e.clientX;
-    touch.startPosX = e.clientX;
+    touch.x = e.clientX ?? e.touches[0].clientX;
+    touch.startPosX = e.clientX ?? e.touches[0].clientX;
   }
 
   function touchEndHandler(e: any) {
     if (Math.abs(touch.startPosX - touch.x) > 100) {
-      console.log("Hiding and removing notification");
-
-      console.log(
-        touch.x < touch.startPosX
-          ? "Current touch X is less than the start touch X"
-          : "Current touch X is more than or equal to the start touch X"
-      );
-
       moveNotifBy = touch.x < touch.startPosX ? " - 100vw" : " + 100vw";
 
       disappearing = true;
@@ -53,7 +41,7 @@
 
   function touchMoveHandler(e: any) {
     if (touch.isDown) {
-      touch.x = e.clientX;
+      touch.x = e.clientX ?? e.touches[0].clientX;
     }
   }
 
