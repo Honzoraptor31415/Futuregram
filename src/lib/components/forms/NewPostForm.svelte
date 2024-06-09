@@ -15,6 +15,7 @@
   import NewPostField from "$lib/components/forms/NewPostField.svelte";
   import { getRandomHash } from "$lib/helper/random";
   import { setNotification } from "$lib/helper/appNotifications";
+  import { goto } from "$app/navigation";
 
   let description = "";
   let descriptionLabel = "";
@@ -25,6 +26,7 @@
   let currUser: AuthUser;
   let images: any[] = [];
   let readerLoading = false;
+  let postBeingInserted = false;
 
   userDbData.subscribe((val: any) => {
     val && (currDbUser = val);
@@ -143,6 +145,7 @@
 
   async function insertPost(imgUrls?: string[]) {
     if (currDbUser && currUser) {
+      postBeingInserted = true;
       const { data, error } = await supabase
         .from("posts")
         .insert({
@@ -153,7 +156,10 @@
         })
         .select()
         .single();
-      console.log(data, error);
+
+      postBeingInserted = !error;
+
+      data && goto(`posts/${data.id}`);
     } else {
       console.error("Error while uploading: user ain't logged in.");
     }
@@ -217,6 +223,7 @@
           </div>
         </div>
         <NewPostField
+          {postBeingInserted}
           submit={newPost}
           bind:files
           bind:photoFile

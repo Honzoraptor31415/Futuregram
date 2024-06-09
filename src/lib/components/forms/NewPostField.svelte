@@ -1,6 +1,7 @@
 <script lang="ts">
   import { getRandomHash } from "$lib/helper/random";
   import ImageIcon from "../icons/ImageIcon.svelte";
+  import Spinner from "$lib/components/ui/Spinner.svelte";
 
   export let value: string;
   export let placeholder = "What's going on?";
@@ -9,6 +10,7 @@
   export let files: any;
   export let photoFile: any;
   export let submit: () => void;
+  export let postBeingInserted: boolean;
 
   const areaId = `post-input-${getRandomHash(10)}`;
   const inputId = `image-input-${getRandomHash(10)}`;
@@ -42,9 +44,16 @@
       <ImageIcon iconClass="action-icon image-height-20 np-image-icon" />
     </label>
     <button
-      disabled={!files && !value}
+      disabled={(!files && !value) || postBeingInserted}
       on:click={submit}
-      class="primary-button button-element user-page-input">Create!</button
+      class="primary-button button-element user-page-input align-center gap-5"
     >
+      {#if postBeingInserted}
+        Creating
+        <Spinner size={20} borderWidth={3} color="var(--sec-bg)" />
+      {:else}
+        Create!
+      {/if}
+    </button>
   </div>
 </div>
