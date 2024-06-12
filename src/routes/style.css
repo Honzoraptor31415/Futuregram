@@ -2709,11 +2709,11 @@ nav {
 
 .form-star:hover .form-star-description {
   display: block;
-  animation: form-star-show .4s forwards;
+  animation: fade-in-from-0 .4s forwards;
   animation-delay: .7s;
 }
 
-@keyframes form-star-show {
+@keyframes fade-in-from-0 {
   0% {
     opacity: 0;
   }
@@ -3523,4 +3523,18 @@ button:disabled {
 .btn-active-opacity-to:active span {
   opacity: .6;
   transition: 0s opacity;
+}
+
+.user-hover-info {
+  animation: .2s fade-in-from-0 forwards linear;
+  top: 20px;
+  left: 0;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.cursor-auto {
+  cursor: auto;
 }

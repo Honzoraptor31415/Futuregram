@@ -18,9 +18,9 @@
   import { blockUser, report } from "$lib/helper/feedAdvanced";
   import SaveIcon from "../icons/SaveIcon.svelte";
   import { setNotification } from "$lib/helper/appNotifications";
-  import UserImage from "../feed/UserImage.svelte";
   import { actionWarning } from "$lib/stores/app";
   import NewPostForm from "../forms/NewPostForm.svelte";
+  import UserCard from "./UserCard.svelte";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -50,14 +50,13 @@
           ? 41
           : 0
     : 0;
-  let commentText = "";
-  let commentPlaceholder = "";
   let firstId: string;
   let postShown = true;
   let animationRunning = false;
   let heartX = 0;
   let heartY = 0;
   let menuElements: MenuElement[];
+  let showUserCard = false;
 
   const dbClickAnimationTimeout = 400;
   const heartSize = 70;
@@ -427,14 +426,34 @@
     <div class="feed-page-post-wrp">
       <div class="post">
         <div class="post-left">
-          <UserImage
-            imageUrl={postCreator.image_url}
-            uid={postCreator.id}
-            href={`/${postCreator.url_username}`}
-            username={postCreator.url_username}
-            displayedUsername={postCreator.displayed_username}
-            userBio={postCreator.bio}
-          />
+          <!-- svelte-ignore a11y-mouse-events-have-key-events -->
+          <a
+            on:mouseenter={() => {
+              showUserCard = true;
+              console.log(showUserCard);
+            }}
+            on:mouseleave={() => {
+              showUserCard = false;
+            }}
+            class="grid-wrp"
+            href="/{postCreator.url_username}"
+          >
+            <img
+              src={postCreator.image_url}
+              alt={postCreator.url_username}
+              class="post-user-image rounded margin-top-4 image-height-40"
+            />
+            <UserCard
+              imageUrl={postCreator.image_url}
+              uid={postCreator.id}
+              href={`/${postCreator.url_username}`}
+              username={postCreator.url_username}
+              displayedUsername={postCreator.displayed_username}
+              userBio={postCreator.bio}
+              bind:show={showUserCard}
+            />
+          </a>
+
           {#if !isChild && !isFeedPost}
             <div class="line-vertical"></div>
           {/if}
