@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Post from "$lib/components/feed/Post.svelte";
   import PostPreview from "$lib/components/feed/PostPreview.svelte";
   import TopPostNav from "$lib/components/feed/TopPostNav.svelte";
   import userDbData from "$lib/stores/userDbData";
@@ -57,23 +58,25 @@
   <title>Your saved posts</title>
 </svelte:head>
 
-<main class="desktop-nav-margin user-page-wrp">
+<main class="desktop-nav-margin posts-inline-spacing">
   <TopPostNav />
-  <div class="user-page">
-    <h2 class="posts-heading">Saved posts</h2>
-    <div class="user-posts">
+  <div class="w-full">
+    <div>
       {#if loading}
         <p class="no-posts less">Loading...</p>
       {:else if savedPosts && !loading}
         {#if savedPosts.length > 0}
-          <div class="post-prevs-grid">
-            {#each savedPosts as post}
-              {#if post.image_urls && post.image_urls.length > 0}
-                <PostPreview
-                  imageUrl={post.image_urls[0]}
-                  linkHref={`/posts/${post.id}`}
-                />
-              {/if}
+          <div class="w-full">
+            {#each savedPosts as { id, description, created_at, user_id, likes, image_urls }}
+              <Post
+                {id}
+                {description}
+                {created_at}
+                {user_id}
+                {likes}
+                {image_urls}
+                isFeedPost
+              />
             {/each}
           </div>
         {:else}
