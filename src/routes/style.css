@@ -916,18 +916,6 @@ button {
     max-width: 235.5px;
   }
 
-  .tab-desc-wrp {
-    margin-block: 16px;
-  }
-
-  .tab-switch-button:hover {
-    background: rgb(53, 53, 53);
-  }
-
-  .tab-sb-active:hover {
-    background: rgb(33 33 33);
-  }
-
   .suggestion {
     min-width: 160px;
     max-width: 160px;
@@ -1554,18 +1542,6 @@ button {
     max-width: 235.5px;
   }
 
-  .tab-desc-wrp {
-    margin-block: 16px;
-  }
-
-  .tab-switch-button:hover {
-    background: rgb(53, 53, 53);
-  }
-
-  .tab-sb-active:hover {
-    background: rgb(33 33 33);
-  }
-
   .suggestion {
     min-width: 160px;
     max-width: 160px;
@@ -2161,18 +2137,6 @@ button {
     margin-inline: 20px;
   }
 
-  .tab-desc-wrp {
-    margin-top: 20px;
-  }
-
-  .tab-switch-button:active {
-    background: rgb(53, 53, 53);
-  }
-
-  .tab-sb-active:active {
-    background: rgb(33 33 33);
-  }
-
   .suggestion {
     min-width: 150px;
     max-width: 150px;
@@ -2604,8 +2568,8 @@ nav {
   font-weight: 500;
 }
 
-.search-results {
-  width: 100%;
+.m-top-14 {
+  margin-top: 14px;
 }
 
 .search-result:last-child {
@@ -3139,27 +3103,6 @@ button:disabled {
   height: var(--search-input-height);
 }
 
-.tab-swichter-wrp {
-  border-radius: 100vw;
-  background: var(--sec-bg);
-  border: 1px var(--terc-border-color) solid;
-  padding: 2px;
-  display: flex;
-  gap: 5px;
-}
-
-.tab-switch-button {
-  background: var(--sec-bg);
-  border-radius: 100vw;
-  font-size: 1rem;
-  padding: 7px 12px;
-  transition: .2s ease-in-out;
-}
-
-.tab-sb-active {
-  background: var(--main-bg);
-}
-
 .gap-10 {
   display: flex;
   gap: 10px;
@@ -3168,10 +3111,6 @@ button:disabled {
 .gap-14 {
   display: flex;
   gap: 14px;
-}
-
-.tab-desc-wrp {
-  padding-inline: 20px;
 }
 
 .post-search-result-image {
@@ -3537,4 +3476,9 @@ button:disabled {
 
 .cursor-auto {
   cursor: auto;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
 }

@@ -6,6 +6,7 @@
   import Fuse from "fuse.js";
   import NoSearchResultDialog from "$lib/components/ui/NoSearchResult.svelte";
   import userDbData from "$lib/stores/userDbData.js";
+  import TabsSwitcher from "$lib/components/ui/TabsSwitcher.svelte";
 
   export let data;
 
@@ -13,7 +14,7 @@
   let postResults: DbPost[] = [];
   let searchValue = "";
   let initialResults = data.users as DbUser[];
-  let activeTab = "users";
+  let currTab = "users";
   let currDbUser: DbUser;
 
   userDbData.subscribe((val: any) => {
@@ -21,7 +22,7 @@
   });
 
   function search() {
-    if (activeTab === "users") {
+    if (currTab === "users") {
       const fuse = new Fuse(data.users as any[], {
         keys: ["url_username", "displayed_username", "bio"],
       });
@@ -40,11 +41,6 @@
         return result.item;
       });
     }
-  }
-
-  function switchTabs(currTab: string) {
-    activeTab = currTab;
-    search();
   }
 </script>
 
@@ -69,26 +65,24 @@
       />
     </div>
   </div>
-  <div class="align-center gap-10 tab-desc-wrp">
-    <p class="even-less">Search for:</p>
-    <div class="tab-swichter-wrp align-center">
-      <button
-        class={`no-style tab-switch-button align-center pointer ${activeTab === "users" ? "tab-sb-active" : ""}`}
-        on:click={() => {
-          switchTabs("users");
-        }}>Users</button
-      >
-      <button
-        class={`no-style tab-switch-button align-center pointer ${activeTab === "posts" ? "tab-sb-active" : ""}`}
-        on:click={() => {
-          switchTabs("posts");
-        }}>Posts</button
-      >
-    </div>
-  </div>
-  <div class="search-results">
+  <TabsSwitcher
+    tabs={[
+      {
+        id: "users",
+        text: "Users",
+      },
+      {
+        id: "posts",
+        text: "Posts",
+      },
+    ]}
+    wrpClass="grid-col-half w-full m-top-14"
+    bind:currTab
+    sharedFunc={search}
+  />
+  <div class="m-top-14 w-full">
     {#if searchValue}
-      {#if activeTab === "users"}
+      {#if currTab === "users"}
         {#if userResults.length > 0}
           {#each userResults as result}
             <SearchResult user={result} />

@@ -13,6 +13,7 @@
   import { supabase } from "$lib/supabaseClient";
   import { checkMaybeCreateRoom } from "$lib/helper/chats.js";
   import Post from "$lib/components/feed/Post.svelte";
+  import TabsSwitcher from "$lib/components/ui/TabsSwitcher.svelte";
 
   export let data;
 
@@ -396,30 +397,20 @@
         </div>
       </div>
       <div class="user-posts-wrp w-full">
-        <div class="page-tabs-wrp grid-col-half">
-          <button
-            class="no-style page-tab-button pointer padding-14 btn-active-opacity-to relative {currTab ===
-            'posts'
-              ? 'page-tab-button-current'
-              : ''}"
-            on:click={() => {
-              currTab = "posts";
-            }}
-          >
-            <span class="less">Posts</span>
-          </button>
-          <button
-            class="no-style page-tab-button pointer padding-14 btn-active-opacity-to relative {currTab ===
-            'replies'
-              ? 'page-tab-button-current'
-              : ''}"
-            on:click={() => {
-              currTab = "replies";
-            }}
-          >
-            <span class="less">Replies</span>
-          </button>
-        </div>
+        <TabsSwitcher
+          wrpClass="grid-col-half"
+          bind:currTab
+          tabs={[
+            {
+              id: "posts",
+              text: "Posts",
+            },
+            {
+              id: "replies",
+              text: "Replies",
+            },
+          ]}
+        />
         <div class="user-posts w-full">
           {#if loading}
             <p>Loading...</p>
