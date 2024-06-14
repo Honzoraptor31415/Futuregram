@@ -31,7 +31,6 @@ export interface DbMessage {
   id: string;
   image_urls: string[] | null;
   reactions: DbMessageReaction[] | null;
-  read_by: string[] | null;
   room_id: string;
   text: string | null;
   type: string;
@@ -57,4 +56,10 @@ export interface DbRoom {
   created_at: number;
   id: string;
   members: string[];
+  room_members_info: RoomMember[] | null;
+}
+
+export interface RoomMember {
+  id: string;
+  last_seen: number;
 }
