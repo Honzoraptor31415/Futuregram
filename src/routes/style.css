@@ -88,19 +88,16 @@ html {
   scroll-behavior: smooth;
 }
 
-body:has(.no-nav) nav,
-body:has(.user-doesnt-exist-bro) nav {
+body:has(.no-nav) nav {
   display: none !important;
 }
 
 body:has(.no-nav),
-body:has(.user-doesnt-exist-bro),
 body:has(.error-wrp) {
   margin-top: 0 !important;
 }
 
-body:has(.no-nav),
-body:has(.user-doesnt-exist-bro) {
+body:has(.no-nav) {
   margin-top: 0;
 }
 

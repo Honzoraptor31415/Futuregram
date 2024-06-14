@@ -14,12 +14,17 @@
   import { checkMaybeCreateRoom } from "$lib/helper/chats.js";
   import Post from "$lib/components/feed/Post.svelte";
   import TabsSwitcher from "$lib/components/ui/TabsSwitcher.svelte";
+  import Error from "$lib/components/ui/Error.svelte";
 
   export let data;
 
   let pageUserUsername = data.user;
   let user: DbUser | null;
-  let pageError = "";
+  let pageStatus = {
+    isError: false,
+    message: "",
+  };
+
   let posts: DbPost[] | null;
   let currLoggedInUser: AuthUser;
   let maxChars = browser
@@ -76,7 +81,7 @@
       .select("*")
       .eq("url_username", pageUserUsername);
     if (data?.length === 0) {
-      pageError = `User ${pageUserUsername} doesn't exist`;
+      pageStatus.message = `User ${pageUserUsername} doesn't exist`;
     } else if (data) {
       user = data ? data[0] : "";
       getPosts(data[0].id);
@@ -157,7 +162,7 @@
   <title>Futuregram - {data.user}</title>
 </svelte:head>
 
-{#if user && !pageError}
+{#if user && !pageStatus.isError}
   {#if renderedDialog}
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -453,8 +458,6 @@
       </div>
     </main>
   </div>
-{:else if pageError}
-  <header class="flex-center-all">
-    <h1 class="user-doesnt-exist-bro">{pageError}</h1>
-  </header>
+{:else if pageStatus.isError}
+  <Error code={404} message="Page not found" />
 {/if}
