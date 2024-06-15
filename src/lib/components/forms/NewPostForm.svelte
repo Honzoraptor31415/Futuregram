@@ -73,7 +73,7 @@
         );
 
         if (!imageCheck.isValid) {
-          setNotification(imageCheck.message);
+          setNotification({ text: imageCheck.message });
           return;
         }
       };

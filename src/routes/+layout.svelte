@@ -11,7 +11,6 @@
   import { actionWarning, appNotifications } from "$lib/stores/app";
   import Modal from "$lib/components/ui/Modal.svelte";
   import AppNotification from "$lib/components/ui/AppNotification.svelte";
-  import { setNotification } from "$lib/helper/appNotifications";
 
   export let data;
 
@@ -72,6 +71,7 @@
     heading={$actionWarning.heading}
     text={$actionWarning.text}
     func={$actionWarning.func}
+    continueBtnText={$actionWarning.continueBtnText}
   />
 {/if}
 

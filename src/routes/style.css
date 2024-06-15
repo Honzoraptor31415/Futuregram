@@ -2920,7 +2920,7 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 20;
+  z-index: 1000;
   animation: opacity-fade-in .1s forwards;
   background: rgba(0, 0, 0, 0.4);
 }

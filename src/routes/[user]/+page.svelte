@@ -162,7 +162,9 @@
   <title>Futuregram - {data.user}</title>
 </svelte:head>
 
-{#if user && !pageStatus.isError}
+{#if user && currDbUser && currDbUser.blocked?.includes(user.id)}
+  <Error code={404} message="Page not found" />
+{:else if user && !pageStatus.isError}
   {#if renderedDialog}
     <!-- svelte-ignore a11y-no-static-element-interactions -->
     <!-- svelte-ignore a11y-click-events-have-key-events -->

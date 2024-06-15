@@ -1,11 +1,15 @@
 import { appNotifications } from "$lib/stores/app";
 import type { AppNotification } from "$lib/types/app";
 
-export function setNotification(
-  text: string,
-  linkHref?: string,
-  linkText?: string
-) {
+export function setNotification({
+  text,
+  linkHref,
+  linkText,
+}: {
+  text: string;
+  linkHref?: string;
+  linkText?: string;
+}) {
   const fullShowTime = 3000;
   const animationDuration = 200;
 

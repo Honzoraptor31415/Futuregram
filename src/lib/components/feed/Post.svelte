@@ -67,10 +67,10 @@
         {
           type: "button",
           onClick: () => {
-            blockUser("random-id-45478-utfasdýasdýř87ř");
+            blockUser(postCreator?.id);
           },
           class: "menu-link red",
-          text: "Block account",
+          text: "Block user",
         },
         {
           type: "button",
@@ -85,10 +85,10 @@
         {
           type: "button",
           onClick: () => {
-            blockUser("random-id-45478-utfasdýasdýř87ř");
+            blockUser(postCreator?.id);
           },
           class: "menu-link red",
-          text: "Block account",
+          text: "Block user",
         },
         {
           type: "button",
@@ -267,7 +267,9 @@
         if (currDbUser && currDbUser.id === user_id) {
           const { error } = await supabase.from("posts").delete().eq("id", id);
           if (!error) {
-            setNotification("Post was deleted");
+            setNotification({
+              text: "Post was deleted",
+            });
             // using location.href instead of goto, because I need a refresh to happen
 
             if ($page.route.id === "/posts/[postId]" && browser) {
@@ -306,8 +308,12 @@
       saved = !saved;
 
       saved
-        ? setNotification("Post saved", `/saved`, "View all")
-        : setNotification("Removed from saved");
+        ? setNotification({
+            text: "Post saved",
+            linkHref: `/saved`,
+            linkText: "View all",
+          })
+        : setNotification({ text: "Removed from saved" });
 
       let allSavedPosts: string[];
       const { data: allSavedPostsData } = await supabase

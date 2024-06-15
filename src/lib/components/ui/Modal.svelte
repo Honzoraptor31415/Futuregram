@@ -15,7 +15,7 @@
 >
   <div class="sec-bg-element flex-column align-center gap-10 action-warning">
     <h2 class="action-warning-m-inline">{heading}</h2>
-    <p class="less action-warning-m-inline">{text}</p>
+    <p class="less action-warning-m-inline text-center">{text}</p>
     <div class="w-full grid-col-half">
       <button
         class="no-style action-warning-button less pointer"
