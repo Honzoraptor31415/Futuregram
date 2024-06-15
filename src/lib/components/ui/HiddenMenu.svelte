@@ -38,11 +38,14 @@
 </script>
 
 {#if !authOnly || (authOnly && currDbUser)}
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
+  <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div class="relative hidden-menu-wrp">
     <button
       {id}
       disabled={btnDisabled}
-      class={`hidden-menu-button ${menuVisible ? "hidden-menu-active" : ""} rounded ${btnClass}`}
+      class={`hidden-menu-button no-location-change ${menuVisible ? "hidden-menu-active" : ""} rounded ${btnClass}`}
+      on:click={(e) => e.preventDefault()}
     >
       <svelte:component this={icon} iconClass={`p-events-none ${iconClass}`}
       ></svelte:component>
@@ -55,8 +58,11 @@
           {:else}
             <button
               disabled={btnDisabled}
-              class={element.class}
-              on:click={element.onClick}>{element.text}</button
+              class="no-location-change ${element.class}"
+              on:click={(e) => {
+                e.preventDefault();
+                element.onClick();
+              }}>{element.text}</button
             >
           {/if}
         {/each}

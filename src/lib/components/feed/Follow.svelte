@@ -158,11 +158,13 @@
 {#if currDbUser && user}
   {#if user.id !== currDbUser.id}
     <button
-      class={strictClasses
-        ? followed
-          ? unfollowClass
-          : btnClass
-        : `${btnClass} ${followed ? unfollowClass : ""}`}
+      class={`no-location-change ${
+        strictClasses
+          ? followed
+            ? unfollowClass
+            : btnClass
+          : `${btnClass} ${followed ? unfollowClass : ""}`
+      }`}
       on:click={(e) => {
         e.preventDefault();
         follow();

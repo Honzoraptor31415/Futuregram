@@ -21,6 +21,7 @@
   import { actionWarning } from "$lib/stores/app";
   import NewPostForm from "../forms/NewPostForm.svelte";
   import UserCard from "./UserCard.svelte";
+  import { goto } from "$app/navigation";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -52,14 +53,10 @@
     : 0;
   let firstId: string;
   let postShown = true;
-  let animationRunning = false;
   let heartX = 0;
   let heartY = 0;
   let menuElements: MenuElement[];
   let showUserCard = false;
-
-  const dbClickAnimationTimeout = 400;
-  const heartSize = 70;
 
   const defaultPostOpts = isFeedPost
     ? [
@@ -168,7 +165,6 @@
       .from("posts")
       .select()
       .eq("replying_to", id);
-    console.log(data, error);
 
     if (data && data.length > 0) {
       postComments = data
@@ -205,16 +201,8 @@
         .eq("id", id);
       data && data[0].likes && (likes = data[0].likes);
 
-      animationRunning = true;
-
-      console.log(e, e.clientX);
-
       heartX = e.offsetX;
       heartY = e.offsetY;
-
-      setTimeout(() => {
-        animationRunning = false;
-      }, dbClickAnimationTimeout);
 
       if (likes && !likes.includes(currDbUser.id)) {
         likes.push(currDbUser.id);
@@ -283,7 +271,6 @@
 
   function likesListener() {
     const handleInserts = (payload: any) => {
-      console.log("Likes received!", payload);
       if (likes) {
         likes = likes.filter((user: string) => {
           return user !== currDbUser.id;
@@ -419,18 +406,28 @@
       menuElements = defaultPostOpts;
     }
   }
+
+  function handlePostClick(e: any) {
+    if (!e.target.classList.contains("no-location-change")) {
+      (isFeedPost || isChild) && goto(`/posts/${id}`);
+    }
+  }
 </script>
 
 {#if id && postCreator}
   {#if postShown}
     <div class="feed-page-post-wrp">
-      <div class="post">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
+      <div
+        on:click={handlePostClick}
+        class="post font-weight-normal {isFeedPost || isChild ? 'pointer' : ''}"
+      >
         <div class="post-left">
           <!-- svelte-ignore a11y-mouse-events-have-key-events -->
           <a
             on:mouseenter={() => {
               showUserCard = true;
-              console.log(showUserCard);
             }}
             on:mouseleave={() => {
               showUserCard = false;
@@ -527,24 +524,10 @@
           </div>
           {#if image_urls && image_urls?.length > 0}
             <!-- svelte-ignore a11y-no-static-element-interactions -->
-            <div
-              class="grid-wrp relative dbclick-heart-wrp"
-              on:dblclick={(e) => {
-                dbClickLike(e);
-              }}
-            >
-              {#if animationRunning}
-                <div
-                  style={`transform: rotate(${Math.floor(Math.random() * 2) === 0 ? Math.floor(Math.random() * 30) : -1 * Math.floor(Math.random() * 30)}deg);left:${heartX - heartSize / 2}px;top:${heartY - heartSize / 2}px`}
-                  class="grid-wrp absolute"
-                >
-                  <HeartIcon iconClass="dbclick-heart-fade liked-heart-icon" />
-                </div>
-              {/if}
-
+            <div class="grid-wrp">
               {#if isFeedPost}
                 {#if image_urls.length > 1}
-                  <a href={`posts/${id}`} class="grid-wrp">
+                  <div class="grid-wrp">
                     <div class="snap-swiper-x gap-10">
                       {#each image_urls as image}
                         <img
@@ -554,15 +537,15 @@
                         />
                       {/each}
                     </div>
-                  </a>
+                  </div>
                 {:else}
-                  <a href={`posts/${id}`} class="grid-wrp">
+                  <div class="grid-wrp">
                     <img
                       src={image_urls[0]}
                       alt="Post"
                       class="post-image post-image-no-sibling"
                     />
-                  </a>
+                  </div>
                 {/if}
               {:else if image_urls.length > 1}
                 <div class="snap-swiper-x gap-10">
@@ -590,8 +573,11 @@
               <div class="flex-between">
                 <div class="post-actions gap-15">
                   <button
-                    class="post-action before-hover-anim rounded gap-3 align-center"
-                    on:click={like}
+                    class="post-action before-hover-anim rounded gap-3 align-center no-location-change"
+                    on:click={(e) => {
+                      e.preventDefault();
+                      like();
+                    }}
                   >
                     <HeartIcon
                       iconClass={`action-icon ${liked ? "liked-heart-icon" : "heart-icon"}`}
@@ -614,8 +600,9 @@
                     {/if}
                   </a>
                   <button
-                    class="post-action before-hover-anim rounded"
-                    on:click={() => {
+                    class="post-action before-hover-anim rounded no-location-change"
+                    on:click={(e) => {
+                      e.preventDefault();
                       share("slkadfjhalskjdfhlakjshdljah123456");
                     }}
                   >
@@ -624,8 +611,11 @@
                 </div>
                 <div class="post-actions">
                   <button
-                    class="post-action before-hover-anim rounded"
-                    on:click={save}
+                    class="post-action before-hover-anim rounded no-location-change"
+                    on:click={(e) => {
+                      e.preventDefault();
+                      save();
+                    }}
                   >
                     <SaveIcon
                       iconClass={`action-icon ${saved ? "saved-icon" : "save-icon"}`}
@@ -659,12 +649,13 @@
         </div>
       </div>
     </div>
-    <div>
+    <div class={!isChild && !isFeedPost ? "feed-page-post-wrp" : ""}>
       {#if currDbUser && !isFeedPost && !isChild}
         <NewPostForm
           replyingTo={id}
           postIsChild
           showUnclickableControlls={false}
+          wrpClass={postComments.length > 0 ? "feed-page-post-wrp" : ""}
         />
       {/if}
       <div class="post-comments-wrp" id="comments">

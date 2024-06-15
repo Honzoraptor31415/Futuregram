@@ -13,7 +13,7 @@
 </script>
 
 <svelte:head>
-  <title>{`${data.description.slice(0, 19)}... - Futuregram`}</title>
+  <title>{`${data.description?.slice(0, 19)}... - Futuregram`}</title>
 </svelte:head>
 
 <main class="feed-main desktop-nav-margin">

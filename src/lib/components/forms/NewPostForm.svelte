@@ -20,6 +20,7 @@
   export let replyingTo: null | string = null;
   export let showUnclickableControlls = true;
   export let postIsChild = false;
+  export let wrpClass = "feed-page-post-wrp";
 
   let description = "";
   let files: any;
@@ -165,13 +166,11 @@
       console.error("Error while uploading: user ain't logged in.");
     }
   }
-
-  $: console.log(currDbUser);
 </script>
 
 {#if currDbUser}
   <div
-    class="feed-page-post-wrp"
+    class={wrpClass}
     style={postIsChild
       ? "padding-bottom: calc(var(--post-spacing-small) + var(--post-action-padding-default))"
       : ""}

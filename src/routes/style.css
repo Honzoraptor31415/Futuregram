@@ -33,7 +33,6 @@
   --action-icon-size: 22px;
   --alpha-bg: rgba(255, 255, 255, 0.051);
   --suggestions-scroll-padding: 10px;
-  --dbclick-heart-icon-size: 70px;
   --notification-animation-duration: 200ms;
   --notification-anim-translate-y: 150%;
   --new-post-field-spacing: 13px;
@@ -44,6 +43,7 @@
   --post-image-height: 340px;
   --action-warning-outer-spacing: 20px;
   --post-border-color: rgba(128, 128, 128, 0.158);
+  --post-margin-left-negative: -52px;
 }
 
 * {
@@ -951,6 +951,10 @@ button {
   .page-tab-button:hover::after {
     background: rgba(255, 255, 255, 0.6);
   }
+
+  .m-left-fpl {
+    margin-left: var(--post-margin-left-negative);
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1576,6 +1580,10 @@ button {
 
   .page-tab-button:hover::after {
     background: rgba(255, 255, 255, 0.6);
+  }
+
+  .m-left-fpl {
+    margin-left: var(--post-margin-left-negative);
   }
 }
 
@@ -2914,7 +2922,7 @@ button:disabled {
   justify-content: center;
   z-index: 20;
   animation: opacity-fade-in .1s forwards;
-  background: rgba(0, 0, 0, 0.24);
+  background: rgba(0, 0, 0, 0.4);
 }
 
 @keyframes opacity-fade-in {
@@ -3237,31 +3245,8 @@ button:disabled {
   padding-block: 6px;
 }
 
-.dbclick-heart-fade {
-  animation: heart-fade 400ms forwards;
-  width: var(--dbclick-heart-icon-size);
-  height: var(--dbclick-heart-icon-size);
-}
-
-@keyframes heart-fade {
-  50% {
-    opacity: .9;
-    transform: scale(1.1);
-  }
-
-  100% {
-    opacity: 0;
-    transform: scale(1.5);
-  }
-}
-
 .absolute {
   position: absolute;
-}
-
-.dbclick-heart-wrp {
-  max-width: 100svw;
-  overflow: hidden;
 }
 
 .app-notification {

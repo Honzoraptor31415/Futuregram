@@ -21,12 +21,20 @@
   {#if showButton}
     {#if textShowed}
       <button
-        on:click={showmore}
-        class="desc-dots showed-desc-dots hover-before-height"
+        on:click={(e) => {
+          e.preventDefault();
+          showmore();
+        }}
+        class="desc-dots showed-desc-dots hover-before-height no-location-change"
         ><span class="less">less</span></button
       >
     {:else}
-      <button on:click={showmore} class="desc-dots hover-before-height"
+      <button
+        on:click={(e) => {
+          e.preventDefault();
+          showmore();
+        }}
+        class="desc-dots hover-before-height"
         ><span class="less">... more</span></button
       >
     {/if}

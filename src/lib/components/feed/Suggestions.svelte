@@ -28,7 +28,7 @@
   }
 </script>
 
-<div class="feed-page-post-wrp">
+<div class="feed-page-post-wrp m-left-fpl">
   <p class="mobile-padding-left-feed"><b>Who you may know</b></p>
   <div
     class="suggestions-content snap-swiper-x gap-10 mobile-padding-left-feed"

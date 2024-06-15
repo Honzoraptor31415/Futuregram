@@ -32,8 +32,7 @@
     on:mouseenter={() => {
       show = true;
     }}
-    on:click={(e) => e.preventDefault()}
-    class="user-hover-info sec-bg-element absolute flex-column gap-20 padding-20 radius-main font-weight-normal cursor-auto {hiding
+    class="user-hover-info sec-bg-element absolute flex-column gap-20 padding-20 radius-main font-weight-normal cursor-auto no-location-change {hiding
       ? 'opacity-0'
       : ''}"
   >
