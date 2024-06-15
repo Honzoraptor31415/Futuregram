@@ -188,7 +188,6 @@
       currDbUser = val;
       getLikes(val.id);
       getIsSaved();
-      likesListener();
       getMenuElements();
     }
   });
@@ -230,29 +229,6 @@
     } else {
       console.log("You have to be logged in to like posts.");
     }
-  }
-
-  function likesListener() {
-    const handleInserts = (payload: any) => {
-      if (likes) {
-        likes = likes.filter((user: string) => {
-          return user !== currDbUser.id;
-        });
-      }
-      payload.new.likes && payload.new.likes.includes(currDbUser.id)
-        ? (liked = true)
-        : (liked = false);
-      likes = payload.new.likes;
-    };
-
-    supabase
-      .channel("posts")
-      .on(
-        "postgres_changes",
-        { event: "UPDATE", schema: "public", table: "posts" },
-        handleInserts
-      )
-      .subscribe();
   }
 
   function share(id: string) {

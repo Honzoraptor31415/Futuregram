@@ -128,6 +128,10 @@
     if (images.length < 1) {
       if (validation.descriptionCheck(description).isValid) {
         insertPost();
+      } else {
+        setNotification({
+          text: validation.descriptionCheck(description).message,
+        });
       }
     } else {
       if (validation.descriptionCheck(description).isValid) {
@@ -135,6 +139,10 @@
           if (data) {
             insertPost(data.imageUrls);
           }
+        });
+      } else {
+        setNotification({
+          text: validation.descriptionCheck(description).message,
         });
       }
     }

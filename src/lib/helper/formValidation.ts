@@ -145,6 +145,9 @@ export function descriptionCheck(description: string) {
   if (description.length > 500) {
     check.message = "Description is too long";
     check.isValid = false;
+  } else if (description.length < 1) {
+    check.message = "Description can't be empty";
+    check.isValid = false;
   }
 
   return check;
@@ -185,23 +188,6 @@ export function imageCheck(
     check.isValid = false;
   } else if (height > maxHeight) {
     check.message = "Image is too tall";
-    check.isValid = false;
-  }
-
-  return check;
-}
-
-export function commentCheck(comment: string) {
-  const check = {
-    message: "",
-    isValid: true,
-  };
-
-  if (comment.length < 1) {
-    check.message = "Comment can't be empty";
-    check.isValid = false;
-  } else if (comment.length > 600) {
-    check.message = "Comment is too long";
     check.isValid = false;
   }
 

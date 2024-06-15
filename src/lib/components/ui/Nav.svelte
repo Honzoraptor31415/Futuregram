@@ -153,7 +153,9 @@
 {:else if userIsLoaded}
   <!-- DESKTOP GUEST -->
   <nav class="desktop-nav">
-    <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>
+    <div class="grid-parent nav-side">
+      <a href="/#" class="logo-nav-text gradient-text">Futuregram</a>
+    </div>
     <div class="nav-btns">
       <a href="/" class="button-link nav-button">
         <HomeIcon
@@ -169,7 +171,7 @@
         <UserIcon iconClass="icon nav-menu-icon" /></a
       >
     </div>
-    <div class="menu-button-wrp">
+    <div class="menu-button-wrp nav-side">
       <HiddenMenu
         btnClass="button-link nav-button no-bg-nav-btn"
         icon={MenuIcon}

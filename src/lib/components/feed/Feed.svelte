@@ -7,6 +7,7 @@
   import Suggestions from "./Suggestions.svelte";
   import userDbData from "$lib/stores/userDbData";
   import NewPostForm from "../forms/NewPostForm.svelte";
+  import { page } from "$app/stores";
 
   let posts: DbPost[] = [];
   let isReachedFeedEnd = false;
@@ -26,8 +27,6 @@
       .select()
       .is("replying_to", null)
       .range(posts.length, posts.length + 3);
-
-    console.log(data);
 
     if (data) {
       data.length > 0
@@ -51,11 +50,27 @@
     };
   });
 
-  $: console.log(currDbUser);
+  $: if ($page.url.search === "?new") {
+    console.log("Creating a new post");
+    setTimeout(() => {
+      const textareaElement = document.querySelector(
+        ".create-post-input"
+      ) as HTMLTextAreaElement;
+      textareaElement?.focus();
+    }, 0);
+  }
 </script>
 
 <main class="feed-main desktop-nav-margin">
   <div class="posts-inline-spacing">
+    <div class="flex-center-all">
+      <a
+        href="/#"
+        class="mobile gradient-text logo-nav-text text-center no-select mobile-feed-heading"
+      >
+        Futuregram
+      </a>
+    </div>
     {#if currDbUser !== undefined}
       <NewPostForm />
     {/if}

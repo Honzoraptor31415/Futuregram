@@ -44,6 +44,7 @@
   --action-warning-outer-spacing: 20px;
   --post-border-color: rgba(128, 128, 128, 0.158);
   --post-margin-left-negative: -52px;
+  --mobile-nav-btn-height: 21.5px;
 }
 
 * {
@@ -1938,7 +1939,7 @@ button {
   }
 
   .mobile-top-btn {
-    max-height: 43%;
+    max-height: var(--mobile-nav-btn-height);
     width: 40px;
   }
 
@@ -2827,7 +2828,7 @@ nav {
   flex-direction: column;
 }
 
-.comment-edit-input {
+.create-post-input {
   width: 100%;
   font-size: 1rem;
   transition: .2s;
@@ -3463,4 +3464,15 @@ button:disabled {
 .flex-row {
   display: flex;
   flex-direction: row;
+}
+
+.logo-nav-text {
+  font-weight: 900;
+  letter-spacing: -2px;
+  font-size: 1.5rem;
+  transition: .15s linear;
+}
+
+.mobile-feed-heading {
+  font-size: 1.7rem;
 }

@@ -15,10 +15,10 @@
   const inputId = `image-input-${getRandomHash(10)}`;
 </script>
 
-<div class={`new-post-input-wrp rounded-main flex-column ${wrpClass}`}>
+<div class="new-post-input-wrp rounded-main flex-column {wrpClass}">
   <textarea
     id={areaId}
-    class={`no-style no-resize comment-edit-input new-post-input`}
+    class={`no-style no-resize create-post-input new-post-input`}
     {placeholder}
     bind:value
   ></textarea>

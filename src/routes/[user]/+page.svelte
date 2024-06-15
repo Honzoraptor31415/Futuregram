@@ -163,7 +163,7 @@
 </svelte:head>
 
 {#if user && currDbUser && currDbUser.blocked?.includes(user.id)}
-  <Error code={404} message="Page not found" />
+  <Error code={404} message="Not Found" />
 {:else if user && !pageStatus.isError}
   {#if renderedDialog}
     <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -461,5 +461,5 @@
     </main>
   </div>
 {:else if pageStatus.isError}
-  <Error code={404} message="Page not found" />
+  <Error code={404} message="Not Found" />
 {/if}

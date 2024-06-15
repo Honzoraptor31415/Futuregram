@@ -84,6 +84,12 @@
 >
   <p class="no-select">{text}</p>
   {#if linkHref}
-    <a class="hover-underline weight-500" href={linkHref}>{linkText}</a>
+    <a
+      on:click={() => {
+        removeNotificationById(notifId);
+      }}
+      class="hover-underline weight-500"
+      href={linkHref}>{linkText}</a
+    >
   {/if}
 </div>

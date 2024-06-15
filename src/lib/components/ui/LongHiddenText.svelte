@@ -26,7 +26,7 @@
           showmore();
         }}
         class="desc-dots showed-desc-dots hover-before-height no-location-change"
-        ><span class="less">less</span></button
+        ><span class="less no-location-change">less</span></button
       >
     {:else}
       <button
@@ -34,8 +34,8 @@
           e.preventDefault();
           showmore();
         }}
-        class="desc-dots hover-before-height"
-        ><span class="less">... more</span></button
+        class="desc-dots hover-before-height no-location-change"
+        ><span class="less no-location-change">... more</span></button
       >
     {/if}
   {:else}
