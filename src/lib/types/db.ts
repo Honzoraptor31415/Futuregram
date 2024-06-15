@@ -11,6 +11,7 @@ export interface DbUser {
   rooms: string[] | null;
   saved: string[] | null;
   settings: any | null;
+  auth_id: string;
   url_username: string;
 }
 
@@ -23,6 +24,7 @@ export interface DbPost {
   likes: string[] | null;
   replying_to: string | null;
   user_id: string;
+  auth_user_id: string;
 }
 
 export interface DbMessage {
