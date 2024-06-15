@@ -5,10 +5,10 @@
 
   export let data;
 
-  let commentActive = false;
+  let editing = false;
 
   page.subscribe((val: any) => {
-    commentActive = val.url.search === "?comment";
+    editing = val.url.search === "?edit";
   });
 </script>
 
@@ -26,7 +26,7 @@
       likes={data.likes}
       image_urls={data.image_urls}
       created_at={data.created_at}
-      {commentActive}
+      {editing}
     />
   </div>
   <div class="mobile-nav-placeholder"></div>

@@ -33,9 +33,9 @@
   export let likes: string[] | null;
   export let user_id: string;
   export let isFeedPost: boolean = false;
-  export let commentActive: boolean = false;
   export let saved: boolean = false;
   export let isChild = false;
+  export let editing = false;
 
   let currUser: AuthUser;
   let postComments: DbPost[] = [];
@@ -53,8 +53,6 @@
     : 0;
   let firstId: string;
   let postShown = true;
-  let heartX = 0;
-  let heartY = 0;
   let menuElements: MenuElement[];
   let showUserCard = false;
 
@@ -114,7 +112,7 @@
           type: "link",
           class: "menu-link",
           text: "Edit",
-          href: `/posts/${id}/edit`,
+          href: `/posts/${id}?edit`,
         },
         {
           type: "button",
@@ -128,7 +126,7 @@
           type: "link",
           class: "menu-link",
           text: "Edit",
-          href: `/posts/${id}/edit`,
+          href: `/posts/${id}?edit`,
         },
         {
           type: "button",
@@ -174,13 +172,6 @@
         .reverse();
       firstId = postComments[0].id;
     }
-
-    // commentsListener();
-
-    if (commentActive && browser) {
-      document.getElementById("comment-input")?.focus();
-      document.getElementById("comment-input")?.scrollIntoView();
-    }
   }
   getComments();
 
@@ -191,34 +182,6 @@
     }
   }
   getPostCreator(user_id);
-
-  async function dbClickLike(e: any) {
-    if (currUser) {
-      let likes = [];
-      const { data, error } = await supabase
-        .from("posts")
-        .select()
-        .eq("id", id);
-      data && data[0].likes && (likes = data[0].likes);
-
-      heartX = e.offsetX;
-      heartY = e.offsetY;
-
-      if (likes && !likes.includes(currDbUser.id)) {
-        likes.push(currDbUser.id);
-        likes = likes;
-        const { error } = await supabase
-          .from("posts")
-          .update({ likes: likes })
-          .eq("id", id);
-        liked = true;
-      } else {
-        console.log("You already liked this");
-      }
-    } else {
-      console.log("You have to be logged in to like posts.");
-    }
-  }
 
   userDbData.subscribe((val: any) => {
     if (val) {
@@ -291,24 +254,6 @@
       )
       .subscribe();
   }
-
-  // function commentsListener() {
-  //   const handleInserts = (payload: any) => {
-  //     console.log("Comment received!", payload);
-  //     if (payload.new.post_id === id) {
-  //       postComments = [...postComments, payload.new];
-  //     }
-  //   };
-
-  //   supabase
-  //     .channel("comments")
-  //     .on(
-  //       "postgres_changes",
-  //       { event: "INSERT", schema: "public", table: "comments" },
-  //       handleInserts
-  //     )
-  //     .subscribe();
-  // }
 
   function share(id: string) {
     console.log(`Sharing post ${id}`);

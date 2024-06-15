@@ -2,6 +2,7 @@
   import Post from "$lib/components/feed/Post.svelte";
   import PostPreview from "$lib/components/feed/PostPreview.svelte";
   import TopPostNav from "$lib/components/feed/TopPostNav.svelte";
+  import Spinner from "$lib/components/ui/Spinner.svelte";
   import userDbData from "$lib/stores/userDbData";
   import { supabase } from "$lib/supabaseClient";
   import type { DbPost, DbUser } from "$lib/types/db";
@@ -58,14 +59,16 @@
   <title>Your saved posts</title>
 </svelte:head>
 
-<main class="desktop-nav-margin posts-inline-spacing">
-  <TopPostNav />
-  <div class="w-full">
-    <div>
-      {#if loading}
-        <p class="no-posts less">Loading...</p>
-      {:else if savedPosts && !loading}
-        {#if savedPosts.length > 0}
+{#if loading}
+  <header class="flex-center-all">
+    <Spinner size={70} />
+  </header>
+{:else if savedPosts && !loading}
+  {#if savedPosts.length > 0}
+    <main class="desktop-nav-margin posts-inline-spacing">
+      <TopPostNav />
+      <div class="w-full">
+        <div>
           <div class="w-full">
             {#each savedPosts as { id, description, created_at, user_id, likes, image_urls }}
               <Post
@@ -79,10 +82,10 @@
               />
             {/each}
           </div>
-        {:else}
-          <p class="no-posts less">You didn't save anything yet.</p>
-        {/if}
-      {/if}
-    </div>
-  </div>
-</main>
+        </div>
+      </div>
+    </main>
+  {:else}
+    <p class="no-posts less">You didn't save anything yet.</p>
+  {/if}
+{/if}

@@ -58,7 +58,7 @@
           {:else}
             <button
               disabled={btnDisabled}
-              class="no-location-change ${element.class}"
+              class="no-location-change {element.class}"
               on:click={(e) => {
                 e.preventDefault();
                 element.onClick();
