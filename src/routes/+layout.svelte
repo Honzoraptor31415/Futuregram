@@ -42,7 +42,7 @@
     const { data } = await supabase.auth.getUser();
     if (data.user) {
       loggedInUser.set(data.user);
-      getUserDbData(data.user.user_metadata.db_id);
+      getUserDbData(data.user.id);
     } else {
       userDbData.set(null);
     }
@@ -56,7 +56,7 @@
     const { data } = await supabase
       .from("users")
       .select()
-      .eq("id", id)
+      .eq("auth_id", id)
       .single();
     data ? userDbData.set(data) : userDbData.set(null);
   }

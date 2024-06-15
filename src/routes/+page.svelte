@@ -10,7 +10,6 @@
   import { title } from "$lib/constants";
   import { description } from "$lib/constants";
   import { imageUrl } from "$lib/constants";
-  import { onMount } from "svelte";
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
   let userInDb: string | boolean = "waiting";
@@ -20,17 +19,22 @@
   let usernameLabel = "";
   let displayedNameLabel = "";
   let bioLabel = "";
-  let currUser: DbUser;
+  let currUser: AuthUser;
 
-  async function getUserDbId(user: AuthUser) {
-    if (user) {
-      browser && !user.user_metadata.db_id && (userInDb = false);
+  async function getIsUserInDb(user: AuthUser) {
+    if (user && browser) {
+      const { data } = await supabase
+        .from("users")
+        .select()
+        .eq("auth_id", user.id)
+        .single();
+      userInDb = !!data;
     }
   }
 
   loggedInUser.subscribe((val: any) => {
     currUser = val;
-    val && getUserDbId(val);
+    val && getIsUserInDb(val);
   });
 
   async function finishSignup() {
@@ -41,7 +45,8 @@
     if (
       usernameCheckResponse.isValid &&
       validation.displayedNameCheck(displayedName).isValid &&
-      validation.bioCheck(bio).isValid
+      validation.bioCheck(bio).isValid &&
+      currUser
     ) {
       const { data } = await supabase
         .from("users")
@@ -50,6 +55,7 @@
           url_username: username,
           displayed_username: displayedName,
           bio: bio,
+          auth_id: currUser.id,
         })
         .select();
       if (data && browser) {

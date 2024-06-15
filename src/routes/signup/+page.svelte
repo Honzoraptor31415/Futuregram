@@ -36,27 +36,23 @@
       validation.passwordCheck(password).isValid &&
       validation.bioCheck(bio).isValid
     ) {
-      createUserInDb();
+      createUserAuth();
       verifyEmail = true;
     }
   }
 
-  async function createUserAuth(dbId: string) {
+  async function createUserAuth() {
     const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
-      options: {
-        data: {
-          db_id: dbId,
-          name: displayedName,
-        },
-      },
     });
-    console.log(error);
-    return error;
+
+    if (data) {
+      createUserInDb(data.user?.id as string);
+    }
   }
 
-  async function createUserInDb() {
+  async function createUserInDb(authId: string) {
     const { data, error } = await supabase
       .from("users")
       .insert({
@@ -64,15 +60,9 @@
         url_username: username,
         displayed_username: displayedName,
         bio: bio,
+        auth_id: authId,
       })
       .select();
-    console.log(data, error);
-    if (data) {
-      createUserAuth(data[0].id);
-    } else {
-      console.log("Something went wrong");
-    }
-    return error;
   }
 
   async function googleSignIn() {
