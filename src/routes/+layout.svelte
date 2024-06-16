@@ -35,6 +35,8 @@
       }
     });
 
+    authListener();
+
     return () => data.subscription.unsubscribe();
   });
 
@@ -45,9 +47,24 @@
       getUserDbData(data.user.id);
     } else {
       userDbData.set(null);
+      loggedInUser.set(null);
     }
   }
   getAuthUser();
+
+  function authListener() {
+    const { data } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log(event, session);
+
+      if (event === "SIGNED_OUT") {
+        userDbData.set(null);
+        loggedInUser.set(null);
+      }
+    });
+
+    data.subscription.unsubscribe();
+  }
+
   async function getUserDbData(id: string) {
     const { data } = await supabase
       .from("users")
