@@ -34,7 +34,9 @@
 </svelte:head>
 
 {#if currUserDbData}
-  <main class="settings-main inline-auto sec-bg-element nav-top-space form-gap">
+  <main
+    class="settings-main m-inline-auto sec-bg-element nav-top-space form-gap"
+  >
     <h2 class="form-margin-bottom">Settings</h2>
     <div class="settings-content">
       <section class="settings-section">

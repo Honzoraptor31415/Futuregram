@@ -255,7 +255,7 @@
             alt="Profile pic"
           />
         </div>
-        <div class="user-follows-wrp inline-auto">
+        <div class="user-follows-wrp m-inline-auto">
           {#if user.followers && user.followers.length > 0}
             <button
               on:click={() => {

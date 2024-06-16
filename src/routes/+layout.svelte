@@ -4,9 +4,9 @@
   import Footer from "$lib/components/ui/Footer.svelte";
   import { browser } from "$app/environment";
   import { page } from "$app/stores";
-  import { disableScrollHandling, invalidate } from "$app/navigation";
+  import { invalidate } from "$app/navigation";
   import { onMount } from "svelte";
-  import userDbData, { userLoaded } from "$lib/stores/userDbData";
+  import userDbData from "$lib/stores/userDbData";
   import loggedInUser from "$lib/stores/user";
   import { actionWarning, appNotifications } from "$lib/stores/app";
   import Modal from "$lib/components/ui/Modal.svelte";
@@ -45,10 +45,6 @@
       getUserDbData(data.user.id);
     } else {
       userDbData.set(null);
-    }
-
-    if (data) {
-      userLoaded.set(true);
     }
   }
   getAuthUser();

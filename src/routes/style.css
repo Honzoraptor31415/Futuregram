@@ -230,6 +230,7 @@ p a {
 .primary-button {
   color: var(--sec-bg);
   background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--accent2)));
+  border: none;
 }
 
 .secondary-button {
@@ -2660,7 +2661,7 @@ nav {
   min-height: 100svh;
 }
 
-.inline-auto {
+.m-inline-auto {
   margin-inline: auto;
 }
 
@@ -3475,4 +3476,24 @@ button:disabled {
 
 .mobile-feed-heading {
   font-size: 1.7rem;
+}
+
+.no-posts-feed {
+  display: grid;
+  grid-template-rows: 100%;
+  min-height: 100svh;
+}
+
+.no-posts-feed .posts-inline-spacing {
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.no-posts-feed .feed-page-post-wrp {
+  height: fit-content;
+}
+
+.no-posts-feed .no-posts-dialog {
+  margin-block: auto;
 }

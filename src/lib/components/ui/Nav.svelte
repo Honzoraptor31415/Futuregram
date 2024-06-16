@@ -6,7 +6,7 @@
   import MenuIcon from "$lib/components/icons/MenuIcon.svelte";
   import NewIcon from "$lib/components/icons/NewIcon.svelte";
   import UserIcon from "$lib/components/icons/UserIcon.svelte";
-  import userDbData, { userLoaded } from "$lib/stores/userDbData";
+  import userDbData from "$lib/stores/userDbData";
   import { page } from "$app/stores";
   import HiddenMenu from "$lib/components/ui/HiddenMenu.svelte";
   import type { DbUser } from "$lib/types/db";
@@ -14,7 +14,6 @@
 
   let currDbUser: DbUser;
   let locationHref = browser && location.pathname.replaceAll("/", "");
-  let userIsLoaded = false;
 
   const loggedInMenuElements = [
     {
@@ -65,13 +64,9 @@
   userDbData.subscribe((val: any) => {
     currDbUser = val;
   });
-
-  userLoaded.subscribe((val: any) => {
-    userIsLoaded = val;
-  });
 </script>
 
-{#if userIsLoaded && currDbUser}
+{#if currDbUser}
   <!-- DESKTOP USER -->
   <nav class="desktop-nav">
     <div class="nav-side grid-parent">
@@ -150,7 +145,7 @@
       />
     </a>
   </nav>
-{:else if userIsLoaded}
+{:else if currDbUser === null}
   <!-- DESKTOP GUEST -->
   <nav class="desktop-nav">
     <div class="grid-parent nav-side">
