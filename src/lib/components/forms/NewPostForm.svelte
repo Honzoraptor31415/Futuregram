@@ -159,6 +159,7 @@
           user_id: currDbUser.id,
           description: description,
           replying_to: replyingTo,
+          auth_user_id: currUser.id,
         })
         .select()
         .single();
@@ -168,6 +169,8 @@
         files = [];
         description = "";
       }
+
+      console.log(data, error);
 
       data && !postIsChild && goto(`/posts/${data.id}`);
     } else {

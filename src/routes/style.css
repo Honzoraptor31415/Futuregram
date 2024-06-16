@@ -3482,6 +3482,8 @@ button:disabled {
   display: grid;
   grid-template-rows: 100%;
   min-height: 100svh;
+  justify-content: normal !important;
+  overflow-x: hidden;
 }
 
 .no-posts-feed .posts-inline-spacing {

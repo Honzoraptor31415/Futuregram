@@ -378,7 +378,7 @@
             />
           </a>
 
-          {#if !isChild && !isFeedPost}
+          {#if (!isChild && !isFeedPost && currDbUser) || (!isChild && !isFeedPost && currDbUser === null && postComments.length > 0)}
             <div class="line-vertical"></div>
           {/if}
         </div>
