@@ -15,11 +15,11 @@
   export let data;
 
   const navDisallowedLocations = ["login", "signup"];
-  let nav = true;
+  let isNavDisplayed = true;
 
   page.subscribe((val: any) => {
     if (browser) {
-      nav = !navDisallowedLocations.includes(
+      isNavDisplayed = !navDisallowedLocations.includes(
         val.url.pathname.replaceAll("/", "")
       );
     }
@@ -75,7 +75,7 @@
   }
 </script>
 
-{#if browser && nav}
+{#if isNavDisplayed}
   <Nav />
 {/if}
 

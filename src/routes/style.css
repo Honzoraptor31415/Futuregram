@@ -45,6 +45,7 @@
   --post-border-color: rgba(128, 128, 128, 0.158);
   --post-margin-left-negative: -52px;
   --mobile-nav-btn-height: 21.5px;
+  --fullscreen-wrp-bg-opacity: .4;
 }
 
 * {
@@ -2920,11 +2921,12 @@ button:disabled {
   position: fixed;
   inset: 0;
   display: flex;
+  cursor: default;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   animation: opacity-fade-in .1s forwards;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, var(--fullscreen-wrp-bg-opacity));
 }
 
 @keyframes opacity-fade-in {
@@ -3498,4 +3500,12 @@ button:disabled {
 
 .no-posts-feed .no-posts-dialog {
   margin-block: auto;
+}
+
+.fullscreened-feed-image {
+  max-width: calc(100% - 34px);
+  max-height: calc(100% - 34px);
+  height: auto;
+  width: auto;
+  border-radius: var(--border-radius-small);
 }

@@ -22,6 +22,7 @@
   import NewPostForm from "../forms/NewPostForm.svelte";
   import UserCard from "./UserCard.svelte";
   import { goto } from "$app/navigation";
+  import FullscreenableImage from "./FullscreenableImage.svelte";
 
   dayjs.extend(relativeTime);
   dayjs().format();
@@ -451,46 +452,42 @@
           </div>
           {#if image_urls && image_urls?.length > 0}
             <!-- svelte-ignore a11y-no-static-element-interactions -->
-            <div class="grid-wrp">
+            <div class="grid-wrp" on:click={(e) => e.preventDefault()}>
               {#if isFeedPost}
                 {#if image_urls.length > 1}
                   <div class="grid-wrp">
                     <div class="snap-swiper-x gap-10">
                       {#each image_urls as image}
-                        <img
-                          src={image}
-                          alt="Post"
-                          class={`post-image snap-swiper-item ${image_urls.length > 1 ? "post-image-has-sibling" : ""}`}
+                        <FullscreenableImage
+                          imageUrl={image}
+                          wrpClass="grid-wrp snap-swiper-item"
+                          imageClass={`post-image ${image_urls.length > 1 ? "post-image-has-sibling" : ""}`}
                         />
                       {/each}
                     </div>
                   </div>
                 {:else}
-                  <div class="grid-wrp">
-                    <img
-                      src={image_urls[0]}
-                      alt="Post"
-                      class="post-image post-image-no-sibling"
-                    />
-                  </div>
+                  <FullscreenableImage
+                    imageUrl={image_urls[0]}
+                    imageClass="post-image post-image-no-sibling"
+                  />
                 {/if}
               {:else if image_urls.length > 1}
                 <div class="snap-swiper-x gap-10">
                   {#each image_urls as image}
-                    <img
-                      src={image}
-                      alt="Post"
-                      class="post-image snap-swiper-item {image_urls.length > 0
+                    <FullscreenableImage
+                      wrpClass="grid-wrp snap-swiper-item"
+                      imageClass="post-image {image_urls.length > 0
                         ? 'post-image-has-sibling'
                         : ''}"
+                      imageUrl={image}
                     />
                   {/each}
                 </div>
               {:else}
-                <img
-                  src={image_urls[0]}
-                  alt="Post"
-                  class="post-image post-image-no-sibling"
+                <FullscreenableImage
+                  imageClass="post-image post-image-no-sibling"
+                  imageUrl={image_urls[0]}
                 />
               {/if}
             </div>
