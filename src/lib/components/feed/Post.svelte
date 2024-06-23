@@ -443,14 +443,14 @@
               </div>
               {#if description}
                 <p
-                  class={`post-description pl-text ${image_urls && image_urls?.length > 0 ? "post-description-w-img" : ""}`}
+                  class={`post-description pl-text ${image_urls && image_urls.length > 0 ? "post-description-w-img" : ""}`}
                 >
                   <LongHiddenText text={description} maxLength={maxChars} />
                 </p>
               {/if}
             </div>
           </div>
-          {#if image_urls && image_urls?.length > 0}
+          {#if image_urls && image_urls.length > 0}
             <!-- svelte-ignore a11y-no-static-element-interactions -->
             <div class="grid-wrp" on:click={(e) => e.preventDefault()}>
               {#if isFeedPost}
@@ -573,33 +573,34 @@
         </div>
       </div>
     </div>
-    <div class={!isChild && !isFeedPost ? "feed-page-post-wrp" : ""}>
-      {#if currDbUser && !isFeedPost && !isChild}
+    {#if currDbUser && !isFeedPost && !isChild}
+      <div class="feed-page-post-wrp">
         <NewPostForm
           replyingTo={id}
           postIsChild
           showUnclickableControlls={false}
           wrpClass={postComments.length > 0 ? "feed-page-post-wrp" : ""}
         />
-      {/if}
-      <div class="post-comments-wrp" id="comments">
-        {#if !isChild}
-          {#if postComments && !isFeedPost}
-            {#each postComments as { id, created_at, image_urls, description, likes, user_id }}
-              <svelte:self
-                isChild
-                {id}
-                {created_at}
-                {image_urls}
-                {description}
-                {likes}
-                {user_id}
-              />
-            {/each}
-          {/if}
-        {/if}
       </div>
-    </div>
+    {/if}
+
+    {#if postComments?.length > 0 && !isFeedPost && !isChild}
+      <div class={!isFeedPost ? "feed-page-post-wrp" : ""}>
+        <div class="page-post-m-block" id="comments">
+          {#each postComments as { id, created_at, image_urls, description, likes, user_id }}
+            <svelte:self
+              isChild
+              {id}
+              {created_at}
+              {image_urls}
+              {description}
+              {likes}
+              {user_id}
+            />
+          {/each}
+        </div>
+      </div>
+    {/if}
   {:else}
     <div class="feed-page-post-wrp">
       <div

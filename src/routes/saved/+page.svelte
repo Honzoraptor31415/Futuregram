@@ -30,22 +30,30 @@
         .eq("id", currDbUser.id)
         .single();
 
-      if (user) {
-        if (user.saved) {
-          savedPosts = [];
-          for (let i = 0; i < user.saved.length; i++) {
-            const { data } = await supabase
-              .from("posts")
-              .select()
-              .eq("id", user.saved[i])
-              .single();
-            console.log(data);
+      if (user?.saved) {
+        savedPosts = [];
+        for (let i = 0; i < user.saved.length; i++) {
+          const { data } = await supabase
+            .from("posts")
+            .select()
+            .eq("id", user.saved[i])
+            .single();
 
-            savedPosts = [...savedPosts, data];
-            if (i === user.saved.length - 1) loading = false;
+          savedPosts = [...savedPosts, data].filter((val) => val !== null);
+          let updatedSavedPostsIds = savedPosts.map(({ id }) => id);
+
+          if (updatedSavedPostsIds !== user.saved) {
+            await supabase
+              .from("users")
+              .update({
+                saved: updatedSavedPostsIds,
+              })
+              .eq("id", currDbUser.id);
           }
-        } else loading = false;
-      }
+
+          if (i === user.saved.length - 1) loading = false;
+        }
+      } else loading = false;
     }
     functionLoading = false;
   }
@@ -53,6 +61,8 @@
   onMount(() => {
     getSavedPosts();
   });
+
+  $: console.log(savedPosts);
 </script>
 
 <svelte:head>
