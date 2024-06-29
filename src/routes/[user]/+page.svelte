@@ -25,7 +25,8 @@
     message: "",
   };
 
-  let posts: DbPost[] | null;
+  let posts: DbPost[] | null = [];
+  let replies: DbPost[] | null = [];
   let currLoggedInUser: AuthUser;
   let maxChars = browser
     ? self.innerWidth > 970
@@ -107,7 +108,8 @@
             return a.created_at - b.created_at;
           })
           .reverse();
-        posts = data;
+        posts = data.filter(({ replying_to }) => replying_to === null);
+        replies = data.filter(({ replying_to }) => replying_to !== null);
       }
       loading = false;
     }
@@ -421,11 +423,11 @@
         <div class="user-posts w-full">
           {#if loading}
             <p>Loading...</p>
-          {:else if !loading && posts}
+          {:else if !loading && posts && replies}
             {#if posts.length > 0}
               <div class="w-full">
-                {#each posts as { id, description, created_at, user_id, likes, image_urls, replying_to }}
-                  {#if currTab === "posts" && !replying_to}
+                {#if currTab === "posts"}
+                  {#each posts as { id, description, created_at, user_id, likes, image_urls }}
                     <Post
                       {id}
                       {description}
@@ -435,7 +437,9 @@
                       {image_urls}
                       isFeedPost
                     />
-                  {:else if currTab === "replies" && replying_to}
+                  {/each}
+                {:else if currTab === "replies"}
+                  {#each replies as { id, description, created_at, user_id, likes, image_urls, replying_to }}
                     <Post
                       {id}
                       {description}
@@ -445,8 +449,8 @@
                       {image_urls}
                       isFeedPost
                     />
-                  {/if}
-                {/each}
+                  {/each}
+                {/if}
               </div>
             {/if}
           {:else}
