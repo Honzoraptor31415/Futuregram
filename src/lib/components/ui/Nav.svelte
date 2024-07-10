@@ -83,7 +83,7 @@
           iconClass={`icon nav-menu-icon ${locationHref === "search" ? "nav-icon-current" : ""}`}
         /></a
       >
-      <a href="/?new" class="button-link nav-button">
+      <a href="/?new#new-post-form" class="button-link nav-button">
         <NewIcon
           iconClass={`icon nav-menu-icon ${locationHref === "new" ? "nav-icon-current" : ""}`}
         />
@@ -126,7 +126,7 @@
         iconClass={`icon nav-menu-icon ${locationHref === "search" ? "nav-icon-current" : ""}`}
       />
     </a>
-    <a href="/?new" class="button-link nav-button">
+    <a href="/?new#new-post-form" class="button-link nav-button">
       <NewIcon
         iconClass={`icon nav-menu-icon ${locationHref === "new" ? "nav-icon-current" : ""}`}
       />

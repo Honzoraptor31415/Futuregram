@@ -181,6 +181,7 @@
 
 {#if currDbUser}
   <div
+    id={!replyingTo ? "new-post-form" : ""}
     class={wrpClass}
     style={postIsChild
       ? "padding-bottom: calc(var(--post-spacing-small) + var(--post-action-padding-default))"
