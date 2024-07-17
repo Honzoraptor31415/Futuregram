@@ -85,7 +85,7 @@
 
 {#if currUser && !userInDb}
   <header
-    class="flex-center-all finish-signup mobile-nav-padding desktop-nav-margin"
+    class="flex-center-all finish-signup mobile-nav-padding desktop-nav-padding"
   >
     <form class="sec-bg-element form" on:submit={finishSignup}>
       <h2>Let's finish signing up!</h2>

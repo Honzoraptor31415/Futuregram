@@ -16,7 +16,7 @@
   <title>{`${data.description?.slice(0, 19)}... - Futuregram`}</title>
 </svelte:head>
 
-<main class="feed-main desktop-nav-margin">
+<main class="feed-main desktop-nav-padding">
   <TopPostNav />
   <div class="posts-inline-spacing">
     <Post

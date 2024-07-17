@@ -73,7 +73,9 @@
 </script>
 
 <main
-  class="feed-main desktop-nav-margin {posts.length < 1 ? 'no-posts-feed' : ''}"
+  class="feed-main desktop-nav-padding {posts.length < 1
+    ? 'no-posts-feed'
+    : ''}"
 >
   <div class="posts-inline-spacing">
     <div class="flex-center-all mobile">

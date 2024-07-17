@@ -217,7 +217,7 @@
     </div>
   {/if}
   <div
-    class="user-page-wrp desktop-nav-margin bottom-padding-nav mobile-nav-padding nav-top-space"
+    class="user-page-wrp desktop-nav-padding bottom-padding-nav mobile-nav-padding nav-top-space"
   >
     <TopPostNav showMenu={currDbUser === null || currDbUser?.id === user.id} />
     <main class="posts-inline-spacing">

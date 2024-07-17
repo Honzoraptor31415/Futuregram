@@ -46,6 +46,8 @@
   --post-margin-left-negative: -52px;
   --mobile-nav-btn-height: 21.5px;
   --fullscreen-wrp-bg-opacity: .4;
+  --chat-page-spacing: 14px;
+  --settings-input-height: 47.5px;
 }
 
 * {
@@ -459,7 +461,7 @@ button {
     filter: blur(2px);
   }
 
-  body:has(nav) .desktop-nav-margin {
+  body:has(nav) .desktop-nav-padding {
     padding-top: var(--nav-height);
   }
 
@@ -879,14 +881,28 @@ button {
     bottom: 20px;
   }
 
+  .settings-main-wrp {
+    margin-inline: var(--feed-spacing);
+  }
+
   .settings-main {
     width: 800px;
+    margin-inline: auto;
     display: flex;
-    margin-top: calc(var(--nav-height) + 30px);
     flex-direction: column;
   }
 
-  /* .settings-content {} */
+  .settings-content {
+    margin-inline: 20px;
+  }
+
+  /* .settings-section {} */
+
+  .settings-grid {
+    display: grid;
+    gap: 20px 10px;
+    grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+  }
 
   .followers-dialog {
     position: fixed;
@@ -951,6 +967,17 @@ button {
 
   .m-left-fpl {
     margin-left: var(--post-margin-left-negative);
+  }
+
+  .chat-page-wrp {
+    margin-inline: var(--chat-page-spacing);
+  }
+
+  .chat-page-grid {
+    display: grid;
+    gap: var(--chat-page-spacing);
+    padding-bottom: var(--chat-page-spacing);
+    grid-template-columns: 25% auto;
   }
 }
 
@@ -1092,7 +1119,7 @@ button {
     filter: blur(1px);
   }
 
-  body:has(nav) .desktop-nav-margin {
+  body:has(nav) .desktop-nav-padding {
     padding-top: var(--nav-height);
   }
 
@@ -3477,4 +3504,12 @@ button:disabled {
   height: auto;
   width: auto;
   border-radius: var(--border-radius-small);
+}
+
+.height-fit {
+  height: fit-content;
+}
+
+.settings-input-height {
+  height: var(--settings-input-height);
 }

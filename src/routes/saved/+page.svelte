@@ -75,7 +75,7 @@
   </header>
 {:else if savedPosts && !loading}
   {#if savedPosts.length > 0}
-    <main class="desktop-nav-margin posts-inline-spacing">
+    <main class="desktop-nav-padding posts-inline-spacing">
       <TopPostNav />
       <div class="w-full">
         <div>
