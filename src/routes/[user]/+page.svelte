@@ -83,6 +83,7 @@
       .eq("url_username", pageUserUsername);
     if (data?.length === 0) {
       pageStatus.message = `User ${pageUserUsername} doesn't exist`;
+      pageStatus.isError = true;
     } else if (data) {
       user = data ? data[0] : "";
       getPosts(data[0].id);
@@ -164,7 +165,7 @@
   <title>Futuregram - {data.user}</title>
 </svelte:head>
 
-{#if user && currDbUser && currDbUser.blocked?.includes(user.id)}
+{#if (user && currDbUser && currDbUser.blocked?.includes(user.id)) || pageStatus.isError}
   <Error code={404} message="Not Found" />
 {:else if user && !pageStatus.isError}
   {#if renderedDialog}
@@ -464,6 +465,4 @@
       </div>
     </main>
   </div>
-{:else if pageStatus.isError}
-  <Error code={404} message="Not Found" />
 {/if}
