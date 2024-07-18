@@ -10,54 +10,58 @@
   import * as validation from "$lib/helper/formValidation";
   import { setNotification } from "$lib/helper/appNotifications";
 
-  let currLoggedInUser: AuthUser;
   let currUserDbData: DbUser;
-  let email = "";
-  let emailLabel = "";
-  let bio = "";
   let bioLabel = "";
-  let username = "";
   let usernameLabel = "";
-  let displayedName = "";
   let displayedNameLabel = "";
+
+  let profileForm = {
+    url_username: "",
+    displayed_username: "",
+    bio: "",
+  };
 
   userDbData.subscribe((val: any) => {
     console.log(val);
     if (val) {
       currUserDbData = val;
-      username = val.url_username;
-      displayedName = val.displayed_username;
-      bio = val.bio;
+      profileForm.url_username = val.url_username;
+      profileForm.displayed_username = val.displayed_username;
+      profileForm.bio = val.bio;
     }
   });
 
-  async function editProfile(colName: string) {
+  async function editProfile() {
     if (currUserDbData) {
-      // unfortunately a switch case is not useful here
-      if (colName === "username") {
+      usernameLabel = (await validation.usernameCheck(profileForm.url_username))
+        .message;
+      displayedNameLabel = validation.displayedNameCheck(
+        profileForm.displayed_username
+      ).message;
+      bioLabel = validation.bioCheck(profileForm.bio).message;
+
+      if (
+        (await validation.usernameCheck(profileForm.url_username)).isValid &&
+        validation.displayedNameCheck(profileForm.displayed_username).isValid &&
+        validation.bioCheck(profileForm.bio).isValid
+      ) {
         const { error } = await supabase
           .from("users")
-          .update({
-            url_username: username,
-          })
+          .update(profileForm)
           .eq("id", currUserDbData.id);
-        error
-          ? setNotification({ text: "Something went wrong" })
-          : setNotification({ text: "Username updated!" });
-      } else if (colName === "displayedName") {
-        const { error } = await supabase.from("users").update({
-          displayed_username: displayedName,
-        });
-        error
-          ? setNotification({ text: "Something went wrong" })
-          : setNotification({ text: "Displayed name updated!" });
-      } else if (colName === "bio") {
-        const { error } = await supabase.from("users").update({
-          bio: bio,
-        });
-        error
-          ? setNotification({ text: "Something went wrong" })
-          : setNotification({ text: "Bio updated!" });
+
+        if (error) {
+          console.log(error);
+          setNotification({ text: "Something went wrong" });
+        } else {
+          const { data } = await supabase
+            .from("users")
+            .select()
+            .eq("id", currUserDbData.id)
+            .single();
+          data && userDbData.set(data);
+          setNotification({ text: "Profile updated!" });
+        }
       }
     }
   }
@@ -85,7 +89,7 @@
             <div class="gap-10 flex-column">
               <form
                 on:submit={() => {
-                  editProfile("username");
+                  editProfile();
                 }}
                 class="flex-between align-end gap-10 settings-form"
               >
@@ -96,19 +100,19 @@
                   placeholder="Username"
                   inputClass="settings-input-height"
                   label={usernameLabel}
-                  bind:value={username}
+                  bind:value={profileForm.url_username}
                   isValid={usernameLabel === ""}
                 />
                 <button
                   class="user-input button-element primary-button settings-input-height"
                   type="submit"
-                  disabled={username === currUserDbData.url_username}
-                  >Save</button
+                  disabled={profileForm.url_username ===
+                    currUserDbData.url_username}>Save</button
                 >
               </form>
               <form
                 on:submit={() => {
-                  editProfile("displayedName");
+                  editProfile();
                 }}
                 class="flex-between align-end gap-10 settings-form"
               >
@@ -119,19 +123,19 @@
                   inputClass="settings-input-height"
                   placeholder="Displayed name"
                   label={displayedNameLabel}
-                  bind:value={displayedName}
+                  bind:value={profileForm.displayed_username}
                   isValid={displayedNameLabel === ""}
                 />
                 <button
                   class="user-input button-element primary-button settings-input-height"
                   type="submit"
-                  disabled={displayedName === currUserDbData.displayed_username}
-                  >Save</button
+                  disabled={profileForm.displayed_username ===
+                    currUserDbData.displayed_username}>Save</button
                 >
               </form>
               <form
                 on:submit={() => {
-                  editProfile("bio");
+                  editProfile();
                 }}
                 class="flex-between align-end gap-10 settings-form"
               >
@@ -140,7 +144,7 @@
                   initLabel="Bio"
                   placeholder="Your bio"
                   label={bioLabel}
-                  bind:value={bio}
+                  bind:value={profileForm.bio}
                   wrpClass="w-full"
                   type="textarea"
                   isValid={bioLabel === ""}
@@ -148,7 +152,7 @@
                 <button
                   class="user-input button-element primary-button settings-input-height"
                   type="submit"
-                  disabled={bio === currUserDbData.bio}>Save</button
+                  disabled={profileForm.bio === currUserDbData.bio}>Save</button
                 >
               </form>
             </div>
