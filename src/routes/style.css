@@ -900,8 +900,16 @@ button {
 
   .settings-grid {
     display: grid;
-    gap: 20px 10px;
-    grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+    gap: 20px;
+    grid-template-columns: calc(50% - 10px) calc(50% - 10px);
+    align-items: center;
+  }
+
+  .settings-user-image {
+    max-width: 256px;
+    min-width: 256px;
+    height: auto;
+    aspect-ratio: 1;
   }
 
   .followers-dialog {
@@ -2880,10 +2888,6 @@ button:disabled {
 
 .password-show-button path {
   fill: var(--main-border-color);
-}
-
-.form-margin-bottom {
-  margin-bottom: 19px;
 }
 
 .user-follow-element {
