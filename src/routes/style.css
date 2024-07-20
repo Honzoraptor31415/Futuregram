@@ -2,8 +2,10 @@
   --main-bg: rgb(20, 20, 20);
   --main-bg-num: 20, 20, 20;
   --sec-bg: rgb(40 40 40);
-  --accent: 0, 255, 190;
-  --accent2: 0, 208, 255;
+  --accent-num: 0, 255, 190;
+  --accent2-num: 0, 208, 255;
+  --accent: rgb(var(--accent-num));
+  --accent2: rgb(var(--accent2-num));
   --main-border-color: rgb(100, 100, 100);
   --sec-border-color: rgba(128, 128, 128, 0.4);
   --terc-border-color: rgb(59 59 59);
@@ -217,7 +219,7 @@ textarea.user-input-text {
 .gradient-text,
 p a {
   background-clip: text;
-  background: -webkit-linear-gradient(0deg, rgb(var(--accent)), rgb(var(--accent2)));
+  background: -webkit-linear-gradient(0deg, var(--accent), var(--accent2));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -232,7 +234,7 @@ p a {
 
 .primary-button {
   color: var(--sec-bg);
-  background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--accent2)));
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
   border: none;
 }
 
@@ -629,15 +631,15 @@ button {
   }
 
   .post-action:hover .comment-icon path {
-    stroke: rgb(var(--accent2));
+    stroke: var(--accent2);
   }
 
   .post-action:has(.comment-icon):hover span {
-    color: rgb(var(--accent2));
+    color: var(--accent2);
   }
 
   .post-action:hover .share-icon path {
-    stroke: rgb(var(--accent));
+    stroke: var(--accent);
   }
 
   .post-action:hover .report-icon path {
@@ -697,7 +699,7 @@ button {
 
   .primary-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(var(--accent), .2);
+    box-shadow: 0 6px 15px rgba(var(--accent-num), .2);
   }
 
   .secondary-button:hover {
@@ -1294,15 +1296,15 @@ button {
   }
 
   .post-action:hover .comment-icon path {
-    stroke: rgb(var(--accent2));
+    stroke: var(--accent2);
   }
 
   .post-action:has(.comment-icon):hover span {
-    color: rgb(var(--accent2));
+    color: var(--accent2);
   }
 
   .post-action:hover .share-icon path {
-    stroke: rgb(var(--accent));
+    stroke: var(--accent);
   }
 
   .post-action:hover .report-icon path {
@@ -1363,7 +1365,7 @@ button {
 
   .primary-button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(var(--accent), .2);
+    box-shadow: 0 6px 15px rgba(var(--accent-num), .2);
   }
 
   .secondary-button:hover {
@@ -1885,15 +1887,15 @@ button {
   }
 
   .post-action:active .comment-icon path {
-    stroke: rgb(var(--accent2));
+    stroke: var(--accent2);
   }
 
   .post-action:has(.comment-icon):active span {
-    color: rgb(var(--accent2));
+    color: var(--accent2);
   }
 
   .post-action:active .share-icon path {
-    stroke: rgb(var(--accent));
+    stroke: var(--accent);
   }
 
   .post-action:active .report-icon path {

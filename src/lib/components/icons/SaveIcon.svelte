@@ -5,8 +5,8 @@
 <svg class={iconClass} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
   <defs>
     <linearGradient id="saved-gradient">
-      <stop offset="0%" stop-color="rgb(var(--accent))" />
-      <stop offset="100%" stop-color="rgb(var(--accent2))" />
+      <stop offset="0%" stop-color="var(--accent)" />
+      <stop offset="100%" stop-color="var(--accent2)" />
     </linearGradient>
   </defs>
   <g data-name="Layer 2">

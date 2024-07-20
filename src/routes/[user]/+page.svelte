@@ -67,7 +67,7 @@
   }
 
   page.subscribe((val: any) => {
-    posts = null;
+    posts = [];
     pageUserUsername = val.data.user;
     renderedDialog = null;
     user = null;
@@ -111,15 +111,12 @@
           .reverse();
         posts = data.filter(({ replying_to }) => replying_to === null);
         replies = data.filter(({ replying_to }) => replying_to !== null);
+        console.log(posts, replies);
       }
       loading = false;
     }
 
     functionLoading = false;
-  }
-
-  function editProfile() {
-    console.log("Edit profile function");
   }
 
   function setFollowDialog(dialog: "following" | "followers" | null) {
@@ -236,9 +233,9 @@
               />
               {#if currDbUser && currLoggedInUser}
                 {#if currDbUser.id === user.id}
-                  <button
+                  <a
                     class="button-element user-page-input primary-button"
-                    on:click={editProfile}>Edit profile</button
+                    href="/settings#profile">Edit profile</a
                   >
                 {:else}
                   <button
@@ -390,9 +387,9 @@
           />
           {#if currDbUser && currLoggedInUser}
             {#if currDbUser.id === user.id}
-              <button
+              <a
                 class="button-element user-page-input primary-button"
-                on:click={editProfile}>Edit profile</button
+                href="/settings#profile">Edit profile</a
               >
             {:else}
               <button
@@ -425,41 +422,47 @@
           {#if loading}
             <p>Loading...</p>
           {:else if !loading && posts && replies}
-            {#if posts.length > 0}
+            {#if currTab === "posts" && posts.length > 0}
               <div class="w-full">
-                {#if currTab === "posts"}
-                  {#each posts as { id, description, created_at, user_id, likes, image_urls }}
-                    <Post
-                      {id}
-                      {description}
-                      {created_at}
-                      {user_id}
-                      {likes}
-                      {image_urls}
-                      isFeedPost
-                    />
-                  {/each}
-                {:else if currTab === "replies"}
-                  {#each replies as { id, description, created_at, user_id, likes, image_urls, replying_to }}
-                    <Post
-                      {id}
-                      {description}
-                      {created_at}
-                      {user_id}
-                      {likes}
-                      {image_urls}
-                      isFeedPost
-                    />
-                  {/each}
-                {/if}
+                {#each posts as { id, description, created_at, user_id, likes, image_urls }}
+                  <Post
+                    {id}
+                    {description}
+                    {created_at}
+                    {user_id}
+                    {likes}
+                    {image_urls}
+                    isFeedPost
+                  />
+                {/each}
               </div>
+            {:else if currTab === "posts" && posts.length === 0}
+              <p class="no-posts less">
+                <b>
+                  {currDbUser?.id === user.id ? "You" : data.user}
+                </b> didn't post yet.
+              </p>
+            {:else if currTab === "replies" && replies.length > 0}
+              <div class="w-full">
+                {#each replies as { id, description, created_at, user_id, likes, image_urls, replying_to }}
+                  <Post
+                    {id}
+                    {description}
+                    {created_at}
+                    {user_id}
+                    {likes}
+                    {image_urls}
+                    isFeedPost
+                  />
+                {/each}
+              </div>
+            {:else if currTab === "replies" && replies.length === 0}
+              <p class="no-posts less">
+                <b>
+                  {currDbUser?.id === user.id ? "You" : data.user}
+                </b> didn't reply to any posts yet.
+              </p>
             {/if}
-          {:else}
-            <p class="no-posts less">
-              <b>
-                {currDbUser?.id === user.id ? "You" : data.user}
-              </b> didn't post yet.
-            </p>
           {/if}
         </div>
       </div>
