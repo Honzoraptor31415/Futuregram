@@ -898,7 +898,7 @@ button {
     margin-top: 20px;
   }
 
-  .settings-grid {
+  .profile-settings-grid {
     display: grid;
     gap: 20px;
     grid-template-columns: calc(50% - 10px) calc(50% - 10px);
@@ -986,6 +986,12 @@ button {
     gap: var(--chat-page-spacing);
     padding-bottom: var(--chat-page-spacing);
     grid-template-columns: 25% auto;
+  }
+
+  .settings-checkboxes-wrp {
+    display: grid;
+    grid-template-columns: calc(50% - 10px) calc(50% - 10px);
+    gap: 20px;
   }
 }
 
@@ -1627,7 +1633,7 @@ button {
     margin-top: 20px;
   }
 
-  .settings-grid {
+  .profile-settings-grid {
     display: flex;
     gap: 20px;
     justify-content: space-between;
@@ -1639,6 +1645,12 @@ button {
     min-width: 200px;
     height: auto;
     aspect-ratio: 1;
+  }
+
+  .settings-checkboxes-wrp {
+    display: grid;
+    grid-template-columns: calc(50% - 5px) calc(50% - 5px);
+    gap: 20px 10px;
   }
 }
 
@@ -2251,7 +2263,7 @@ button {
     margin-top: 10px;
   }
 
-  .settings-grid {
+  .profile-settings-grid {
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -2263,6 +2275,12 @@ button {
     min-width: calc(100% - 20px);
     height: auto;
     aspect-ratio: 1;
+  }
+
+  .settings-checkboxes-wrp {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 }
 
@@ -3570,4 +3588,8 @@ button:disabled {
 
 .settings-input-height {
   height: var(--settings-input-height);
+}
+
+.settings-main {
+  margin-bottom: 15px;
 }
