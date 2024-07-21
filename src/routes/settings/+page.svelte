@@ -73,10 +73,12 @@
 
 {#if currUserDbData}
   <div class="desktop-nav-padding settings-main-wrp">
-    <main class="settings-main sec-bg-element gap-20">
-      <h2>Settings</h2>
+    <main class="settings-main">
       <div class="settings-content">
-        <section class="settings-section gap-20 flex-column" id="profile">
+        <section
+          class="sec-bg-element settings-section gap-20 flex-column"
+          id="profile"
+        >
           <h3 class="settings-section-heading">Profile settings</h3>
           <div class="settings-grid">
             <div class="grid-wrp">
