@@ -10,11 +10,14 @@
   import * as validation from "$lib/helper/formValidation";
   import { setNotification } from "$lib/helper/appNotifications";
   import Checkbox from "$lib/components/ui/Checkbox.svelte";
+  import { onMount } from "svelte";
+  import type { LocalSettings } from "$lib/types/app";
 
   let currUserDbData: DbUser;
   let bioLabel = "";
   let usernameLabel = "";
   let displayedNameLabel = "";
+  let loadedLocalSettings: LocalSettings;
 
   let enableKeyboardShortcuts = false;
   let enableKeyboardShortcutsId: string;
@@ -72,6 +75,27 @@
       }
     }
   }
+
+  function createSettingsInLocalStorage() {
+    const localStorageSettings = localStorage.getItem("settings");
+
+    if (localStorageSettings) {
+      loadedLocalSettings = JSON.parse(localStorageSettings);
+      return;
+    }
+
+    const defaultSettings: LocalSettings = {
+      enableKeyboardShortcuts: false,
+      enableLeftHanded: false,
+    };
+
+    localStorage.setItem("settings", JSON.stringify(defaultSettings));
+    loadedLocalSettings = defaultSettings;
+  }
+
+  onMount(() => {
+    createSettingsInLocalStorage();
+  });
 </script>
 
 <svelte:head>
@@ -82,10 +106,7 @@
   <div class="desktop-nav-padding settings-main-wrp bottom-padding-nav">
     <main class="settings-main">
       <div class="settings-content gap-15 flex-column">
-        <section
-          class="sec-bg-element settings-section gap-20 flex-column"
-          id="profile"
-        >
+        <section class="settings-section gap-20 flex-column" id="profile">
           <h3 class="settings-section-heading">Profile settings</h3>
           <div class="profile-settings-grid">
             <div class="grid-wrp">
@@ -95,7 +116,7 @@
                 class="rounded settings-user-image"
               />
             </div>
-            <div class="gap-10 flex-column">
+            <div class="gap-10 flex-column w-full">
               <form
                 on:submit={() => {
                   editProfile();
@@ -167,24 +188,21 @@
             </div>
           </div>
         </section>
-        <section
-          class="sec-bg-element settings-section gap-20 flex-column"
-          id="profile"
-        >
+        <section class="settings-section gap-20 flex-column" id="profile">
           <h3 class="settings-section-heading">App preferences</h3>
           <div class="settings-checkboxes-wrp">
-            <div class="flex-between">
+            <div class="flex-between settings-checkbox-wrp align-center">
               <label for={enableKeyboardShortcutsId} class="less no-select"
-                >Keyboard shortcuts</label
+                >Enable keyboard shortcuts</label
               >
               <Checkbox
                 bind:id={enableKeyboardShortcutsId}
                 bind:checked={enableKeyboardShortcuts}
               />
             </div>
-            <div class="flex-between">
+            <div class="flex-between settings-checkbox-wrp align-center">
               <label for={enableLeftHandedId} class="less no-select"
-                >Left handed controlls</label
+                >Enable left handed controlls</label
               >
               <Checkbox
                 bind:id={enableLeftHandedId}

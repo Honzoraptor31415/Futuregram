@@ -50,6 +50,7 @@
   --fullscreen-wrp-bg-opacity: .4;
   --chat-page-spacing: 14px;
   --settings-input-height: 47.5px;
+  --border-radius-big: 23px;
 }
 
 * {
@@ -990,8 +991,16 @@ button {
 
   .settings-checkboxes-wrp {
     display: grid;
-    grid-template-columns: calc(50% - 10px) calc(50% - 10px);
-    gap: 20px;
+    grid-template-columns: 50% 50%;
+  }
+
+  .settings-checkbox-wrp {
+    padding: 10px;
+    border-right: 1px var(--terc-border-color) solid;
+  }
+
+  .settings-checkbox-wrp:nth-child(even) {
+    border: none;
   }
 }
 
@@ -1649,8 +1658,16 @@ button {
 
   .settings-checkboxes-wrp {
     display: grid;
-    grid-template-columns: calc(50% - 5px) calc(50% - 5px);
-    gap: 20px 10px;
+    grid-template-columns: 50% 50%;
+  }
+
+  .settings-checkbox-wrp {
+    padding: 10px;
+    border-right: 1px var(--terc-border-color) solid;
+  }
+
+  .settings-checkbox-wrp:nth-child(even) {
+    border: none;
   }
 }
 
@@ -2280,7 +2297,15 @@ button {
   .settings-checkboxes-wrp {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+  }
+
+  .settings-checkbox-wrp {
+    padding-block: 10px;
+    border-bottom: 1px var(--terc-border-color) solid;
+  }
+
+  .settings-checkbox-wrp:last-child {
+    border-bottom: none;
   }
 }
 
@@ -3592,4 +3617,11 @@ button:disabled {
 
 .settings-main {
   margin-bottom: 15px;
+}
+
+.settings-section {
+  border-radius: var(--border-radius-big);
+  padding: 15px;
+  background: var(--sec-bg);
+  border: 1px var(--terc-border-color) solid;
 }

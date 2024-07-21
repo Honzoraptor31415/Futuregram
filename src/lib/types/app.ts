@@ -27,3 +27,8 @@ export interface ActionWarning {
   func: () => void;
   continueBtnText?: string;
 }
+
+export interface LocalSettings {
+  enableLeftHanded: boolean;
+  enableKeyboardShortcuts: boolean;
+}
