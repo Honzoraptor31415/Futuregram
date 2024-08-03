@@ -13,7 +13,8 @@
   let userResults: DbUser[] = [];
   let postResults: DbPost[] = [];
   let searchValue = "";
-  let initialResults = data.users as DbUser[];
+  let initialUserResults = data.users as DbUser[];
+  let initialPostResults = data.posts as DbPost[];
   let currTab = "users";
   let currDbUser: DbUser;
 
@@ -84,18 +85,18 @@
     {#if searchValue}
       {#if currTab === "users"}
         {#if userResults.length > 0}
-          {#each userResults as result}
-            <SearchResult user={result} />
+          {#each userResults as user}
+            <SearchResult {user} />
           {/each}
         {:else}
           <NoSearchResultDialog />
         {/if}
       {:else if postResults.length > 0}
-        {#each postResults as result}
+        {#each postResults as post}
           <PostSearchResult
-            post={result}
+            {post}
             liked={currDbUser
-              ? result.likes?.includes(currDbUser.id)
+              ? post.likes?.includes(currDbUser.id)
                 ? true
                 : false
               : false}
@@ -104,9 +105,20 @@
       {:else}
         <NoSearchResultDialog />
       {/if}
+    {:else if currTab === "users"}
+      {#each initialUserResults as user}
+        <SearchResult {user} />
+      {/each}
     {:else}
-      {#each initialResults as result}
-        <SearchResult user={result} />
+      {#each initialPostResults as post}
+        <PostSearchResult
+          {post}
+          liked={currDbUser
+            ? post.likes?.includes(currDbUser.id)
+              ? true
+              : false
+            : false}
+        />
       {/each}
     {/if}
   </div>
