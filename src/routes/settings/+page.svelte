@@ -81,6 +81,8 @@
 
     if (localStorageSettings) {
       loadedLocalSettings = JSON.parse(localStorageSettings);
+      enableKeyboardShortcuts = loadedLocalSettings.enableKeyboardShortcuts;
+      enableLeftHanded = loadedLocalSettings.enableLeftHanded;
       return;
     }
 
@@ -109,7 +111,7 @@
         <section class="settings-section gap-20 flex-column" id="profile">
           <h3 class="settings-section-heading">Profile settings</h3>
           <div class="profile-settings-grid">
-            <div class="grid-wrp">
+            <div class="justify-center">
               <img
                 src={currUserDbData.image_url}
                 alt="Profile"
@@ -196,6 +198,14 @@
                 >Enable keyboard shortcuts</label
               >
               <Checkbox
+                onImput={(e) => {
+                  loadedLocalSettings.enableKeyboardShortcuts =
+                    e.target.checked;
+                  localStorage.setItem(
+                    "settings",
+                    JSON.stringify(loadedLocalSettings)
+                  );
+                }}
                 bind:id={enableKeyboardShortcutsId}
                 bind:checked={enableKeyboardShortcuts}
               />
@@ -205,6 +215,13 @@
                 >Enable left handed controlls</label
               >
               <Checkbox
+                onImput={(e) => {
+                  loadedLocalSettings.enableLeftHanded = e.target.checked;
+                  localStorage.setItem(
+                    "settings",
+                    JSON.stringify(loadedLocalSettings)
+                  );
+                }}
                 bind:id={enableLeftHandedId}
                 bind:checked={enableLeftHanded}
               />

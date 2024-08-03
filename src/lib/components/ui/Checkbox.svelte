@@ -3,10 +3,17 @@
 
   export let checked: boolean;
   export let id = `checkbox-${getRandomHash(20)}`;
+  export let onImput: (e: any) => void = () => {};
 </script>
 
 <div class="checkbox-wrapper-6">
-  <input bind:checked class="tgl tgl-light" {id} type="checkbox" />
+  <input
+    bind:checked
+    on:input={onImput}
+    class="tgl tgl-light"
+    {id}
+    type="checkbox"
+  />
   <label class="tgl-btn" for={id}> </label>
 </div>
 
