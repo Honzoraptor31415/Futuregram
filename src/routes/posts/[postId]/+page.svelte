@@ -27,6 +27,7 @@
       image_urls={data.image_urls}
       created_at={data.created_at}
       {editing}
+      replying_to={data.replying_to}
     />
   </div>
   <div class="mobile-nav-placeholder"></div>

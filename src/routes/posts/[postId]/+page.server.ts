@@ -16,6 +16,7 @@ export const load: PageServerLoad = async ({ params }: any) => {
       image_urls: data.image_urls,
       user_id: data.user_id,
       created_at: data.created_at,
+      replying_to: data.replying_to,
     };
   }
 };

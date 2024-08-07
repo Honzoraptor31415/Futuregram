@@ -37,6 +37,8 @@
   export let saved: boolean = false;
   export let isChild = false;
   export let editing = false;
+  export let replying_to = "";
+  export let isDisplayedOriginalPost = false;
 
   let currUser: AuthUser;
   let postComments: DbPost[] = [];
@@ -56,6 +58,7 @@
   let postShown = true;
   let menuElements: MenuElement[];
   let showUserCard = false;
+  let originalPost: DbPost;
 
   const defaultPostOpts = isFeedPost
     ? [
@@ -152,6 +155,7 @@
 
   page.subscribe((val: any) => {
     getComments();
+    getOriginalPost();
     postComments = [];
   });
 
@@ -340,10 +344,36 @@
       (isFeedPost || isChild) && goto(`/posts/${id}`);
     }
   }
+
+  async function getOriginalPost() {
+    if (!replying_to) return;
+
+    const { data, error } = await supabase
+      .from("posts")
+      .select()
+      .eq("id", replying_to)
+      .single();
+
+    console.log(data, error);
+
+    data && (originalPost = data);
+  }
 </script>
 
 {#if id && postCreator}
   {#if postShown}
+    {#if replying_to && originalPost}
+      <svelte:self
+        isChild
+        id={originalPost.id}
+        created_at={originalPost.created_at}
+        image_urls={originalPost.image_urls}
+        description={originalPost.description}
+        likes={originalPost.likes}
+        user_id={originalPost.user_id}
+        isDisplayedOriginalPost
+      />
+    {/if}
     <div class="feed-page-post-wrp">
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -379,7 +409,7 @@
             />
           </a>
 
-          {#if (!isChild && !isFeedPost && currDbUser) || (!isChild && !isFeedPost && currDbUser === null && postComments.length > 0)}
+          {#if (!isChild && !isFeedPost && currDbUser) || (!isChild && !isFeedPost && currDbUser === null && postComments.length > 0) || isDisplayedOriginalPost}
             <div class="line-vertical"></div>
           {/if}
         </div>
@@ -398,7 +428,10 @@
                 class="post-username align-center">{postCreator.url_username}</a
               >
               <div class="align-center">
-                <p class="even-less">{dayjs(created_at).fromNow()}</p>
+                <p class="even-less">
+                  {(isDisplayedOriginalPost ? "original post · " : "") +
+                    dayjs(created_at).fromNow()}
+                </p>
                 <HiddenMenu
                   btnClass="no-style post-menu flex-center-all button-element before-hover-anim post-action-m-block"
                   icon={ThreeDotsHoriz}
@@ -428,7 +461,10 @@
                   >{postCreator.url_username}</a
                 >
                 <div class="align-center">
-                  <p class="even-less">{dayjs(created_at).fromNow()}</p>
+                  <p class="even-less">
+                    {(isDisplayedOriginalPost ? "original post · " : "") +
+                      dayjs(created_at).fromNow()}
+                  </p>
                   <HiddenMenu
                     btnClass="no-style post-menu flex-center-all button-element before-hover-anim post-action-m-block"
                     icon={ThreeDotsHoriz}
