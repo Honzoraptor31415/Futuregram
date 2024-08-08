@@ -18,7 +18,7 @@
     class="rounded suggestion-image"
   />
   <div class="flex-column align-center">
-    <p class="post-username result-displayed-username">
+    <p class="post-username max-w-fit">
       <LongHiddenText
         text={displayedUsername}
         maxLength={12}

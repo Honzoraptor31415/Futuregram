@@ -29,6 +29,6 @@ export interface ActionWarning {
 }
 
 export interface LocalSettings {
-  enableLeftHanded: boolean;
   enableKeyboardShortcuts: boolean;
+  chatGestures: "instagram" | "whatsapp";
 }

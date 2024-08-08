@@ -193,3 +193,48 @@ export function imageCheck(
 
   return check;
 }
+
+export function profilePictureCheck(
+  type: string,
+  size: number,
+  width: number,
+  height: number
+) {
+  const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+  const maxImageSize = 1_000;
+  const minWidth = 50;
+  const minHeight = 50;
+  const maxWidth = 1200;
+  const maxHeight = 1200;
+
+  const check = {
+    message: "",
+    isValid: true,
+  };
+
+  if (!allowedTypes.includes(type)) {
+    check.message = "Invalid file type";
+    check.isValid = false;
+  } else if (size > maxImageSize) {
+    check.message = "Image is too big";
+    check.isValid = false;
+  } else if (width < minWidth) {
+    check.message = "Image isn't wide enough";
+    check.isValid = false;
+  } else if (width > maxWidth) {
+    check.message = "Image is too wide";
+    check.isValid = false;
+  } else if (height < minHeight) {
+    check.message = "Image isn't tall enough";
+    check.isValid = false;
+  } else if (height > maxHeight) {
+    check.message = "Image is too tall";
+    check.isValid = false;
+  } else if (height !== width) {
+    // this should never happen, because the image cropper is going to make sure that the aspect ratio is 1:1, but I still have it here just in case
+    check.message = "Aspect ratio must be 1:1";
+    check.isValid = false;
+  }
+
+  return check;
+}

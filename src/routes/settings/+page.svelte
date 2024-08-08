@@ -12,6 +12,7 @@
   import Checkbox from "$lib/components/ui/Checkbox.svelte";
   import { onMount } from "svelte";
   import type { LocalSettings } from "$lib/types/app";
+  import EditableProfilePicture from "$lib/components/ui/EditableProfilePicture.svelte";
 
   let currUserDbData: DbUser;
   let bioLabel = "";
@@ -22,8 +23,7 @@
   let enableKeyboardShortcuts = false;
   let enableKeyboardShortcutsId: string;
 
-  let enableLeftHanded = false;
-  let enableLeftHandedId: string;
+  let chatGestures = "instagram";
 
   let profileForm = {
     url_username: "",
@@ -82,13 +82,13 @@
     if (localStorageSettings) {
       loadedLocalSettings = JSON.parse(localStorageSettings);
       enableKeyboardShortcuts = loadedLocalSettings.enableKeyboardShortcuts;
-      enableLeftHanded = loadedLocalSettings.enableLeftHanded;
+      chatGestures = loadedLocalSettings.chatGestures;
       return;
     }
 
     const defaultSettings: LocalSettings = {
       enableKeyboardShortcuts: false,
-      enableLeftHanded: false,
+      chatGestures: "instagram",
     };
 
     localStorage.setItem("settings", JSON.stringify(defaultSettings));
@@ -111,13 +111,7 @@
         <section class="settings-section gap-20 flex-column" id="profile">
           <h3 class="settings-section-heading">Profile settings</h3>
           <div class="profile-settings-grid">
-            <div class="justify-center">
-              <img
-                src={currUserDbData.image_url}
-                alt="Profile"
-                class="rounded settings-user-image"
-              />
-            </div>
+            <EditableProfilePicture wrpClass="justify-center" />
             <div class="gap-10 flex-column w-full">
               <form
                 on:submit={() => {
@@ -208,22 +202,6 @@
                 }}
                 bind:id={enableKeyboardShortcutsId}
                 bind:checked={enableKeyboardShortcuts}
-              />
-            </div>
-            <div class="flex-between settings-checkbox-wrp align-center">
-              <label for={enableLeftHandedId} class="less no-select"
-                >Enable left handed controlls</label
-              >
-              <Checkbox
-                onImput={(e) => {
-                  loadedLocalSettings.enableLeftHanded = e.target.checked;
-                  localStorage.setItem(
-                    "settings",
-                    JSON.stringify(loadedLocalSettings)
-                  );
-                }}
-                bind:id={enableLeftHandedId}
-                bind:checked={enableLeftHanded}
               />
             </div>
           </div>

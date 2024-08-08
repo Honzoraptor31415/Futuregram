@@ -28,7 +28,7 @@
   let image: any;
   let currUser: AuthUser;
   let images: any[] = [];
-  let readerLoading = false;
+  let isReaderLoading = false;
   let postBeingInserted = false;
 
   userDbData.subscribe((val: any) => {
@@ -40,9 +40,9 @@
   });
 
   const onFileSelected = (e: any) => {
-    if (readerLoading) return;
+    if (isReaderLoading) return;
 
-    readerLoading = true;
+    isReaderLoading = true;
 
     for (let i = 0; i < e.target.files.length; i++) {
       image = e.target.files[0];
@@ -53,7 +53,7 @@
       };
     }
 
-    readerLoading = false;
+    isReaderLoading = false;
   };
 
   async function uploadImages() {

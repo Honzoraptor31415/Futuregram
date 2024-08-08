@@ -28,7 +28,6 @@
       for={inputId}
     >
       <input
-        on:change={onChange}
         type="file"
         id={inputId}
         class="hidden"

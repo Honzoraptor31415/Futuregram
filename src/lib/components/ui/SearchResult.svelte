@@ -20,7 +20,7 @@
     </div>
     <div class="result-right flex-between">
       <div class={`result-info ${followDialog ? "follow-dialog-info" : ""}`}>
-        <p class="result-displayed-username post-username">
+        <p class="max-w-fit post-username">
           {user.displayed_username}
         </p>
         <p class="result-url-username less font-weight-normal">

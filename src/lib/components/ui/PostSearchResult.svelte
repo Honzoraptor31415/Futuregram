@@ -67,10 +67,7 @@
       <div class="text-right gap-10">
         <div class="result-right flex-between">
           <div class="word-break">
-            <a
-              href={`/${user.url_username}`}
-              class="result-displayed-username post-username"
-            >
+            <a href={`/${user.url_username}`} class="max-w-fit post-username">
               {user.displayed_username}
             </a>
             <p class="result-url-username less font-weight-normal">

@@ -1,6 +1,6 @@
 <script lang="ts">
   export let hideFunc: () => void;
-  export let bgOpacity: number;
+  export let bgOpacity = 0.6;
 
   const overlayId = "bg-overlay";
 
