@@ -3,6 +3,7 @@
   import * as validation from "$lib/helper/formValidation";
   import FormElement from "$lib/components/forms/FormElement.svelte";
   import { supabase } from "$lib/supabaseClient";
+  import { primaryButton } from "$lib/constants/classes";
 
   let email = "";
   let password = "";
@@ -109,8 +110,6 @@
     <p class="less">
       Don't have an account yet? <a href="/signup">Sign up</a> for one.
     </p>
-    <button type="submit" class="user-input button-element primary-button"
-      >Login</button
-    >
+    <button type="submit" class={primaryButton}>Login</button>
   </form>
 </header>

@@ -7,9 +7,10 @@
   import * as validation from "$lib/helper/formValidation";
   import FormElement from "$lib/components/forms/FormElement.svelte";
   import { supabase } from "$lib/supabaseClient";
-  import { title } from "$lib/constants";
-  import { description } from "$lib/constants";
-  import { imageUrl } from "$lib/constants";
+  import { title } from "$lib/constants/app";
+  import { description } from "$lib/constants/app";
+  import { imageUrl } from "$lib/constants/app";
+  import { primaryButton } from "$lib/constants/classes";
 
   // by doing this, I prevent the "let's finish signing up!" dialog from even appearing
   let userInDb: string | boolean = "waiting";
@@ -125,9 +126,7 @@
         type="textarea"
         isValid={bioLabel === ""}
       />
-      <button type="submit" class="user-input button-element primary-button"
-        >Finish!</button
-      >
+      <button type="submit" class={primaryButton}>Finish!</button>
     </form>
   </header>
 {:else}

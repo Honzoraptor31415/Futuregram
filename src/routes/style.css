@@ -1002,6 +1002,11 @@ button {
   .settings-checkbox-wrp:nth-child(even) {
     border: none;
   }
+
+  .pfp-cropper-wrp {
+    width: 400px;
+    height: 400px;
+  }
 }
 
 /* SMALLER - TABLET */
@@ -1669,6 +1674,11 @@ button {
   .settings-checkbox-wrp:nth-child(even) {
     border: none;
   }
+
+  .pfp-cropper-wrp {
+    width: 400px;
+    height: 400px;
+  }
 }
 
 /* SMALLEST - MOBILE */
@@ -2307,6 +2317,15 @@ button {
   .settings-checkbox-wrp:last-child {
     border-bottom: none;
   }
+
+  .pfp-cropper-wrp {
+    width: 100%;
+    height: 300px;
+  }
+
+  .cropper-card {
+    width: calc(100% - 30px);
+  }
 }
 
 .no-select {
@@ -2845,26 +2864,6 @@ nav {
   height: auto;
   aspect-ratio: 1;
   object-fit: cover;
-}
-
-.new-post-photos-grid::-webkit-scrollbar {
-  width: 4px;
-  background-color: var(--main-border-color);
-
-}
-
-.new-post-photos-grid {
-  grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
-  max-width: 100%;
-  width: 100%;
-  overflow-y: auto;
-  border: 1px var(--main-border-color) solid;
-  border-radius: var(--main-border-radius);
-  height: 100%;
-}
-
-.new-post-photo-wrp {
-  margin: 4px;
 }
 
 .right-25 {
@@ -3642,4 +3641,8 @@ button:disabled {
 
 .padding-12 {
   padding: 12px;
+}
+
+.settings-user-image {
+  border: 1px var(--image-border-color) solid;
 }

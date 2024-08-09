@@ -1,8 +1,10 @@
 <script lang="ts">
   import userDbData from "$lib/stores/userDbData";
   import type { DbUser } from "$lib/types/db";
+  import Cropper from "svelte-easy-crop";
   import EditIcon from "../icons/EditIcon.svelte";
   import BackgroundWrp from "./BackgroundWrp.svelte";
+  import { primaryButton } from "$lib/constants/classes";
 
   export let wrpClass = "grid-wrp";
 
@@ -11,6 +13,7 @@
   let isReaderLoading = false;
   let image: any;
   let isCropperShown = false;
+  let pixelCrop: any;
 
   userDbData.subscribe((val: any) => {
     currUserDbData = val;
@@ -44,11 +47,28 @@
     isReaderLoading = false;
   }
 
+  function cropComplete(e: any) {
+    pixelCrop = e.detail.pixels;
+  }
+
   $: console.log(files, image);
 </script>
 
-{#if isCropperShown}
-  <BackgroundWrp hideFunc={cancelEditing}></BackgroundWrp>
+{#if isCropperShown && image}
+  <BackgroundWrp hideFunc={cancelEditing}>
+    <div class="sec-bg-element flex-column gap-10 cropper-card">
+      <div class="grid-wrp relative pfp-cropper-wrp">
+        <Cropper
+          {image}
+          aspect={1}
+          zoom={1}
+          crop={{ x: 0, y: 0 }}
+          on:cropcomplete={cropComplete}
+        />
+      </div>
+      <button class={primaryButton}>Save</button>
+    </div>
+  </BackgroundWrp>
 {/if}
 <div class="editable-profile-image-wrp {wrpClass}">
   <div class="max-w-fit relative">

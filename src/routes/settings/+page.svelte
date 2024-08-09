@@ -13,6 +13,7 @@
   import { onMount } from "svelte";
   import type { LocalSettings } from "$lib/types/app";
   import EditableProfilePicture from "$lib/components/ui/EditableProfilePicture.svelte";
+  import { primaryButton } from "$lib/constants/classes";
 
   let currUserDbData: DbUser;
   let bioLabel = "";
@@ -130,7 +131,7 @@
                   isValid={usernameLabel === ""}
                 />
                 <button
-                  class="user-input button-element primary-button settings-input-height"
+                  class="{primaryButton} settings-input-height"
                   type="submit"
                   disabled={profileForm.url_username ===
                     currUserDbData.url_username}>Save</button
@@ -153,7 +154,7 @@
                   isValid={displayedNameLabel === ""}
                 />
                 <button
-                  class="user-input button-element primary-button settings-input-height"
+                  class="{primaryButton} settings-input-height"
                   type="submit"
                   disabled={profileForm.displayed_username ===
                     currUserDbData.displayed_username}>Save</button
@@ -176,7 +177,7 @@
                   isValid={bioLabel === ""}
                 />
                 <button
-                  class="user-input button-element primary-button settings-input-height"
+                  class="{primaryButton} settings-input-height"
                   type="submit"
                   disabled={profileForm.bio === currUserDbData.bio}>Save</button
                 >
