@@ -73,7 +73,7 @@
         user.followers = followers;
         updateExportedFollowersById(followers);
         updateFollowers(followers, user.id);
-        updateFollows(currUserFollows, currDbUser.id);
+        updateFollows(currUserFollows);
       } else {
         followers &&
           (followers = followers.filter((user: string) => {
@@ -86,18 +86,20 @@
         user.followers = followers;
         updateExportedFollowersById(followers);
         updateFollowers(followers, user.id);
-        updateFollows(currUserFollows, currDbUser.id);
+        updateFollows(currUserFollows);
       }
     } else {
       console.log("You have to be logged in to follow users.");
     }
   }
 
-  async function updateFollows(value: string[], uid: string) {
+  async function updateFollows(value: string[]) {
     const { error } = await supabase
       .from("users")
-      .update({ follows: value })
-      .eq("id", uid);
+      .update({ following: value })
+      .eq("id", currDbUser.id);
+
+    console.log(error);
   }
 
   async function updateFollowers(value: string[], uid: string) {
