@@ -166,6 +166,8 @@ export function imageCheck(
   const maxWidth = 5000;
   const maxHeight = 5000;
 
+  size = size < 1000 ? size : Math.round(size / 1000);
+
   const check = {
     message: "",
     isValid: true,
@@ -204,8 +206,10 @@ export function profilePictureCheck(
   const maxImageSize = 1_000;
   const minWidth = 50;
   const minHeight = 50;
-  const maxWidth = 1200;
-  const maxHeight = 1200;
+  const maxWidth = 2400;
+  const maxHeight = 2400;
+
+  size = size < 1000 ? size : Math.round(size / 1000);
 
   const check = {
     message: "",

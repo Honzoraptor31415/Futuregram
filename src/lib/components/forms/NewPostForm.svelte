@@ -63,11 +63,9 @@
       image.src = images[i];
 
       image.onload = () => {
-        let imageCheck = validation.imageCheck(
+        const imageCheck = validation.imageCheck(
           files[i].type,
-          files[i].size < 1000
-            ? files[i].size
-            : Math.round(files[i].size / 1000),
+          files[i].size,
           image.width,
           image.height
         );
@@ -94,6 +92,7 @@
   }
 
   async function uploadImage(imageData: any, name: any, type: string) {
+    console.log(imageData);
     const uploadImageResponse: StorageResponse = await supabase.storage
       .from("post_images")
       .upload(

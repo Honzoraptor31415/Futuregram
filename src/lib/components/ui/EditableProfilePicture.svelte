@@ -5,6 +5,12 @@
   import EditIcon from "../icons/EditIcon.svelte";
   import BackgroundWrp from "./BackgroundWrp.svelte";
   import { primaryButton } from "$lib/constants/classes";
+  import { getCroppedImg } from "$lib/helper/imageCropperUtils";
+  import { profilePictureCheck } from "$lib/helper/formValidation";
+  import { setNotification } from "$lib/helper/appNotifications";
+  import type { StorageResponse } from "$lib/types/storage";
+  import { supabase } from "$lib/supabaseClient";
+  import { getRandomHash } from "$lib/helper/random";
 
   export let wrpClass = "grid-wrp";
 
@@ -14,6 +20,7 @@
   let image: any;
   let isCropperShown = false;
   let pixelCrop: any;
+  let croppedImageUrl: any;
 
   userDbData.subscribe((val: any) => {
     currUserDbData = val;
@@ -51,7 +58,86 @@
     pixelCrop = e.detail.pixels;
   }
 
-  $: console.log(files, image);
+  async function cropImage() {
+    croppedImageUrl = await getCroppedImg(image, pixelCrop);
+
+    if (croppedImageUrl) {
+      isCropperShown = false;
+      uploadProfilePicture();
+    }
+  }
+
+  async function uploadProfilePicture() {
+    const checkerImage = new Image();
+    checkerImage.src = croppedImageUrl;
+
+    let croppedImageData = await fetch(croppedImageUrl).then((r) => r.blob());
+    console.log(croppedImageData);
+
+    console.log(checkerImage);
+
+    console.log("Checker image loaded");
+    let reader = new FileReader();
+    reader.readAsDataURL(croppedImageData);
+    reader.onload = (e) => {
+      image = e.target!.result;
+      console.log("Reader loaded", e, image);
+    };
+
+    const imageCheck = profilePictureCheck(
+      croppedImageData.type,
+      croppedImageData.size,
+      checkerImage.width,
+      checkerImage.height
+    );
+
+    if (!imageCheck.isValid) {
+      setNotification({ text: imageCheck.message });
+      isCropperShown = false;
+      image = null;
+      return;
+    }
+
+    const uploadImageResponse: StorageResponse = await supabase.storage
+      .from("profile_images")
+      .upload(
+        `${new Date().getTime()}-${getRandomHash(10)}-${currUserDbData.url_username}.${croppedImageData.type.split("/")[1]}`,
+        croppedImageData,
+        {
+          cacheControl: "3600",
+          upsert: false,
+          contentType: image.type,
+        }
+      );
+
+    console.log(uploadImageResponse);
+
+    if (uploadImageResponse) {
+      const { data, error } = await supabase.storage
+        .from("profile_images")
+        .createSignedUrl(
+          uploadImageResponse.data.path,
+          new Date().getTime() + 315_569_259_747
+        );
+
+      if (error) {
+        setNotification({ text: "Something went worng when uploading file" });
+        return;
+      } else if (data && currUserDbData) {
+        const { error } = await supabase
+          .from("users")
+          .update({
+            image_url: data.signedUrl,
+          })
+          .eq("id", currUserDbData.id);
+        error
+          ? setNotification({
+              text: "Something went wrong when updating your profile",
+            })
+          : setNotification({ text: "Profile picture updated!" });
+      }
+    }
+  }
 </script>
 
 {#if isCropperShown && image}
@@ -66,21 +152,21 @@
           on:cropcomplete={cropComplete}
         />
       </div>
-      <button class={primaryButton}>Save</button>
+      <button class={primaryButton} on:click={cropImage}>Save</button>
     </div>
   </BackgroundWrp>
 {/if}
 <div class="editable-profile-image-wrp {wrpClass}">
   <div class="max-w-fit relative">
     <img
-      src={currUserDbData.image_url}
+      src={croppedImageUrl ?? currUserDbData.image_url}
       alt="Profile"
       class="rounded settings-user-image"
     />
     <div class="absolute sec-bg-button profile-picture-edit-button">
       <label
         for="image-input"
-        class="before-hover-anim pointer max-w-fit rounded grid-wrp padding-12"
+        class="before-hover-anim pointer max-w-fit rounded grid-wrp padding-12 btn-active-opacity"
       >
         <EditIcon iconClass="image-height-15" />
         <input
