@@ -15,6 +15,7 @@
   import Post from "$lib/components/feed/Post.svelte";
   import TabsSwitcher from "$lib/components/ui/TabsSwitcher.svelte";
   import Error from "$lib/components/ui/Error.svelte";
+  import Spinner from "$lib/components/ui/Spinner.svelte";
 
   export let data;
 
@@ -420,7 +421,7 @@
         />
         <div class="user-posts w-full">
           {#if loading}
-            <p>Loading...</p>
+            <Spinner />
           {:else if !loading && posts && replies}
             {#if currTab === "posts" && posts.length > 0}
               <div class="w-full">
