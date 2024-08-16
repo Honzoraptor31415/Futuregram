@@ -112,22 +112,19 @@
 
     console.log(uploadImageResponse);
 
-    if (uploadImageResponse) {
-      const { data, error } = await supabase.storage
+    if (uploadImageResponse.data.path) {
+      const { data } = supabase.storage
         .from("profile_images")
-        .createSignedUrl(
-          uploadImageResponse.data.path,
-          new Date().getTime() + 315_569_259_747
-        );
+        .getPublicUrl(uploadImageResponse.data.path);
 
-      if (error) {
+      if (!data) {
         setNotification({ text: "Something went worng when uploading file" });
         return;
       } else if (data && currUserDbData) {
         const { error } = await supabase
           .from("users")
           .update({
-            image_url: data.signedUrl,
+            image_url: data.publicUrl,
           })
           .eq("id", currUserDbData.id);
         error
