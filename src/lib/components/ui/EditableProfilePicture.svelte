@@ -98,10 +98,24 @@
       return;
     }
 
+    if (currUserDbData.image_url.split(".")[1] === "supabase") {
+      const { error: deleteOldPictureError } = await supabase.storage
+        .from("profile_images")
+        .remove([`${currUserDbData.id}.png`]);
+
+      console.log(deleteOldPictureError);
+
+      if (deleteOldPictureError) {
+        setNotification({ text: "Something went wrong" });
+        return;
+      }
+    }
+
     const uploadImageResponse: StorageResponse = await supabase.storage
       .from("profile_images")
       .upload(
-        `${new Date().getTime()}-${getRandomHash(10)}-${currUserDbData.url_username}.${croppedImageData.type.split("/")[1]}`,
+        `${currUserDbData.id}.${croppedImageData.type.split("/")[1]}`,
+        // the type is always going to be a .png, because that's what the cropper returns
         croppedImageData,
         {
           cacheControl: "3600",

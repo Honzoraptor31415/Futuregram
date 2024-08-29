@@ -42,7 +42,3 @@ npm run dev
 <br/>
 
 [![Technologies used](https://skillicons.dev/icons?i=svelte,typescript,supabase)](/)
-
-## Database schema
-
-You can find the whole DB schema as ts types [here](https://github.com/Honzoraptor31415/Futuregram/blob/main/src/lib/types/db.ts). Btw I'm using supabase's database, which means it's PostgreSQL.

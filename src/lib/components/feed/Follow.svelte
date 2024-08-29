@@ -98,7 +98,7 @@
       .from("users")
       .update({ following: value })
       .eq("id", currDbUser.id);
-
+    
     console.log(error);
   }
 
