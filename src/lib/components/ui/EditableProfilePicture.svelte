@@ -98,20 +98,15 @@
       return;
     }
 
-    if (currUserDbData.image_url.split(".")[1] === "supabase") {
-      const { error: deleteOldPictureError } = await supabase.storage
+    
+      const deleteOldPictureResponse = await supabase.storage
         .from("profile_images")
         .remove([`${currUserDbData.id}.png`]);
 
-      console.log(deleteOldPictureError);
+      console.log(deleteOldPictureResponse);
 
-      if (deleteOldPictureError) {
-        setNotification({ text: "Something went wrong" });
-        return;
-      }
-    }
-
-    const uploadImageResponse: StorageResponse = await supabase.storage
+      if (deleteOldPictureResponse) {
+        const uploadImageResponse: StorageResponse = await supabase.storage
       .from("profile_images")
       .upload(
         `${currUserDbData.id}.${croppedImageData.type.split("/")[1]}`,
@@ -148,6 +143,7 @@
           : setNotification({ text: "Profile picture updated!" });
       }
     }
+      }
   }
 </script>
 
