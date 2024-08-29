@@ -154,9 +154,10 @@
   }
 
   page.subscribe((val: any) => {
-    getComments();
-    getOriginalPost();
     postComments = [];
+    getComments()
+    getOriginalPost()
+    getPostCreator(user_id)
   });
 
   loggedInUser.subscribe((val: any) => {
@@ -186,7 +187,6 @@
       postCreator = data[0];
     }
   }
-  getPostCreator(user_id);
 
   userDbData.subscribe((val: any) => {
     if (val) {
@@ -358,6 +358,8 @@
 
     data && (originalPost = data);
   }
+
+  $: console.log(originalPost)
 </script>
 
 {#if id && postCreator}
