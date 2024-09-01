@@ -72,8 +72,8 @@ using (
 create policy "Enable insert for users if they don't have a row yet"
 on public.users
 as permissive
-for select
+for insert
 to authenticated
-using (
-    select (select Count(*) from public.users where auth_id=auth.uid()) = 0
+with check (
+    (select Count(*) from public.users where auth_id=auth.uid()) = 0
 );
