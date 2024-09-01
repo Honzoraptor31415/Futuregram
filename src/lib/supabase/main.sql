@@ -1,4 +1,6 @@
-CREATE TABLE public.messages (
+-- Tables
+
+create table public.messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at BIGINT NOT NULL,
     edited BOOLEAN,
@@ -10,7 +12,7 @@ CREATE TABLE public.messages (
     user_id UUID NOT NULL
 );
 
-CREATE TABLE public.posts (
+create table public.posts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     auth_user_id UUID NOT NULL,
     created_at BIGINT NOT NULL,
@@ -22,7 +24,7 @@ CREATE TABLE public.posts (
     user_id UUID
 );
 
-CREATE TABLE public.reports (
+create table public.reports (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at BIGINT NOT NULL,
     created_by UUID NOT NULL,
@@ -31,7 +33,7 @@ CREATE TABLE public.reports (
     type TEXT NOT NULL
 );
 
-CREATE TABLE public.rooms (
+create table public.rooms (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     created_at BIGINT NOT NULL,
     active_users UUID[],
@@ -39,7 +41,7 @@ CREATE TABLE public.rooms (
     room_members_info JSONB[]
 );
 
-CREATE TABLE public.users (
+create table public.users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     auth_id UUID,
     bio TEXT,
@@ -54,4 +56,24 @@ CREATE TABLE public.users (
     saved UUID[],
     settings JSONB,
     url_username TEXT
+);
+
+-- Policies
+
+create policy "Enable read access for all users"
+on public.users
+as permissive
+for select
+to public
+using (
+    true
+);
+
+create policy "Enable insert for users if they don't have a row yet"
+on public.users
+as permissive
+for select
+to authenticated
+using (
+    select (select Count(*) from public.users where auth_id=auth.uid()) = 0
 );
