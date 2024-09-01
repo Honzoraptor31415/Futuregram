@@ -77,3 +77,35 @@ to authenticated
 with check (
     (select Count(*) from public.users where auth_id=auth.uid()) = 0
 );
+
+-- Triggers
+
+create trigger "Prevent some columns form being updated trigger"
+before update on public.users
+for each row
+execute function prevent_some_cols_from_being_updated();
+
+-- Functions
+
+create or replace function prevent_some_cols_from_being_updated()
+returns trigger as $$
+begin
+    if new.id is distinct from old.id then
+        raise exception '"id" column can not be updated'
+    end if;
+
+    if new.joined_at is distinct from old.joined_at then
+        raise exception '"joined_at" column can not be updated'
+    end if;
+    
+    if new.followers is distinct from old.followers then
+        raise exception '"followers" column can not be updated'
+    end if;
+    
+    if new.auth_id is distinct from old.auth_id then
+        raise exception '"auth_id" column can not be updated'
+    end if;
+
+    return new;
+end;
+$$ language plpgsql;
