@@ -1,51 +1,48 @@
 export interface DbUser {
-  bio: string;
-  blocked: string[] | null;
-  displayed_username: string;
-  followers: string[] | null;
-  following: string[] | null;
   id: string;
-  image_url: string;
-  joined_at: number;
-  muted: string[] | null;
-  rooms: string[] | null;
-  saved: string[] | null;
-  settings: any | null;
-  auth_id: string;
   url_username: string;
+  displayed_username: string;
+  bio: string;
+  image_url: string;
+  following: string[] | null;
+  followers: string[] | null;
+  saved: string[] | null;
+  blocked: string[] | null;
+  joined_at: string;
+  rooms: string[] | null;
+  last_seen: DbLastSeen[];
 }
 
 export interface DbPost {
-  created_at: number;
-  description: string | null;
-  edited: boolean | null;
   id: string;
+  user_id: string;
+  description: string | null;
   image_urls: string[] | null;
   likes: string[] | null;
   replying_to: string | null;
-  user_id: string;
-  auth_user_id: string;
+  edited: boolean;
+  created_at: string;
 }
 
 export interface DbMessage {
-  created_at: number;
-  edited: boolean | null;
   id: string;
-  image_urls: string[] | null;
-  reactions: DbMessageReaction[] | null;
-  room_id: string;
+  type: "message" | "log";
   text: string | null;
-  type: string;
   user_id: string;
+  room_id: string;
+  image_urls: string[] | null;
+  edited: boolean;
+  reactions: DbMessageReaction[] | null;
+  created_at: string;
 }
 
 export interface DbReport {
-  created_at: number;
-  created_by: string;
   id: string;
-  reported_element_id: string;
+  type: "post" | "user";
   text: string;
-  type: string;
+  reported_element_id: string;
+  created_by: string;
+  created_at: string;
 }
 
 export interface DbMessageReaction {
@@ -54,14 +51,11 @@ export interface DbMessageReaction {
 }
 
 export interface DbRoom {
-  active_users: string[] | null;
-  created_at: number;
   id: string;
-  members: string[];
-  room_members_info: RoomMember[] | null;
+  created_at: string;
 }
 
-export interface RoomMember {
-  id: string;
-  last_seen: number;
+export interface DbLastSeen {
+  room_id: string;
+  timestamp: string;
 }

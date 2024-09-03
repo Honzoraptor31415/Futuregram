@@ -445,7 +445,7 @@
               </p>
             {:else if currTab === "replies" && replies.length > 0}
               <div class="w-full">
-                {#each replies as { id, description, created_at, user_id, likes, image_urls, replying_to }}
+                {#each replies as { id, description, created_at, user_id, likes, image_urls }}
                   <Post
                     {id}
                     {description}

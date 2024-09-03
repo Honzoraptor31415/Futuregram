@@ -28,7 +28,7 @@
   dayjs().format();
 
   export let id: string;
-  export let created_at: number;
+  export let created_at: string;
   export let image_urls: string[] | null;
   export let description: string | null;
   export let likes: string[] | null;

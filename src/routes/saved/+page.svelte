@@ -1,6 +1,5 @@
 <script lang="ts">
   import Post from "$lib/components/feed/Post.svelte";
-  import PostPreview from "$lib/components/feed/PostPreview.svelte";
   import TopPostNav from "$lib/components/feed/TopPostNav.svelte";
   import Spinner from "$lib/components/ui/Spinner.svelte";
   import userDbData from "$lib/stores/userDbData";
