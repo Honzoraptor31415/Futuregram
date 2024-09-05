@@ -57,6 +57,33 @@ create table public.users (
 
 -- Policies
 
+create policy "Enable read access for all users"
+on public.users
+as permissive
+for select
+to public
+using (
+    true
+);
+
+create policy "Enable read access for all users"
+on public.posts
+as permissive
+for select
+to public
+using (
+    true
+);
+
+create policy "Enable insert for users if they don't have a row yet"
+on public.users
+as permissive
+for insert
+to authenticated
+with check (
+    (select Count(*) from public.users where id=auth.uid()) = 0
+);
+
 -- Triggers
 
 -- Functions

@@ -69,7 +69,7 @@
     const { data } = await supabase
       .from("users")
       .select()
-      .eq("auth_id", id)
+      .eq("id", id)
       .single();
     data ? userDbData.set(data) : userDbData.set(null);
   }

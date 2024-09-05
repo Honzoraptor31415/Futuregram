@@ -27,7 +27,7 @@
       const { data } = await supabase
         .from("users")
         .select()
-        .eq("auth_id", user.id)
+        .eq("id", user.id)
         .single();
       userInDb = !!data;
     }
@@ -52,19 +52,14 @@
       const { data } = await supabase
         .from("users")
         .insert({
-          joined_at: new Date().getTime(),
+          id: currUser.id,
           url_username: username,
           displayed_username: displayedName,
           bio: bio,
-          auth_id: currUser.id,
         })
         .select();
       if (data && browser) {
         location.href = "/";
-        const { error } = await supabase.auth.updateUser({
-          data: { db_id: data[0].id },
-        });
-        console.log(error);
       }
     }
   }

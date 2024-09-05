@@ -153,12 +153,10 @@
       const { data, error } = await supabase
         .from("posts")
         .insert({
-          created_at: new Date().getTime(),
           image_urls: imgUrls ?? [],
           user_id: currDbUser.id,
           description: description,
           replying_to: replyingTo,
-          auth_user_id: currUser.id,
         })
         .select()
         .single();

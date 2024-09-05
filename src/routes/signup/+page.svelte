@@ -54,16 +54,14 @@
   }
 
   async function createUserInDb(authId: string) {
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from("users")
       .insert({
-        joined_at: new Date().getTime(),
+        id: authId,
         url_username: username,
         displayed_username: displayedName,
         bio: bio,
-        auth_id: authId,
       })
-      .select();
   }
 
   async function googleSignIn() {

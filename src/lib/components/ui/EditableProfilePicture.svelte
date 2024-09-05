@@ -10,7 +10,6 @@
   import { setNotification } from "$lib/helper/appNotifications";
   import type { StorageResponse } from "$lib/types/storage";
   import { supabase } from "$lib/supabaseClient";
-  import { getRandomHash } from "$lib/helper/random";
 
   export let wrpClass = "grid-wrp";
 
