@@ -66,6 +66,24 @@ using (
     true
 );
 
+create policy "Enable insert for users if they don't have a row yet"
+on public.users
+as permissive
+for insert
+to authenticated
+with check (
+    (select Count(*) from public.users where id=auth.uid()) = 0
+);
+
+create policy "Enable update for users based on their id"
+on public.users
+as permissive
+for update
+to public
+using (
+  (select id) = auth.uid()
+);
+
 create policy "Enable read access for all users"
 on public.posts
 as permissive
@@ -75,13 +93,13 @@ using (
     true
 );
 
-create policy "Enable insert for users if they don't have a row yet"
-on public.users
+create policy "Enable insert for authenticated users"
+on public.posts
 as permissive
 for insert
 to authenticated
 with check (
-    (select Count(*) from public.users where id=auth.uid()) = 0
+    true
 );
 
 -- Triggers

@@ -155,9 +155,9 @@
 
   page.subscribe((val: any) => {
     postComments = [];
-    getComments()
-    getOriginalPost()
-    getPostCreator(user_id)
+    getComments();
+    getOriginalPost();
+    getPostCreator(user_id);
   });
 
   loggedInUser.subscribe((val: any) => {
@@ -302,6 +302,7 @@
         .select()
         .eq("id", currDbUser.id)
         .single();
+      console.log(allSavedPostsData);
 
       if (allSavedPostsData.saved) {
         allSavedPosts = allSavedPostsData.saved;
@@ -319,14 +320,16 @@
             saved: allSavedPosts,
           })
           .eq("id", currDbUser.id);
+        console.log(error);
       } else {
         allSavedPosts = [id];
-        const { error } = await supabase
+        const response = await supabase
           .from("users")
           .update({
             saved: allSavedPosts,
           })
           .eq("id", currDbUser.id);
+        console.log(response);
       }
     }
   }
@@ -359,7 +362,7 @@
     data && (originalPost = data);
   }
 
-  $: console.log(originalPost)
+  $: console.log(originalPost);
 </script>
 
 {#if id && postCreator}
