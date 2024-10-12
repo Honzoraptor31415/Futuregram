@@ -1,5 +1,5 @@
 import * as validation from "$lib/helper/formValidation";
-import { error, type RequestHandler } from "@sveltejs/kit";
+import { error, json, type RequestHandler } from "@sveltejs/kit";
 
 export const GET: RequestHandler = async ({ url, locals }) => {
   const supabase = locals.supabase;
@@ -7,7 +7,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   const id = url.searchParams.get("id");
 
   if (!id) {
-    error(400, 'URL parameter "id" is missing.');
+    return json({ ok: false, message: 'URL parameter "id" is missing.' });
   }
 
   const { data, error: resError } = await supabase
@@ -17,18 +17,45 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     .single();
 
   if (resError) {
-    error(500, resError.message);
+    return json({
+      ok: false,
+      message: resError?.message,
+    });
   }
 
-  return new Response(data);
+  return json({
+    ok: true,
+    body: data,
+  });
 };
 
 export const POST: RequestHandler = async ({ locals, request }) => {
   const supabase = locals.supabase;
   const { user: authUser } = await locals.safeGetSession();
+  const body = await request.json();
+  const bodyKeys = Object.keys(body);
+  const expectedBodyLength = 2;
 
   if (!authUser) {
-    error(400, "You have to be signed in");
+    return json({
+      ok: false,
+      message: "You have to be signed in",
+    });
+  } else if (bodyKeys.length === 0) {
+    return json({
+      ok: false,
+      message: "Please provide data",
+    });
+  } else if (bodyKeys.length > expectedBodyLength) {
+    return json({
+      ok: false,
+      message: "Unexpected data",
+    });
+  } else if (bodyKeys.length < expectedBodyLength) {
+    return json({
+      ok: false,
+      message: "Missing property",
+    });
   }
 
   const { data: currentUserDbData } = await supabase
@@ -37,10 +64,13 @@ export const POST: RequestHandler = async ({ locals, request }) => {
     .eq("id", authUser.id);
 
   if (currentUserDbData && currentUserDbData.length > 0) {
-    error(400, "A user with this auth id already exists");
+    return json({
+      ok: false,
+      message: "A user with this auth id already exists",
+    });
   }
 
-  const { urlUsername, displayedUsername, bio } = await request.json();
+  const { urlUsername, displayedUsername, bio } = body;
 
   const usernameCheck = await validation.usernameCheck(urlUsername);
   const displayedUsernameCheck =
@@ -48,11 +78,59 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   const bioCheck = validation.bioCheck(bio);
 
   if (!usernameCheck.isValid) {
-    error(400, usernameCheck.message);
+    return json({
+      ok: false,
+      checks: {
+        username: {
+          isValid: usernameCheck.isValid,
+          message: usernameCheck.message,
+        },
+        displayedUsername: {
+          isValid: displayedUsernameCheck.isValid,
+          message: displayedUsernameCheck.message,
+        },
+        bio: {
+          isValid: bioCheck.isValid,
+          message: bioCheck.message,
+        },
+      },
+    });
   } else if (!displayedUsernameCheck.isValid) {
-    error(400, displayedUsernameCheck.message);
+    return json({
+      ok: false,
+      checks: {
+        username: {
+          isValid: usernameCheck.isValid,
+          message: usernameCheck.message,
+        },
+        displayedUsername: {
+          isValid: displayedUsernameCheck.isValid,
+          message: displayedUsernameCheck.message,
+        },
+        bio: {
+          isValid: bioCheck.isValid,
+          message: bioCheck.message,
+        },
+      },
+    });
   } else if (!bioCheck.isValid) {
-    error(400, bioCheck.message);
+    return json({
+      ok: false,
+      checks: {
+        username: {
+          isValid: usernameCheck.isValid,
+          message: usernameCheck.message,
+        },
+        displayedUsername: {
+          isValid: displayedUsernameCheck.isValid,
+          message: displayedUsernameCheck.message,
+        },
+        bio: {
+          isValid: bioCheck.isValid,
+          message: bioCheck.message,
+        },
+      },
+    });
   }
 
   const { error: resError } = await supabase.from("users").insert({
@@ -63,8 +141,14 @@ export const POST: RequestHandler = async ({ locals, request }) => {
   });
 
   if (resError) {
-    error(500, resError.message);
+    return json({
+      ok: false,
+      message: resError.message,
+    });
   }
 
-  return new Response("Inserted successfully");
+  return json({
+    ok: true,
+    message: "Data inserted succesfully",
+  });
 };
