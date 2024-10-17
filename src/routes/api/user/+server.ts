@@ -280,3 +280,38 @@ export const PATCH: RequestHandler = async ({ locals, request }) => {
     message: "Data updated succesfully",
   });
 };
+
+export const DELETE: RequestHandler = async ({ locals, url }) => {
+  const supabase = locals.supabase;
+  const { user: authUser } = await locals.safeGetSession();
+  const userId = url.searchParams.get("id");
+
+  if (!authUser) {
+    return json({
+      ok: false,
+      message: "You have to be signed in",
+    });
+  } else if (authUser.id !== userId) {
+    return json({
+      ok: false,
+      message: "You can't delete other user's information.",
+    });
+  }
+
+  const { error: resError } = await supabase
+    .from("users")
+    .delete()
+    .eq("id", authUser.id);
+
+  if (resError) {
+    return json({
+      ok: false,
+      message: resError.message,
+    });
+  }
+
+  return json({
+    ok: true,
+    message: "Data deleted succesfully",
+  });
+};
